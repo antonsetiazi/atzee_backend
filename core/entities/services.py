@@ -1,0 +1,30 @@
+# core/entities/services.py
+
+from core.permissions.services import PermissionService
+from .registry import get_entity
+
+
+class EntityQueryService:
+
+    @staticmethod
+    def execute(*, user, tenant, entity_key: str, query: dict):
+        # print("EntityQueryService | execute")
+        # print("entity_key: ", entity_key)
+        entity = get_entity(entity_key)
+        # print("EntityQueryService | entity: ", entity)
+
+        if not entity:
+            raise ValueError("Entity not registered")
+
+        if not PermissionService.can_access(
+            user=user,
+            tenant=tenant,
+            permission_code=entity.permission,
+        ):
+            raise PermissionError()
+
+        return entity.query(
+            user=user,
+            tenant=tenant,
+            query=query,
+        )
