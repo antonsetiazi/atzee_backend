@@ -54,6 +54,7 @@ CORE_APPS = [
     "core.audit_logs.apps.AuditLogsConfig",
     "core.notifications.apps.NotificationsConfig",
     "core.entities.apps.EntitiesConfig",
+    "core.dashboard.apps.DashboardConfig",
 ]
 
 BUSINESS_APPS = [
@@ -228,3 +229,31 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = False  # tetap aman
 
 SERVICE_API_KEY = os.getenv("SERVICE_API_KEY")
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    # ...
+}
+
+
+
+# CACHE (DEVELOPMENT)
+# ================================================================
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+    }
+}
+
+# CACHE (PRODUCTION)
+# ================================================================
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379/1",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     }
+# }

@@ -7,11 +7,13 @@ from core.ui.schema.action import Action
 UI_PAGES = Page(
     key="customers.list",
     entity="customers",
+    domain="business",
     title="Customers",
     permissions=["business.customers.view"],
     blocks=[
         TableBlock(
-            data_source="/business/customers/",
+            data_source="/entities/business/customers.list/query/",
+            search_mode="client",
             columns=[
                 TableColumn(key="code", label="Code"),
                 TableColumn(key="name", label="Name"),
@@ -23,12 +25,14 @@ UI_PAGES = Page(
                 Action(
                     type="navigate",
                     label="Edit",
-                    to="/customers/{id}/edit",
+                    icon="edit",
+                    to="/business/customers/{id}/edit",
                     permission="business.customers.update"
                 ),
                 Action(
                     type="delete",
                     label="Delete",
+                    icon="delete",
                     permission="business.customers.delete",
                     confirm={
                         "title": "Delete Customer",
@@ -42,53 +46,10 @@ UI_PAGES = Page(
                 Action(
                     type="navigate",
                     label="Create Customer",
-                    to="/customers/create",
+                    to="/business/customers/create",
                     permission="business.customers.add"
                 )
-            ]
+            ],
         )
     ]
 )
-
-# UI_PAGES = {
-#     "key": "customers.list",
-#     "entity": "customers",
-#     "title": "Customers",
-#     "permissions": ["business.customers.view"],
-#     "blocks": [
-#         {
-#             "type": "table",
-#             "data_source": "/business/customers/",
-#             "columns": [
-#                 {"key": "code", "label": "Code"},
-#                 {"key": "name", "label": "Name"},
-#                 {"key": "email", "label": "Email"},
-#                 {"key": "phone", "label": "Phone"},
-#                 {"key": "is_active", "label": "Active"},
-#             ],
-#             "actions": [
-#                 {
-#                     "type": "navigate",
-#                     "label": "Edit",
-#                     "to": "/customers/{id}/edit",
-#                     "permission": "business.customers.update",
-#                 },
-#                 {
-#                     "type": "delete",
-#                     "label": "Delete",
-#                     "permission": "business.customers.delete",
-#                     "confirm_message": "Are you sure you want to delete this customer?",
-#                     "endpoint": "/business/customers/{id}/",  # placeholder id
-#                 }
-#             ],
-#             "top_actions": [
-#                 {
-#                     "type": "navigate",
-#                     "label": "Create Customer",
-#                     "to": "/customers/create",
-#                     "permission": "business.customers.add",
-#                 }
-#             ]
-#         }
-#     ],
-# }

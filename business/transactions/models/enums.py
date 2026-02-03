@@ -1,3 +1,5 @@
+# business/transactions/models/enums.py
+
 from django.db import models
 
 
@@ -13,3 +15,11 @@ class TransactionStatus(models.TextChoices):
     CONFIRMED = "confirmed", "Confirmed"
     CANCELLED = "cancelled", "Cancelled"
     COMPLETED =  "completed", "Completed"
+
+
+class TransactionSubType(models.TextChoices):
+    DIRECT = "direct", "Direct"
+    ORDER = "order", "Order Based"
+    MANUFACTURE = "manufacture", "Manufacturing"
+    CONSIGNMENT = "consignment", "Consignment"
+    SERVICE = "service", "Service"

@@ -1,7 +1,7 @@
 # core/ui/schema/page.py
 
 from dataclasses import dataclass
-from typing import List
+from typing import List, Optional
 
 from .block import FormBlock
 
@@ -10,6 +10,8 @@ from .block import FormBlock
 class Page:
     key: str
     entity: str
+    domain: str
     title: str
     permissions: List[str]
     blocks: List[FormBlock]
+    description: Optional[str] = None

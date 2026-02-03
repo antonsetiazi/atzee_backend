@@ -5,6 +5,7 @@ from core.ui.schema.menu import Menu
 UI_MENUS = [
     Menu(
         key="fiscal_period.list",
+        parent="accounting",
         label="Fiscal Periods",
         icon="calendar",
         app="accounting",

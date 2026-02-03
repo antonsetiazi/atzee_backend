@@ -1,8 +1,11 @@
+# hr/employees/views.py
+
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-from hr.employees import selectors
+from core.tenants.services import TenantService
+from hr.employees import selectors, services
 from hr.employees.serializers import (
     EmployeeListSerializer,
     EmployeeDetailSerializer,
@@ -19,20 +22,15 @@ class EmployeeViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
     def list(self, request):
-        employees = selectors.get_employees(
-            tenant=request.tenant
-        )
-        serializer = EmployeeListSerializer(
-            employees, many=True
-        )
+        tenant = TenantService.get_current_tenant(request)
+        employees = selectors.get_employees(tenant=tenant)
+        serializer = EmployeeListSerializer(employees, many=True)
         return Response(serializer.data)
     
 
     def retrieve(self, request, pk=None):
-        employee = selectors.get_employee_by_id(
-            tenant=request.tenant,
-            employee_id=pk
-        )
+        tenant = TenantService.get_current_tenant(request)
+        employee = selectors.get_employee_by_id(tenant=tenant, employee_id=pk)
 
         if not employee:
             return Response(
@@ -45,13 +43,20 @@ class EmployeeViewSet(viewsets.ViewSet):
     
 
     def create(self, request):
-        serializer = EmployeeCreateSerializer(
-            data=request.data,
-            context={"request": request}
-        )
-        serializer.is_valid(raise_exception=True)
+        tenant = TenantService.get_current_tenant(request)
+        serializer = EmployeeCreateSerializer(data=request.data)
 
-        employee = serializer.save()
+        try:
+            serializer.is_valid(raise_exception=True)
+        except Exception as e:
+            print(e)
+
+        employee = services.create_employee(
+            tenant=tenant,
+            created_by=request.user,
+            **serializer.validated_data
+        )
+        
         output = EmployeeDetailSerializer(employee)
 
         return Response(
@@ -61,10 +66,8 @@ class EmployeeViewSet(viewsets.ViewSet):
     
 
     def update(self, request, pk=None):
-        employee = selectors.get_employee_by_id(
-            tenant=request.tenant,
-            employee_id=pk
-        )
+        tenant = TenantService.get_current_tenant(request)
+        employee = selectors.get_employee_by_id(tenant=tenant, employee_id=pk)
 
         if not employee:
             return Response(
@@ -72,25 +75,28 @@ class EmployeeViewSet(viewsets.ViewSet):
                 status=status.HTTP_404_NOT_FOUND
             )
         
-        serializer = EmployeeUpdateSerializer(
-            instance=employee,
-            data=request.data,
-            partial=True,
-            context={"request": request}
+        serializer = EmployeeUpdateSerializer(data=request.data, partial=True)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except Exception as e:
+            print(e)
+
+        employee = services.update_employee(
+            tenant=tenant,
+            employee_id=employee.id,
+            updated_by=request.user,
+            **serializer.validated_data
         )
-        serializer.is_valid(raise_exception=True)
 
-        employee = serializer.save()
         output = EmployeeDetailSerializer(employee)
-
         return Response(output.data)
     
 
     def destroy(self, request, pk=None):
-        from hr.employees.services import delete_employee
+        tenant = TenantService.get_current_tenant(request)
 
-        delete_employee(
-            tenant=request.tenant,
+        services.delete_employee(
+            tenant=tenant,
             employee_id=pk,
             deleted_by=request.user
         )

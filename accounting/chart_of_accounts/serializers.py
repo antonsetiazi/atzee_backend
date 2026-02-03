@@ -12,6 +12,7 @@ class AccountListSerializer(serializers.ModelSerializer):
             "code",
             "name",
             "account_type",
+            "is_active",
             "is_postable",
         ]
 
@@ -25,6 +26,7 @@ class AccountDetailSerializer(serializers.ModelSerializer):
             "name",
             "account_type",
             "parent",
+            "is_active",
             "is_postable",
             "is_system",
             "created_at",
@@ -38,12 +40,14 @@ class AccountCreateSerializer(serializers.Serializer):
     account_type = serializers.CharField()
     parent_id = serializers.IntegerField(required=False)
     is_postable = serializers.BooleanField(default=True)
+    is_active = serializers.BooleanField(default=True)
 
-    def create(self, validated_data):
-        request = self.context["request"]
 
-        return services.create_account(
-            tenant=request.tenant,
-            created_by=request.user,
-            **validated_data
-        )
+class AccountUpdateSerializer(serializers.Serializer):
+    code = serializers.CharField(max_length=50)
+    name = serializers.CharField(max_length=255)
+    account_type = serializers.CharField()
+    parent_id = serializers.IntegerField(required=False)
+    is_postable = serializers.BooleanField(default=True)
+    is_active = serializers.BooleanField(default=True)
+

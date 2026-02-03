@@ -1,7 +1,7 @@
 # core/ui/schema/action.py
 
 from dataclasses import dataclass
-from typing import Literal, Optional, TypedDict
+from typing import Literal, Optional, TypedDict, Dict, Any
 
 ActionType = Literal["submit", "redirect", "navigate", "delete"]
 
@@ -16,8 +16,13 @@ class ConfirmConfig(TypedDict, total=False):
 class Action:
     type: ActionType
     label: str
+    key: str = None
     to: Optional[str] = None
     permission: Optional[str] = None
+    icon: Optional[str] = None
+
+    # NEW: condition to show/enable action
+    when: Optional[Dict[str, Any]] = None
 
     # delete / destructive confirmation
     confirm: Optional[ConfirmConfig] = None

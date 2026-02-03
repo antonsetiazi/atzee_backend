@@ -10,9 +10,11 @@ class CustomerListEntity(BaseEntity):
     """
 
     key = "customers.list"
+    domain = "business"
     permission = "business.customers.view"
 
     def query(self, *, user, tenant, query: dict) -> dict:
+        # print("query", query)
         """
         query format (from frontend):
         {
@@ -56,6 +58,8 @@ class CustomerListEntity(BaseEntity):
             }
             for c in items
         ]
+
+        # print(data)
 
         return {
             "items": data,

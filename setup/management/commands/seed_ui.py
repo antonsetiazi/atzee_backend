@@ -89,8 +89,8 @@ class Command(BaseCommand):
         ]
 
         for menus, pages in modules:
-            print("===================================================")
-            print(pages)
+            # print("===================================================")
+            # print(pages)
             # 1️⃣ Seed UI schema
             seed_ui(menus=menus, pages=pages)
 

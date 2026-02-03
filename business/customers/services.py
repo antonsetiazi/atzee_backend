@@ -57,7 +57,6 @@ def create_customer(
     """
     Create new customer.
     """
-
     # ✅ DOMAIN NORMALIZATION
     name = name.strip()
     code = _normalize_str(code)

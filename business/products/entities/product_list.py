@@ -10,6 +10,7 @@ class ProductListEntity(BaseEntity):
     """
 
     key = "products.list"
+    domain = "business"
     permission = "business.products.view"
 
     def query(self, *, user, tenant, query: dict) -> dict:

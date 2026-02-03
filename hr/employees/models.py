@@ -1,3 +1,5 @@
+# hr/employees/models.py
+
 from django.db import models
 from shared.models import TenantAwareModel
 
@@ -9,6 +11,8 @@ class Employee(TenantAwareModel):
     """
 
     user_id = models.UUIDField(
+        blank=True,
+        null=True,
         help_text="Reference to core.users.User.id"
     )
 

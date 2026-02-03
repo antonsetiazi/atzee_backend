@@ -14,3 +14,11 @@ class Field:
     type: FieldType
     required: bool = False
     options: Optional[List[dict[str, Any]]] = None
+
+    placeholder: Optional[str] = None
+    default: Any = None
+
+    # 🔥 OPTIONAL — hanya dipakai oleh field tertentu (select, relation)
+    data_source: Optional[str] = None
+    value_key: Optional[str] = None
+    label_key: Optional[str] = None

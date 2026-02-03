@@ -1,3 +1,5 @@
+# accountin/chart_of_accounts/selectors.py
+
 from typing import Optional
 from django.db.models import QuerySet
 
@@ -11,8 +13,7 @@ def get_account_queryset(*, tenant: Tenant) -> QuerySet[ChartOfAccount]:
     """
     return ChartOfAccount.objects.filter(
         tenant=tenant,
-        is_deleted=False,
-        is_active=True
+        is_deleted=False
     )
 
 
@@ -21,6 +22,15 @@ def get_accounts(*, tenant: Tenant) -> QuerySet[ChartOfAccount]:
     Get all accounts for a tenant.
     """
     return get_account_queryset(tenant=tenant).order_by("code")
+
+
+def get_active_accounts(*, tenant: Tenant) -> QuerySet[ChartOfAccount]:
+    """
+    Accounts usable for transactions / selections
+    """
+    return get_account_queryset(
+        tenant=tenant
+    ).filter(is_active=True).order_by("code")
 
 
 def get_account_by_id(

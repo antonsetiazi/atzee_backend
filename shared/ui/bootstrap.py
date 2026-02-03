@@ -47,26 +47,52 @@ def seed_pages(pages: list[dict], page_model=UIPage):
     Generic UI page seeder. Idempotent.
     Kolom/table disimpan langsung di field JSON (blocks)
     """
-    for page_data in pages:
 
+    for page_data in pages:
         # 🔹 BRIDGE: typed Page -> dict
         if isinstance(page_data, Page):
             page_data = page_to_dict(page_data)
-            
-        # jika sudah ada blocks, gunakan, kalau tidak buat dari columns
+
+        # print(page_data.get('key'))
+        # print(page_data)
+        # print(page_data.get('description'))
+        
+        if not isinstance(page_data, dict):
+            raise ValueError(f"Invalid page schema: {page_data}")
+
+        # 🔒 DOMAIN WAJIB
+        if "domain" not in page_data or not page_data["domain"]:
+            raise ValueError(
+                f"UIPage '{page_data.get('key')}' missing required field: domain"
+            )
+
+        # 🔒 ENTITY WAJIB
+        if "entity" not in page_data or not page_data["entity"]:
+            raise ValueError(
+                f"UIPage '{page_data.get('key')}' missing required field: entity"
+            )
+
+        # pastikan blocks selalu ada
         if "blocks" not in page_data:
             columns = page_data.pop("columns", [])
-            page_data["blocks"] = [{"type": "table", "columns": columns}] if columns else []
+            page_data["blocks"] = (
+                [{"type": "table", "columns": columns}] if columns else []
+            )
 
-        # pastikan entity selalu ada
-        page_data.setdefault("entity", page_data["key"].split(".")[0])
-
-        # pastikan permissions ada
+        # permissions optional tapi konsisten
         page_data.setdefault("permissions", [])
 
         page_model.objects.update_or_create(
             key=page_data["key"],
-            defaults=page_data,
+            defaults={
+                "title": page_data["title"],
+                "description": page_data.get('description'),
+                "domain": page_data["domain"],   # 🔥 FIX UTAMA
+                "entity": page_data["entity"],
+                "permissions": page_data["permissions"],
+                "blocks": page_data["blocks"],
+                "is_active": page_data.get("is_active", True),
+            },
         )
 
 

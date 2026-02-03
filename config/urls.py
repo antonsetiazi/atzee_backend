@@ -28,6 +28,8 @@ urlpatterns = [
     path("api/permissions/", include("core.permissions.urls")),
     path("api/ui/", include("core.ui.urls")),
     path("api/entities/", include("core.entities.urls")),
+    path("api/dashboard/", include("core.dashboard.urls")),
+    path("lookups/", include("core.lookups.urls")),
     path("api/settings/", include("core.settings.urls")),
     path("api/notifications/", include("core.notifications.urls")),
     path("api/business/", include("business.customers.urls")),

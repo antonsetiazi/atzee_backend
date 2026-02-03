@@ -1,3 +1,5 @@
+# business/transactions/serializers.py
+
 from rest_framework import serializers
 from decimal import Decimal
 
@@ -5,12 +7,14 @@ from business.transactions.models.transaction import Transaction
 from business.transactions.models.transaction_item import TransactionItem
 from business.transactions.models.enums import (
     TransactionType,
+    TransactionSubType,
     TransactionStatus,
 )
 from business.transactions import services
 
 
 class TransactionItemSerializer(serializers.ModelSerializer):
+    transaction_id = serializers.IntegerField(source="transaction.id")
     product_id = serializers.IntegerField(source="product.id")
     product_name = serializers.CharField(source="product.name")
 
@@ -18,6 +22,7 @@ class TransactionItemSerializer(serializers.ModelSerializer):
         model = TransactionItem
         fields = [
             "id",
+            "transaction_id",
             "product_id",
             "product_name",
             "quantity",
@@ -45,6 +50,7 @@ class TransactionDetailSerializer(serializers.ModelSerializer):
             "id",
             "reference",
             "transaction_type",
+            "subtype",
             "status",
             "transaction_date",
             "customer_id",
@@ -68,6 +74,7 @@ class TransactionListSerializer(serializers.ModelSerializer):
             "id",
             "reference",
             "transaction_type",
+            "subtype",
             "status",
             "transaction_date",
             "total_items",
@@ -75,42 +82,21 @@ class TransactionListSerializer(serializers.ModelSerializer):
 
 
 class TransactionCreateSerializer(serializers.Serializer):
-    reference = serializers.CharField(max_length=100)
-    transaction_type = serializers.ChoiceField(
-        choices=TransactionType.choices
+    reference = serializers.CharField(
+        max_length=100, 
+        required=False, 
+        allow_null=True,
+        allow_blank=True,
     )
     transaction_date = serializers.DateField()
     customer_id = serializers.IntegerField(required=False)
     partner_id = serializers.IntegerField(required=False)
     notes = serializers.CharField(required=False, allow_blank=True)
 
-    def create(self, validated_data):
-        request = self.context["request"]
 
-        customer = None
-        partner = None
-
-        if "customer_id" in validated_data:
-            from business.customers.selectors import get_customer_by_id
-            customer = get_customer_by_id(
-                tenant=request.tenant,
-                customer_id=validated_data.pop("customer_id"),
-            )
-
-        if "partner_id" in validated_data:
-            from business.partners.selectors import get_partner_by_id
-            partner = get_partner_by_id(
-                tenant=request.tenant,
-                partner_id=validated_data.pop("partner_id"),
-            )
-
-        return services.create_transaction(
-            tenant=request.tenant,
-            created_by=request.user,
-            customer=customer,
-            partner=partner,
-            **validated_data
-        )
+class TransactionUpdateSerializer(serializers.Serializer):
+    transaction_date = serializers.DateField()
+    notes = serializers.CharField(required=False, allow_blank=True)
 
 
 class TransactionItemAddSerializer(serializers.Serializer):
@@ -119,27 +105,11 @@ class TransactionItemAddSerializer(serializers.Serializer):
     unit_price = serializers.DecimalField(max_digits=14, decimal_places=2)
     notes = serializers.CharField(required=False, allow_blank=True)
 
-    def create(self, validated_data):
-        request = self.context["request"]
-        transaction = self.context["transaction"]
 
-        from business.products.selectors import get_product_by_id
-
-        product = get_product_by_id(
-            tenant=request.tenant,
-            product_id=validated_data.pop("product_id"),
-        )
-
-        if not product:
-            raise serializers.ValidationError("Product not found.")
-
-        return services.add_transaction_item(
-            tenant=request.tenant,
-            transaction_id=transaction.id,
-            product=product,
-            created_by=request.user,
-            **validated_data
-        )
+class TransactionItemUpdateSerializer(serializers.Serializer):
+    quantity = serializers.DecimalField(max_digits=14, decimal_places=4, required=False)
+    unit_price = serializers.DecimalField(max_digits=14, decimal_places=2, required=False)
+    notes = serializers.CharField(required=False, allow_blank=True)
 
 
 class TransactionConfirmSerializer(serializers.Serializer):

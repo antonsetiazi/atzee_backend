@@ -1,0 +1,9 @@
+# core/workflows/definitions/sales_order.yaml
+
+event: transaction.confirmed
+transaction_type: sales
+subtype: order
+
+steps:
+  - documents.create_sales_order
+  - inventory.reserve_stock

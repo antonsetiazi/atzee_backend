@@ -7,11 +7,13 @@ from core.ui.schema.action import Action
 UI_PAGES = Page(
     key="products.list",
     entity="products",
+    domain="business",
     title="Products",
     permissions=["business.products.view"],
     blocks=[
         TableBlock(
-            data_source="/business/products/",
+            data_source="/entities/business/products.list/query/",
+            search_mode="client",
             columns=[
                 TableColumn(key="code", label="Code"),
                 TableColumn(key="name", label="Name"),
@@ -22,12 +24,14 @@ UI_PAGES = Page(
                 Action(
                     type="navigate",
                     label="Edit",
-                    to="/products/{id}/edit",
+                    icon="edit",
+                    to="/business/products/{id}/edit",
                     permission="business.products.update",
                 ),
                 Action(
                     type="delete",
                     label="Delete",
+                    icon="delete",
                     permission="business.products.delete",
                     confirm={
                         "title": "Delete Product",
@@ -41,7 +45,7 @@ UI_PAGES = Page(
                 Action(
                     type="navigate",
                     label="Create Product",
-                    to="/products/create",
+                    to="/business/products/create",
                     permission="business.products.add",
                 )
             ],

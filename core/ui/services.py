@@ -42,6 +42,7 @@ class UIPageService:
                 key=page_key,
                 is_active=True,
             )
+
         except UIPage.DoesNotExist:
             return None
 
@@ -53,7 +54,7 @@ class UIPageService:
                 permission_code=permission_code,
             ):
                 return None
-
+            
         return page
 
 

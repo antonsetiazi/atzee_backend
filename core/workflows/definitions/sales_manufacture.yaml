@@ -1,0 +1,9 @@
+# core/workflows/definitions/sales_manufacture.yaml
+
+event: transaction.confirmed
+transaction_type: sales
+subtype: manufacture
+
+steps:
+  - documents.create_sales_order
+  - inventory.create_production_order

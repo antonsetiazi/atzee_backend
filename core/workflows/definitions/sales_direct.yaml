@@ -1,0 +1,10 @@
+# core/workflows/definitions/sales_direct.yaml
+
+event: transaction.confirmed
+transaction_type: sales
+subtype: direct
+
+steps:
+  - documents.create_invoice
+  - payments.create_cash_payment
+  - accounting.post_sales_journal

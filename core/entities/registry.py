@@ -5,24 +5,34 @@ from .contracts import BaseEntity
 
 from core.permissions.registry import PermissionRegistry
 
-ENTITY_REGISTRY: Dict[str, BaseEntity] = {}
+# domain -> entity_key -> entity
+ENTITY_REGISTRY: Dict[str, Dict[str, BaseEntity]] = {}
 
 
 def register_entity(entity: BaseEntity):
-    # print("register_entity | entity.key:", entity.key)
-    if entity.key in ENTITY_REGISTRY:
-        raise ValueError(f"Entity '{entity.key}' already registered")
+    domain = entity.domain
+    key = entity.key
 
-    ENTITY_REGISTRY[entity.key] = entity
+    if domain not in ENTITY_REGISTRY:
+        ENTITY_REGISTRY[domain] = {}
+
+    print("register_entity | entity.key:", entity.key)
+    if key in ENTITY_REGISTRY[domain]:
+        raise ValueError(f"Entity '{domain}.{key}' already registered")
+
+    ENTITY_REGISTRY[domain][key] = entity
 
     # 🔐 REGISTER PERMISSION (jika ada)
     permission = getattr(entity, "permission", None)
     if permission:
         PermissionRegistry.register([
-        {"code": permission, "description": f"Permission for entity '{entity.key}'"}
-    ])
+            {
+                "code": permission,
+                "description": f"Permission for entity '{domain}.{key}'"
+            }
+        ])
 
 
-def get_entity(entity_key: str) -> BaseEntity | None:
-    # print("get_entity | ENTITY_REGISTRY :", ENTITY_REGISTRY)
-    return ENTITY_REGISTRY.get(entity_key)
+def get_entity(domain: str, entity_key: str) -> BaseEntity | None:
+    # print("get_entity | entity_key: ", entity_key)
+    return ENTITY_REGISTRY.get(domain, {}).get(entity_key)

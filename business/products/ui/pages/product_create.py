@@ -8,6 +8,7 @@ from core.ui.schema.action import Action
 UI_PAGES = Page(
     key="products.create",
     entity="products",
+    domain="business",
     title="Product",
     permissions=["business.products.add"],
     blocks=[
@@ -16,6 +17,9 @@ UI_PAGES = Page(
             method="POST",
             title="Create Product",
             description="Lengkapi data produk dengan benar",
+            redirect_to={
+                "page": "products.list",
+            },
             fields=[
                 Field(key="code", label="Product Code", type="text"),
                 Field(key="name", label="Product Name", type="text", required=True),
@@ -40,7 +44,7 @@ UI_PAGES = Page(
                 Action(
                     type="redirect",
                     label="Cancel",
-                    to="/products"
+                    to="/business/products"
                 ),
             ],
         )

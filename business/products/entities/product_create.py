@@ -9,6 +9,7 @@ class ProductCreateEntity(BaseEntity):
     """
 
     key = "products.create"
+    domain = "business"
     permission = "business.products.add"
 
     def query(self, *, user, tenant, query: dict) -> dict:

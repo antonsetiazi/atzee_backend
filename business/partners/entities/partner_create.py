@@ -11,6 +11,7 @@ class PartnerCreateEntity(BaseEntity):
     """
 
     key = "partners.create"
+    domain = "business"
     permission = "business.partners.add"
 
     def query(self, *, user, tenant, query: dict) -> dict:

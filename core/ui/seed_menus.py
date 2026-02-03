@@ -68,7 +68,7 @@ UI_MENUS = [
         "key": "tenants.list",
         "label": "Tenants",
         "icon": "building",
-        "parent": None,
+        "parent": "system",
         "app": "core",
         "resource": "tenants",
         "action": "view",

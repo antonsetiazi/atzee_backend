@@ -1,3 +1,5 @@
+# business/transactions/models/transaction_item.py
+
 from django.db import models
 
 from shared.models import TenantAwareModel

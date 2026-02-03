@@ -1,21 +1,30 @@
+# hr/employees/services.py
+
 from typing import Optional
 from uuid import UUID
-
 from django.db import transaction
-from django.core.exceptions import ValidationError
+from rest_framework.exceptions import ValidationError
 
 from hr.employees.models import Employee
 from hr.employees import selectors
 from hr.employees.gateways import user_gateway
-
 from core.tenants.models import Tenant
 from core.users.models import User
+
+
+def _normalize_str(value: Optional[str]) -> str:
+    """
+    Domain rule:
+    - None -> ""
+    - strip whitespace
+    """
+    return value.strip() if isinstance(value, str) else ""
 
 
 def _validate_employee_uniqueness(
     *,
     tenant: Tenant,
-    user_id: UUID,
+    # user_id: UUID,
     employee_code: Optional[str],
     exclude_employee_id: Optional[int] = None
 ) -> None:
@@ -26,10 +35,10 @@ def _validate_employee_uniqueness(
     if exclude_employee_id:
         qs = qs.exclude(id=exclude_employee_id)
 
-    if qs.filter(user_id=user_id).exists():
-        raise ValidationError(
-            "Employee already exists for this user."
-        )
+    # if qs.filter(user_id=user_id).exists():
+    #     raise ValidationError(
+    #         "Employee already exists for this user."
+    #     )
     
     if employee_code and qs.filter(
         employee_code=employee_code
@@ -44,7 +53,7 @@ def create_employee(
     *,
     tenant: Tenant,
     created_by: User,
-    user_id: UUID,
+    # user_id: UUID,
     full_name: str,
     join_date,
     employee_code: Optional[str] = None,
@@ -53,21 +62,30 @@ def create_employee(
     job_title: Optional[str] = None,
     notes: Optional[str] = None
 ) -> Employee:
-    
+
     # Validate Core User
-    user_gateway.ensure_user_is_active(
-        user_id=user_id
-    )
+    # user_gateway.ensure_user_is_active(
+    #     user_id=user_id
+    # )
+
+    # ✅ DOMAIN NORMALIZATION
+    # user_id = user_id.strip()
+    full_name = _normalize_str(full_name)
+    employee_code = _normalize_str(employee_code)
+    email = _normalize_str(email)
+    phone = _normalize_str(phone)
+    job_title = _normalize_str(job_title)
+    notes = _normalize_str(notes)
 
     _validate_employee_uniqueness(
         tenant=tenant,
-        user_id=user_id,
-        employee_code=employee_code
+        # user_id=user_id or None,
+        employee_code=employee_code or None
     )
 
     employee = Employee.objects.create(
         tenant=tenant,
-        user_id=user_id,
+        # user_id=user_id,
         full_name=full_name,
         join_date=join_date,
         employee_code=employee_code,
@@ -95,7 +113,7 @@ def update_employee(
     is_active: Optional[bool] = None,
     notes: Optional[str] = None
 ) -> Employee:
-    
+  
     employee = selectors.get_employee_by_id(
         tenant=tenant,
         employee_id=employee_id
@@ -104,10 +122,11 @@ def update_employee(
     if not employee:
         raise ValidationError("Employee not found.")
     
-    if employee_code or employee.user_id:
+    # if employee_code or employee.user_id:
+    if employee_code:
         _validate_employee_uniqueness(
             tenant=tenant,
-            user_id=employee.user_id,
+            # user_id=employee.user_id,
             employee_code=employee_code,
             exclude_employee_id=employee.id
         )

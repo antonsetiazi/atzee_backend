@@ -43,7 +43,13 @@ class UIPage(models.Model):
 
     key = models.CharField(max_length=150, unique=True)
     title = models.CharField(max_length=150)
-
+    description = models.TextField(
+        blank=True,
+        null=True
+    )
+    
+    domain = models.CharField(max_length=100)
+    
     # frontend + api agree on this
     entity = models.CharField(max_length=100)
 

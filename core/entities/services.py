@@ -7,10 +7,11 @@ from .registry import get_entity
 class EntityQueryService:
 
     @staticmethod
-    def execute(*, user, tenant, entity_key: str, query: dict):
+    def execute(*, user, tenant, domain: str, entity_key: str, query: dict):
         # print("EntityQueryService | execute")
+        # print("domain: ", domain)
         # print("entity_key: ", entity_key)
-        entity = get_entity(entity_key)
+        entity = get_entity(domain, entity_key)
         # print("EntityQueryService | entity: ", entity)
 
         if not entity:

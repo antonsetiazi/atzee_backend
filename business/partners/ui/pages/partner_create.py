@@ -7,6 +7,7 @@ from core.ui.schema.action import Action
 UI_PAGES = Page(
     key="partners.create",
     entity="partners",
+    domain="business",
     title="Partner",
     permissions=["business.partners.add"],
     blocks=[
@@ -15,6 +16,9 @@ UI_PAGES = Page(
             method="POST",
             title="Create Partner",
             description="Lengkapi data partner dengan benar",
+            redirect_to={
+                "page": "partners.list",
+            },
             fields=[
                 Field(key="code", label="Partner Code", type="text"),
                 Field(key="name", label="Partner Name", type="text", required=True),
@@ -25,7 +29,7 @@ UI_PAGES = Page(
             ],
             actions=[
                 Action(type="submit", label="Save"),
-                Action(type="redirect", label="Cancel", to="/partners")
+                Action(type="redirect", label="Cancel", to="/business/partners")
             ]
         )
     ],

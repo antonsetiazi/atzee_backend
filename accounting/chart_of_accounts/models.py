@@ -1,3 +1,5 @@
+# accounting/chart_of_accounts/models.py
+
 from django.db import models
 from shared.models import TenantAwareModel
 

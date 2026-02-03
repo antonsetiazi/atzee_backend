@@ -52,6 +52,7 @@ class CustomerViewSet(viewsets.ViewSet):
             **serializer.validated_data
         )
         output = CustomerDetailSerializer(customer)
+        
         return Response(
             output.data,
             status=status.HTTP_201_CREATED

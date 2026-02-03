@@ -8,6 +8,7 @@ from core.ui.schema.action import Action
 UI_PAGES = Page(
     key="products.edit",
     entity="products",
+    domain="business",
     title="Product",
     permissions=["business.products.update"],
     blocks=[
@@ -16,6 +17,9 @@ UI_PAGES = Page(
             method="PATCH",
             title="Edit Product",
             description="Perbarui data produk",
+            redirect_to={
+                "page": "products.list",
+            },
             fields=[
                 Field(key="id", label="Product ID", type="hidden"),
                 Field(key="code", label="Product Code", type="text"),
@@ -41,7 +45,7 @@ UI_PAGES = Page(
                 Action(
                     type="redirect",
                     label="Cancel",
-                    to="/products"
+                    to="/business/products"
                 ),
             ],
         )

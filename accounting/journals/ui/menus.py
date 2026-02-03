@@ -5,6 +5,7 @@ from core.ui.schema.menu import Menu
 UI_MENUS = [
     Menu(
         key="journals.list",
+        parent="accounting",
         label="Journals",
         icon="file-text",
         app="accounting",

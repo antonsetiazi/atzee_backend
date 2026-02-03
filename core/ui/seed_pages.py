@@ -6,6 +6,7 @@ UI_PAGES = [
     # =====================
     {
         "key": "users.list",
+        "domain": "core",
         "entity": "users",
         "title": "Users",
         "permissions": ["core.users.view"],
@@ -27,6 +28,7 @@ UI_PAGES = [
     # =====================
     {
         "key": "roles.list",
+        "domain": "core",
         "entity": "roles",
         "title": "Roles",
         "permissions": ["core.roles.view"],
@@ -47,6 +49,7 @@ UI_PAGES = [
     # =====================
     {
         "key": "permissions.list",
+        "domain": "core",
         "entity": "permissions",
         "title": "Permissions",
         "permissions": ["core.permissions.view"],
@@ -67,6 +70,7 @@ UI_PAGES = [
     # =====================
     {
         "key": "tenants.list",
+        "domain": "core",
         "entity": "tenants",
         "title": "Tenants",
         "permissions": ["core.tenants.view"],
@@ -88,6 +92,7 @@ UI_PAGES = [
     # =====================
     {
         "key": "audit_logs.list",
+        "domain": "core",
         "entity": "audit_logs",
         "title": "Audit Logs",
         "permissions": ["core.audit_logs.view"],

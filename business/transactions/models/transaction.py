@@ -1,3 +1,5 @@
+# business/transactions/models/transaction.py
+
 from django.db import models
 from shared.models import TenantAwareModel
 
@@ -5,6 +7,7 @@ from business.customers.models import Customer
 from business.partners.models import Partner
 from business.transactions.models.enums import (
     TransactionType,
+    TransactionSubType,
     TransactionStatus
 )
 
@@ -24,6 +27,15 @@ class Transaction(TenantAwareModel):
         choices=TransactionType.choices
     )
 
+    subtype = models.CharField(
+        max_length=30,
+        choices=TransactionSubType.choices,
+        blank=True,
+        null=True,
+        help_text="Business flow subtype"
+    )
+
+    
     status = models.CharField(
         max_length=20,
         choices=TransactionStatus.choices,

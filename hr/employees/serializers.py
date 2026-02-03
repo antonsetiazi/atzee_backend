@@ -1,6 +1,7 @@
+# hr/employees/serializers.py
+
 from rest_framework import serializers
 from hr.employees.models import Employee
-from hr.employees import services
 
 
 class EmployeeListSerializer(serializers.ModelSerializer):
@@ -35,7 +36,7 @@ class EmployeeDetailSerializer(serializers.ModelSerializer):
 
 
 class EmployeeCreateSerializer(serializers.Serializer):
-    user_id = serializers.UUIDField()
+    # user_id = serializers.UUIDField()
     employee_code = serializers.CharField(
         required=False, allow_blank=True
     )
@@ -53,15 +54,6 @@ class EmployeeCreateSerializer(serializers.Serializer):
     notes = serializers.CharField(
         required=False, allow_blank=True
     )
-
-    def create(self, validated_data):
-        request = self.context["request"]
-
-        return services.create_employee(
-            tenant=request.tenant,
-            created_by=request.user,
-            **validated_data
-        )
 
 
 class EmployeeUpdateSerializer(serializers.Serializer):
@@ -82,13 +74,3 @@ class EmployeeUpdateSerializer(serializers.Serializer):
     notes = serializers.CharField(
         required=False, allow_blank=True
     )
-
-    def update(self, instance, validated_data):
-        request = self.context["request"]
-
-        return services.update_employee(
-            tenant=request.tenant,
-            employee_id=instance.id,
-            updated_by=request.user,
-            **validated_data
-        )

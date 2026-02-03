@@ -4,5 +4,5 @@ from django.urls import path
 from .views import EntityQueryView
 
 urlpatterns = [
-    path("<str:entity_key>/query/", EntityQueryView.as_view()),
+    path("<str:domain>/<str:entity>/query/", EntityQueryView.as_view(), name="entity-query"),
 ]

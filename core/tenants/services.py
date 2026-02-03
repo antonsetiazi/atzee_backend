@@ -1,3 +1,5 @@
+# core/tenants/services.py
+
 from core.tenants.models import Tenant, UserTenant
 from django.core.exceptions import PermissionDenied
 
