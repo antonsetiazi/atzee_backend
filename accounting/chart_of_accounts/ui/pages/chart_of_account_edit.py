@@ -10,6 +10,7 @@ UI_PAGES = Page(
     key="chart_of_accounts.edit",
     domain="accounting",
     entity="chart_of_accounts",
+    path="/accounting/chart-of-accounts/:id/edit",
     title="Chart of Account",
     permissions=["accounting.chart_of_accounts.update"],
     blocks=[

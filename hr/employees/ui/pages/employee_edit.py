@@ -9,6 +9,7 @@ UI_PAGES = Page(
     key="employees.edit",
     entity="employees",
     domain="hr",
+    path="/hr/employees/:id/edit",
     title="Employee",
     permissions=["hr.employees.update"],
     blocks=[

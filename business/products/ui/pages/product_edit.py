@@ -9,6 +9,7 @@ UI_PAGES = Page(
     key="products.edit",
     entity="products",
     domain="business",
+    path="/business/products/:id/edit",
     title="Product",
     permissions=["business.products.update"],
     blocks=[

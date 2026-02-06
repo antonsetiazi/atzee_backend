@@ -8,6 +8,7 @@ UI_PAGES = Page(
     key="partners.list",
     entity="partners",
     domain="business",
+    path="/business/partners",
     title="Partners",
     permissions=["business.partners.view"],
     blocks=[

@@ -1,10 +1,10 @@
 # business/customers/models.py
 
 from django.db import models
-from shared.models import TenantAwareModel
+from core.models.base import TenantAwareModel, ExtensibleModel
 
 
-class Customer(TenantAwareModel):
+class Customer(TenantAwareModel, ExtensibleModel):
     """
     Core customer model (business invariant).
     """

@@ -8,6 +8,7 @@ UI_PAGES = Page(
     key="employees.list",
     entity="employees",
     domain="hr",
+    path="/hr/employees",
     title="Employees",
     permissions=["hr.employees.view"],
     blocks=[

@@ -1,3 +1,5 @@
+# business/inventory/views.py
+
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -10,7 +12,10 @@ from business.inventory.serializers import (
     StockInSerializer,
     StockOutSerializer,
     StockAdjustSerializer,
+    InventoryLotSerializer,
+    InventoryLotCreateUpdateSerializer,
 )
+from business.inventory.models.lot import InventoryLot
 
 
 class WarehouseViewSet(viewsets.ViewSet):
@@ -183,5 +188,53 @@ class StockActionViewSet(viewsets.ViewSet):
 
         return Response(
             {"id": movement.id},
+            status=status.HTTP_201_CREATED
+        )
+
+
+class InventoryLotViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request):
+        tenant = request.tenant
+        product_id = request.query_params.get("product_id")
+        warehouse_id = request.query_params.get("warehouse_id")
+
+        lots = selectors.get_inventory_lots(
+            tenant=tenant,
+            product_id=product_id,
+            warehouse_id=warehouse_id
+        )
+
+        serializer = InventoryLotSerializer(lots, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        tenant = request.tenant
+
+        lot = selectors.get_inventory_lot_by_id(
+            tenant=tenant,
+            lot_id=pk
+        )
+
+        if not lot:
+            return Response(
+                {"detail": "Lot not found."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = InventoryLotSerializer(lot)
+        return Response(serializer.data)
+
+    def create(self, request):
+        serializer = InventoryLotCreateUpdateSerializer(
+            data=request.data,
+            context={"request": request}
+        )
+        serializer.is_valid(raise_exception=True)
+        lot = serializer.save()
+
+        return Response(
+            {"id": lot.id},
             status=status.HTTP_201_CREATED
         )

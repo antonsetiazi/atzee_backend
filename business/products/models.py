@@ -2,7 +2,7 @@
 
 
 from django.db import models
-from shared.models import TenantAwareModel
+from core.models.base import TenantAwareModel
 
 
 class Product(TenantAwareModel):

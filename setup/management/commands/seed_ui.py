@@ -15,6 +15,9 @@ from accounting.ui.seed_pages import UI_PAGES as ACCOUNTING_PAGES
 from hr.ui.seed_menus import UI_MENUS as HR_MENUS
 from hr.ui.seed_pages import UI_PAGES as HR_PAGES
 
+from verticals.apotek.ui.seed_menus import UI_MENUS as VERTICAL_APOTEK_MENUS
+from verticals.apotek.ui.seed_pages import UI_PAGES as VERTICAL_APOTEK_PAGES
+
 # Permission
 from core.permissions.registry import PermissionRegistry
 from core.permissions.models import Permission
@@ -86,6 +89,7 @@ class Command(BaseCommand):
             (BUSINESS_MENUS, BUSINESS_PAGES),
             (ACCOUNTING_MENUS, ACCOUNTING_PAGES),
             (HR_MENUS, HR_PAGES),
+            (VERTICAL_APOTEK_MENUS, VERTICAL_APOTEK_PAGES),
         ]
 
         for menus, pages in modules:

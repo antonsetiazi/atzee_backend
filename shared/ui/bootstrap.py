@@ -4,6 +4,11 @@ from core.ui.models import UIMenu, UIPage
 from core.ui.schema.page import Page
 from core.ui.schema.menu import Menu 
 from core.ui.schema.serialize import page_to_dict
+from core.ui.extensions.registry import UIExtensionRegistry
+
+
+def load_ui_extensions():
+    import verticals.apotek.extensions.customer
 
 
 def seed_menus(menus: list, menu_model=UIMenu):
@@ -79,6 +84,8 @@ def seed_pages(pages: list[dict], page_model=UIPage):
                 [{"type": "table", "columns": columns}] if columns else []
             )
 
+        # apply_ui_extensions(page_data)
+
         # permissions optional tapi konsisten
         page_data.setdefault("permissions", [])
 
@@ -89,6 +96,7 @@ def seed_pages(pages: list[dict], page_model=UIPage):
                 "description": page_data.get('description'),
                 "domain": page_data["domain"],   # 🔥 FIX UTAMA
                 "entity": page_data["entity"],
+                "path": page_data.get("path"),
                 "permissions": page_data["permissions"],
                 "blocks": page_data["blocks"],
                 "is_active": page_data.get("is_active", True),
@@ -104,4 +112,31 @@ def seed_ui(*, menus: list[dict] = None, pages: list[dict] = None,
     if menus:
         seed_menus(menus, menu_model=menu_model)
     if pages:
+        # load_ui_extensions()
         seed_pages(pages, page_model=page_model)
+
+
+def apply_ui_extensions(page_data: dict):
+    # print("apply_ui_extensions")
+    page_key = page_data.get("key")
+    blocks = page_data.get("blocks", [])
+    # print("UIExtensionRegistry.all():", UIExtensionRegistry.all())
+    for ext in UIExtensionRegistry.all():
+        if ext.get("page_key") != page_key:
+            continue
+
+        for block in blocks:
+            if block.get("type") != ext.get("block", "form"):
+                continue
+
+            if "mode" in ext and block.get("mode") not in ext["mode"]:
+                continue
+
+            fields = block.setdefault("fields", [])
+            existing_keys = {f["key"] for f in fields if "key" in f}
+
+            for field in ext.get("fields", []):
+                if field["key"] not in existing_keys:
+                    fields.append(field)
+
+

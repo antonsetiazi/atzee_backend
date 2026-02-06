@@ -9,6 +9,7 @@ UI_PAGES = Page(
     key="sales.direct.item.edit",
     entity="sales.direct.item",
     domain="business",
+    path="/business/sales/direct/item/:id/edit",
     title="Direct Sales Detail",
     permissions=["business.sales.update"],
     blocks=[

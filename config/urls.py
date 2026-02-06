@@ -22,6 +22,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+
+    # --- Core ---
     path("api/auth/", include("core.users.auth.urls")),
     path("api/tenants/", include("core.tenants.urls")),
     path("api/roles/", include("core.roles.urls")),
@@ -29,9 +31,11 @@ urlpatterns = [
     path("api/ui/", include("core.ui.urls")),
     path("api/entities/", include("core.entities.urls")),
     path("api/dashboard/", include("core.dashboard.urls")),
-    path("lookups/", include("core.lookups.urls")),
     path("api/settings/", include("core.settings.urls")),
     path("api/notifications/", include("core.notifications.urls")),
+    path("lookups/", include("core.lookups.urls")),
+
+    # --- Business ---
     path("api/business/", include("business.customers.urls")),
     path("api/business/", include("business.products.urls")),
     path("api/business/", include("business.inventory.urls")),
@@ -39,9 +43,16 @@ urlpatterns = [
     path("api/business/", include("business.transactions.urls")),
     path("api/business/", include("business.documents.urls")),
     path("api/business/", include("business.payments.urls")),
+
+    # --- Accounting ---
     path("api/accounting/", include("accounting.chart_of_accounts.urls")),
     path("api/accounting/", include("accounting.journals.urls")),
     path("api/accounting/", include("accounting.financial_reports.urls")),
+
+    # --- HR ---
     path("api/hr/", include("hr.employees.urls")),
     path("api/hr/", include("hr.attendance.urls")),
+
+    # --- Verticals ---
+    path("api/verticals/apotek/", include("verticals.apotek.api.urls")),
 ]

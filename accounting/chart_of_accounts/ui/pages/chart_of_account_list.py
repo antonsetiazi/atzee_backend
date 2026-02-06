@@ -9,6 +9,7 @@ UI_PAGES = Page(
     key="chart_of_accounts.list",
     domain="accounting",
     entity="chart_of_accounts",
+    path="/accounting/chart-of-accounts",
     title="Chart of Accounts",
     permissions=["accounting.chart_of_accounts.view"],
     blocks=[

@@ -29,6 +29,7 @@ class CustomerViewSet(viewsets.ViewSet):
     
 
     def retrieve(self, request, pk=None):
+        # print('retrieve')
         tenant = TenantService.get_current_tenant(request)
         customer = selectors.get_customer_by_id(tenant=tenant, customer_id=pk)
 
@@ -70,6 +71,36 @@ class CustomerViewSet(viewsets.ViewSet):
             )
         
         serializer = CustomerUpdateSerializer(data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+
+        customer = services.update_customer(
+            tenant=tenant,
+            customer_id=customer.id,
+            updated_by=request.user,
+            **serializer.validated_data
+        )
+
+        output = CustomerDetailSerializer(customer)
+        return Response(output.data)
+
+
+    def partial_update(self, request, pk=None):
+        tenant = TenantService.get_current_tenant(request)
+        customer = selectors.get_customer_by_id(
+            tenant=tenant,
+            customer_id=pk
+        )
+
+        if not customer:
+            return Response(
+                {"detail": "Customer not found."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = CustomerUpdateSerializer(
+            data=request.data,
+            partial=True
+        )
         serializer.is_valid(raise_exception=True)
 
         customer = services.update_customer(

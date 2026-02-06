@@ -27,6 +27,7 @@ class CustomerDetailSerializer(serializers.ModelSerializer):
             "email",
             "address",
             "notes",
+            "extensions",
             "created_at",
             "updated_at",
         ]
@@ -39,6 +40,7 @@ class CustomerCreateSerializer(serializers.Serializer):
     email = serializers.EmailField(required=False, allow_null=True)
     address = serializers.CharField(required=False, allow_blank=True)
     notes = serializers.CharField(required=False, allow_blank=True)
+    extensions = serializers.JSONField(required=False) 
     
 
 class CustomerUpdateSerializer(serializers.Serializer):
@@ -48,3 +50,4 @@ class CustomerUpdateSerializer(serializers.Serializer):
     email = serializers.EmailField(required=False, allow_blank=True)
     address = serializers.CharField(required=False, allow_blank=True)
     notes = serializers.CharField(required=False, allow_blank=True)
+    extensions = serializers.JSONField(required=False) 

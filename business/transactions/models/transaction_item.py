@@ -2,7 +2,7 @@
 
 from django.db import models
 
-from shared.models import TenantAwareModel
+from core.models.base import TenantAwareModel
 from business.products.models import Product
 from business.transactions.models.transaction import Transaction
 

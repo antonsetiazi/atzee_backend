@@ -16,7 +16,7 @@ def register_entity(entity: BaseEntity):
     if domain not in ENTITY_REGISTRY:
         ENTITY_REGISTRY[domain] = {}
 
-    print("register_entity | entity.key:", entity.key)
+    # print("register_entity | entity.key:", entity.key)
     if key in ENTITY_REGISTRY[domain]:
         raise ValueError(f"Entity '{domain}.{key}' already registered")
 

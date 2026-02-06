@@ -53,6 +53,8 @@ class UIPage(models.Model):
     # frontend + api agree on this
     entity = models.CharField(max_length=100)
 
+    path = models.CharField(max_length=200, blank=True, null=True)
+
     # permission gate (evaluated by service)
     permissions = models.JSONField(default=list)
 

@@ -12,6 +12,7 @@ class Page:
     entity: str
     domain: str
     title: str
+    path: str
     permissions: List[str]
     blocks: List[FormBlock]
     description: Optional[str] = None

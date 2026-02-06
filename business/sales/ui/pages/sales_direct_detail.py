@@ -16,6 +16,7 @@ UI_PAGES = Page(
     key="sales.direct.detail",
     entity="sales.direct",
     domain="business",
+    path="/business/sales/direct/detail/:id",
     title="Direct Sales Detail",
     permissions=["business.sales.view"],
     description="Informasi Rincian Penjualan Langsung",

@@ -9,6 +9,7 @@ UI_PAGES = Page(
     key="partners.edit",
     entity="partners",
     domain="business",
+    path="/business/partners/:id/edit",
     title="Partner",
     permissions=["business.partners.update"],
     blocks=[

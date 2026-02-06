@@ -1,7 +1,8 @@
+# core/models/base.py
+
 from django.db import models
 from core.tenants.models import Tenant
 from core.users.models import User
-
 
 class TenantAwareModel(models.Model):
     """
@@ -36,6 +37,17 @@ class TenantAwareModel(models.Model):
         related_name="updated_%(class)s_set"
     )
 
+
+    class Meta:
+        abstract = True
+
+
+class ExtensibleModel(models.Model):
+    """
+    Base model for business entities that support
+    vertical-specific metadata via extensions.
+    """
+    extensions = models.JSONField(default=dict, blank=True)
 
     class Meta:
         abstract = True

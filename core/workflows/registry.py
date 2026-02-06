@@ -7,7 +7,7 @@ class WorkflowRegistry:
     def __init__(self):
         self._workflows = {}
         self._load_from_definitions()
-        print(f"[WorkflowRegistry] loaded {len(self._workflows)} workflows")
+        # print(f"[WorkflowRegistry] loaded {len(self._workflows)} workflows")
 
     def _load_from_definitions(self):
         """

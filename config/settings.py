@@ -82,6 +82,10 @@ HR_APPS = [
     "hr.payroll.apps.PayrollConfig",
 ]
 
+VERTICAL_APPS = [
+    "verticals.apotek.apps.ApotekConfig",
+]
+
 INSTALLED_APPS = (
     ["corsheaders"] 
     +
@@ -94,6 +98,7 @@ INSTALLED_APPS = (
     + BUSINESS_APPS 
     + ACCOUNTING_APPS 
     + HR_APPS
+    + VERTICAL_APPS
     + ["setup"]
 )
 

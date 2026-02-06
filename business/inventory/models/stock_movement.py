@@ -1,51 +1,10 @@
+# business/inventory/models/stock_movement.py
+
 from django.db import models
-from shared.models import TenantAwareModel
+from core.models.base import TenantAwareModel
 from business.products.models import Product
-
-
-class Warehouse(TenantAwareModel):
-    name = models.CharField(max_length=100)
-    code = models.CharField(max_length=50)
-    description = models.TextField(
-        blank=True,
-        null=True
-    )
-
-    class Meta:
-        db_table = "business_inventory_warehouses"
-        unique_together = ("tenant", "code")
-        ordering = ["name"]
-
-    def __str__(self):
-        return self.name
-    
-
-class StockItem(TenantAwareModel):
-    product = models.ForeignKey(
-        Product,
-        on_delete=models.PROTECT,
-        related_name="stock_items"
-    )
-
-    warehouse = models.ForeignKey(
-        Warehouse,
-        on_delete=models.PROTECT,
-        related_name="stock_items"
-    )
-
-    quantity = models.DecimalField(
-        max_digits=15,
-        decimal_places=3,
-        default=0
-    )
-
-    class Meta:
-        db_table = "business_inventory_stock_items"
-        unique_together = ("tenant", "product", "warehouse")        
-
-    def __str__(self):
-        return f"{self.product} @ {self.warehouse}"
-
+from .warehouse import Warehouse
+from .lot import InventoryLot
 
 class StockMovement(TenantAwareModel):
     IN = "IN"
@@ -76,6 +35,13 @@ class StockMovement(TenantAwareModel):
     reference_id = models.PositiveIntegerField(null=True, blank=True)
     note = models.TextField(blank=True)
 
+    lot = models.ForeignKey(
+        InventoryLot,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name="stock_movements"
+    )
     
     class Meta:
         db_table = "business_inventory_stock_movements"

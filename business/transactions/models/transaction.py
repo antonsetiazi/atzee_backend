@@ -1,7 +1,7 @@
 # business/transactions/models/transaction.py
 
 from django.db import models
-from shared.models import TenantAwareModel
+from core.models.base import TenantAwareModel
 
 from business.customers.models import Customer
 from business.partners.models import Partner

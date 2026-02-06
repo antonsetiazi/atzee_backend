@@ -39,6 +39,7 @@ class UIPageSerializer(serializers.ModelSerializer):
             "description",
             "domain",
             "entity",
+            "path",
             "permissions",
             "blocks",
         ]

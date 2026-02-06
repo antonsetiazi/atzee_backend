@@ -52,7 +52,8 @@ def create_customer(
     phone: Optional[str] = None,
     email: Optional[str] = None,
     address: Optional[str] = None,
-    notes: Optional[str] = None
+    notes: Optional[str] = None,
+    extensions: Optional[dict] = None,
 ) -> Customer:
     """
     Create new customer.
@@ -80,6 +81,7 @@ def create_customer(
         email=email,
         address=address,
         notes=notes,
+        extensions=extensions or {},
         created_by=created_by
     )
 
@@ -97,7 +99,8 @@ def update_customer(
     phone: Optional[str] = None,
     email: Optional[str] = None,
     address: Optional[str] = None,
-    notes: Optional[str] = None
+    notes: Optional[str] = None,
+    extensions: Optional[dict] = None,
 ) -> Customer:
     """
     Update existing customer.
@@ -130,6 +133,8 @@ def update_customer(
         customer.address = address
     if notes is not None:
         customer.notes = notes
+    if extensions is not None:
+        customer.extensions = extensions
 
     customer.updated_by = updated_by
     customer.save(update_fields=[
@@ -139,6 +144,7 @@ def update_customer(
         "email",
         "address",
         "notes",
+        "extensions",
         "updated_by",
         "updated_at"
     ])

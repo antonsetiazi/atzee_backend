@@ -1,3 +1,5 @@
+# business/inventory/urls.py
+
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
@@ -6,6 +8,7 @@ from business.inventory.views import (
     StockViewSet,
     StockMovementViewSet,
     StockActionViewSet,
+    InventoryLotViewSet
 )
 
 
@@ -13,7 +16,7 @@ router = DefaultRouter()
 router.register(r"warehouses", WarehouseViewSet, basename="warehouse")
 router.register(r"stock", StockViewSet, basename="stock")
 router.register(r"movements", StockMovementViewSet, basename="stock-movement")
-
+router.register(r"lots", InventoryLotViewSet, basename="inventory-lot")
 
 stock_action = StockActionViewSet.as_view({
     "post": "stock_in"

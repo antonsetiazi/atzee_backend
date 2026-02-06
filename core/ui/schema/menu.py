@@ -7,7 +7,6 @@ class Menu:
     key: str
     label: str
     route: str
-
     app: str
     resource: str
     action: str

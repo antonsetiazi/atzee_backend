@@ -1,6 +1,6 @@
 from django.db import models
 from decimal import Decimal
-from shared.models import TenantAwareModel
+from core.models.base import TenantAwareModel
 
 
 class PayrollRun(TenantAwareModel):

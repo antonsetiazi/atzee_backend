@@ -57,6 +57,8 @@ class TableBlock:
     actions: List[Action] = field(default_factory=list)
     top_actions: List[Action] = field(default_factory=list)
 
+    detail_as_state: bool = False
+    
 
 @dataclass(frozen=True)
 class WorkflowStatus:

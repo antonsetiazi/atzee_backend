@@ -8,6 +8,7 @@ UI_PAGES = Page(
     key="partners.create",
     entity="partners",
     domain="business",
+    path="/business/partners/create",
     title="Partner",
     permissions=["business.partners.add"],
     blocks=[

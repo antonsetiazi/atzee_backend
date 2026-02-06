@@ -8,6 +8,7 @@ UI_PAGES = Page(
     key="sales.direct.list",
     entity="sales.direct",
     domain="business",
+    path="/business/sales/direct",
     title="Direct Sales",
     permissions=["business.sales.view"],
     blocks=[
