@@ -1,54 +1,24 @@
 # business/products/ui/pages/product_edit.py
 
-from core.ui.schema.page import Page
-from core.ui.schema.block import FormBlock
 from core.ui.schema.field import Field
-from core.ui.schema.action import Action
+from business.products.ui.pages._base_product_form import (
+    build_product_form_page,
+)
 
-UI_PAGES = Page(
+UI_PAGES = build_product_form_page(
     key="products.edit",
-    entity="products",
     domain="business",
     path="/business/products/:id/edit",
-    title="Product",
+    submit_to="/business/products/{id}/",
+    method="PATCH",
     permissions=["business.products.update"],
-    blocks=[
-        FormBlock(
-            submit_to="/business/products/{id}/",
-            method="PATCH",
-            title="Edit Product",
-            description="Perbarui data produk",
-            redirect_to={
-                "page": "products.list",
-            },
-            fields=[
-                Field(key="id", label="Product ID", type="hidden"),
-                Field(key="code", label="Product Code", type="text"),
-                Field(key="name", label="Product Name", type="text", required=True),
-                Field(
-                    key="product_type",
-                    label="Product Type",
-                    type="select",
-                    required=True,
-                    options=[
-                        {"label": "Good", "value": "good"},
-                        {"label": "Service", "value": "service"},
-                    ],
-                ),
-                Field(
-                    key="description",
-                    label="Description",
-                    type="textarea",
-                ),
-            ],
-            actions=[
-                Action(type="submit", label="Save"),
-                Action(
-                    type="redirect",
-                    label="Cancel",
-                    to="/business/products"
-                ),
-            ],
-        )
+    title="Edit Product",
+    redirect_page="/business/products",
+    extra_fields=[
+        Field(
+            key="id",
+            label="Product ID",
+            type="hidden",
+        ),
     ],
 )

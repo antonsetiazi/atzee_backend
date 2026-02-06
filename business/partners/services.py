@@ -50,7 +50,8 @@ def create_partner(
     phone: Optional[str] = None,
     email: Optional[str] = None,
     address: Optional[str] = None,
-    notes: Optional[str] = None
+    notes: Optional[str] = None,
+    extensions: Optional[dict] = None,
 ) -> Partner:
     """
     Create new partner.
@@ -78,6 +79,7 @@ def create_partner(
         email=email,
         address=address,
         notes=notes,
+        extensions=extensions or {},
         created_by=created_by
     )
 
@@ -95,7 +97,8 @@ def update_partner(
     phone: Optional[str] = None,
     email: Optional[str] = None,
     address: Optional[str] = None,
-    notes: Optional[str] = None
+    notes: Optional[str] = None,
+    extensions: Optional[dict] = None,
 ) -> Partner:
     """
     Update existing partner.
@@ -128,6 +131,8 @@ def update_partner(
         partner.address = address
     if notes is not None:
         partner.notes = notes
+    if extensions is not None:
+        partner.extensions = extensions
 
     partner.updated_by = updated_by
     partner.save(update_fields=[
@@ -137,6 +142,7 @@ def update_partner(
         "email",
         "address",
         "notes",
+        "extensions",
         "updated_by",
         "updated_at"
     ])

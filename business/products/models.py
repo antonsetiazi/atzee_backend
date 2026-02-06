@@ -2,10 +2,10 @@
 
 
 from django.db import models
-from core.models.base import TenantAwareModel
+from core.models.base import TenantAwareModel, ExtensibleModel
 
 
-class Product(TenantAwareModel):
+class Product(TenantAwareModel, ExtensibleModel):
     """
     Core product / service model (business invariant).
     """

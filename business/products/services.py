@@ -43,6 +43,7 @@ def create_product(
     code: Optional[str],
     description: Optional[str] = None,
     product_type: Optional[str] = None,
+    extensions: Optional[dict] = None,
 ) -> Product:
     """
     Create new product.
@@ -65,6 +66,7 @@ def create_product(
         code=code,
         description=description,
         product_type=product_type,
+        extensions=extensions or {},
         created_by=created_by
     )
 
@@ -81,6 +83,7 @@ def update_product(
     code: Optional[str] = None,
     description: Optional[str] = None,
     product_type: Optional[str] = None,
+    extensions: Optional[dict] = None,
 ) -> Product:
     """
     Update existing product.
@@ -108,6 +111,8 @@ def update_product(
         product.description = description
     if product_type is not None:
         product.product_type = product_type
+    if extensions is not None:
+        product.extensions = extensions
 
     product.updated_by = updated_by
     product.save(update_fields=[
@@ -115,6 +120,7 @@ def update_product(
         "code",
         "description",
         "product_type",
+        "extensions",
         "updated_by",
         "updated_at"
     ])

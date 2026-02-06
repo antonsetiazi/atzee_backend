@@ -1,37 +1,16 @@
 # business/partners/ui/pages/partner_create.py
-from core.ui.schema.page import Page
-from core.ui.schema.block import FormBlock
-from core.ui.schema.field import Field
-from core.ui.schema.action import Action
 
-UI_PAGES = Page(
+from business.partners.ui.pages._base_partner_form import (
+    build_partner_form_page,
+)
+
+UI_PAGES = build_partner_form_page(
     key="partners.create",
-    entity="partners",
     domain="business",
     path="/business/partners/create",
-    title="Partner",
+    submit_to="/business/partners/",
+    method="POST",
     permissions=["business.partners.add"],
-    blocks=[
-        FormBlock(
-            submit_to="/business/partners/",
-            method="POST",
-            title="Create Partner",
-            description="Lengkapi data partner dengan benar",
-            redirect_to={
-                "page": "partners.list",
-            },
-            fields=[
-                Field(key="code", label="Partner Code", type="text"),
-                Field(key="name", label="Partner Name", type="text", required=True),
-                Field(key="email", label="Email", type="email"),
-                Field(key="phone", label="Phone", type="text"),
-                Field(key="address", label="Address", type="textarea"),
-                Field(key="notes", label="Notes", type="textarea"),
-            ],
-            actions=[
-                Action(type="submit", label="Save"),
-                Action(type="redirect", label="Cancel", to="/business/partners")
-            ]
-        )
-    ],
+    title="Create Partner",
+    redirect_page="/business/partners",
 )

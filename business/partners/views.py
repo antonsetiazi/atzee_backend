@@ -83,6 +83,30 @@ class PartnerViewSet(viewsets.ViewSet):
         return Response(output.data)
     
 
+    def partial_update(self, request, pk=None):
+        tenant = TenantService.get_current_tenant(request)
+        partner = selectors.get_partner_by_id(tenant=tenant, partner_id=pk)
+
+        if not partner:
+            return Response(
+                {"detail": "Partner not found."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        serializer = PartnerUpdateSerializer(data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+
+        partner = services.update_partner(
+            tenant=tenant,
+            partner_id=partner.id,
+            updated_by=request.user,
+            **serializer.validated_data
+        )
+
+        output = PartnerDetailSerializer(partner)
+        return Response(output.data)
+    
+
     def destroy(self, request, pk=None):
         tenant = TenantService.get_current_tenant(request)
 

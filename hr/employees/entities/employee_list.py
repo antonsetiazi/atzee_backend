@@ -57,6 +57,8 @@ class EmployeeListEntity(BaseEntity):
                 "phone": c.phone,
                 "email": c.email,
                 "is_active": c.is_active,
+                "join_date": c.join_date,
+                "job_title": c.job_title,
                 # presentation helper
                 "is_active_label": "Active" if c.is_active else "Inactive",
             }

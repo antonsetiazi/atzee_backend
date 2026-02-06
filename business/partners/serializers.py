@@ -26,6 +26,7 @@ class PartnerDetailSerializer(serializers.ModelSerializer):
             "email",
             "address",
             "notes",
+            "extensions",
             "created_at",
             "updated_at",
         ]
@@ -38,6 +39,7 @@ class PartnerCreateSerializer(serializers.Serializer):
     email = serializers.EmailField(required=False, allow_blank=True)
     address = serializers.CharField(required=False, allow_blank=True)
     notes = serializers.CharField(required=False, allow_blank=True)
+    extensions = serializers.JSONField(required=False) 
     
 
 class PartnerUpdateSerializer(serializers.Serializer):
@@ -47,3 +49,4 @@ class PartnerUpdateSerializer(serializers.Serializer):
     email = serializers.EmailField(required=False, allow_blank=True)
     address = serializers.CharField(required=False, allow_blank=True)
     notes = serializers.CharField(required=False, allow_blank=True)
+    extensions = serializers.JSONField(required=False) 

@@ -1,8 +1,8 @@
 from django.db import models
-from core.models.base import TenantAwareModel
+from core.models.base import TenantAwareModel, ExtensibleModel
 
 
-class Partner(TenantAwareModel):
+class Partner(TenantAwareModel, ExtensibleModel):
     """
     Core partner model (business invariant).
     """

@@ -13,7 +13,7 @@ UI_PAGES = build_customer_form_page(
     method="PATCH",
     permissions=["business.customers.update"],
     title="Edit Customer",
-    redirect_page="customers.list",
+    redirect_page="/business/customers",
     extra_fields=[
         Field(
             key="id",

@@ -8,6 +8,7 @@ class ProductCreateSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255)
     product_type = serializers.CharField(required=False, allow_blank=True)
     description = serializers.CharField(required=False, allow_blank=True)  
+    extensions = serializers.JSONField(required=False) 
     
 
 class ProductUpdateSerializer(serializers.Serializer):
@@ -15,6 +16,7 @@ class ProductUpdateSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255)
     product_type = serializers.CharField(required=False, allow_blank=True)
     description = serializers.CharField(required=False, allow_blank=True)
+    extensions = serializers.JSONField(required=False) 
     
 
 class ProductDetailSerializer(serializers.ModelSerializer):
@@ -27,6 +29,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
             "product_type",
             "description",
             "is_active",
+            "extensions",
             "created_at",
             "updated_at",
         ]

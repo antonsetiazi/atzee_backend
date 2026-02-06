@@ -92,6 +92,33 @@ class EmployeeViewSet(viewsets.ViewSet):
         return Response(output.data)
     
 
+    def partial_update(self, request, pk=None):
+        tenant = TenantService.get_current_tenant(request)
+        employee = selectors.get_employee_by_id(tenant=tenant, employee_id=pk)
+
+        if not employee:
+            return Response(
+                {"detail": "Employee not found."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        serializer = EmployeeUpdateSerializer(data=request.data, partial=True)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except Exception as e:
+            print(e)
+
+        employee = services.update_employee(
+            tenant=tenant,
+            employee_id=employee.id,
+            updated_by=request.user,
+            **serializer.validated_data
+        )
+
+        output = EmployeeDetailSerializer(employee)
+        return Response(output.data)
+    
+
     def destroy(self, request, pk=None):
         tenant = TenantService.get_current_tenant(request)
 

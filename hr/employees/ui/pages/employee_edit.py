@@ -1,55 +1,24 @@
 # hr/employees/ui/pages/employee_edit.py
 
-from core.ui.schema.page import Page
-from core.ui.schema.block import FormBlock
 from core.ui.schema.field import Field
-from core.ui.schema.action import Action
+from hr.employees.ui.pages._base_employee_form import (
+    build_employee_form_page,
+)
 
-UI_PAGES = Page(
+UI_PAGES = build_employee_form_page(
     key="employees.edit",
-    entity="employees",
     domain="hr",
     path="/hr/employees/:id/edit",
-    title="Employee",
+    submit_to="/hr/employees/{id}/",
+    method="PATCH",
     permissions=["hr.employees.update"],
-    blocks=[
-        FormBlock(
-            submit_to="/hr/employees/{id}/",  # gunakan placeholder id
-            method="PATCH",
-            title="Edit Employee",
-            description="Lengkapi data employee dengan benar",
-            fields=[
-                Field(key="id", label="Employee ID", type="hidden"),
-                # Field(
-                #     key="user_id", 
-                #     label="User", 
-                #     type="select", 
-                #     data_source={
-                #         "type": "entity",
-                #         "domain": "core",
-                #         "entity": "users.list",
-                #         "query": {
-                #             "fields": ["id", "full_name", "email"],
-                #         },
-                #         "map": {
-                #             "value": "id",
-                #             "label": "{full_name} ({email})"
-                #         }
-                #     },
-                #     required=True
-                # ),
-                Field(key="employee_code", label="Employee Code", type="text"),
-                Field(key="full_name", label="Employee Name", type="text", required=True),
-                Field(key="email", label="Email", type="email"),
-                Field(key="phone", label="Phone", type="text"),
-                Field(key="join_date", label="Join Date", type="date", required=True),
-                Field(key="job_title", label="Job Title", type="text"),
-                Field(key="notes", label="Notes", type="textarea"),
-            ],
-            actions=[
-                Action(type="submit", label="Save"),
-                Action(type="redirect", label="Cancel", to="/hr/employees"),
-            ],
-        )
+    title="Edit Employee",
+    redirect_page="/hr/employees",
+    extra_fields=[
+        Field(
+            key="id",
+            label="Employee ID",
+            type="hidden",
+        ),
     ],
 )

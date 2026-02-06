@@ -85,6 +85,30 @@ class ProductViewSet(viewsets.ViewSet):
         return Response(output.data)
     
 
+    def partial_update(self, request, pk=None):
+        tenant = TenantService.get_current_tenant(request)
+        product = selectors.get_product_by_id(tenant=tenant, product_id=pk)
+
+        if not product:
+            return Response(
+                {"detail": "Product not found."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        serializer = ProductUpdateSerializer(data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+
+        product = services.update_product(
+            tenant=tenant,
+            product_id=product.id,
+            updated_by=request.user,
+            **serializer.validated_data
+        )
+
+        output = ProductDetailSerializer(product)
+        return Response(output.data)
+    
+
     def destroy(self, request, pk=None):
         tenant = TenantService.get_current_tenant(request)
         product = selectors.get_product_by_id(tenant=tenant, product_id=pk)

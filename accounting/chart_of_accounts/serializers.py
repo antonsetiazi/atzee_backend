@@ -18,6 +18,12 @@ class AccountListSerializer(serializers.ModelSerializer):
 
 
 class AccountDetailSerializer(serializers.ModelSerializer):
+    parent_id = serializers.IntegerField(
+        source="parent.id",
+        allow_null=True,
+        required=False,
+    )
+
     class Meta:
         model = ChartOfAccount
         fields = [
@@ -25,7 +31,7 @@ class AccountDetailSerializer(serializers.ModelSerializer):
             "code",
             "name",
             "account_type",
-            "parent",
+            "parent_id",
             "is_active",
             "is_postable",
             "is_system",
