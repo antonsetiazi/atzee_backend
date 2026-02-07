@@ -1,0 +1,9 @@
+# core/master/ui/seed_menus.py
+
+from core.master.ui.menus import UI_MENUS as MASTER_MENUS
+from core.master.uom.ui.menus import UI_MENUS as UOM_MENUS
+
+UI_MENUS = (
+    MASTER_MENUS +
+    UOM_MENUS
+)

@@ -1,12 +1,17 @@
+# business/documents/services.py
+
 from typing import Optional
 from django.db import transaction
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from django.db.models import Sum
+from decimal import Decimal
 
-from business.documents.models import Document
+from business.documents.models import Document, DocumentLine
 from business.documents import selectors
 from core.tenants.models import Tenant
 from core.users.models import User
+from core.events.bus import emit_event
 
 
 def _get_active_document_type(
@@ -152,6 +157,7 @@ def issue_document(
         )
 
     document.status = Document.STATUS_ISSUED
+    document.issued_at = timezone.now()
     document.updated_by = issued_by
     document.save(update_fields=[
         "number",
@@ -159,6 +165,18 @@ def issue_document(
         "updated_by",
         "updated_at",
     ])
+
+    emit_event(
+        name="document.issued",
+        payload={
+            "tenant_id": tenant.id,
+            "document_id": document.id,
+            "document_type": document.document_type.code,
+            "total_amount": str(document.total_amount),
+            "source_entity": document.source_entity,
+            "source_id": document.source_id,
+        }
+    )
 
     return document
 
@@ -225,3 +243,55 @@ def delete_document(
         "updated_by",
         "updated_at",
     ])
+    
+
+def recalculate_document_amount(*, document: Document) -> None:
+    """
+    Recalculate subtotal & total amount.
+    Allowed only when document is DRAFT.
+    """
+
+    if document.status != Document.STATUS_DRAFT:
+        raise ValidationError("Cannot recalculate issued document.")
+
+    subtotal = (
+        document.lines.aggregate(
+            total=Sum("amount")
+        )["total"]
+        or Decimal("0.0000")
+    )
+
+    document.subtotal_amount = subtotal
+    document.total_amount = subtotal + document.adjustment_amount
+
+    document.save(update_fields=[
+        "subtotal_amount",
+        "total_amount",
+        "updated_at",
+    ])
+
+
+def add_document_line(
+    *,
+    tenant: Tenant,
+    document: Document,
+    label: str,
+    quantity,
+    unit_price,
+    amount,
+    meta=None,
+):
+    if document.is_locked():
+        raise ValidationError("Issued document is immutable.")
+
+    DocumentLine.objects.create(
+        tenant=tenant,
+        document=document,
+        label=label,
+        quantity=quantity,
+        unit_price=unit_price,
+        amount=amount,
+        meta=meta or {},
+    )
+
+    recalculate_document_amount(document=document)

@@ -1,3 +1,5 @@
+# accounting/journals/constants.py
+
 class JournalType:
     GENERAL = "GENERAL"
     SALES = "SALES"

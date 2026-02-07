@@ -1,3 +1,5 @@
+# accounting/journals/services.py
+
 from decimal import Decimal
 from django.db import transaction
 from django.db import models

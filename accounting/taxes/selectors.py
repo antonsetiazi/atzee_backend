@@ -1,5 +1,8 @@
+# accounting/taxes/selectors.py
+
+
 from core.tenants.models import Tenant
-from accounting.taxes.models import Tax
+from accounting.taxes.models.tax import Tax
 from datetime import date
 
 

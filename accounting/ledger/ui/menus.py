@@ -7,11 +7,11 @@ UI_MENUS = [
         key="ledger.list",
         parent="accounting",
         label="Ledger",
-        icon="grid",
+        icon="book-open",
         app="accounting",
         resource="ledger",
         action="view",
         route="/accounting/ledger",
-        order=30,
+        order=10,
     ),
 ]

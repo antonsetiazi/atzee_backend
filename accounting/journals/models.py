@@ -1,3 +1,5 @@
+# accounting/journals/models.py
+
 from django.db import models
 from core.models.base import TenantAwareModel
 from accounting.chart_of_accounts.models import ChartOfAccount
@@ -52,6 +54,11 @@ class Journal(TenantAwareModel):
         null=True,
         blank=True,
         related_name="reversals"
+    )
+
+    is_manual = models.BooleanField(
+        default=False,
+        help_text="Indicates this journal was created manually (adjustment)"
     )
 
     class Meta:

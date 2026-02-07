@@ -1,5 +1,6 @@
-from rest_framework import serializers
+# business/documents/serializers.py
 
+from rest_framework import serializers
 from business.documents.models import Document, DocumentType
 from business.documents import services
 

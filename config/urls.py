@@ -35,6 +35,9 @@ urlpatterns = [
     path("api/notifications/", include("core.notifications.urls")),
     path("lookups/", include("core.lookups.urls")),
 
+    # --- Core Master ---
+    path("api/uom/", include("core.master.uom.urls")),
+
     # --- Business ---
     path("api/business/", include("business.customers.urls")),
     path("api/business/", include("business.products.urls")),
@@ -48,6 +51,8 @@ urlpatterns = [
     path("api/accounting/", include("accounting.chart_of_accounts.urls")),
     path("api/accounting/", include("accounting.journals.urls")),
     path("api/accounting/", include("accounting.financial_reports.urls")),
+    path("api/accounting/", include("accounting.fiscal_period.urls")),
+    path("api/accounting/", include("accounting.ledger.urls")),
 
     # --- HR ---
     path("api/hr/", include("hr.employees.urls")),

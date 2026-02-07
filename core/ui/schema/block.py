@@ -40,7 +40,13 @@ class FormBlock:
 class TableColumn:
     key: str
     label: str
+    type: Optional[str] = None
 
+    # UI metadata (optional)
+    align: Optional[str] = None        # "left" | "right" | "center"
+    width: Optional[int] = None        # px
+    format: Optional[str] = None       # "currency", "date", etc
+    
 
 @dataclass(frozen=True)
 class TableBlock:
