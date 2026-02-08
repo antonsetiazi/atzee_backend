@@ -56,6 +56,7 @@ CORE_APPS = [
     "core.entities.apps.EntitiesConfig",
     "core.dashboard.apps.DashboardConfig",
     "core.master.uom.apps.UOMConfig",
+    "core.master.locations.apps.LocationsConfig",
 ]
 
 BUSINESS_APPS = [

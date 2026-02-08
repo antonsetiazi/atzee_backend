@@ -11,5 +11,7 @@ class UOMConfig(AppConfig):
     def ready(self):
         from core.entities.registry import register_entity
         from .entities.uom_list import UOMListEntity
+        from .entities.uom_category_list import UOMCategoryListEntity
 
         register_entity(UOMListEntity())
+        register_entity(UOMCategoryListEntity())

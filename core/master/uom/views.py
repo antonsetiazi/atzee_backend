@@ -55,10 +55,13 @@ class UOMViewSet(viewsets.ViewSet):
             **serializer.validated_data
         )
 
+        output = UOMDetailSerializer(uom)
+
         return Response(
-            UOMDetailSerializer(uom).data,
+            output.data,
             status=status.HTTP_201_CREATED
         )
+            
 
     def update(self, request, pk=None):
         tenant = TenantService.get_current_tenant(request)
@@ -88,4 +91,48 @@ class UOMViewSet(viewsets.ViewSet):
 
         return Response(
             UOMDetailSerializer(uom).data
+        )
+
+
+    def partial_update(self, request, pk=None):
+        tenant = TenantService.get_current_tenant(request)
+        uom = selectors.get_uom_by_id(
+            tenant=tenant,
+            uom_id=pk
+        )
+
+        if not uom:
+            return Response(
+                {"detail": "UOM not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = UOMUpdateSerializer(
+            data=request.data,
+            partial=True
+        )
+        serializer.is_valid(raise_exception=True)
+
+        uom = services.update_uom(
+            tenant=tenant,
+            uom_id=uom.id,
+            updated_by=request.user,
+            **serializer.validated_data
+        )
+    
+        output = UOMDetailSerializer(uom)
+        return Response(output.data)
+    
+
+    def destroy(self, request, pk=None):
+        tenant = TenantService.get_current_tenant(request)
+
+        services.delete_uom(
+            tenant=tenant,
+            uom_id=pk,
+            deleted_by=request.user
+        )
+
+        return Response(
+            status=status.HTTP_204_NO_CONTENT
         )

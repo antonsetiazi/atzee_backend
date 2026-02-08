@@ -38,22 +38,7 @@ def build_chart_of_account_form_page(
             key="parent_id",
             label="Parent Account",
             type="select",
-            data_source={
-                "type": "entity",
-                "domain": "accounting",
-                "entity": "chart_of_accounts.list",
-                "query": {
-                    "filters": {
-                        "is_postable": False
-                    },
-                    "fields": ["id", "code", "name"]
-                },
-                "map": {
-                    "value": "id",
-                    "label": "{code} - {name}"
-                }
-            },
-            required=False,
+            data_source="/entities/accounting/chart_of_accounts.parent.list/query/",
         ),
         Field(
             key="is_active",

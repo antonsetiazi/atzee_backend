@@ -9,10 +9,11 @@ class ChartOfAccountsConfig(AppConfig):
     label = "accounting_chart_of_accounts"
 
     def ready(self):
-        import accounting.chart_of_accounts.lookups
         from core.entities.registry import register_entity
         from .entities.chart_of_account_list import ChartOfAccountListEntity
         from .entities.chart_of_account_create import ChartOfAccountCreateEntity
+        from .entities.parent_list import ChartOfAccountParentListEntity
 
         register_entity(ChartOfAccountListEntity())
         register_entity(ChartOfAccountCreateEntity())
+        register_entity(ChartOfAccountParentListEntity())

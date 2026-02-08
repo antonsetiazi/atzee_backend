@@ -31,6 +31,11 @@ class UOMListSerializer(serializers.ModelSerializer):
 
 
 class UOMDetailSerializer(serializers.ModelSerializer):
+    category_id = serializers.IntegerField(
+        source="category.id",
+        allow_null=True,
+    )
+
     class Meta:
         model = UOM
         fields = [
@@ -40,7 +45,7 @@ class UOMDetailSerializer(serializers.ModelSerializer):
             "symbol",
             "precision",
             "is_base",
-            "category",
+            "category_id",
             "created_at",
             "updated_at",
         ]

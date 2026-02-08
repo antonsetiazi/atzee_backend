@@ -1,4 +1,4 @@
-# core/master/uom/ui/pages/_base_uom_form.py
+# core/master/locations/ui/pages/_base_location_form.py
 
 from core.ui.schema.page import Page
 from core.ui.schema.block import FormBlock
@@ -6,7 +6,7 @@ from core.ui.schema.field import Field
 from core.ui.schema.action import Action
 
 
-def build_uom_form_page(
+def build_location_form_page(
     *,
     key: str,
     domain: str,
@@ -19,17 +19,36 @@ def build_uom_form_page(
     extra_fields: list[Field] | None = None,
 ):
     fields = [
-        Field(key="code", label="Code", type="text", required=True),
-        Field(key="name", label="Name", type="text", required=True),
         Field(
-            key="category_id",
-            label="Category",
-            type="select",
-            data_source="/entities/core/uom.categories.list/query/",
+            key="code",
+            label="Code",
+            type="text",
+            required=True,
         ),
-        Field(key="symbol", label="Symbol", type="text"),
-        Field(key="precision", label="Precision", type="number", default=2),
-        Field(key="is_base", label="Base Unit", type="boolean", default=True),
+        Field(
+            key="name",
+            label="Name",
+            type="text",
+            required=True,
+        ),
+        Field(
+            key="parent_id",
+            label="Parent Location",
+            type="select",
+            data_source="/entities/core/locations.select.list/query/",
+            required=False,
+        ),
+        Field(
+            key="description",
+            label="Description",
+            type="textarea",
+        ),
+        Field(
+            key="is_active",
+            label="Active",
+            type="boolean",
+            default=True,
+        ),
     ]
 
     if extra_fields:
@@ -37,10 +56,10 @@ def build_uom_form_page(
 
     return Page(
         key=key,
-        entity="uom",
+        entity="location",
         domain=domain,
         path=path,
-        title="Unit of Measure",
+        title="Location",
         permissions=permissions,
         blocks=[
             FormBlock(

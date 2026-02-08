@@ -35,3 +35,10 @@ def get_categories(*, tenant: Tenant) -> QuerySet[UOMCategory]:
         tenant=tenant,
         is_deleted=False
     ).order_by("name")
+
+
+def get_category_by_id(*, tenant: Tenant, category_id: int) -> QuerySet[UOMCategory]:
+    return UOMCategory.objects.filter(
+        tenant=tenant,
+        is_deleted=False
+    ).get(id=category_id)

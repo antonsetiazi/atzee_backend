@@ -12,6 +12,6 @@ UI_PAGES = build_uom_list_page(
     permissions=["core.uom.view"],
     create_path="/settings/master/uom/create",
     edit_path="/settings/master/uom/{id}/edit",
-    delete_endpoint="/core/uoms/{id}/",
+    delete_endpoint="/uoms/{id}/",
     search_mode="client"
 )

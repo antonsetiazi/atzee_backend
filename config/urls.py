@@ -36,7 +36,8 @@ urlpatterns = [
     path("lookups/", include("core.lookups.urls")),
 
     # --- Core Master ---
-    path("api/uom/", include("core.master.uom.urls")),
+    path("api/", include("core.master.uom.urls")),
+    path("api/", include("core.master.locations.urls")),
 
     # --- Business ---
     path("api/business/", include("business.customers.urls")),
