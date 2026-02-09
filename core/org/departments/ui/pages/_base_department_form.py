@@ -1,4 +1,4 @@
-# core/master/locations/ui/pages/_base_location_form.py
+# core/org/departments/ui/pages/_base_department_form.py
 
 from core.ui.schema.page import Page
 from core.ui.schema.block import FormBlock
@@ -6,7 +6,7 @@ from core.ui.schema.field import Field
 from core.ui.schema.action import Action
 
 
-def build_location_form_page(
+def build_department_form_page(
     *,
     key: str,
     domain: str,
@@ -19,35 +19,21 @@ def build_location_form_page(
     extra_fields: list[Field] | None = None,
 ):
     fields = [
-        Field(
-            key="code",
-            label="Code",
-            type="text",
-            required=True,
-        ),
-        Field(
-            key="name",
-            label="Name",
-            type="text",
-            required=True,
-        ),
+        Field(key="code", label="Code", type="text", required=True),
+        Field(key="name", label="Name", type="text", required=True),
         Field(
             key="parent_id",
-            label="Parent Location",
+            label="Parent Department",
             type="select",
-            data_source="/entities/core/locations.select.list/query/",
+            data_source="/entities/core/departments.select.list/query/",
             required=False,
         ),
         Field(
             key="description",
             label="Description",
             type="textarea",
-        ),
-        Field(
-            key="is_active",
-            label="Active",
-            type="boolean",
-            default=True,
+            required=False,
+            default=""
         ),
     ]
 
@@ -56,10 +42,10 @@ def build_location_form_page(
 
     return Page(
         key=key,
-        entity="locations",
+        entity="departments",
         domain=domain,
         path=path,
-        title="Location",
+        title="Department",
         permissions=permissions,
         blocks=[
             FormBlock(

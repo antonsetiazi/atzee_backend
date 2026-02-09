@@ -39,6 +39,9 @@ urlpatterns = [
     path("api/", include("core.master.uom.urls")),
     path("api/", include("core.master.locations.urls")),
 
+    # --- Core Organization ---
+    path("api/", include("core.org.departments.urls")),
+
     # --- Business ---
     path("api/business/", include("business.customers.urls")),
     path("api/business/", include("business.products.urls")),

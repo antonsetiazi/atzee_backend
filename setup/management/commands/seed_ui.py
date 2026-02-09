@@ -9,6 +9,9 @@ from core.ui.seed_pages import UI_PAGES as CORE_PAGES
 from core.master.ui.seed_menus import UI_MENUS as CORE_MASTER_MENUS
 from core.master.ui.seed_pages import UI_PAGES as CORE_MASTER_PAGES
 
+from core.org.ui.seed_menus import UI_MENUS as CORE_ORG_MENUS
+from core.org.ui.seed_pages import UI_PAGES as CORE_ORG_PAGES
+
 from business.ui.seed_menus import UI_MENUS as BUSINESS_MENUS
 from business.ui.seed_pages import UI_PAGES as BUSINESS_PAGES
 
@@ -90,6 +93,7 @@ class Command(BaseCommand):
         modules = [
             (CORE_MENUS, CORE_PAGES),
             (CORE_MASTER_MENUS, CORE_MASTER_PAGES),
+            (CORE_ORG_MENUS, CORE_ORG_PAGES),
             (BUSINESS_MENUS, BUSINESS_PAGES),
             (ACCOUNTING_MENUS, ACCOUNTING_PAGES),
             (HR_MENUS, HR_PAGES),
