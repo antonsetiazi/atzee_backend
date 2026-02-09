@@ -41,6 +41,7 @@ urlpatterns = [
 
     # --- Core Organization ---
     path("api/", include("core.org.departments.urls")),
+    path("api/", include("core.org.branches.urls")),
 
     # --- Business ---
     path("api/business/", include("business.customers.urls")),

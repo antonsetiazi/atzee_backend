@@ -58,6 +58,7 @@ CORE_APPS = [
     "core.master.uom.apps.UOMConfig",
     "core.master.locations.apps.LocationsConfig",
     "core.org.departments.apps.DepartmentsConfig",
+    "core.org.branches.apps.BranchesConfig",
 ]
 
 BUSINESS_APPS = [
