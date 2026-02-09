@@ -60,6 +60,7 @@ CORE_APPS = [
     "core.master.currencies.apps.CurrenciesConfig",
     "core.org.departments.apps.DepartmentsConfig",
     "core.org.branches.apps.BranchesConfig",
+    "core.geo.countries.apps.CountriesConfig",
 ]
 
 BUSINESS_APPS = [

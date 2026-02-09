@@ -44,6 +44,9 @@ urlpatterns = [
     path("api/", include("core.org.departments.urls")),
     path("api/", include("core.org.branches.urls")),
 
+    # --- Core Geo ---
+    path("api/", include("core.geo.countries.urls")),
+
     # --- Business ---
     path("api/business/", include("business.customers.urls")),
     path("api/business/", include("business.products.urls")),
