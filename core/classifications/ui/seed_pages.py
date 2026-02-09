@@ -2,8 +2,10 @@
 
 from core.classifications.categories.ui.pages import UI_PAGES as CATEGORY_PAGES
 from core.classifications.tags.ui.pages import UI_PAGES as TAG_PAGES 
+from core.classifications.labels.ui.pages import UI_PAGES as LABEL_PAGES 
 
 UI_PAGES = [
     *CATEGORY_PAGES,
-    *TAG_PAGES
+    *TAG_PAGES,
+    *LABEL_PAGES
 ]

@@ -52,6 +52,7 @@ urlpatterns = [
     # --- Core Classifications ---
     path("api/", include("core.classifications.categories.urls")),
     path("api/", include("core.classifications.tags.urls")),
+    path("api/", include("core.classifications.labels.urls")),
 
     # --- Business ---
     path("api/business/", include("business.customers.urls")),

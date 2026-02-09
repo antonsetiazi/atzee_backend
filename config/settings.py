@@ -65,6 +65,7 @@ CORE_APPS = [
     "core.geo.timezones.apps.TimezonesConfig",
     "core.classifications.categories.apps.CategoriesConfig",
     "core.classifications.tags.apps.TagsConfig",
+    "core.classifications.labels.apps.LabelsConfig",
 ]
 
 BUSINESS_APPS = [

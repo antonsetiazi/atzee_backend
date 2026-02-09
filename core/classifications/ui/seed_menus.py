@@ -3,10 +3,12 @@
 from core.classifications.ui.menus import UI_MENUS as CLASSIFICATION_MENUS
 from core.classifications.categories.ui.menus import UI_MENUS as CATEGORY_MENUS
 from core.classifications.tags.ui.menus import UI_MENUS as TAG_MENUS
+from core.classifications.labels.ui.menus import UI_MENUS as LABEL_MENUS
 
 
 UI_MENUS = (
     CLASSIFICATION_MENUS +
     CATEGORY_MENUS + 
-    TAG_MENUS
+    TAG_MENUS +
+    LABEL_MENUS
 )
