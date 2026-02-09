@@ -57,6 +57,7 @@ CORE_APPS = [
     "core.dashboard.apps.DashboardConfig",
     "core.master.uom.apps.UOMConfig",
     "core.master.locations.apps.LocationsConfig",
+    "core.master.currencies.apps.CurrenciesConfig",
     "core.org.departments.apps.DepartmentsConfig",
     "core.org.branches.apps.BranchesConfig",
 ]

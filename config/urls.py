@@ -36,6 +36,7 @@ urlpatterns = [
     path("lookups/", include("core.lookups.urls")),
 
     # --- Core Master ---
+    path("api/", include("core.master.currencies.urls")),
     path("api/", include("core.master.uom.urls")),
     path("api/", include("core.master.locations.urls")),
 
