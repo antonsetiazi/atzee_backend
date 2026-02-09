@@ -49,6 +49,9 @@ urlpatterns = [
     path("api/", include("core.geo.regions.urls")),
     path("api/", include("core.geo.timezones.urls")),
 
+    # --- Core Classifications ---
+    path("api/", include("core.classifications.categories.urls")),
+
     # --- Business ---
     path("api/business/", include("business.customers.urls")),
     path("api/business/", include("business.products.urls")),
