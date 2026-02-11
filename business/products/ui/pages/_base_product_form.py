@@ -1,7 +1,7 @@
 # business/products/ui/pages/_base_product_form.py
 
 from core.ui.schema.page import Page
-from core.ui.schema.block import FormBlock, FileBlock
+from core.ui.schema.block import FormBlock, FileBlock, TagBlock
 from core.ui.schema.field import Field
 from core.ui.schema.action import Action
 
@@ -71,6 +71,18 @@ def build_product_form_page(
                 entity_id_from="id",
                 multiple=True,
                 accept="image/*,.pdf",
+                permissions=["business.products.update"],
+            ),
+
+            # 🔽 TAGS
+            TagBlock(
+                title="Product Tags",
+                entity_type="business_product.product",
+                entity_id_from="id",
+                allow_create=True,
+                allow_attach=True,
+                allow_detach=True,
+                multiple=True,
                 permissions=["business.products.update"],
             ),
         ],

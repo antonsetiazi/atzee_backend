@@ -22,3 +22,11 @@ def get_tag_by_id(*, tenant: Tenant, tag_id: int) -> Optional[Tag]:
         return get_tag_queryset(tenant=tenant).get(id=tag_id)
     except Tag.DoesNotExist:
         return None
+
+
+def get_tags_by_ids(*, tenant: Tenant, ids: list[int]) -> QuerySet[Tag]:
+    return get_tag_queryset(tenant=tenant).filter(id__in=ids)
+
+
+def search_tags(*, tenant: Tenant, keyword: str) -> QuerySet[Tag]:
+    return get_tags(tenant=tenant).filter(name__icontains=keyword)

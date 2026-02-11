@@ -29,3 +29,27 @@ class EntityQueryService:
             tenant=tenant,
             query=query,
         )
+
+
+class EntityExecuteService:
+
+    @staticmethod
+    def execute(*, user, tenant, domain: str, entity_key: str, data: dict):
+        entity = get_entity(domain, entity_key)
+
+        if not entity:
+            raise ValueError("Entity not registered")
+
+        if not PermissionService.can_access(
+            user=user,
+            tenant=tenant,
+            permission_code=entity.permission,
+        ):
+            raise PermissionError()
+
+        # panggil execute() entity
+        return entity.execute(
+            user=user,
+            tenant=tenant,
+            data=data,
+        )

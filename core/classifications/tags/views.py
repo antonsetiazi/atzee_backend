@@ -20,7 +20,13 @@ class TagViewSet(viewsets.ViewSet):
     def list(self, request):
         tenant = TenantService.get_current_tenant(request)
         qs = selectors.get_tags(tenant=tenant)
+        
+        search = request.query_params.get("search")
+        if search:
+            qs = qs.filter(name__icontains=search)
+
         return Response(TagListSerializer(qs, many=True).data)
+
 
     def retrieve(self, request, pk=None):
         tenant = TenantService.get_current_tenant(request)
@@ -28,6 +34,7 @@ class TagViewSet(viewsets.ViewSet):
         if not obj:
             return Response(status=status.HTTP_404_NOT_FOUND)
         return Response(TagDetailSerializer(obj).data)
+
 
     def create(self, request):
         tenant = TenantService.get_current_tenant(request)
@@ -41,6 +48,7 @@ class TagViewSet(viewsets.ViewSet):
         )
 
         return Response(TagDetailSerializer(obj).data, status=status.HTTP_201_CREATED)
+    
 
     def partial_update(self, request, pk=None):
         tenant = TenantService.get_current_tenant(request)
@@ -55,6 +63,7 @@ class TagViewSet(viewsets.ViewSet):
         )
 
         return Response(TagDetailSerializer(obj).data)
+
 
     def destroy(self, request, pk=None):
         tenant = TenantService.get_current_tenant(request)

@@ -1,7 +1,9 @@
 # core/classifications/tags/services.py
 
-from typing import Optional
+from typing import Optional, Type, Iterable
 from django.db import transaction
+from django.contrib.contenttypes.models import ContentType
+from django.db.models import QuerySet
 from rest_framework.exceptions import ValidationError
 
 from core.classifications.tags.models import Tag
@@ -9,6 +11,7 @@ from core.classifications.tags import selectors
 from core.tenants.models import Tenant
 from core.users.models import User
 
+from core.classifications.tags.models import TagRelation
 
 def _normalize(value: Optional[str]) -> str:
     return value.strip() if isinstance(value, str) else ""
@@ -68,3 +71,134 @@ def delete_tag(*, tenant: Tenant, tag_id: int, deleted_by: User) -> None:
     tag.is_deleted = True
     tag.updated_by = deleted_by
     tag.save()
+
+
+@transaction.atomic
+def attach_tag(
+    *,
+    tenant: Tenant,
+    obj,
+    tag_id: int,
+    user: User,
+) -> TagRelation:
+
+    tag = selectors.get_tag_by_id(tenant=tenant, tag_id=tag_id)
+    if not tag:
+        raise ValidationError("Tag not found.")
+
+    content_type = ContentType.objects.get_for_model(obj.__class__)
+
+    relation, created = TagRelation.objects.get_or_create(
+        tenant=tenant,
+        tag=tag,
+        content_type=content_type,
+        object_id=obj.id,
+        defaults={"created_by": user},
+    )
+
+    if not created:
+        raise ValidationError("Tag already attached.")
+
+    return relation
+
+
+@transaction.atomic
+def detach_tag(
+    *,
+    tenant: Tenant,
+    obj,
+    tag_id: int,
+    user: User,
+) -> None:
+
+    content_type = ContentType.objects.get_for_model(obj.__class__)
+
+    relation = TagRelation.objects.filter(
+        tenant=tenant,
+        tag_id=tag_id,
+        content_type=content_type,
+        object_id=obj.id,
+        is_deleted=False,
+    ).first()
+
+    if not relation:
+        return
+
+    relation.is_deleted = True
+    relation.updated_by = user
+    relation.save()
+
+
+@transaction.atomic
+def set_tags(
+    *,
+    tenant: Tenant,
+    obj,
+    tag_ids: Iterable[int],
+    user: User,
+) -> None:
+
+    content_type = ContentType.objects.get_for_model(obj.__class__)
+
+    # Soft delete all existing
+    TagRelation.objects.filter(
+        tenant=tenant,
+        content_type=content_type,
+        object_id=obj.id,
+        is_deleted=False,
+    ).update(is_deleted=True, updated_by=user)
+
+    # Attach new
+    for tag_id in tag_ids:
+        attach_tag(
+            tenant=tenant,
+            obj=obj,
+            tag_id=tag_id,
+            user=user,
+        )
+
+
+def get_tags_for_object(
+    *,
+    tenant: Tenant,
+    obj,
+) -> QuerySet[Tag]:
+
+    content_type = ContentType.objects.get_for_model(obj.__class__)
+
+    tag_ids = TagRelation.objects.filter(
+        tenant=tenant,
+        content_type=content_type,
+        object_id=obj.id,
+        is_deleted=False,
+    ).values_list("tag_id", flat=True)
+
+    return Tag.objects.filter(
+        tenant=tenant,
+        id__in=tag_ids,
+        is_deleted=False,
+        is_active=True,
+    )
+
+
+def filter_by_tags(
+    *,
+    tenant: Tenant,
+    model_class: Type,
+    tag_ids: Iterable[int],
+) -> QuerySet:
+
+    content_type = ContentType.objects.get_for_model(model_class)
+
+    object_ids = TagRelation.objects.filter(
+        tenant=tenant,
+        content_type=content_type,
+        tag_id__in=tag_ids,
+        is_deleted=False,
+    ).values_list("object_id", flat=True)
+
+    return model_class.objects.filter(
+        tenant=tenant,
+        id__in=object_ids,
+        is_deleted=False,
+    ).distinct()

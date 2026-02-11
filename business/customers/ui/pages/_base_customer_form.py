@@ -1,7 +1,7 @@
 # business/customers/ui/pages/_base_customer_form.py
 
 from core.ui.schema.page import Page
-from core.ui.schema.block import FormBlock, FileBlock
+from core.ui.schema.block import FormBlock, FileBlock, TagBlock
 from core.ui.schema.field import Field
 from core.ui.schema.action import Action
 
@@ -61,6 +61,18 @@ def build_customer_form_page(
                 entity_id_from="id",
                 multiple=True,
                 accept="image/*,.pdf",
+                permissions=["business.customers.update"],
+            ),
+
+            # 🔽 TAGS
+            TagBlock(
+                title="Customer Tags",
+                entity_type="business_customers.customer",
+                entity_id_from="id",
+                allow_create=True,
+                allow_attach=True,
+                allow_detach=True,
+                multiple=True,
                 permissions=["business.customers.update"],
             ),
         ],
