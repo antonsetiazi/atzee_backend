@@ -5,7 +5,7 @@ from core.ui.schema.menu import Menu
 UI_MENUS = [
     Menu(
         key="business",
-        label="Master Data",
+        label="Business",
         app="business",
         resource="business",
         action="view",

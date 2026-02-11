@@ -67,6 +67,7 @@ CORE_APPS = [
     "core.classifications.tags.apps.TagsConfig",
     "core.classifications.labels.apps.LabelsConfig",
     "core.classifications.attributes.apps.AttributesConfig",
+    "core.files.apps.FilesConfig",
 ]
 
 BUSINESS_APPS = [

@@ -1,7 +1,7 @@
 # business/partners/ui/pages/_base_partner_form.py
 
 from core.ui.schema.page import Page
-from core.ui.schema.block import FormBlock
+from core.ui.schema.block import FormBlock, FileBlock
 from core.ui.schema.field import Field
 from core.ui.schema.action import Action
 
@@ -52,6 +52,15 @@ def build_partner_form_page(
                     Action(type="submit", label="Save"),
                     Action(type="redirect", label="Cancel", to=path.rsplit("/", 2)[0],)
                 ],
-            )
+            ),
+
+            FileBlock(
+                title="Partner Files",
+                entity_type="partners",
+                entity_id_from="id",
+                multiple=True,
+                accept="image/*,.pdf",
+                permissions=["business.partners.update"],
+            ),
         ],
     )

@@ -8,7 +8,7 @@ from .action import Action
 from .base import HTTPMethod
 
 
-BlockType = Literal["form", "table", "workflow"]
+BlockType = Literal["form", "table", "workflow", "files"]
 searchModeType = Literal["server", "client"]
 FormMode = Literal["create", "edit", "view"]
 
@@ -81,3 +81,19 @@ class WorkflowBlock:
     status: WorkflowStatus
     actions: List[Action]
     type: Literal["workflow"] = "workflow"
+
+
+@dataclass(frozen=True)
+class FileBlock:
+    type: Literal["files"] = "files"
+
+    title: Optional[str] = "Attachments"
+    description: Optional[str] = None
+
+    entity_type: str = ""        # "customer"
+    entity_id_from: str = "id"   # ambil dari form response / route
+
+    multiple: bool = True
+    accept: Optional[str] = None   # "image/*,.pdf"
+
+    permissions: Optional[List[str]] = None    
