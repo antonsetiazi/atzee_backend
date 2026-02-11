@@ -53,6 +53,7 @@ urlpatterns = [
     path("api/", include("core.classifications.categories.urls")),
     path("api/", include("core.classifications.tags.urls")),
     path("api/", include("core.classifications.labels.urls")),
+    path("api/", include("core.classifications.attributes.urls")),
 
     # --- Business ---
     path("api/business/", include("business.customers.urls")),

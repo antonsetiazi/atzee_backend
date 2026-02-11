@@ -1,7 +1,7 @@
 # core/ui/schema/block.py
 
 from dataclasses import dataclass, field
-from typing import List, Literal, Optional
+from typing import List, Literal, Dict, Optional
 
 from .field import Field
 from .action import Action
@@ -56,6 +56,9 @@ class TableBlock:
     description: Optional[str] = None
 
     data_source: str = ""
+    
+    query: Dict[str, object] = field(default_factory=dict)
+
     search_mode: searchModeType = "client"
     
     columns: List[TableColumn] = field(default_factory=list)
