@@ -1,43 +1,48 @@
-# core/schedule/recurring/entities/recurring_list.py
+# core/schedule/recurrings/entities/recurring_list.py
 
 from core.entities.contracts import BaseEntity
-from core.schedule.recurring.models import RecurringRule
+from core.schedule.recurrings import selectors
 
 
-class RecurringRuleListEntity(BaseEntity):
+class RecurringListEntity(BaseEntity):
     """
-    recurring.list entity
+    schedule.recurrings.list entity
     """
 
-    key = "schedule.recurring.list"
+    key = "schedule.recurrings.list"
     domain = "core"
     permission = "core.schedule.view"
 
     def query(self, *, user, tenant, query: dict) -> dict:
-        qs = RecurringRule.objects.filter(tenant=tenant, is_deleted=False)
+        qs = selectors.get_recurring_queryset(tenant=tenant)
 
         search = query.get("search")
         if search:
-            qs = qs.filter(name__icontains=search)
+            qs = qs.filter(event__title__icontains=search)
 
-        qs = qs.order_by("name")
+        qs = qs.order_by("frequency")
 
         page = int(query.get("page", 1))
         page_size = int(query.get("pageSize", 10))
         offset = (page - 1) * page_size
         limit = offset + page_size
+
         total = qs.count()
         items = qs[offset:limit]
 
         data = [
             {
                 "id": str(r.id),
-                "name": r.name,
+                "event_title": r.event.title,
                 "frequency": r.frequency,
                 "interval": r.interval,
-                "start_datetime": r.start_datetime,
-                "end_datetime": r.end_datetime,
+                "end_date": r.end_date,
             }
             for r in items
         ]
-        return {"items": data, "total": total}
+
+        return {
+            "items": data,
+            "total": total
+        }
+
