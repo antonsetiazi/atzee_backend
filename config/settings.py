@@ -68,6 +68,11 @@ CORE_APPS = [
     "core.classifications.labels.apps.LabelsConfig",
     "core.classifications.attributes.apps.AttributesConfig",
     "core.files.apps.FilesConfig",
+    "core.schedule.events.apps.EventsConfig",
+    # "core.schedule.holidays.apps.HolidaysConfig",
+    # "core.schedule.recurring.apps.RecurringConfig",
+    # "core.schedule.reminders.apps.RemindersConfig",
+    # "core.schedule.shifts.apps.ShiftsConfig",
 ]
 
 BUSINESS_APPS = [

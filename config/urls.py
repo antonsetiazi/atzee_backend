@@ -58,6 +58,13 @@ urlpatterns = [
     path("api/", include("core.classifications.labels.urls")),
     path("api/", include("core.classifications.attributes.urls")),
 
+    # --- Core Schedule ---
+    path("api/schedule/", include("core.schedule.events.urls")),
+    # path("api/schedule/", include("core.schedule.holidays.urls")),
+    # path("api/schedule/", include("core.schedule.recurring.urls")),
+    # path("api/schedule/", include("core.schedule.reminders.urls")),
+    # path("api/schedule/", include("core.schedule.shifts.urls")),
+
     # --- Business ---
     path("api/business/", include("business.customers.urls")),
     path("api/business/", include("business.products.urls")),

@@ -21,6 +21,9 @@ from core.geo.ui.seed_pages import UI_PAGES as CORE_GEO_PAGES
 from core.classifications.ui.seed_menus import UI_MENUS as CORE_CLASSIFICATION_MENUS
 from core.classifications.ui.seed_pages import UI_PAGES as CORE_CLASSIFICATION_PAGES
 
+from core.schedule.ui.seed_menus import UI_MENUS as CORE_SCHEDULE_MENUS
+from core.schedule.ui.seed_pages import UI_PAGES as CORE_SCHEDULE_PAGES
+
 from business.ui.seed_menus import UI_MENUS as BUSINESS_MENUS
 from business.ui.seed_pages import UI_PAGES as BUSINESS_PAGES
 
@@ -106,6 +109,7 @@ class Command(BaseCommand):
             (CORE_ORG_MENUS, CORE_ORG_PAGES),
             (CORE_GEO_MENUS, CORE_GEO_PAGES),
             (CORE_CLASSIFICATION_MENUS, CORE_CLASSIFICATION_PAGES),
+            (CORE_SCHEDULE_MENUS, CORE_SCHEDULE_PAGES),
             (BUSINESS_MENUS, BUSINESS_PAGES),
             (ACCOUNTING_MENUS, ACCOUNTING_PAGES),
             (HR_MENUS, HR_PAGES),
