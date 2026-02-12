@@ -22,6 +22,12 @@ def create_holiday(
     recurring: bool = False,
     metadata: Optional[dict] = None
 ) -> Holiday:
+    
+    if start_datetime >= end_datetime:
+        raise ValidationError(
+            "start_datetime must be before end_datetime."
+        )
+
     holiday = Holiday.objects.create(
         tenant=tenant,
         created_by=created_by,

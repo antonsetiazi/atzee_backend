@@ -20,7 +20,7 @@ class HolidayListEntity(BaseEntity):
         if search:
             qs = qs.filter(name__icontains=search)
 
-        qs = qs.order_by("date")
+        qs = qs.order_by("start_datetime")
 
         page = int(query.get("page", 1))
         page_size = int(query.get("pageSize", 10))
@@ -33,9 +33,13 @@ class HolidayListEntity(BaseEntity):
             {
                 "id": str(h.id),
                 "name": h.name,
-                "date": h.date,
-                "is_recurring": h.is_recurring,
+                "start_datetime": h.start_datetime.isoformat() if h.start_datetime else None,
+                "end_datetime": h.end_datetime.isoformat() if h.end_datetime else None,
+                "recurring": h.recurring,
+                "all_day": h.all_day,
             }
             for h in items
         ]
+
         return {"items": data, "total": total}
+
