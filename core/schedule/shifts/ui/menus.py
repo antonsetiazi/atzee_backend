@@ -1,0 +1,17 @@
+# core/schedule/shifts/ui/menus.py
+
+from core.ui.schema.menu import Menu
+
+UI_MENUS = [
+    Menu(
+        key="shifts.list",
+        parent="core.schedule",
+        label="Shifts",
+        icon="clock",
+        app="core",
+        resource="schedule.shifts",
+        action="view",
+        route="/core/shifts",
+        order=30,
+    ),
+]

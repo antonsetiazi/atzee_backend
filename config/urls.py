@@ -61,9 +61,9 @@ urlpatterns = [
     # --- Core Schedule ---
     path("api/schedule/", include("core.schedule.events.urls")),
     path("api/schedule/", include("core.schedule.holidays.urls")),
+    path("api/schedule/", include("core.schedule.shifts.urls")),
     # path("api/schedule/", include("core.schedule.recurring.urls")),
     # path("api/schedule/", include("core.schedule.reminders.urls")),
-    # path("api/schedule/", include("core.schedule.shifts.urls")),
 
     # --- Business ---
     path("api/business/", include("business.customers.urls")),

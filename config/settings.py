@@ -70,9 +70,9 @@ CORE_APPS = [
     "core.files.apps.FilesConfig",
     "core.schedule.events.apps.EventsConfig",
     "core.schedule.holidays.apps.HolidaysConfig",
+    "core.schedule.shifts.apps.ShiftsConfig",
     # "core.schedule.recurring.apps.RecurringConfig",
     # "core.schedule.reminders.apps.RemindersConfig",
-    # "core.schedule.shifts.apps.ShiftsConfig",
 ]
 
 BUSINESS_APPS = [
