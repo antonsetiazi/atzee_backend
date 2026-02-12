@@ -9,8 +9,14 @@ class Reminder(TenantAwareModel):
     Reminder / notification for events
     """
 
+    REMINDER_TYPE_CHOICES = [
+        ("email", "Email"),
+        ("in_app", "In-App"),
+        ("wa", "WhatsApp"),
+    ]
+
     event = models.ForeignKey(
-        "Event",
+        "core_schedule_events.Event",
         on_delete=models.CASCADE,
         related_name="reminders"
     )
@@ -21,7 +27,7 @@ class Reminder(TenantAwareModel):
 
     reminder_type = models.CharField(
         max_length=20,
-        choices=[("email", "Email"), ("in_app", "In-App"), ("wa", "WhatsApp")],
+        choices=REMINDER_TYPE_CHOICES,
         default="in_app"
     )
 
@@ -33,3 +39,8 @@ class Reminder(TenantAwareModel):
 
     class Meta:
         db_table = "core_schedule_reminders"
+        ordering = ["reminder_time"]
+
+    def __str__(self):
+        return f"{self.event.title} - {self.reminder_type}"
+

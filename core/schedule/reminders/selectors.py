@@ -6,11 +6,18 @@ from core.tenants.models import Tenant
 
 
 def get_reminder_queryset(*, tenant: Tenant):
-    return Reminder.objects.filter(tenant=tenant, is_deleted=False)
+    return Reminder.objects.filter(
+        tenant=tenant,
+        is_deleted=False
+    ).select_related("event")
 
 
 def get_reminder_by_id(*, tenant: Tenant, reminder_id: int) -> Optional[Reminder]:
     try:
-        return Reminder.objects.get(tenant=tenant, id=reminder_id, is_deleted=False)
+        return Reminder.objects.select_related("event").get(
+            tenant=tenant,
+            id=reminder_id,
+            is_deleted=False
+        )
     except Reminder.DoesNotExist:
         return None
