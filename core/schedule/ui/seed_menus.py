@@ -5,6 +5,7 @@ from core.schedule.events.ui.menus import UI_MENUS as EVENT_MENUS
 from core.schedule.holidays.ui.menus import UI_MENUS as HOLIDAY_MENUS
 from core.schedule.shifts.ui.menus import UI_MENUS as SHIFT_MENUS
 from core.schedule.reminders.ui.menus import UI_MENUS as REMINDER_MENUS
+from core.schedule.recurrings.ui.menus import UI_MENUS as RECURRING_MENUS
 
 
 UI_MENUS = (
@@ -12,5 +13,6 @@ UI_MENUS = (
     EVENT_MENUS +
     HOLIDAY_MENUS +
     SHIFT_MENUS +
-    REMINDER_MENUS
+    REMINDER_MENUS +
+    RECURRING_MENUS
 )

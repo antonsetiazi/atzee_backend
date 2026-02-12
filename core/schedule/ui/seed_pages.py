@@ -4,10 +4,12 @@ from core.schedule.events.ui.pages import UI_PAGES as EVENT_PAGES
 from core.schedule.holidays.ui.pages import UI_PAGES as HOLIDAY_PAGES 
 from core.schedule.shifts.ui.pages import UI_PAGES as SHIFT_PAGES
 from core.schedule.reminders.ui.pages import UI_PAGES as REMINDER_PAGES
+from core.schedule.recurrings.ui.pages import UI_PAGES as RECURRING_PAGES
 
 UI_PAGES = [
     *EVENT_PAGES,
     *HOLIDAY_PAGES,
     *SHIFT_PAGES,
-    *REMINDER_PAGES
+    *REMINDER_PAGES,
+    *RECURRING_PAGES
 ]
