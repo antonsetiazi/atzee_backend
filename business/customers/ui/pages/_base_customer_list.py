@@ -20,8 +20,8 @@ def build_customer_list_page(
 ):
     columns = [
         TableColumn(key="code", label="Code"),
-        TableColumn(key="name", label="Name"),
-        TableColumn(key="email", label="Email"),
+        TableColumn(key="name", label="Name", priority=1),
+        TableColumn(key="email", label="Email", priority=2),
         TableColumn(key="phone", label="Phone"),
         TableColumn(key="is_active", label="Active"),
     ]

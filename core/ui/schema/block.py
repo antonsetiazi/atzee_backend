@@ -41,7 +41,7 @@ class TableColumn:
     key: str
     label: str
     type: Optional[str] = None
-
+    priority: Optional[int] = None
     # UI metadata (optional)
     align: Optional[str] = None        # "left" | "right" | "center"
     width: Optional[int] = None        # px

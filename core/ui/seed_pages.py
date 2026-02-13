@@ -2,6 +2,24 @@
 
 UI_PAGES = [
     # =====================
+    # DASHBOARD
+    # =====================
+    {
+        "key": "dashboard",
+        "domain": "core",
+        "entity": "dashboard",
+        "title": "Dashboard",
+        "permissions": ["core.dashboard.view"],
+        "path": "/dashboard",
+        "blocks": [
+            {
+                "type": "custom",
+                "component": "DashboardOverview"
+            }
+        ],
+    },
+
+    # =====================
     # USERS
     # =====================
     {
@@ -9,6 +27,7 @@ UI_PAGES = [
         "domain": "core",
         "entity": "users",
         "title": "Users",
+        "path": "/users",
         "permissions": ["core.users.view"],
         "blocks": [
             {
@@ -31,6 +50,7 @@ UI_PAGES = [
         "domain": "core",
         "entity": "roles",
         "title": "Roles",
+        "path": "/roles",
         "permissions": ["core.roles.view"],
         "blocks": [
             {
@@ -73,6 +93,7 @@ UI_PAGES = [
         "domain": "core",
         "entity": "tenants",
         "title": "Tenants",
+        "path": "/tenants",
         "permissions": ["core.tenants.view"],
         "blocks": [
             {
@@ -95,6 +116,7 @@ UI_PAGES = [
         "domain": "core",
         "entity": "audit_logs",
         "title": "Audit Logs",
+        "path": "/audit-logs",
         "permissions": ["core.audit_logs.view"],
         "blocks": [
             {

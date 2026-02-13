@@ -1,3 +1,5 @@
+# core/ui/schema/menu.py
+
 from dataclasses import dataclass
 from typing import Optional
 

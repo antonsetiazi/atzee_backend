@@ -1,7 +1,7 @@
 # core/ui/serializers.py
 
 from rest_framework import serializers
-from .models import UIMenu, UIPage
+from .models import UIMenu, UIPage, TenantNavigationConfig, TenantNavigationItem
 
 
 class UIMenuSerializer(serializers.ModelSerializer):
@@ -43,3 +43,5 @@ class UIPageSerializer(serializers.ModelSerializer):
             "permissions",
             "blocks",
         ]
+
+

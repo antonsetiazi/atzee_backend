@@ -5,8 +5,17 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from core.tenants.services import TenantService
-from .services import UIMenuService, UIPageService
-from .serializers import UIMenuSerializer, UIPageSerializer
+from .services import (
+    UIMenuService, 
+    UIPageService, 
+    NavigationStrategyService,
+)
+
+from .serializers import (
+    UIMenuSerializer, 
+    UIPageSerializer, 
+)
+
 
 class UIMenuView(APIView):
     permission_classes = [IsAuthenticated]
@@ -58,3 +67,36 @@ class UIPageListView(APIView):
 
         serializer = UIPageSerializer(pages, many=True)
         return Response(serializer.data)
+    
+
+class NavigationView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        tenant = TenantService.get_current_tenant(request)
+        nav_type = request.query_params.get("type")
+        app = request.query_params.get("app")
+        device = request.query_params.get("device", "all")
+
+        if not nav_type:
+            return Response(
+                {"detail": "type query param is required"},
+                status=400,
+            )
+
+        strategy = NavigationStrategyService.get_strategy(
+            user=request.user,
+            tenant=tenant,
+            nav_type=nav_type,
+            device=device,
+            app=app,
+            role=getattr(request.user, "role", None),
+        )
+
+        if not strategy:
+            return Response(
+                {"detail": "Navigation not found"},
+                status=404,
+            )
+
+        return Response(strategy)
