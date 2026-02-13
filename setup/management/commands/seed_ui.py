@@ -6,6 +6,9 @@ from shared.ui.bootstrap import seed_ui
 from core.ui.seed_menus import UI_MENUS as CORE_MENUS
 from core.ui.seed_pages import UI_PAGES as CORE_PAGES
 
+from core.dashboard.ui.seed_menus import UI_MENUS as CORE_DASHBOARD_MENUS
+from core.dashboard.ui.seed_pages import UI_PAGES as CORE_DASHBOARD_PAGES
+
 from core.files.ui.seed_menus import UI_MENUS as CORE_FILE_MENUS
 from core.files.ui.seed_pages import UI_PAGES as CORE_FILE_PAGES
 
@@ -104,6 +107,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         modules = [
             (CORE_MENUS, CORE_PAGES),
+            (CORE_DASHBOARD_MENUS, CORE_DASHBOARD_PAGES),
             (CORE_FILE_MENUS, CORE_FILE_PAGES),
             (CORE_MASTER_MENUS, CORE_MASTER_PAGES),
             (CORE_ORG_MENUS, CORE_ORG_PAGES),

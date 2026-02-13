@@ -1,10 +1,29 @@
 # core/ui/schema/page.py
 
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import List, Optional, Union
 
-from .block import FormBlock
+from .block import (
+    FormBlock, 
+    TableBlock, 
+    WorkflowBlock, 
+    FileBlock, 
+    TagBlock, 
+    StatBlock, 
+    ChartBlock, 
+    TextBlock
+)
 
+PageBlock = Union[
+    FormBlock, 
+    TableBlock, 
+    WorkflowBlock, 
+    FileBlock, 
+    TagBlock, 
+    StatBlock, 
+    ChartBlock, 
+    TextBlock
+]
 
 @dataclass(frozen=True)
 class Page:
@@ -14,5 +33,5 @@ class Page:
     title: str
     path: str
     permissions: List[str]
-    blocks: List[FormBlock]
+    blocks: List[PageBlock]
     description: Optional[str] = None

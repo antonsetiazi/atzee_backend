@@ -1,16 +1,15 @@
 # core/ui/schema/block.py
 
 from dataclasses import dataclass, field
-from typing import List, Literal, Dict, Optional
-
+from typing import List, Literal, Dict, Optional, Any
 from .field import Field
 from .action import Action
 from .base import HTTPMethod
 
-
 BlockType = Literal["form", "table", "workflow", "files", "tags"]
 searchModeType = Literal["server", "client"]
 FormMode = Literal["create", "edit", "view"]
+WidgetSize = Literal["sm", "md", "lg"]
 
 @dataclass(frozen=True)
 class FormRedirect:
@@ -21,18 +20,13 @@ class FormRedirect:
 @dataclass(frozen=True)
 class FormBlock:
     type: Literal["form"] = "form"
-
     mode: FormMode = "create"   # 🔥 DEFAULT
-
     submit_to: str = ""
     method: HTTPMethod = "POST"
-
     title: Optional[str] = None
     description: Optional[str] = None
-
     fields: List[Field] = field(default_factory=list)
     actions: List[Action] = field(default_factory=list)
-
     redirect_to: Optional[FormRedirect] = None
 
     
@@ -51,21 +45,14 @@ class TableColumn:
 @dataclass(frozen=True)
 class TableBlock:
     type: Literal["table"] = "table"
-    
     title: Optional[str] = None
     description: Optional[str] = None
-
     data_source: str = ""
-    
     query: Dict[str, object] = field(default_factory=dict)
-
     search_mode: searchModeType = "client"
-    
-    columns: List[TableColumn] = field(default_factory=list)
-    
+    columns: List[TableColumn] = field(default_factory=list)  
     actions: List[Action] = field(default_factory=list)
     top_actions: List[Action] = field(default_factory=list)
-
     detail_as_state: bool = False
     
 
@@ -86,33 +73,75 @@ class WorkflowBlock:
 @dataclass(frozen=True)
 class FileBlock:
     type: Literal["files"] = "files"
-
     title: Optional[str] = "Attachments"
     description: Optional[str] = None
-
     entity_type: str = ""        # "customer"
     entity_id_from: str = "id"   # ambil dari form response / route
-
     multiple: bool = True
     accept: Optional[str] = None   # "image/*,.pdf"
-
     permissions: Optional[List[str]] = None    
 
 
 @dataclass(frozen=True)
 class TagBlock:
     type: Literal["tags"] = "tags"
-
     title: Optional[str] = "Tags"
     description: Optional[str] = None
-
     entity_type: str = ""          # contoh: "customer"
     entity_id_from: str = "id"     # ambil dari response atau route
-
     allow_create: bool = True      # boleh buat tag baru
     allow_attach: bool = True      # boleh attach tag
     allow_detach: bool = True      # boleh detach tag
-
     multiple: bool = True
-
     permissions: Optional[List[str]] = None
+
+
+@dataclass(frozen=True)
+class StatBlock:
+    key: str
+    title: str
+    value: Any
+    type: Literal["stat"] = "stat"
+    size: WidgetSize = "md"
+    suffix: Optional[str] = None
+    meta: Optional[Dict[str, Any]] = None  # currency, format, suffix
+
+
+@dataclass(frozen=True)
+class ChartBlock:
+    key: str
+    title: str
+    value: Any  # ChartValue: labels + datasets
+    type: Literal["chart"] = "chart"
+    size: WidgetSize = "md"
+    meta: Optional[Dict[str, Any]] = None
+
+
+@dataclass(frozen=True)
+class TextBlock:
+    key: str
+    title: str
+    value: str
+    type: Literal["text"] = "text"
+    size: WidgetSize = "md"
+    meta: Optional[Dict[str, Any]] = None
+
+
+@dataclass(frozen=True)
+class ShortcutItem:
+    key: str                   # unique key
+    label: str                  # nama menu
+    icon: Optional[str] = None  # optional icon
+    to: Optional[str] = None    # route / link
+    permission: Optional[str] = None
+    meta: Optional[Dict[str, Any]] = None  # bisa simpan info tambahan
+
+
+@dataclass(frozen=True)
+class ShortcutBlock:
+    type: Literal["shortcut"] = "shortcut"
+    title: Optional[str] = None
+    description: Optional[str] = None
+    items: List[ShortcutItem] = field(default_factory=list)
+    scrollable: bool = True  # kalau panjang bisa scroll horizontal
+    center: bool = True      # rata tengah

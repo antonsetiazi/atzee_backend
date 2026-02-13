@@ -4,17 +4,17 @@ UI_MENUS = [
     # =====================
     # DASHBOARD
     # =====================
-    {
-        "key": "dashboard",
-        "label": "Dashboard",
-        "icon": "layout-dashboard",
-        "parent": None,
-        "app": "core",
-        "resource": "dashboard",
-        "action": "view",
-        "route": "/dashboard",
-        "order": 1,
-    },
+    # {
+    #     "key": "dashboard",
+    #     "label": "Dashboard",
+    #     "icon": "layout-dashboard",
+    #     "parent": None,
+    #     "app": "core",
+    #     "resource": "dashboard",
+    #     "action": "view",
+    #     "route": "/dashboard",
+    #     "order": 1,
+    # },
 
     # =====================
     # USER MANAGEMENT
