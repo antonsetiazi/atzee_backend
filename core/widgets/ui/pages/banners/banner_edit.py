@@ -1,0 +1,37 @@
+from core.widgets.ui.pages._base_widget_form import build_widget_form_page
+from core.ui.schema.field import Field
+
+
+UI_PAGES = build_widget_form_page(
+    key="widgets.banners.edit",
+    domain="core",
+    path="/widgets/banners/:id/edit",
+    title_page="Banner",
+    submit_to="/widgets/{id}/",
+    method="PATCH",
+    permissions=["core.widgets.update"],
+    title="Edit Banner",
+    redirect_page="/widgets/banners",
+    widget_type="banner",
+    extra_fields=[
+        Field(key="id", label="Widget ID", type="hidden"),
+        Field(
+            key="config.image_url",
+            label="Image URL",
+            type="text",
+            required=True,
+        ),
+        Field(
+            key="config.link_url",
+            label="Link URL",
+            type="text",
+            required=False,
+        ),
+        Field(
+            key="config.open_in_new_tab",
+            label="Open In New Tab",
+            type="boolean",
+            default=True,
+        ),
+    ],
+)

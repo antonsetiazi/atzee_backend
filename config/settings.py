@@ -55,6 +55,7 @@ CORE_APPS = [
     "core.notifications.apps.NotificationsConfig",
     "core.entities.apps.EntitiesConfig",
     "core.dashboard.apps.DashboardConfig",
+    "core.widgets.apps.WidgetsConfig",
     "core.master.uom.apps.UOMConfig",
     "core.master.locations.apps.LocationsConfig",
     "core.master.currencies.apps.CurrenciesConfig",

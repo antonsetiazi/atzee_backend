@@ -50,17 +50,17 @@ UI_PAGES = [
                 value=45,
                 size="sm",
             ),
-            # ChartBlock(
-            #     key="purchase_chart",
-            #     title="Purchase This Month",
-            #     value={
-            #         "labels": ["Week 1", "Week 2", "Week 3", "Week 4"],
-            #         "datasets": [
-            #             {"label": "Revenue", "data": [5000, 7000, 6500, 8000]}
-            #         ],
-            #     },
-            #     size="lg",
-            # ),
+            ChartBlock(
+                key="purchase_chart",
+                title="Purchase This Month",
+                value={
+                    "labels": ["Week 1", "Week 2", "Week 3", "Week 4"],
+                    "datasets": [
+                        {"label": "Revenue", "data": [5000, 7000, 6500, 8000]}
+                    ],
+                },
+                size="lg",
+            ),
         ],
     ),
 ]

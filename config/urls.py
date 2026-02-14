@@ -30,6 +30,7 @@ urlpatterns = [
     path("api/permissions/", include("core.permissions.urls")),
     path("api/ui/", include("core.ui.urls")),
     path("api/entities/", include("core.entities.urls")),
+    path("api/", include("core.widgets.urls")),
     path("api/dashboard/", include("core.dashboard.urls")),
     path("api/settings/", include("core.settings.urls")),
     path("api/notifications/", include("core.notifications.urls")),
