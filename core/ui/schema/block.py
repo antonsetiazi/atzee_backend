@@ -10,6 +10,26 @@ BlockType = Literal["form", "table", "workflow", "files", "tags", "map"]
 searchModeType = Literal["server", "client"]
 FormMode = Literal["create", "edit", "view"]
 WidgetSize = Literal["sm", "md", "lg"]
+LayoutDirection = Literal["row", "column"]
+LayoutJustify = Literal["start", "center", "between", "around"]
+LayoutAlign = Literal["start", "center", "stretch"]
+
+
+@dataclass(frozen=True)
+class ContainerBlock:
+    type: Literal["container"] = "container"
+    
+    direction: LayoutDirection = "row"
+    wrap: bool = True
+    gap: int = 16
+    
+    justify: LayoutJustify = "start"
+    align: LayoutAlign = "stretch"
+    
+    columns: Optional[int] = None  # kalau mau grid mode
+    
+    blocks: List[Any] = field(default_factory=list)
+
 
 @dataclass(frozen=True)
 class FormRedirect:
