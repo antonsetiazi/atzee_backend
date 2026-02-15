@@ -1,7 +1,7 @@
 # business/customers/ui/pages/_base_customer_form.py
 
 from core.ui.schema.page import Page
-from core.ui.schema.block import FormBlock, FileBlock, TagBlock
+from core.ui.schema.block import FormBlock, FileBlock, TagBlock, MapBlock
 from core.ui.schema.field import Field
 from core.ui.schema.action import Action
 
@@ -73,6 +73,15 @@ def build_customer_form_page(
                 allow_attach=True,
                 allow_detach=True,
                 multiple=True,
+                permissions=["business.customers.update"],
+            ),
+
+            MapBlock(
+                title="Customer Location",
+                entity_type="customers",     # 🔥 harus sama dengan related_entity
+                entity_id_from="id",
+                mode="select",               # bisa pilih lokasi
+                multiple=False,              # 1 customer = 1 primary location
                 permissions=["business.customers.update"],
             ),
         ],

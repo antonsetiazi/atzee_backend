@@ -63,6 +63,7 @@ CORE_APPS = [
     "core.org.branches.apps.BranchesConfig",
     "core.geo.countries.apps.CountriesConfig",
     "core.geo.regions.apps.RegionsConfig",
+    "core.geo.spatial.apps.SpatialConfig",
     "core.geo.timezones.apps.TimezonesConfig",
     "core.classifications.categories.apps.CategoriesConfig",
     "core.classifications.tags.apps.TagsConfig",

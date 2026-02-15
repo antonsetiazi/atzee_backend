@@ -6,7 +6,7 @@ from .field import Field
 from .action import Action
 from .base import HTTPMethod
 
-BlockType = Literal["form", "table", "workflow", "files", "tags"]
+BlockType = Literal["form", "table", "workflow", "files", "tags", "map"]
 searchModeType = Literal["server", "client"]
 FormMode = Literal["create", "edit", "view"]
 WidgetSize = Literal["sm", "md", "lg"]
@@ -154,3 +154,20 @@ class BannerBlock:
     description: Optional[str] = None
     data_source: str = ""
     size: WidgetSize = "lg"
+
+
+@dataclass(frozen=True)
+class MapBlock:
+    type: Literal["map"] = "map"
+    title: Optional[str] = "Location"
+    description: Optional[str] = None
+
+    entity_type: str = ""         # contoh: "customers"
+    entity_id_from: str = "id"    # ambil dari response / route
+
+    mode: Literal["view", "select"] = "view"
+    multiple: bool = True
+
+    height: int = 400
+
+    permissions: Optional[List[str]] = None
