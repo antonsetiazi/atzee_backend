@@ -87,7 +87,7 @@ class WidgetViewSet(viewsets.ViewSet):
         tenant = TenantService.get_current_tenant(request)
         serializer = WidgetUpdateSerializer(data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
-
+        
         widget = services.update_widget(
             tenant=tenant,
             widget_id=pk,

@@ -1,5 +1,11 @@
 from core.ui.schema.page import Page
-from core.ui.schema.block import StatBlock, ChartBlock, ShortcutBlock, ShortcutItem
+from core.ui.schema.block import (
+    StatBlock, 
+    ChartBlock, 
+    ShortcutBlock, 
+    ShortcutItem, 
+    BannerBlock
+)
 # from core.ui.schema.action import Action
 
 UI_PAGES = [
@@ -11,6 +17,11 @@ UI_PAGES = [
         title="Dashboard",
         permissions="core.dashboard.view",
         blocks=[
+            BannerBlock(
+                title="Announcements",
+                data_source="/entities/core/widgets.banner.dashboard/query/",
+                size="lg",
+            ),
             ShortcutBlock(
                 # title="Quick Actions",
                 items=[

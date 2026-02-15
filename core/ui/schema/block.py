@@ -145,3 +145,12 @@ class ShortcutBlock:
     items: List[ShortcutItem] = field(default_factory=list)
     scrollable: bool = True  # kalau panjang bisa scroll horizontal
     center: bool = True      # rata tengah
+
+
+@dataclass(frozen=True)
+class BannerBlock:
+    type: Literal["banner"] = "banner"
+    title: Optional[str] = None
+    description: Optional[str] = None
+    data_source: str = ""
+    size: WidgetSize = "lg"
