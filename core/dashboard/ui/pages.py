@@ -58,7 +58,7 @@ UI_PAGES = [
                     ),
                 ]
             ),
-             ContainerBlock(
+            ContainerBlock(
                 direction="row",
                 gap=16,
                 blocks=[
