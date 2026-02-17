@@ -71,12 +71,14 @@ NAVIGATION_SEED: List[Dict] = [
         "app": "business",
         "items": [
             {
-                "action_type": "menu",
-                "target": "dashboard.main",
+                "action_type": "page",
+                "target": "dashboard",
+                "icon": "home",
             },
             {
-                "action_type": "menu",
+                "action_type": "page",
                 "target": "customers.list",
+                "icon": "user-check",
             },
             {
                 "action_type": "menu",

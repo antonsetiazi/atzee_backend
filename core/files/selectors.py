@@ -54,3 +54,13 @@ def get_files_by_relation(
         related_entity=related_entity,
         related_id=related_id
     )
+
+
+def get_file_by_id_no_tenant(*, file_id):
+    try:
+        return File.objects.filter(
+            id=file_id,
+            is_deleted=False,
+        ).select_related("tenant").first()
+    except File.DoesNotExist:
+        return None

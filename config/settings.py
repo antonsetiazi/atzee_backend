@@ -49,6 +49,7 @@ CORE_APPS = [
     "core.tenants.apps.TenantsConfig",
     "core.roles.apps.RolesConfig",
     "core.permissions.apps.PermissionsConfig",
+    "core.account.apps.AccountConfig",
     "core.ui.apps.UIConfig",
     "core.settings.apps.SettingsConfig",
     "core.audit_logs.apps.AuditLogsConfig",
@@ -282,3 +283,6 @@ CACHES = {
 #         }
 #     }
 # }
+
+
+BASE_BACKEND_URL = "http://localhost:8000"

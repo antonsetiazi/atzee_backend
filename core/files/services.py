@@ -115,3 +115,40 @@ def delete_file(
         "updated_by",
         "updated_at",
     ])
+
+
+def bind_file_to_entity(*, file: File, entity_type: str, entity_id: str, user):
+    """
+    Central binding logic between files and domain entities.
+    """
+
+    # 🔹 USER AVATAR
+    if entity_type == "user_avatar":
+        if str(user.id) != str(entity_id):
+            return
+
+        user.avatar = file
+        user.save(update_fields=["avatar"])
+
+        if not file.is_public:
+            file.is_public = True
+            file.save(update_fields=["is_public"])
+            
+        return
+
+    # 🔹 PRODUCT IMAGE
+    # if entity_type == "product_image":
+    #     from core.products.models import Product
+
+    #     product = Product.objects.filter(id=entity_id).first()
+    #     if not product:
+    #         return
+
+    #     product.image = file
+    #     product.save(update_fields=["image"])
+    #     return
+
+    # 🔹 FUTURE ENTITY TYPES
+    # add here
+
+    return

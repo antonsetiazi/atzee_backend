@@ -26,8 +26,16 @@ class FileDetailSerializer(serializers.ModelSerializer):
 
     def get_file_url(self, obj: File) -> str:
         request = self.context.get("request")
-        if obj.is_public and request:
-            return request.build_absolute_uri(obj.file.url)
+        if request:
+            if obj.is_public:
+                # Gunakan storage service untuk resolve public URL
+                from core.files.storage import FileStorageService
+                return request.build_absolute_uri(
+                    FileStorageService.get_url(path=obj.file.name)
+                )
+            else:
+                # Private file → pakai endpoint download
+                return request.build_absolute_uri(f"/api/files/{obj.id}/download/")
         return ""
 
 

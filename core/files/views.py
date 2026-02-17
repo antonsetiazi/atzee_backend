@@ -2,9 +2,10 @@
 
 from django.http import FileResponse
 from rest_framework import status, viewsets
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
+from rest_framework.decorators import action
 
 from core.tenants.services import TenantService
 from core.files import selectors, services
@@ -17,6 +18,11 @@ from core.files.serializers import (
 
 class FileViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
+
+    def get_permissions(self):
+        if self.action == "download":
+            return [AllowAny()]
+        return [IsAuthenticated()]
 
     def list(self, request):
         """
@@ -82,6 +88,13 @@ class FileViewSet(viewsets.ViewSet):
             **serializer.validated_data,
         )
 
+        services.bind_file_to_entity(
+            file=obj,
+            entity_type=serializer.validated_data.get("related_entity"),
+            entity_id=serializer.validated_data.get("related_id"),
+            user=request.user,
+        )
+
         return Response(
             FileDetailSerializer(
                 obj,
@@ -103,26 +116,27 @@ class FileViewSet(viewsets.ViewSet):
             status=status.HTTP_204_NO_CONTENT
         )
 
+    @action(detail=True, methods=["get"], url_path="download")
     def download(self, request, pk=None):
         """
-        Protected download endpoint.
+        Download endpoint (public + private aware).
         """
-        tenant = TenantService.get_current_tenant(request)
 
-        obj = selectors.get_file_by_id(
-            tenant=tenant,
-            file_id=pk,
-        )
+        # 🔥 Jangan ambil tenant dari request
+        obj = selectors.get_file_by_id_no_tenant(file_id=pk)
 
         if not obj:
-            return Response(
-                status=status.HTTP_404_NOT_FOUND
-            )
+            return Response(status=404)
+
+        # 🔐 Jika file private → wajib authenticated
+        if not obj.is_public and not request.user.is_authenticated:
+            return Response(status=403)
 
         response = FileResponse(
             obj.file.open("rb"),
-            as_attachment=True,
-            filename=obj.original_name,
+            as_attachment=False,
         )
 
+        response["Content-Type"] = obj.mime_type
         return response
+

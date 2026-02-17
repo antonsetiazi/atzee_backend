@@ -9,6 +9,9 @@ from core.ui.seed_pages import UI_PAGES as CORE_PAGES
 from core.dashboard.ui.seed_menus import UI_MENUS as CORE_DASHBOARD_MENUS
 from core.dashboard.ui.seed_pages import UI_PAGES as CORE_DASHBOARD_PAGES
 
+from core.account.ui.seed_menus import UI_MENUS as CORE_ACCOUNT_MENUS
+from core.account.ui.seed_pages import UI_PAGES as CORE_ACCOUNT_PAGES
+
 from core.widgets.ui.seed_menus import UI_MENUS as CORE_WIDGET_MENUS
 from core.widgets.ui.seed_pages import UI_PAGES as CORE_WIDGET_PAGES
 
@@ -111,6 +114,7 @@ class Command(BaseCommand):
         modules = [
             (CORE_MENUS, CORE_PAGES),
             (CORE_DASHBOARD_MENUS, CORE_DASHBOARD_PAGES),
+            (CORE_ACCOUNT_MENUS, CORE_ACCOUNT_PAGES),
             (CORE_WIDGET_MENUS, CORE_WIDGET_PAGES),
             (CORE_FILE_MENUS, CORE_FILE_PAGES),
             (CORE_MASTER_MENUS, CORE_MASTER_PAGES),

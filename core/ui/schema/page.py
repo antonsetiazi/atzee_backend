@@ -11,7 +11,10 @@ from .block import (
     TagBlock, 
     StatBlock, 
     ChartBlock, 
-    TextBlock
+    # TextBlock,
+    ContainerBlock,
+    ShortcutBlock,
+    BannerBlock,
 )
 
 PageBlock = Union[
@@ -22,7 +25,10 @@ PageBlock = Union[
     TagBlock, 
     StatBlock, 
     ChartBlock, 
-    TextBlock
+    # TextBlock,
+    ContainerBlock,
+    ShortcutBlock,
+    BannerBlock
 ]
 
 @dataclass(frozen=True)

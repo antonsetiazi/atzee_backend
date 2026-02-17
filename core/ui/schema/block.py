@@ -138,7 +138,7 @@ class ChartBlock:
 
 
 @dataclass(frozen=True)
-class TextBlock:
+class TextBlockx:
     key: str
     title: str
     value: str

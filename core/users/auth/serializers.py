@@ -91,3 +91,38 @@ class RegisterSerializer(serializers.Serializer):
         user.tenant_memberships.create(tenant=tenant, is_active=True)
 
         return user
+    
+
+class MeSerializer(serializers.ModelSerializer):
+    username = serializers.EmailField(source="email")
+    tenant_id = serializers.SerializerMethodField()
+    avatar_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = [
+            "id", 
+            "username", 
+            "full_name", 
+            "tenant_id",
+            "avatar_url",
+        ]
+
+    def get_tenant_id(self, obj):
+        membership = obj.tenant_memberships.first()
+        if not membership:
+            return None
+        return str(membership.tenant.id)
+    
+    def get_avatar_url(self, obj):
+        if not obj.avatar:
+            return None
+
+        request = self.context.get("request")
+        print("REQUEST IS:", request)
+        url = obj.avatar.get_download_url()
+
+        if request:
+            return request.build_absolute_uri(url)
+
+        return url

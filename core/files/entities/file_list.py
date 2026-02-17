@@ -2,8 +2,9 @@
 
 from core.entities.contracts import BaseEntity
 from core.files.models import File
+from django.conf import settings
 
-
+base_url = settings.BASE_BACKEND_URL
 class FileListEntity(BaseEntity):
     """
     files.list entity
@@ -44,8 +45,12 @@ class FileListEntity(BaseEntity):
         total = qs.count()
         items = qs[offset:limit]
 
-        data = [
-            {
+        data = []
+        for f in items:
+            # frontend bisa gabungkan BASE_URL + f.url
+            # file_url = f"/api/files/{f.id}/download/"  # selalu sama
+
+            data.append({
                 "id": str(f.id),
                 "name": f.original_name,
                 "mime_type": f.mime_type,
@@ -53,9 +58,8 @@ class FileListEntity(BaseEntity):
                 "is_public": f.is_public,
                 "created_at": f.created_at,
                 "owner": f.owner.username if f.owner else None,
-            }
-            for f in items
-        ]
+                "url": f"{base_url}/api/files/{f.id}/download/"
+            })
 
         return {
             "items": data,
