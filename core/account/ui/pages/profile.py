@@ -60,6 +60,7 @@ UI_PAGES = Page(
                     actions=[
                         Action(type="submit", label="Save Changes"),
                     ],
+                    affects="session_user"
                 ),
 
                 # 🔹 Avatar Upload
@@ -70,6 +71,7 @@ UI_PAGES = Page(
                     multiple=False,
                     accept="image/*",
                     permissions=["core.account.profile.update"],
+                    affects="session_user"
                 ),
             ],
         ),

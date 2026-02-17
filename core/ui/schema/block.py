@@ -13,7 +13,7 @@ WidgetSize = Literal["sm", "md", "lg"]
 LayoutDirection = Literal["row", "column"]
 LayoutJustify = Literal["start", "center", "between", "around"]
 LayoutAlign = Literal["start", "center", "stretch"]
-
+Affects = Literal["session_user", "session_settings", "permissions", "config"]
 
 @dataclass(frozen=True)
 class ContainerBlock:
@@ -48,6 +48,7 @@ class FormBlock:
     fields: List[Field] = field(default_factory=list)
     actions: List[Action] = field(default_factory=list)
     redirect_to: Optional[FormRedirect] = None
+    affects: Optional[Affects] = None
 
     
 @dataclass(frozen=True)
@@ -100,7 +101,7 @@ class FileBlock:
     multiple: bool = True
     accept: Optional[str] = None   # "image/*,.pdf"
     permissions: Optional[List[str]] = None    
-
+    affects: Optional[Affects] = None
 
 @dataclass(frozen=True)
 class TagBlock:

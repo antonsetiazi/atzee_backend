@@ -36,6 +36,9 @@ urlpatterns = [
     path("api/notifications/", include("core.notifications.urls")),
     path("lookups/", include("core.lookups.urls")),
 
+    # --- Core Account ---
+    path("api/account/", include("core.account.urls")),
+
     # --- Core Files ---
     path("api/", include("core.files.urls")),
 

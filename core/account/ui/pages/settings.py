@@ -4,7 +4,6 @@ from core.ui.schema.page import Page
 from core.ui.schema.block import (
     ContainerBlock,
     FormBlock,
-    # TextBlock,
 )
 from core.ui.schema.field import Field
 from core.ui.schema.action import Action
@@ -12,22 +11,13 @@ from core.ui.schema.action import Action
 
 UI_PAGES = Page(
     key="core.account.settings",
-    entity="account",
+    entity="account.settings",
     domain="core",
     path="/account/settings",
     title="Account Settings",
     description="Manage your application preferences and behavior.",
     permissions=["core.account.settings.view"],
     blocks=[
-
-        # 🔹 Info Block
-        # TextBlock(
-        #     key="settings_info",
-        #     title="Application Preferences",
-        #     value="Configure how the platform behaves for your account.",
-        #     size="md",
-        # ),
-
         ContainerBlock(
             direction="column",
             gap=24,
@@ -55,7 +45,7 @@ UI_PAGES = Page(
                             key="timezone",
                             label="Timezone",
                             type="select",
-                            data_source="/entities/core/timezones/query/",
+                            data_source="/entities/core/timezones.select.list/query/",
                             required=True,
                         ),
                         Field(
