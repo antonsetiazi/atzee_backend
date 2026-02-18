@@ -79,6 +79,7 @@ CORE_APPS = [
 ]
 
 BUSINESS_APPS = [
+    "business.users.apps.UsersConfig",
     "business.customers.apps.CustomersConfig",
     "business.products.apps.ProductsConfig",
     "business.inventory.apps.InventoryConfig",

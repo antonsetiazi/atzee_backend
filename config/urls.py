@@ -71,6 +71,7 @@ urlpatterns = [
     path("api/schedule/", include("core.schedule.recurrings.urls")),
 
     # --- Business ---
+    path("api/business/", include("business.users.urls")),
     path("api/business/", include("business.customers.urls")),
     path("api/business/", include("business.products.urls")),
     path("api/business/", include("business.inventory.urls")),
