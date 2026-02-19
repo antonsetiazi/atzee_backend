@@ -1,5 +1,6 @@
 # core/master/uom/ui/pages/uom_edit.py
 
+from core.ui.registry import register_ui_module_pages
 from core.ui.schema.field import Field
 from core.master.uom.ui.pages._base_uom_form import (
     build_uom_form_page,
@@ -18,3 +19,5 @@ UI_PAGES = build_uom_form_page(
         Field(key="id", label="UOM ID", type="hidden"),
     ],
 )
+
+register_ui_module_pages("core", UI_PAGES)

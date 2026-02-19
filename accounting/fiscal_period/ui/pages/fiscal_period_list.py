@@ -1,5 +1,6 @@
 # accounting/fiscal_period/ui/pages/fiscal_period_list.py
 
+from core.ui.registry import register_ui_module_pages
 from accounting.fiscal_period.ui.pages._base_fiscal_period_list import (
     build_fiscal_period_list_page,
 )
@@ -15,3 +16,5 @@ UI_PAGES = build_fiscal_period_list_page(
     close_endpoint="/api/fiscal-periods/{id}/close/",
     search_mode="client",
 )
+
+register_ui_module_pages("accounting", UI_PAGES)

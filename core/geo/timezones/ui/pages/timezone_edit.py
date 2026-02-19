@@ -1,5 +1,6 @@
 # core/geo/timezones/ui/pages/timezone_edit.py
 
+from core.ui.registry import register_ui_module_pages
 from core.ui.schema.field import Field
 from core.geo.timezones.ui.pages._base_timezone_form import (
     build_timezone_form_page,
@@ -18,3 +19,5 @@ UI_PAGES = build_timezone_form_page(
         Field(key="id", label="Timezone ID", type="hidden"),
     ],
 )
+
+register_ui_module_pages("core", UI_PAGES)

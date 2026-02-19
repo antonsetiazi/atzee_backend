@@ -5,3 +5,6 @@ class PayrollConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "hr.payroll"
     label = "hr_payroll"
+
+    def ready(self):
+        from .ui import bootstrap

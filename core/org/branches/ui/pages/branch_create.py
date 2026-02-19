@@ -1,5 +1,6 @@
 # core/org/branches/ui/pages/branch_create.py
 
+from core.ui.registry import register_ui_module_pages
 from core.org.branches.ui.pages._base_branch_form import (
     build_branch_form_page,
 )
@@ -14,3 +15,5 @@ UI_PAGES = build_branch_form_page(
     title="Create Branch",
     redirect_page="/settings/org/branches",
 )
+
+register_ui_module_pages("core", UI_PAGES)

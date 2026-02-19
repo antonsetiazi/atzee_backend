@@ -5,3 +5,6 @@ class AttendanceConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "hr.attendance"
     label = "hr_attendance"
+
+    def ready(self):
+        from .ui import bootstrap

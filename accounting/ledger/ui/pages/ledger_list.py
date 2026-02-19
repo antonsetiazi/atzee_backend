@@ -1,3 +1,5 @@
+
+from core.ui.registry import register_ui_module_pages
 from accounting.ledger.ui.pages._base_ledger_list import (
     build_ledger_list_page,
 )
@@ -9,3 +11,5 @@ UI_PAGES = build_ledger_list_page(
     data_source="/entities/accounting/ledger.list/query/",
     permissions=["accounting.ledger.view"],
 )
+
+register_ui_module_pages("accounting", UI_PAGES) 

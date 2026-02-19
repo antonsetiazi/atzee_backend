@@ -9,6 +9,7 @@ class UOMConfig(AppConfig):
     label = "core_master_uom"
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.uom_list import UOMListEntity
         from .entities.uom_category_list import UOMCategoryListEntity

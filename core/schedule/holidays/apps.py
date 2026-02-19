@@ -9,6 +9,7 @@ class HolidaysConfig(AppConfig):
     label = "core_schedule_holidays"
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.holiday_list import HolidayListEntity
         from .entities.holiday_select_list import HolidaySelectListEntity

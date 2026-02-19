@@ -1,5 +1,6 @@
 # business/sales/pages/sales_direct_edit.py
 
+from core.ui.registry import register_ui_module_pages
 from core.ui.schema.page import Page
 from core.ui.schema.block import FormBlock
 from core.ui.schema.field import Field
@@ -59,3 +60,5 @@ UI_PAGES = Page(
         )
     ],
 )
+
+register_ui_module_pages("business", UI_PAGES)

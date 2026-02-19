@@ -1,5 +1,6 @@
 # core/schedule/holidays/ui/pages/holiday_edit.py
 
+from core.ui.registry import register_ui_module_pages
 from core.ui.schema.field import Field
 from ._base_holiday_form import build_holiday_form_page
 
@@ -16,3 +17,5 @@ UI_PAGES = build_holiday_form_page(
         Field(key="id", label="Holiday ID", type="hidden"),
     ],
 )
+
+register_ui_module_pages("core", UI_PAGES)

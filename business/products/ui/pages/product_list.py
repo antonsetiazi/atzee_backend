@@ -4,6 +4,7 @@ from business.products.ui.pages._base_product_list import (
     build_product_list_page,
 )
 
+from core.ui.registry import register_ui_module_pages
 UI_PAGES = build_product_list_page(
     key="products.list",
     domain="business",
@@ -15,3 +16,5 @@ UI_PAGES = build_product_list_page(
     delete_endpoint="/business/products/{id}/",
     search_mode="client"
 )
+
+register_ui_module_pages("business", UI_PAGES)

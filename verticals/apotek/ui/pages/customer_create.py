@@ -1,7 +1,7 @@
 # verticals/apotek/ui/pages/customer_create.py
 
+from core.ui.registry import register_ui_module_pages
 from core.ui.schema.field import Field
-
 from business.customers.ui.pages._base_customer_form import (
     build_customer_form_page,
 )
@@ -33,3 +33,5 @@ UI_PAGES = build_customer_form_page(
         ),
     ],
 )
+
+register_ui_module_pages("apotek", UI_PAGES)

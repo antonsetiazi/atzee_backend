@@ -9,6 +9,7 @@ class AttributesConfig(AppConfig):
     label = "core_classifications_attributes"
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.attribute_list import AttributeListEntity
         from .entities.attribute_select_list import AttributeSelectListEntity

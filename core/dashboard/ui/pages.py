@@ -1,5 +1,6 @@
 # core/dashboard/ui/pages.py
 
+from core.ui.registry import register_ui_module_pages
 from core.ui.schema.page import Page
 from core.ui.schema.block import (
     ContainerBlock,
@@ -89,3 +90,5 @@ UI_PAGES = [
         ],
     ),
 ]
+
+register_ui_module_pages("core", UI_PAGES)

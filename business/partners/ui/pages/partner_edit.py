@@ -1,5 +1,6 @@
 # business/partners/ui/pages/partner_edit.py
 
+from core.ui.registry import register_ui_module_pages
 from core.ui.schema.field import Field
 from business.partners.ui.pages._base_partner_form import (
     build_partner_form_page,
@@ -22,3 +23,5 @@ UI_PAGES = build_partner_form_page(
         ),
     ],
 )
+
+register_ui_module_pages("business", UI_PAGES)

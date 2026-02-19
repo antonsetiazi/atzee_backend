@@ -1,5 +1,6 @@
 # core/schedule/recurrings/ui/pages/recurring_list.py
 
+from core.ui.registry import register_ui_module_pages
 from ._base_recurring_list import build_recurring_list_page
 
 UI_PAGES = build_recurring_list_page(
@@ -13,3 +14,5 @@ UI_PAGES = build_recurring_list_page(
     delete_endpoint="/schedule/recurrings/{id}/",
     search_mode="client",
 )
+
+register_ui_module_pages("core", UI_PAGES)

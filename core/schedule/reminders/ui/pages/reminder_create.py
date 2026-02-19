@@ -1,5 +1,6 @@
 # core/schedule/reminders/ui/pages/reminder_create.py
 
+from core.ui.registry import register_ui_module_pages
 from ._base_reminder_form import build_reminder_form_page
 
 UI_PAGES = build_reminder_form_page(
@@ -12,3 +13,5 @@ UI_PAGES = build_reminder_form_page(
     title="Create Reminder",
     redirect_page="/core/reminders",
 )
+
+register_ui_module_pages("core", UI_PAGES)

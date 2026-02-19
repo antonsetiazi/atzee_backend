@@ -9,6 +9,7 @@ class EventsConfig(AppConfig):
     label = "core_schedule_events"
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.event_list import EventListEntity
         from .entities.event_select_list import EventSelectListEntity

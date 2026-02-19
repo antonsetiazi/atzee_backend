@@ -1,5 +1,6 @@
 # accounting/fiscal_period/ui/pages/fiscal_period_create.py
 
+from core.ui.registry import register_ui_module_pages
 from accounting.fiscal_period.ui.pages._base_fiscal_period_form import (
     build_fiscal_period_form_page,
 )
@@ -14,3 +15,5 @@ UI_PAGES = build_fiscal_period_form_page(
     title="Create Fiscal Period",
     redirect_page="/accounting/fiscal-periods",
 )
+
+register_ui_module_pages("accounting", UI_PAGES)

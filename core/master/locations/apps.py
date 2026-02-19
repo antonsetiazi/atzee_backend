@@ -9,6 +9,7 @@ class LocationsConfig(AppConfig):
     label = "core_master_locations"
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.location_list import LocationListEntity
         from .entities.location_select_list import LocationSelectListEntity

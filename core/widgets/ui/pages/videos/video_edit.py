@@ -1,3 +1,5 @@
+
+from core.ui.registry import register_ui_module_pages
 from core.widgets.ui.pages._base_widget_form import build_widget_form_page
 from core.ui.schema.field import Field
 
@@ -29,3 +31,5 @@ UI_PAGES = build_widget_form_page(
         ),
     ],
 )
+
+register_ui_module_pages("core", UI_PAGES)

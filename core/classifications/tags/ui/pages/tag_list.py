@@ -1,5 +1,6 @@
 # core/classifications/tags/ui/pages/tag_list.py
 
+from core.ui.registry import register_ui_module_pages
 from core.classifications.tags.ui.pages._base_tag_list import build_tag_list_page
 
 UI_PAGES = build_tag_list_page(
@@ -13,3 +14,5 @@ UI_PAGES = build_tag_list_page(
     delete_endpoint="/tags/{id}/",
     search_mode="client",
 )
+
+register_ui_module_pages("core", UI_PAGES)

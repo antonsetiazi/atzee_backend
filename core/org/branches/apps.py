@@ -10,6 +10,7 @@ class BranchesConfig(AppConfig):
 
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.branch_list import BranchListEntity
         from .entities.branch_select_list import BranchSelectListEntity

@@ -1,5 +1,6 @@
 # core/classifications/attributes/ui/pages/attributes/attribute_edit.py
 
+from core.ui.registry import register_ui_module_pages
 from core.ui.schema.field import Field
 from ._base_attribute_form import (
     build_attribute_form_page,
@@ -23,3 +24,5 @@ UI_PAGES = build_attribute_form_page(
         build_attribute_option_block(parent_id="{parent_id}"),
     ],
 )
+
+register_ui_module_pages("core", UI_PAGES)

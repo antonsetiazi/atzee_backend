@@ -1,5 +1,6 @@
 # core/classifications/tags/ui/pages/tag_create.py
 
+from core.ui.registry import register_ui_module_pages
 from core.classifications.tags.ui.pages._base_tag_form import build_tag_form_page
 
 UI_PAGES = build_tag_form_page(
@@ -12,3 +13,5 @@ UI_PAGES = build_tag_form_page(
     title="Create Tag",
     redirect_page="/settings/classifications/tags",
 )
+
+register_ui_module_pages("core", UI_PAGES)

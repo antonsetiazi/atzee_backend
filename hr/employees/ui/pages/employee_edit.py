@@ -1,5 +1,6 @@
 # hr/employees/ui/pages/employee_edit.py
 
+from core.ui.registry import register_ui_module_pages
 from core.ui.schema.field import Field
 from hr.employees.ui.pages._base_employee_form import (
     build_employee_form_page,
@@ -22,3 +23,5 @@ UI_PAGES = build_employee_form_page(
         ),
     ],
 )
+
+register_ui_module_pages("hr", UI_PAGES)

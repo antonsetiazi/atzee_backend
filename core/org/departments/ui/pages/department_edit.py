@@ -1,5 +1,6 @@
 # core/org/departments/ui/pages/department_edit.py
 
+from core.ui.registry import register_ui_module_pages
 from core.ui.schema.field import Field
 from core.org.departments.ui.pages._base_department_form import (
     build_department_form_page,
@@ -18,3 +19,5 @@ UI_PAGES = build_department_form_page(
         Field(key="id", label="Department ID", type="hidden"),
     ],
 )
+
+register_ui_module_pages("core", UI_PAGES)

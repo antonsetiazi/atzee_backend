@@ -1,5 +1,6 @@
 # core/schedule/holidays/ui/pages/holiday_list.py
 
+from core.ui.registry import register_ui_module_pages
 from ._base_holiday_list import build_holiday_list_page
 
 UI_PAGES = build_holiday_list_page(
@@ -13,3 +14,5 @@ UI_PAGES = build_holiday_list_page(
     delete_endpoint="/schedule/holidays/{id}/",
     search_mode="client",
 )
+
+register_ui_module_pages("core", UI_PAGES)

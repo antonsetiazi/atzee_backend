@@ -1,5 +1,6 @@
 # accounting/chart_of_accounts/ui/pages/chart_of_account_edit.py
 
+from core.ui.registry import register_ui_module_pages
 from core.ui.schema.field import Field
 from accounting.chart_of_accounts.ui.pages._base_chart_of_account_form import (
     build_chart_of_account_form_page,
@@ -22,3 +23,5 @@ UI_PAGES = build_chart_of_account_form_page(
         ),
     ],
 )
+
+register_ui_module_pages("accounting", UI_PAGES)

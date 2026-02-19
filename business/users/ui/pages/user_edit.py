@@ -1,5 +1,6 @@
 # business/users/ui/pages/user_edit.py
 
+from core.ui.registry import register_ui_module_pages
 from core.ui.schema.field import Field
 from business.users.ui.pages._base_user_form import (
     build_user_form_page,
@@ -22,3 +23,5 @@ UI_PAGES = build_user_form_page(
         ),
     ],
 )
+
+register_ui_module_pages("business", UI_PAGES)

@@ -7,6 +7,7 @@ class EmployeesConfig(AppConfig):
     label = "hr_employees"
 
     def ready(self):    
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.employee_list import EmployeeListEntity
         from .entities.employee_create import EmployeesCreateEntity

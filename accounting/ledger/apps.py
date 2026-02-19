@@ -10,6 +10,7 @@ class LedgerConfig(AppConfig):
 
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from accounting.ledger.entities.ledger_list import LedgerListEntity
 

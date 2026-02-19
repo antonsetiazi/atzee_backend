@@ -9,6 +9,7 @@ class RemindersConfig(AppConfig):
     label = "core_schedule_reminders"
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.reminder_list import ReminderListEntity
         from .entities.reminder_select_list import ReminderSelectListEntity

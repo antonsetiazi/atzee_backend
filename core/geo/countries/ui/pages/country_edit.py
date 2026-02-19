@@ -1,5 +1,6 @@
 # core/geo/countries/ui/pages/country_edit.py
 
+from core.ui.registry import register_ui_module_pages
 from core.ui.schema.field import Field
 from core.geo.countries.ui.pages._base_country_form import (
     build_country_form_page,
@@ -18,3 +19,5 @@ UI_PAGES = build_country_form_page(
         Field(key="id", label="Country ID", type="hidden"),
     ],
 )
+
+register_ui_module_pages("core", UI_PAGES)

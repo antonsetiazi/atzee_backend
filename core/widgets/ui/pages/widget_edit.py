@@ -1,5 +1,6 @@
 # core/widgets/ui/pages/widget_edit.py
 
+from core.ui.registry import register_ui_module_pages
 from core.ui.schema.field import Field
 from core.widgets.ui.pages._base_widget_form import (
     build_widget_form_page,
@@ -20,3 +21,5 @@ UI_PAGES = build_widget_form_page(
         Field(key="id", label="Widget ID", type="hidden"),
     ],
 )
+
+register_ui_module_pages("core", UI_PAGES)

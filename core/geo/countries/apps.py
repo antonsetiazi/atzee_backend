@@ -9,6 +9,7 @@ class CountriesConfig(AppConfig):
     label = "core_geo_countries"
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.country_list import CountryListEntity
         from .entities.country_select_list import CountrySelectListEntity

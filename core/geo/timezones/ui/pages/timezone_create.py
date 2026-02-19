@@ -1,5 +1,6 @@
 # core/geo/timezones/ui/pages/timezone_create.py
 
+from core.ui.registry import register_ui_module_pages
 from core.geo.timezones.ui.pages._base_timezone_form import (
     build_timezone_form_page,
 )
@@ -14,3 +15,5 @@ UI_PAGES = build_timezone_form_page(
     title="Create Timezone",
     redirect_page="/settings/geo/timezones",
 )
+
+register_ui_module_pages("core", UI_PAGES)

@@ -9,6 +9,7 @@ class FilesConfig(AppConfig):
     label = "core_files"
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from core.files.entities.file_list import FileListEntity
         from core.files.entities.file_select_list import FileSelectListEntity

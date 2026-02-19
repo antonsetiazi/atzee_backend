@@ -1,5 +1,6 @@
 # core/schedule/shifts/ui/pages/shift_edit.py
 
+from core.ui.registry import register_ui_module_pages
 from core.ui.schema.field import Field
 from ._base_shift_form import build_shift_form_page
 
@@ -16,3 +17,5 @@ UI_PAGES = build_shift_form_page(
         Field(key="id", label="Shift ID", type="hidden"),
     ],
 )
+
+register_ui_module_pages("core", UI_PAGES)

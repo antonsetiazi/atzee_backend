@@ -10,6 +10,7 @@ class PartnersConfig(AppConfig):
 
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.partner_list import PartnerListEntity
         from .entities.partner_create import PartnerCreateEntity

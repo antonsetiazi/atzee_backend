@@ -1,5 +1,6 @@
 # business/customers/ui/pages/customer_list.py
 
+from core.ui.registry import register_ui_module_pages
 from business.customers.ui.pages._base_customer_list import (
     build_customer_list_page,
 )
@@ -15,3 +16,5 @@ UI_PAGES = build_customer_list_page(
     delete_endpoint="/business/customers/{id}/",
     search_mode="client"
 )
+
+register_ui_module_pages("apotek", UI_PAGES)

@@ -1,5 +1,6 @@
 # core/schedule/reminders/ui/pages/reminder_list.py
 
+from core.ui.registry import register_ui_module_pages
 from ._base_reminder_list import build_reminder_list_page
 
 UI_PAGES = build_reminder_list_page(
@@ -13,3 +14,5 @@ UI_PAGES = build_reminder_list_page(
     delete_endpoint="/schedule/reminders/{id}/",
     search_mode="client",
 )
+
+register_ui_module_pages("core", UI_PAGES)

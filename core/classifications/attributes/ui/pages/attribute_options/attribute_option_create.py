@@ -1,5 +1,6 @@
 # core/classifications/attributes/ui/pages/attribute_options/attribute_option_create.py
 
+from core.ui.registry import register_ui_module_pages
 from ._base_attribute_option_form import build_attribute_option_form_page
 
 UI_PAGES = build_attribute_option_form_page(
@@ -13,3 +14,5 @@ UI_PAGES = build_attribute_option_form_page(
     redirect_page="/settings/classifications/attributes/:parent_id/edit",
     attribute_id="{parent_id}",
 )
+
+register_ui_module_pages("core", UI_PAGES)

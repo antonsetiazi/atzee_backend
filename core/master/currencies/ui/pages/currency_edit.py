@@ -1,5 +1,6 @@
 # core/master/currencies/ui/pages/currency_edit.py
 
+from core.ui.registry import register_ui_module_pages
 from core.ui.schema.field import Field
 from core.master.currencies.ui.pages._base_currency_form import (
     build_currency_form_page,
@@ -18,3 +19,5 @@ UI_PAGES = build_currency_form_page(
         Field(key="id", label="Currency ID", type="hidden"),
     ],
 )
+
+register_ui_module_pages("core", UI_PAGES)

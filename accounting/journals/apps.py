@@ -8,6 +8,7 @@ class JournalsConfig(AppConfig):
 
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from accounting.journals.entities.journal_list import JournalListEntity
 

@@ -1,5 +1,6 @@
 # core/master/locations/ui/pages/location_list.py
 
+from core.ui.registry import register_ui_module_pages
 from core.master.locations.ui.pages._base_location_list import (
     build_location_list_page,
 )
@@ -15,3 +16,5 @@ UI_PAGES = build_location_list_page(
     delete_endpoint="/locations/{id}/",
     search_mode="client",
 )
+
+register_ui_module_pages("core", UI_PAGES)

@@ -9,6 +9,7 @@ class ChartOfAccountsConfig(AppConfig):
     label = "accounting_chart_of_accounts"
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.chart_of_account_list import ChartOfAccountListEntity
         from .entities.chart_of_account_create import ChartOfAccountCreateEntity

@@ -1,5 +1,6 @@
 # core/files/ui/pages/file_list.py
 
+from core.ui.registry import register_ui_module_pages
 from core.files.ui.pages._base_file_list import build_file_list_page
 
 UI_PAGES = build_file_list_page(
@@ -11,3 +12,5 @@ UI_PAGES = build_file_list_page(
     upload_path="/core/files/upload",
     delete_endpoint="/files/{id}/",
 )
+
+register_ui_module_pages("core", UI_PAGES)

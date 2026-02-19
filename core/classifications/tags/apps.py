@@ -9,6 +9,7 @@ class TagsConfig(AppConfig):
     label = "core_classifications_tags"
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.tag_list import TagListEntity
         from .entities.tag_select_list import TagSelectListEntity

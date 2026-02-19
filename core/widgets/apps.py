@@ -9,6 +9,7 @@ class WidgetsConfig(AppConfig):
     label = "core_widgets"
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.widget_list import WidgetListEntity
         from .entities.widget_select_list import WidgetSelectListEntity

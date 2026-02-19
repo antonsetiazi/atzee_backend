@@ -1,5 +1,6 @@
 # hr/employees/ui/pages/employee_list.py
 
+from core.ui.registry import register_ui_module_pages
 from hr.employees.ui.pages._base_employee_list import (
     build_employee_list_page,
 )
@@ -15,3 +16,5 @@ UI_PAGES = build_employee_list_page(
     delete_endpoint="/hr/employees/{id}/",
     search_mode="client"
 )
+
+register_ui_module_pages("hr", UI_PAGES)

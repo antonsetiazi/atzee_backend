@@ -9,6 +9,7 @@ class LabelsConfig(AppConfig):
     label = "core_classifications_labels"
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.label_list import LabelListEntity
         from .entities.label_select_list import LabelSelectListEntity

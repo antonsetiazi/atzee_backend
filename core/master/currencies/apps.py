@@ -9,6 +9,7 @@ class CurrenciesConfig(AppConfig):
     label = "core_master_currencies"
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.currency_list import CurrencyListEntity
         from .entities.currency_select_list import CurrencySelectListEntity

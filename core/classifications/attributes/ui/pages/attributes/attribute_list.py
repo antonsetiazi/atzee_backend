@@ -1,5 +1,6 @@
 # core/classifications/attributes/ui/pages/attributes/attribute_list.py
 
+from core.ui.registry import register_ui_module_pages
 from ._base_attribute_list import (
     build_attribute_list_page,
 )
@@ -15,3 +16,5 @@ UI_PAGES = build_attribute_list_page(
     delete_endpoint="/attributes/{id}/",
     search_mode="client",
 )
+
+register_ui_module_pages("core", UI_PAGES)

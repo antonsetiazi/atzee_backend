@@ -9,6 +9,7 @@ class AccountConfig(AppConfig):
     label = "core_account"
 
     def ready(self):
+        from .ui import bootstrap
         import core.account.signals
         from core.entities.registry import register_entity
         from core.account.entities.profile import AccountProfileEntity

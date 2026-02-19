@@ -1,5 +1,6 @@
 # core/geo/regions/ui/pages/region_list.py
 
+from core.ui.registry import register_ui_module_pages
 from core.geo.regions.ui.pages._base_region_list import (
     build_region_list_page,
 )
@@ -14,3 +15,5 @@ UI_PAGES = build_region_list_page(
     edit_path="/settings/geo/regions/{id}/edit",
     delete_endpoint="/regions/{id}/",
 )
+
+register_ui_module_pages("core", UI_PAGES)

@@ -1,5 +1,6 @@
 # core/org/departments/ui/pages/department_list.py
 
+from core.ui.registry import register_ui_module_pages
 from core.org.departments.ui.pages._base_department_list import (
     build_department_list_page,
 )
@@ -15,3 +16,5 @@ UI_PAGES = build_department_list_page(
     delete_endpoint="/departments/{id}/",
     search_mode="client",
 )
+
+register_ui_module_pages("core", UI_PAGES)

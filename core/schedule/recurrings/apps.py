@@ -9,6 +9,7 @@ class RecurringsConfig(AppConfig):
     label = "core_schedule_recurrings"
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.recurring_list import RecurringListEntity
         from .entities.recurring_select_list import RecurringSelectListEntity

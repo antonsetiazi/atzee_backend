@@ -9,6 +9,7 @@ class DepartmentsConfig(AppConfig):
     label = "core_org_departments"
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.department_list import DepartmentListEntity
         from .entities.department_select_list import DepartmentSelectListEntity

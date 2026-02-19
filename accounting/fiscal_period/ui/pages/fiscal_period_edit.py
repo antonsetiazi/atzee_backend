@@ -1,5 +1,6 @@
 # accounting/fiscal_period/ui/pages/fiscal_period_edit.py
 
+from core.ui.registry import register_ui_module_pages
 from core.ui.schema.field import Field
 from accounting.fiscal_period.ui.pages._base_fiscal_period_form import (
     build_fiscal_period_form_page,
@@ -22,3 +23,5 @@ UI_PAGES = build_fiscal_period_form_page(
         ),
     ],
 )
+
+register_ui_module_pages("accounting", UI_PAGES)

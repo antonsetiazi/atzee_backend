@@ -1,5 +1,6 @@
 # core/geo/countries/ui/pages/country_list.py
 
+from core.ui.registry import register_ui_module_pages
 from core.geo.countries.ui.pages._base_country_list import (
     build_country_list_page,
 )
@@ -14,3 +15,5 @@ UI_PAGES = build_country_list_page(
     edit_path="/settings/geo/countries/{id}/edit",
     delete_endpoint="/countries/{id}/",
 )
+
+register_ui_module_pages("core", UI_PAGES)

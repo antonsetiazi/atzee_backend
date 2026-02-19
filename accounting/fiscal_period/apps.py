@@ -8,6 +8,7 @@ class FiscalPeriodConfig(AppConfig):
 
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from accounting.fiscal_period.entities.fiscal_period_list import FiscalPeriodListEntity
 

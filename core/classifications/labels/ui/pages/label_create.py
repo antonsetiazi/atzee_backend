@@ -1,5 +1,6 @@
 # core/classifications/labels/ui/pages/label_create.py
 
+from core.ui.registry import register_ui_module_pages
 from core.classifications.labels.ui.pages._base_label_form import build_label_form_page
 
 UI_PAGES = build_label_form_page(
@@ -12,3 +13,5 @@ UI_PAGES = build_label_form_page(
     title="Create Label",
     redirect_page="/settings/classifications/labels",
 )
+
+register_ui_module_pages("core", UI_PAGES)

@@ -5,3 +5,6 @@ class InventoryConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "business.inventory"
     label = "business_inventory"
+
+    def ready(self):
+        from .ui import bootstrap

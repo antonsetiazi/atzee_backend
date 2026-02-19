@@ -6,3 +6,6 @@ class ApotekConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "verticals.apotek"
     verbose_name = "Vertical Apotek"
+
+    def ready(self):
+        from .ui import bootstrap

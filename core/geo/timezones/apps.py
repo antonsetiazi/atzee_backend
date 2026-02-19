@@ -9,6 +9,7 @@ class TimezonesConfig(AppConfig):
     label = "core_geo_timezones"
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.timezone_list import TimezoneListEntity
         from .entities.timezone_select_list import TimezoneSelectListEntity

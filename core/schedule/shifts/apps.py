@@ -9,6 +9,7 @@ class ShiftsConfig(AppConfig):
     label = "core_schedule_shifts"
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.shift_list import ShiftListEntity
         from .entities.shift_select_list import ShiftSelectListEntity

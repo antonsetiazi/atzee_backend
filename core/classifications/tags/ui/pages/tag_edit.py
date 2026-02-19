@@ -1,5 +1,6 @@
 # core/classifications/tags/ui/pages/tag_edit.py
 
+from core.ui.registry import register_ui_module_pages
 from core.ui.schema.field import Field
 from core.classifications.tags.ui.pages._base_tag_form import build_tag_form_page
 
@@ -20,3 +21,5 @@ UI_PAGES = build_tag_form_page(
         )
     ],
 )
+
+register_ui_module_pages("core", UI_PAGES)

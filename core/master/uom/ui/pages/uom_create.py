@@ -1,5 +1,6 @@
 # core/master/uom/ui/pages/uom_create.py
 
+from core.ui.registry import register_ui_module_pages
 from core.master.uom.ui.pages._base_uom_form import (
     build_uom_form_page,
 )
@@ -14,3 +15,5 @@ UI_PAGES = build_uom_form_page(
     title="Create Unit of Measure",
     redirect_page="/settings/master/uom",
 )
+
+register_ui_module_pages("core", UI_PAGES)

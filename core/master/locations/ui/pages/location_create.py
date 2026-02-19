@@ -1,5 +1,6 @@
 # core/master/locations/ui/pages/location_create.py
 
+from core.ui.registry import register_ui_module_pages
 from core.master.locations.ui.pages._base_location_form import (
     build_location_form_page,
 )
@@ -14,3 +15,5 @@ UI_PAGES = build_location_form_page(
     title="Create Location",
     redirect_page="/settings/master/location",
 )
+
+register_ui_module_pages("core", UI_PAGES)

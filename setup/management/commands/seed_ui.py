@@ -3,54 +3,14 @@
 from django.core.management.base import BaseCommand
 from shared.ui.bootstrap import seed_ui
 
-from core.ui.seed_menus import UI_MENUS as CORE_MENUS
-from core.ui.seed_pages import UI_PAGES as CORE_PAGES
-
-from core.dashboard.ui.seed_menus import UI_MENUS as CORE_DASHBOARD_MENUS
-from core.dashboard.ui.seed_pages import UI_PAGES as CORE_DASHBOARD_PAGES
-
-from core.account.ui.seed_menus import UI_MENUS as CORE_ACCOUNT_MENUS
-from core.account.ui.seed_pages import UI_PAGES as CORE_ACCOUNT_PAGES
-
-from core.widgets.ui.seed_menus import UI_MENUS as CORE_WIDGET_MENUS
-from core.widgets.ui.seed_pages import UI_PAGES as CORE_WIDGET_PAGES
-
-from core.files.ui.seed_menus import UI_MENUS as CORE_FILE_MENUS
-from core.files.ui.seed_pages import UI_PAGES as CORE_FILE_PAGES
-
-from core.master.ui.seed_menus import UI_MENUS as CORE_MASTER_MENUS
-from core.master.ui.seed_pages import UI_PAGES as CORE_MASTER_PAGES
-
-from core.org.ui.seed_menus import UI_MENUS as CORE_ORG_MENUS
-from core.org.ui.seed_pages import UI_PAGES as CORE_ORG_PAGES
-
-from core.geo.ui.seed_menus import UI_MENUS as CORE_GEO_MENUS
-from core.geo.ui.seed_pages import UI_PAGES as CORE_GEO_PAGES
-
-from core.classifications.ui.seed_menus import UI_MENUS as CORE_CLASSIFICATION_MENUS
-from core.classifications.ui.seed_pages import UI_PAGES as CORE_CLASSIFICATION_PAGES
-
-from core.schedule.ui.seed_menus import UI_MENUS as CORE_SCHEDULE_MENUS
-from core.schedule.ui.seed_pages import UI_PAGES as CORE_SCHEDULE_PAGES
-
-from business.ui.seed_menus import UI_MENUS as BUSINESS_MENUS
-from business.ui.seed_pages import UI_PAGES as BUSINESS_PAGES
-
-from accounting.ui.seed_menus import UI_MENUS as ACCOUNTING_MENUS
-from accounting.ui.seed_pages import UI_PAGES as ACCOUNTING_PAGES
-
-from hr.ui.seed_menus import UI_MENUS as HR_MENUS
-from hr.ui.seed_pages import UI_PAGES as HR_PAGES
-
-from verticals.apotek.ui.seed_menus import UI_MENUS as VERTICAL_APOTEK_MENUS
-from verticals.apotek.ui.seed_pages import UI_PAGES as VERTICAL_APOTEK_PAGES
-
 # Permission
 from core.permissions.registry import PermissionRegistry
 from core.permissions.models import Permission
 from core.tenants.models import Tenant
 from core.ui.schema.page import Page
 from core.ui.schema.serialize import page_to_dict
+
+from core.ui.registry import UI_MODULE_MENUS, UI_MODULE_PAGES
 
 
 def register_permissions_from_pages(pages: list[dict]):
@@ -59,6 +19,7 @@ def register_permissions_from_pages(pages: list[dict]):
     """
     for page in pages:
         # 🔹 jika page adalah typed Page, convert dulu ke dict
+        # print(page)
         if isinstance(page, Page):
             page = page_to_dict(page)
 
@@ -111,24 +72,12 @@ class Command(BaseCommand):
     help = "Seed UI schema (menus & pages) + sync all permissions automatically"
 
     def handle(self, *args, **options):
-        modules = [
-            (CORE_MENUS, CORE_PAGES),
-            (CORE_DASHBOARD_MENUS, CORE_DASHBOARD_PAGES),
-            (CORE_ACCOUNT_MENUS, CORE_ACCOUNT_PAGES),
-            (CORE_WIDGET_MENUS, CORE_WIDGET_PAGES),
-            (CORE_FILE_MENUS, CORE_FILE_PAGES),
-            (CORE_MASTER_MENUS, CORE_MASTER_PAGES),
-            (CORE_ORG_MENUS, CORE_ORG_PAGES),
-            (CORE_GEO_MENUS, CORE_GEO_PAGES),
-            (CORE_CLASSIFICATION_MENUS, CORE_CLASSIFICATION_PAGES),
-            (CORE_SCHEDULE_MENUS, CORE_SCHEDULE_PAGES),
-            (BUSINESS_MENUS, BUSINESS_PAGES),
-            (ACCOUNTING_MENUS, ACCOUNTING_PAGES),
-            (HR_MENUS, HR_PAGES),
-            (VERTICAL_APOTEK_MENUS, VERTICAL_APOTEK_PAGES),
-        ]
+        modules = set(UI_MODULE_MENUS.keys()) | set(UI_MODULE_PAGES.keys())
 
-        for menus, pages in modules:
+        # for menus, pages in modules:
+        for module in modules:
+            menus = UI_MODULE_MENUS.get(module, [])
+            pages = UI_MODULE_PAGES.get(module, [])
             # print("===================================================")
             # print(pages)
             # 1️⃣ Seed UI schema

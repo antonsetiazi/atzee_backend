@@ -1,5 +1,6 @@
 # core/schedule/events/ui/pages/event_create.py
 
+from core.ui.registry import register_ui_module_pages
 from ._base_event_form import build_event_form_page
 
 UI_PAGES = build_event_form_page(
@@ -12,3 +13,5 @@ UI_PAGES = build_event_form_page(
     title="Create Event",
     redirect_page="/core/events",
 )
+
+register_ui_module_pages("core", UI_PAGES)

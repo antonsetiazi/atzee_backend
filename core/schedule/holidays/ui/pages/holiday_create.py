@@ -1,5 +1,6 @@
 # core/schedule/holidays/ui/pages/holiday_create.py
 
+from core.ui.registry import register_ui_module_pages
 from ._base_holiday_form import build_holiday_form_page
 
 UI_PAGES = build_holiday_form_page(
@@ -12,3 +13,5 @@ UI_PAGES = build_holiday_form_page(
     title="Create Holiday",
     redirect_page="/core/holidays",
 )
+
+register_ui_module_pages("core", UI_PAGES)

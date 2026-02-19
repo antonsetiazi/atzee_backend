@@ -1,5 +1,6 @@
 # core/classifications/labels/ui/pages/label_list.py
 
+from core.ui.registry import register_ui_module_pages
 from core.classifications.labels.ui.pages._base_label_list import build_label_list_page
 
 UI_PAGES = build_label_list_page(
@@ -13,3 +14,5 @@ UI_PAGES = build_label_list_page(
     delete_endpoint="/labels/{id}/",
     search_mode="client",
 )
+
+register_ui_module_pages("core", UI_PAGES)

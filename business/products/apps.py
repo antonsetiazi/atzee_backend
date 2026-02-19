@@ -8,6 +8,7 @@ class ProductsConfig(AppConfig):
 
 
     def ready(self):
+        from .ui import bootstrap
         import business.products.signals
         from core.entities.registry import register_entity
         from .entities.product_list import ProductListEntity

@@ -1,5 +1,6 @@
 # core/org/branches/ui/pages/branch_list.py
 
+from core.ui.registry import register_ui_module_pages
 from core.org.branches.ui.pages._base_branch_list import (
     build_branch_list_page,
 )
@@ -15,3 +16,5 @@ UI_PAGES = build_branch_list_page(
     delete_endpoint="/branches/{id}/",
     search_mode="client",
 )
+
+register_ui_module_pages("core", UI_PAGES)

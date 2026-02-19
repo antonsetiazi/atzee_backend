@@ -1,5 +1,6 @@
 # accounting/journals/ui/pages/journal_list.py
 
+from core.ui.registry import register_ui_module_pages
 from accounting.journals.ui.pages._base_journal_list import (
     build_journal_list_page,
 )
@@ -14,3 +15,5 @@ UI_PAGES = build_journal_list_page(
     permissions=["accounting.journals.view"],
     detail_path="/accounting/journals/{id}",
 )
+
+register_ui_module_pages("accounting", UI_PAGES)

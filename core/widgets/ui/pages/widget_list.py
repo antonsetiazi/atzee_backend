@@ -1,5 +1,6 @@
 # core/widgets/ui/pages/widget_list.py
 
+from core.ui.registry import register_ui_module_pages
 from core.widgets.ui.pages._base_widget_list import (
     build_widget_list_page,
 )
@@ -16,3 +17,5 @@ UI_PAGES = build_widget_list_page(
     edit_path="/settings/widgets/{id}/edit",
     delete_endpoint="/widgets/{id}/",
 )
+
+register_ui_module_pages("core", UI_PAGES)

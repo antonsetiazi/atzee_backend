@@ -1,5 +1,6 @@
 # business/customers/ui/pages/customer_edit.py
 
+from core.ui.registry import register_ui_module_pages
 from core.ui.schema.field import Field
 from business.customers.ui.pages._base_customer_form import (
     build_customer_form_page,
@@ -22,3 +23,5 @@ UI_PAGES = build_customer_form_page(
         ),
     ],
 )
+
+register_ui_module_pages("business", UI_PAGES)

@@ -9,6 +9,7 @@ class CustomersConfig(AppConfig):
     label = "business_customers"
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.customer_list import CustomerListEntity
         from .entities.customer_create import CustomerCreateEntity

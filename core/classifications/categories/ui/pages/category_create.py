@@ -1,5 +1,6 @@
 # core/classifications/categories/ui/pages/category_create.py
 
+from core.ui.registry import register_ui_module_pages
 from core.classifications.categories.ui.pages._base_category_form import (
     build_category_form_page,
 )
@@ -14,3 +15,5 @@ UI_PAGES = build_category_form_page(
     title="Create Category",
     redirect_page="/settings/classifications/categories",
 )
+
+register_ui_module_pages("core", UI_PAGES)

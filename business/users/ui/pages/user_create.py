@@ -1,5 +1,6 @@
 # business/users/ui/pages/user_create.py
 
+from core.ui.registry import register_ui_module_pages
 from business.users.ui.pages._base_user_form import (
     build_user_form_page,
 )
@@ -14,3 +15,5 @@ UI_PAGES = build_user_form_page(
     title="Create User",
     redirect_page="/business/users",
 )
+
+register_ui_module_pages("business", UI_PAGES)

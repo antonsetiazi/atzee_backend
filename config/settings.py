@@ -84,6 +84,7 @@ BUSINESS_APPS = [
     "business.products.apps.ProductsConfig",
     "business.inventory.apps.InventoryConfig",
     "business.partners.apps.PartnersConfig",
+    "business.bookings.apps.BookingsConfig",
     "business.transactions.apps.TransactionsConfig",
     "business.documents.apps.DocumentsConfig",
     "business.payments.apps.PaymentsConfig",
