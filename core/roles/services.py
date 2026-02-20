@@ -1,3 +1,5 @@
+# core/roles/services.py
+
 from django.db import transaction
 from core.roles.models import Role, UserRole
 from core.roles.bootstrap import ADMIN_ROLE_NAME

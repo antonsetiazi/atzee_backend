@@ -14,6 +14,20 @@ class Tenant(models.Model):
 
     branding = models.JSONField(default=dict, blank=True)
     
+    VERTICAL_CHOICES = (
+        ("core", "Core Platform"),
+        ("ustadzku", "Ustadzku"),
+        ("clinic", "Clinic"),
+        ("school", "School"),
+    )
+    
+    vertical = models.CharField(
+        max_length=50,
+        choices=VERTICAL_CHOICES,
+        default="core",
+        db_index=True,
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

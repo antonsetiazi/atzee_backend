@@ -127,7 +127,7 @@ class NavigationStrategyService:
         """
         Return resolved navigation strategy ready for frontend.
         """
-
+        
         queryset = TenantNavigationConfig.objects.filter(
             tenant=tenant,
             type=nav_type,

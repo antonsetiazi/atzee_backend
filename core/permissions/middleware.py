@@ -1,3 +1,5 @@
+# core/permissions/middleware.py
+
 from django.core.exceptions import PermissionDenied
 from core.permissions.services import PermissionService
 

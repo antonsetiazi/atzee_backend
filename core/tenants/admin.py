@@ -1,9 +1,18 @@
+# core/tenants/admin.py
+
 from django.contrib import admin
 from .models import Tenant, UserTenant
 
 @admin.register(Tenant)
 class TenantAdmin(admin.ModelAdmin):
-    list_display = ("name", "code", "is_active")
+    list_display = ("name", "code", "vertical", "is_active")
+    list_filter = ("vertical", "is_active")
+    search_fields = ("name", "code")
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:  # jika sudah ada
+            return ("vertical",)
+        return ()
 
 
 @admin.register(UserTenant)

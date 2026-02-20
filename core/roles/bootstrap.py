@@ -1,3 +1,5 @@
+# core/roles/bootstrap.py
+
 from core.roles.models import Role
 from core.permissions.models import Permission, RolePermission
 

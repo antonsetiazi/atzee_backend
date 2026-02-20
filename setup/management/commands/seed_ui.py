@@ -23,19 +23,33 @@ def register_permissions_from_pages(pages: list[dict]):
         if isinstance(page, Page):
             page = page_to_dict(page)
 
+        module = page["domain"]
+
+        # print(module)
+
         # page-level permissions
         for code in page.get("permissions", []):
             PermissionRegistry.register([{
+                "module": module,
                 "code": code,
                 "description": f"Permission for entity '{page['key']}'"
             }])
 
         # loop semua blocks
         for block in page.get("blocks", []):
+            # 🔥 block-level permissions
+            for code in block.get("permissions", []):
+                PermissionRegistry.register([{
+                    "module": module,
+                    "code": code,
+                    "description": f"Block permission in '{page['key']}'"
+                }])
+
             # actions di block
             for action in block.get("actions", []):
                 if action.get("permission"):
                     PermissionRegistry.register([{
+                        "module": module,
                         "code": action["permission"],
                         "description": f"Action '{action['label']}' in '{page['key']}'"
                     }])
@@ -43,6 +57,7 @@ def register_permissions_from_pages(pages: list[dict]):
             for action in block.get("top_actions", []):
                 if action.get("permission"):
                     PermissionRegistry.register([{
+                        "module": module,
                         "code": action["permission"],
                         "description": f"Top action '{action['label']}' in '{page['key']}'"
                     }])
@@ -55,11 +70,13 @@ def sync_permissions_to_db():
     """
     for tenant in Tenant.objects.all():
         for perm in PermissionRegistry.all():
+            # print(perm)
             obj, created = Permission.objects.get_or_create(
                 tenant=tenant,
                 code=perm["code"],
                 defaults={
-                    "description": perm.get("description", "")
+                    "description": perm.get("description", ""),
+                    "module": perm.get("module"),
                 }
             )
             if created:

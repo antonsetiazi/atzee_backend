@@ -1,3 +1,5 @@
+# core/tenants/bootstrap.py
+
 from core.permissions.bootstrap import sync_permissions_from_ui
 from core.roles.bootstrap import (
     ensure_admin_role,

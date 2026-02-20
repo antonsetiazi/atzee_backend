@@ -2,7 +2,6 @@
 
 from core.permissions.models import Permission
 
-
 class PermissionService:
     """
     CENTRAL PERMISSION ENGINE

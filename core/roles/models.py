@@ -1,3 +1,5 @@
+# core/roles/models.py
+
 from django.db import models
 from core.tenants.models import Tenant
 
@@ -22,6 +24,8 @@ class Role(models.Model):
         through="core_roles.UserRole",
         related_name="roles"
     )
+
+    is_system = models.BooleanField(default=True)
 
     class Meta:
         db_table = "core_roles"

@@ -1,6 +1,6 @@
-# core/dashboard/ui/pages.py
+# verticals/ustadzku/dashboard/ui/pages.py
 
-# from core.ui.registry import register_ui_module_pages
+from core.ui.registry import register_ui_module_pages
 from core.ui.schema.page import Page
 from core.ui.schema.block import (
     ContainerBlock,
@@ -13,12 +13,12 @@ from core.ui.schema.block import (
 
 UI_PAGES = [
     Page(
-        key="core.dashboard",
+        key="ustadzku.dashboard",
         entity="dashboard",
-        domain="core",
+        domain="ustadzku",
         path="/dashboard",
         title="Dashboard",
-        permissions=["core.dashboard.view"],
+        permissions=["ustadzku.dashboard.view"],
         blocks=[
             BannerBlock(
                 title="Announcements",
@@ -59,36 +59,8 @@ UI_PAGES = [
                     ),
                 ]
             ),
-            ContainerBlock(
-                direction="row",
-                gap=16,
-                blocks=[
-                    ChartBlock(
-                        key="sales_chart",
-                        title="Sales This Month",
-                        value={
-                            "labels": ["Week 1", "Week 2", "Week 3", "Week 4"],
-                            "datasets": [
-                                {"label": "Revenue", "data": [5000, 7000, 6500, 8000]}
-                            ],
-                        },
-                        size="lg",
-                    ),
-                    ChartBlock(
-                        key="purchase_chart",
-                        title="Purchase This Month",
-                        value={
-                            "labels": ["Week 1", "Week 2", "Week 3", "Week 4"],
-                            "datasets": [
-                                {"label": "Revenue", "data": [5000, 7000, 6500, 8000]}
-                            ],
-                        },
-                        size="lg",
-                    ),
-                ]
-            )
         ],
     ),
 ]
 
-# register_ui_module_pages("core", UI_PAGES)
+register_ui_module_pages("ustadzku", UI_PAGES)

@@ -1,3 +1,5 @@
+# core/permissions/views.py
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -18,9 +20,6 @@ class MyPermissionView(APIView):
             permission_roles__role__role_users__user=request.user
         ).values_list("code", flat=True).distinct()
 
-        # return Response(
-        #     PermissionSerializer(permissions, many=True).data
-        # )
         return Response(list(permissions))
 
 

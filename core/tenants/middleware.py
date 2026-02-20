@@ -1,3 +1,5 @@
+# core/tenants/middleware.py
+
 from django.http import JsonResponse
 from core.tenants.models import Tenant
 

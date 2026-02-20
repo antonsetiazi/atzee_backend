@@ -107,6 +107,7 @@ HR_APPS = [
 
 VERTICAL_APPS = [
     "verticals.apotek.apps.ApotekConfig",
+    "verticals.ustadzku.apps.UstadzkuConfig",
 ]
 
 INSTALLED_APPS = (

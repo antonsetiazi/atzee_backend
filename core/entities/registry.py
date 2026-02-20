@@ -27,6 +27,7 @@ def register_entity(entity: BaseEntity):
     if permission:
         PermissionRegistry.register([
             {
+                "module": domain,
                 "code": permission,
                 "description": f"Permission for entity '{domain}.{key}'"
             }

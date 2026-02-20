@@ -1,3 +1,5 @@
+# core/permissions/models.py
+
 from django.db import models
 from core.tenants.models import Tenant
 
@@ -12,6 +14,12 @@ class Permission(models.Model):
         Tenant,
         on_delete=models.CASCADE,
         related_name="permissions"
+    )
+
+    module = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
     )
 
     code = models.CharField(max_length=150)
