@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from business.products.models import Product
-from business.products import services
+from business.products.models import Product, PartnerProduct
 
 
 class ProductCreateSerializer(serializers.Serializer):
@@ -46,3 +45,17 @@ class ProductListSerializer(serializers.ModelSerializer):
             "is_active",
         ]
 
+
+class PartnerServiceCardSerializer(serializers.ModelSerializer):
+    product_name = serializers.CharField(source="product.name")
+    description = serializers.CharField(source="product.description")
+
+    class Meta:
+        model = PartnerProduct
+        fields = [
+            "id",                # 🔥 partner_product_id
+            "product_name",
+            "description",
+            "price",
+            "duration_minutes",
+        ]

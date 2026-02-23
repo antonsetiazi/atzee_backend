@@ -42,6 +42,9 @@ class UIPageSerializer(serializers.ModelSerializer):
             "path",
             "permissions",
             "blocks",
+            "data_source",
+            "method",
+            "accept_context",
         ]
 
 

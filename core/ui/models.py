@@ -60,6 +60,12 @@ class UIPage(models.Model):
 
     # ordered UI blocks (table, form, workflow, chart, etc)
     blocks = models.JSONField(default=list)
+    
+    data_source = models.CharField(max_length=200, blank=True, null=True)
+
+    method = models.CharField(max_length=20, blank=True, null=True)
+    
+    accept_context = models.BooleanField(default=True)
 
     is_active = models.BooleanField(default=True)
 

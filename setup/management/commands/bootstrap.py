@@ -32,6 +32,12 @@ class Command(BaseCommand):
             self.stdout.write("→ Seeding Banner...")
             call_command("seed_banner")
 
+            self.stdout.write("→ Seeding Partner...")
+            call_command("seed_partners")
+
+            self.stdout.write("→ Seeding Timezones...")
+            call_command("seed_timezones")
+
             # 4️⃣ Ensure superadmin
             self.ensure_superadmin()
             

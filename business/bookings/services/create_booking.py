@@ -1,9 +1,13 @@
+# business/bookings/services/create_booking.py
+
 import uuid
+from decimal import Decimal
 from django.db import transaction
 from rest_framework.exceptions import ValidationError
 
-from business.bookings.models import Booking, BookingStatus
+from business.bookings.models import Booking, BookingItem, BookingStatus
 from business.bookings import selectors
+from business.products.models import Product
 from business.partners.models import Partner
 from core.tenants.models import Tenant
 from core.users.models import User
@@ -22,6 +26,7 @@ def create_booking(
     partner: Partner,
     start_time,
     end_time,
+    items: list,  # [{product_id, quantity}]
     location_address=None,
     location_lat=None,
     location_lng=None,
@@ -43,10 +48,7 @@ def create_booking(
 
     duration_minutes = int((end_time - start_time).total_seconds() / 60)
 
-    base_price = partner.default_tariff
-    platform_fee = base_price * tenant.platform_fee_percent / 100
-    total_price = base_price
-    partner_amount = total_price - platform_fee
+    subtotal = Decimal("0.00")
 
     booking = Booking.objects.create(
         tenant=tenant,
@@ -59,12 +61,44 @@ def create_booking(
         location_address=location_address,
         location_lat=location_lat,
         location_lng=location_lng,
-        base_price=base_price,
-        platform_fee=platform_fee,
-        total_price=total_price,
-        partner_amount=partner_amount,
+        subtotal_amount=0,
+        # base_price=base_price,
+        platform_fee=0,
+        total_price=0,
+        # partner_amount=partner_amount,
         status=BookingStatus.PENDING_PAYMENT,
         created_by=created_by
     )
+
+    for item in items:
+        product = Product.objects.get(id=item["product_id"], tenant=tenant)
+
+        quantity = item.get("quantity", 1)
+        unit_price = Decimal(item.get("unit_price") or product.extensions.get("price", 0))
+        item_subtotal = Decimal(item.get("subtotal") or (unit_price * quantity))
+
+        BookingItem.objects.create(
+            tenant=tenant,
+            booking=booking,
+            product=product,
+            quantity=quantity,
+            unit_price=unit_price,
+            subtotal=item_subtotal
+        )
+
+        subtotal += item_subtotal
+
+    platform_fee = subtotal * Decimal(tenant.platform_fee_percent) / Decimal(100)
+    total_price = subtotal + platform_fee
+
+    booking.subtotal_amount = subtotal
+    booking.platform_fee = platform_fee
+    booking.total_price = total_price
+    booking.save(update_fields=[
+        "subtotal_amount",
+        "platform_fee",
+        "total_price",
+        "updated_at"
+    ])
 
     return booking

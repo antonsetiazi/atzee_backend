@@ -99,6 +99,9 @@ def seed_pages(pages: list[dict], page_model=UIPage):
                 "path": page_data.get("path"),
                 "permissions": page_data["permissions"],
                 "blocks": page_data["blocks"],
+                "data_source": page_data["data_source"],
+                "method": page_data["method"],
+                "accept_context": page_data.get("accept_context", True),
                 "is_active": page_data.get("is_active", True),
             },
         )

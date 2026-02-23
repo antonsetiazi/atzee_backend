@@ -1,7 +1,8 @@
 # core/ui/schema/page.py
 
 from dataclasses import dataclass
-from typing import List, Optional, Union
+from typing import Literal, List, Optional, Union
+
 
 from .block import (
     FormBlock, 
@@ -11,10 +12,11 @@ from .block import (
     TagBlock, 
     StatBlock, 
     ChartBlock, 
-    # TextBlock,
+    TextBlock,
     ContainerBlock,
     ShortcutBlock,
     BannerBlock,
+    AvailabilityBlock,
 )
 
 PageBlock = Union[
@@ -25,11 +27,14 @@ PageBlock = Union[
     TagBlock, 
     StatBlock, 
     ChartBlock, 
-    # TextBlock,
+    TextBlock,
     ContainerBlock,
     ShortcutBlock,
-    BannerBlock
+    BannerBlock,
+    AvailabilityBlock,
 ]
+
+HTTPMethod = Literal["GET", "POST", "PATCH", "DELETE"]
 
 @dataclass(frozen=True)
 class Page:
@@ -41,3 +46,6 @@ class Page:
     permissions: List[str]
     blocks: List[PageBlock]
     description: Optional[str] = None
+    data_source: str = None
+    method: HTTPMethod = "POST"
+    accept_context: bool = True

@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from core.roles.models import Role, UserRole
 from core.tenants.models import Tenant, UserTenant
 from core.users.seed_registry import all_user_seeds, reset_registry
-
+from business.users.models import BusinessUser
 
 User = get_user_model()
 
@@ -47,6 +47,9 @@ class Command(BaseCommand):
                 )
                 continue
 
+            # --------------------------------------------------
+            # CORE USER
+            # --------------------------------------------------
             user, created = User.objects.update_or_create(
                 email=data["email"],
                 defaults={
@@ -62,24 +65,19 @@ class Command(BaseCommand):
                 user.set_password(data["password"])
                 user.save()
 
-            # ensure membership
+            # --------------------------------------------------
+            # TENANT MEMBERSHIP
+            # --------------------------------------------------
             UserTenant.objects.update_or_create(
                 user=user,
                 tenant=tenant_obj,
                 defaults={"is_active": True}
             )
 
-            if created:
-                self.stdout.write(self.style.SUCCESS(
-                    f"Created user: {user.email}"
-                ))
-            else:
-                self.stdout.write(
-                    f"Updated user: {user.email}"
-                )
-
+            # --------------------------------------------------
+            # ROLE
+            # --------------------------------------------------
             role_name = data.get("role")
-
             if role_name:
                 role = Role.objects.get(
                     tenant=tenant_obj,
@@ -89,6 +87,31 @@ class Command(BaseCommand):
                 UserRole.objects.update_or_create(
                     user=user,
                     role=role
+                )
+
+            # --------------------------------------------------
+            # BUSINESS USER  🔥 IMPORTANT FIX
+            # --------------------------------------------------
+            BusinessUser.objects.update_or_create(
+                tenant=tenant_obj,
+                core_user=user,
+                defaults={
+                    "name": user.full_name,
+                    "email": user.email,
+                    "is_active": True,
+                }
+            )
+
+            # --------------------------------------------------
+            # LOG
+            # --------------------------------------------------    
+            if created:
+                self.stdout.write(self.style.SUCCESS(
+                    f"Created user: {user.email}"
+                ))
+            else:
+                self.stdout.write(
+                    f"Updated user: {user.email}"
                 )
 
         self.stdout.write(self.style.SUCCESS("All default users seeded successfully."))

@@ -1,3 +1,5 @@
+# business/partners/services.py
+
 from typing import Optional
 from django.db import transaction
 from django.core.exceptions import ValidationError
@@ -6,6 +8,8 @@ from business.partners.models import Partner
 from business.partners import selectors
 from core.tenants.models import Tenant
 from core.users.models import User
+from core.geo.spatial.models import GeoLocation
+from core.geo.spatial import services as geo_services
 
 
 def _normalize_str(value: Optional[str]) -> str:
@@ -176,3 +180,57 @@ def delete_partner(
         "updated_by",
         "updated_at",
     ])
+
+
+@transaction.atomic
+def set_partner_primary_location(
+    *,
+    tenant: Tenant,
+    partner_id: int,
+    updated_by: User,
+    latitude,
+    longitude,
+    label: Optional[str] = None,
+    metadata: Optional[dict] = None,
+) -> GeoLocation:
+    """
+    Set or update partner primary location.
+
+    This:
+    1. Creates new GeoLocation
+    2. Syncs search_latitude/search_longitude cache
+    """
+
+    partner = selectors.get_partner_by_id(
+        tenant=tenant,
+        partner_id=partner_id
+    )
+
+    if not partner:
+        raise ValidationError("Partner not found.")
+
+    # 🔹 Create location via core service
+    location = geo_services.create_location(
+        tenant=tenant,
+        created_by=updated_by,
+        related_entity="partners",
+        related_id=str(partner.id),
+        latitude=latitude,
+        longitude=longitude,
+        label=label,
+        metadata=metadata,
+    )
+
+    # 🔥 Sync search cache (DENORMALIZED FIELD)
+    partner.search_latitude = float(location.latitude)
+    partner.search_longitude = float(location.longitude)
+    partner.updated_by = updated_by
+
+    partner.save(update_fields=[
+        "search_latitude",
+        "search_longitude",
+        "updated_by",
+        "updated_at",
+    ])
+
+    return location    

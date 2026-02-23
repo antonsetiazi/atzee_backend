@@ -1,3 +1,5 @@
+# business/partners/serializers.py
+
 from rest_framework import serializers
 from business.partners.models import Partner
 from business.partners import services
@@ -12,6 +14,9 @@ class PartnerListSerializer(serializers.ModelSerializer):
             "name",
             "phone",
             "email",
+            "base_price",
+            "rating_avg",
+            "rating_count",
         ]
 
 
@@ -27,6 +32,11 @@ class PartnerDetailSerializer(serializers.ModelSerializer):
             "address",
             "notes",
             "extensions",
+            "search_latitude",
+            "search_longitude",
+            "base_price",
+            "rating_avg",
+            "rating_count",
             "created_at",
             "updated_at",
         ]

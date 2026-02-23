@@ -1,11 +1,11 @@
 # business/bookings/models.py
 
 from django.db import models
-from django.utils import timezone
 
 from core.models.base import TenantAwareModel, ExtensibleModel
 from business.users.models import BusinessUser
 from business.partners.models import Partner
+from business.products.models import Product
 
 
 class BookingStatus(models.TextChoices):
@@ -48,9 +48,10 @@ class Booking(TenantAwareModel, ExtensibleModel):
     location_lng = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
 
     # Pricing Snapshot
-    base_price = models.DecimalField(max_digits=12, decimal_places=2)
+    subtotal_amount = models.DecimalField(max_digits=12, decimal_places=2)
+    # base_price = models.DecimalField(max_digits=12, decimal_places=2)
     platform_fee = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    partner_amount = models.DecimalField(max_digits=12, decimal_places=2)
+    # partner_amount = models.DecimalField(max_digits=12, decimal_places=2)
     total_price = models.DecimalField(max_digits=12, decimal_places=2)
 
     status = models.CharField(
@@ -71,3 +72,28 @@ class Booking(TenantAwareModel, ExtensibleModel):
 
     def __str__(self):
         return f"{self.booking_number} - {self.user}"
+
+
+class BookingItem(TenantAwareModel):
+    """
+    Snapshot of product/service inside booking.
+    """
+
+    booking = models.ForeignKey(
+        Booking,
+        on_delete=models.CASCADE,
+        related_name="items"
+    )
+
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.PROTECT
+    )
+
+    quantity = models.PositiveIntegerField(default=1)
+
+    unit_price = models.DecimalField(max_digits=12, decimal_places=2)
+    subtotal = models.DecimalField(max_digits=12, decimal_places=2)
+
+    class Meta:
+        db_table = "business_booking_items"

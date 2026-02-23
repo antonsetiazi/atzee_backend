@@ -1,3 +1,5 @@
+# business/partners/selectors.py
+
 from typing import Optional
 from django.db.models import QuerySet, Q
 
@@ -54,3 +56,10 @@ def partner_exists(*, tenant: Tenant, partner_id: int) -> bool:
     return get_partner_queryset(tenant=tenant).filter(
         id=partner_id
     ).exists()
+
+
+def get_marketplace_partner_queryset(*, tenant: Tenant) -> QuerySet[Partner]:
+    return (
+        get_partner_queryset(tenant=tenant)
+        .filter(search_latitude__isnull=False)
+    )

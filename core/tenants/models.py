@@ -14,6 +14,10 @@ class Tenant(models.Model):
 
     branding = models.JSONField(default=dict, blank=True)
     
+    platform_fee_percent = models.DecimalField(
+        max_digits=5, decimal_places=2, default=0
+    )
+    
     VERTICAL_CHOICES = (
         ("core", "Core Platform"),
         ("ustadzku", "Ustadzku"),

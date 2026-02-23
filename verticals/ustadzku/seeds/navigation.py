@@ -11,7 +11,7 @@ NAVIGATION_SEED = [
         "device": "mobile",
         "app": "ustadzku",
         "items": [
-            {"action_type": "page", "target": "dashboard", "icon": "home"},
+            {"action_type": "page", "target": "dashboard", "icon": "home", "route": "/dashboard", "label": "Home"},
             {"action_type": "page", "target": "products.list", "icon": "box"},
             {"action_type": "page", "target": "orders.list", "icon": "shopping-cart"},
         ],
@@ -27,7 +27,7 @@ NAVIGATION_SEED = [
         "device": "mobile",
         "app": "ustadzku",
         "items": [
-            {"action_type": "page", "target": "dashboard", "icon": "home"},
+            {"action_type": "page", "target": "dashboard", "icon": "home", "route": "/dashboard", "label": "Home"},
             {"action_type": "page", "target": "my_products.list", "icon": "box"},
             {"action_type": "page", "target": "sales.list", "icon": "dollar-sign"},
         ],
@@ -43,7 +43,7 @@ NAVIGATION_SEED = [
         "device": "desktop",
         "app": "ustadzku",
         "items": [
-            {"action_type": "page", "target": "dashboard", "icon": "home"},
+            {"action_type": "page", "target": "dashboard", "icon": "home", "route": "/dashboard", "label": "Home"},
             {"action_type": "menu", "target": "users.list"},
             {"action_type": "menu", "target": "roles.list"},
             {"action_type": "menu", "target": "products.list"},

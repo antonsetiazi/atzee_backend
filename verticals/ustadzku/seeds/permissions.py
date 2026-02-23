@@ -121,4 +121,4 @@ USTADZKU_PERMISSIONS = [
 
 
 # Register ke PermissionRegistry
-PermissionRegistry.register(USTADZKU_PERMISSIONS)
+# PermissionRegistry.register(USTADZKU_PERMISSIONS)

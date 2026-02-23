@@ -14,6 +14,10 @@ class PartnersConfig(AppConfig):
         from core.entities.registry import register_entity
         from .entities.partner_list import PartnerListEntity
         from .entities.partner_create import PartnerCreateEntity
+        from .entities.partner_search import PartnerSearchEntity
+        from .entities.partner_detail import PartnerDetailEntity
 
         register_entity(PartnerListEntity())
         register_entity(PartnerCreateEntity())
+        register_entity(PartnerSearchEntity())
+        register_entity(PartnerDetailEntity())

@@ -49,8 +49,18 @@ ROLES = [
         "description": "External customer / client of the tenant",
         "access_level": 5,
         "default_permissions": [
+            "core.account.profile.view",
+            "core.account.settings.view",
             "core.dashboard.view",
-            "ustadzku.dashboard.view",
+            "ustadzku.user.dashboard.view",
+            "business.user.bookings.view",
+            "business.partners.view",
+            "business.bookings.create",
+            "business.bookings.view",
+            "core.files.view",
+            "core.tags.view",
+            "core.classifications.tags.view",
+            "core.timezones.view",
         ],
     },
 
@@ -61,7 +71,7 @@ ROLES = [
         "access_level": 5,
         "default_permissions": [
             "core.dashboard.view",
-            "ustadzku.dashboard.view",
+            "ustadzku.partner.dashboard.view",
             "business.partners.view",
         ],
     },

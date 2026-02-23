@@ -1,7 +1,7 @@
 from typing import Optional
 from django.db.models import QuerySet, Q
 
-from business.products.models import Product
+from business.products.models import Product, PartnerProduct
 from core.tenants.models import Tenant
 
 
@@ -72,3 +72,28 @@ def product_exists(
     return get_product_queryset(tenant=tenant).filter(
         id=product_id
     ).exists()
+
+
+def get_partner_service_queryset(
+    *,
+    tenant: Tenant,
+    partner_id: int
+) -> QuerySet[PartnerProduct]:
+    """
+    Get active service offerings for a partner.
+    Only product_type = service.
+    """
+
+    return (
+        PartnerProduct.objects
+        .filter(
+            tenant=tenant,
+            partner_id=partner_id,
+            is_active=True,
+            product__product_type=Product.TYPE_SERVICE,
+            product__is_deleted=False,
+            product__is_active=True,
+        )
+        .select_related("product")
+        .order_by("product__name")
+    )

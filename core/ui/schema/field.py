@@ -29,3 +29,6 @@ class Field:
     data_source: Optional[str] = None
     value_key: Optional[str] = None
     label_key: Optional[str] = None
+
+    bind: Optional[str] = None
+    readonly_when_bound: bool = False

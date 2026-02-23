@@ -47,3 +47,32 @@ class Product(TenantAwareModel, ExtensibleModel):
 
     def __str__(self):
         return self.name
+    
+
+class PartnerProduct(TenantAwareModel):
+    partner = models.ForeignKey(
+        "business_partners.Partner",
+        on_delete=models.CASCADE,
+        related_name="partner_products"
+    )
+
+    product = models.ForeignKey(
+        "business_product.Product",
+        on_delete=models.CASCADE,
+        related_name="partner_products"
+    )
+
+    price = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    duration_minutes = models.PositiveIntegerField(
+        default=60
+    )
+
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        unique_together = ("tenant", "partner", "product")
