@@ -1,7 +1,7 @@
 # business/bookings/models.py
 
 from django.db import models
-
+from rest_framework.exceptions import ValidationError
 from core.models.base import TenantAwareModel, ExtensibleModel
 from business.users.models import BusinessUser
 from business.partners.models import Partner
@@ -65,11 +65,19 @@ class Booking(TenantAwareModel, ExtensibleModel):
         default="UNPAID"
     )
 
+    is_financial_locked = models.BooleanField(default=False)
+
+    payment_expired_at = models.DateTimeField(null=True, blank=True)
+    
     class Meta:
         db_table = "business_bookings"
         unique_together = ("tenant", "booking_number")
         ordering = ["-start_time"]
 
+    def assert_mutable(self):
+        if self.is_financial_locked:
+            raise ValidationError("Booking is financially locked and cannot be modified.")
+    
     def __str__(self):
         return f"{self.booking_number} - {self.user}"
 

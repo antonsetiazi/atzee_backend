@@ -2,7 +2,7 @@
 
 from core.ui.registry import register_ui_module_pages
 from core.ui.schema.page import Page
-from core.ui.schema.block import TableBlock, TableColumn
+from core.ui.schema.block import ListViewBlock, ListTileSchema, ListFieldSchema
 from core.ui.schema.action import Action
 
 
@@ -13,29 +13,49 @@ UI_PAGES = Page(
     title="My Bookings",
     path="/business/my-bookings",
     permissions=["business.user.bookings.view"],
+    data_source="/entities/business/user.bookings.history/query/",
+    method="POST",
     blocks=[
-        TableBlock(
-            data_source="/entities/business/user.bookings.history/query/",
-            search_mode="server",
-            columns=[
-                TableColumn(key="booking_number", label="Booking Number", priority=1),
-                TableColumn(key="partner_name", label="Partner"),
-                TableColumn(key="start_time", label="Start Time", type="datetime"),
-                TableColumn(key="duration_minutes", label="Duration (mins)"),
-                TableColumn(key="total_price", label="Total Price", type="currency", align="right"),
-                TableColumn(key="status", label="Status"),
-                TableColumn(key="payment_status", label="Payment"),
-            ],
-            actions=[
-                Action(
+        ListViewBlock(
+            title="Booking History",
+            data_key="items",  # karena response langsung array
+            layout="card",
+            tile=ListTileSchema(
+                title=ListFieldSchema(
+                    key="booking_number"
+                ),
+                subtitle=ListFieldSchema(
+                    key="partner_name"
+                ),
+                description=ListFieldSchema(
+                    key="start_time",
+                    format="datetime"
+                ),
+                trailing=ListFieldSchema(
+                    key="total_price",
+                    format="currency",
+                    currency="IDR"
+                ),
+                status=ListFieldSchema(
+                    key="status"
+                ),
+                meta={
+                    "Duration": ListFieldSchema(
+                        key="duration_minutes",
+                        suffix=" mins"
+                    ),
+                    "Payment": ListFieldSchema(
+                        key="payment_status"
+                    ),
+                },
+                action=Action(
                     type="navigate",
                     label="Detail",
                     to="/business/bookings/{id}/detail",
                     permission="business.user.bookings.view"
                 )
-            ],
-            top_actions=[],
-            detail_as_state=False,
+            ),
+            permissions=["business.user.bookings.view"],
         )
     ]
 )

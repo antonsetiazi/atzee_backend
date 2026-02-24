@@ -29,6 +29,13 @@ def _change_status(booking: Booking, new_status: str):
 def confirm_booking(booking: Booking):
     _change_status(booking, BookingStatus.CONFIRMED)
 
+    booking.is_financial_locked = True
+    booking.save(update_fields=[
+        "status",
+        "is_financial_locked",
+        "updated_at"
+    ])
+
 
 @transaction.atomic
 def start_booking(booking: Booking):

@@ -2,6 +2,8 @@
 
 import uuid
 from decimal import Decimal
+from django.utils import timezone
+from datetime import timedelta
 from django.db import transaction
 from rest_framework.exceptions import ValidationError
 
@@ -67,6 +69,7 @@ def create_booking(
         total_price=0,
         # partner_amount=partner_amount,
         status=BookingStatus.PENDING_PAYMENT,
+        payment_expired_at=timezone.now() + timedelta(minutes=15),
         created_by=created_by
     )
 

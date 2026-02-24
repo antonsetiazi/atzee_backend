@@ -211,3 +211,31 @@ class BookingViewSet(viewsets.ViewSet):
             "date": date,
             "slots": slots
         })
+    
+
+    @action(detail=True, methods=["post"], url_path="confirm")
+    def confirm(self, request, pk=None):
+        tenant = TenantService.get_current_tenant(request)
+
+        booking = (
+            selectors.get_booking_queryset(tenant=tenant)
+            .filter(id=pk)
+            .first()
+        )
+
+        if not booking:
+            return Response({"detail": "Not found."}, status=404)
+
+        # 🔥 VALIDASI STATUS
+        if booking.status != "draft":
+            return Response(
+                {"detail": "Only draft booking can be confirmed."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # 🔥 STATE TRANSITION
+        booking.status = "confirmed"
+        booking.confirmed_at = timezone.now()
+        booking.save(update_fields=["status", "confirmed_at"])
+
+        return Response(BookingDetailSerializer(booking).data)

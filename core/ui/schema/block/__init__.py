@@ -11,6 +11,7 @@ from .file import FileBlock
 from .form import FormBlock, FormRedirect 
 from .info import InfoBlock
 from .list import ListBlock, ListItemField
+from .list_view import ListViewBlock, ListTileSchema, ListFieldSchema
 from .map import MapBlock
 from .shortcut import ShortcutBlock, ShortcutItem
 from .stat import StatBlock

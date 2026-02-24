@@ -91,11 +91,11 @@ UI_PAGES = Page(
             ),
             actions=[
                 Action(
-                    key="confirm",
+                    key="pay",
                     type="navigate",
-                    label="Konfirmasi",
-                    to="/business/bookings/{id}/confirm/",
-                    when={"status": "draft"},
+                    label="Bayar Sekarang",
+                    to="/payments/{payment_id}/checkout/",
+                    when={"status": "pending_payment"},
                     permission="business.bookings.view",
                 ),
                 Action(
