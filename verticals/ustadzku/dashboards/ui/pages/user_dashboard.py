@@ -8,8 +8,9 @@ from core.ui.schema.block import (
     ShortcutBlock,
     ShortcutItem,
     BannerBlock,
-    TableBlock,
-    TableColumn,
+    ListFieldSchema,
+    ListViewBlock,
+    ListTileSchema,
 )
 
 UI_PAGES = [
@@ -21,6 +22,7 @@ UI_PAGES = [
         title="Dashboard",
         permissions=["ustadzku.user.dashboard.view"],
         description="Ringkasan aktivitas dan booking Anda",
+        data_source="/entities/ustadzku/user.dashboard/query/",
         blocks=[
 
             # ===============================
@@ -28,7 +30,7 @@ UI_PAGES = [
             # ===============================
             BannerBlock(
                 title="Informasi Penting",
-                data_source="/entities/core/widgets.banner.dashboard/query/",
+                data_key="banners",
                 size="lg",
             ),
 
@@ -67,7 +69,7 @@ UI_PAGES = [
             ),
 
             # ===============================
-            # STAT RINGKAS
+            # STAT SUMMARY
             # ===============================
             ContainerBlock(
                 direction="row",
@@ -76,65 +78,65 @@ UI_PAGES = [
                     StatBlock(
                         key="upcoming_booking",
                         title="Booking Mendatang",
-                        value="--",
+                        data_key="upcoming_booking",
                         size="sm",
-                        meta={
-                            "data_source": "/entities/business/user.bookings.upcoming.count/query/"
-                        }
+                        value=None,
                     ),
                     StatBlock(
                         key="active_booking",
                         title="Booking Aktif",
-                        value="--",
+                        data_key="active_booking",
                         size="sm",
-                        meta={
-                            "data_source": "/entities/business/user.bookings.active.count/query/"
-                        }
+                        value=None,
                     ),
                     StatBlock(
-                        key="total_history",
-                        title="Total Booking",
-                        value="--",
+                        key="completed_booking",
+                        title="Selesai",
+                        data_key="completed_booking",
                         size="sm",
-                        meta={
-                            "data_source": "/entities/business/user.bookings.total.count/query/"
-                        }
+                        value=None,
+                    ),
+                    StatBlock(
+                        key="total_booking",
+                        title="Total Booking",
+                        data_key="total_booking",
+                        size="sm",
+                        value=None,
                     ),
                 ]
             ),
 
-            # ===============================
-            # UPCOMING BOOKING TABLE
-            # ===============================
-            TableBlock(
+            # ======================================
+            # UPCOMING LIST
+            # ======================================
+            ListViewBlock(
                 title="Booking Mendatang",
-                data_source="/entities/business/user.bookings.upcoming/query/",
-                search_mode="server",
-                columns=[
-                    TableColumn(key="booking_code", label="Kode"),
-                    TableColumn(key="ustadz_name", label="Ustadz"),
-                    TableColumn(key="schedule_date", label="Tanggal", format="date"),
-                    TableColumn(key="status", label="Status"),
-                ],
-                detail_as_state=True,
+                data_key="upcoming_bookings",
+                tile=ListTileSchema(
+                    title=ListFieldSchema(key="booking_number"),
+                    subtitle=ListFieldSchema(key="partner_name"),
+                    description=ListFieldSchema(key="start_time", format="date"),
+                    status=ListFieldSchema(key="status"),
+                ),
+                layout="standard",
+                permissions=["business.bookings.view"],
             ),
 
             # ===============================
             # RIWAYAT TERAKHIR
             # ===============================
-            TableBlock(
+            ListViewBlock(
                 title="Riwayat Terakhir",
-                data_source="/entities/business/user.bookings.recent/query/",
-                search_mode="server",
-                columns=[
-                    TableColumn(key="booking_code", label="Kode"),
-                    TableColumn(key="ustadz_name", label="Ustadz"),
-                    TableColumn(key="schedule_date", label="Tanggal", format="date"),
-                    TableColumn(key="status", label="Status"),
-                ],
-                query={"limit": 5},
-                detail_as_state=True,
-            ),
+                data_key="recent_bookings",
+                tile=ListTileSchema(
+                    title=ListFieldSchema(key="booking_number"),
+                    subtitle=ListFieldSchema(key="partner_name"),
+                    description=ListFieldSchema(key="start_time", format="date"),
+                    status=ListFieldSchema(key="status"),
+                ),
+                layout="standard",
+                permissions=["business.bookings.view"],
+            )
         ],
     ),
 ]

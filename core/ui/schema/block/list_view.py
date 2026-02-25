@@ -52,3 +52,6 @@ class ListViewBlock:
     tile: ListTileSchema = field(default_factory=ListTileSchema)
 
     permissions: Optional[List[str]] = None
+
+    empty_title: str = "No data found"
+    empty_description: Optional[str] = None

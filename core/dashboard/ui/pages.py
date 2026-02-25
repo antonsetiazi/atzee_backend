@@ -22,7 +22,8 @@ UI_PAGES = [
         blocks=[
             BannerBlock(
                 title="Announcements",
-                data_source="/entities/core/widgets.banner.dashboard/query/",
+                # data_source="/entities/core/widgets.banner.dashboard/query/",
+                data_key="meta",
                 size="lg",
             ),
             ShortcutBlock(

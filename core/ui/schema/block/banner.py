@@ -11,6 +11,6 @@ class BannerBlock:
     type: Literal["banner"] = "banner"
     title: Optional[str] = None
     description: Optional[str] = None
-    data_source: str = ""
+    data_key: Optional[str] = None
     size: WidgetSize = "lg"
     

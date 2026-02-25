@@ -10,7 +10,8 @@ WidgetSize = Literal["sm", "md", "lg"]
 class StatBlock:
     key: str
     title: str
-    value: Any
+    value: Any = None
+    data_key: Optional[str] = None
     type: Literal["stat"] = "stat"
     size: WidgetSize = "md"
     suffix: Optional[str] = None
