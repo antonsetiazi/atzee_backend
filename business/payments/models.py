@@ -1,6 +1,7 @@
 from django.db import models
 from core.models.base import TenantAwareModel
-
+from core.tenants.models import Tenant
+from core.users.models import User
 
 class Payment(TenantAwareModel):
     """
@@ -24,6 +25,12 @@ class Payment(TenantAwareModel):
         (STATUS_DRAFT, "Draft"),
         (STATUS_POSTED, "Posted"),
         (STATUS_VOID, "Void"),
+    )
+
+    tenant = models.ForeignKey(
+        Tenant,
+        on_delete=models.CASCADE,
+        related_name="business_payments",  # unik
     )
 
     reference_number = models.CharField(
@@ -71,6 +78,21 @@ class Payment(TenantAwareModel):
         blank=True,
         null=True,
         help_text="Referenced document (invoice, bill, etc)"
+    )
+
+    created_by = models.ForeignKey(
+        User,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="created_business_payments",  # unik
+    )
+    updated_by = models.ForeignKey(
+        User,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="updated_business_payments",  # unik
     )
 
     class Meta:

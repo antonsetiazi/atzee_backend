@@ -70,6 +70,12 @@ urlpatterns = [
     path("api/schedule/", include("core.schedule.reminders.urls")),
     path("api/schedule/", include("core.schedule.recurrings.urls")),
 
+    # --- Core Payment ---
+    path("api/", include("core.payment.urls")),
+
+    # --- Core Wallet ---
+    path("api/", include("core.wallet.urls")),
+
     # --- Business ---
     path("api/business/", include("business.users.urls")),
     path("api/business/", include("business.customers.urls")),

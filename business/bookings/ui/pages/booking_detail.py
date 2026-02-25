@@ -94,8 +94,8 @@ UI_PAGES = Page(
                     key="pay",
                     type="navigate",
                     label="Bayar Sekarang",
-                    to="/payments/{payment_id}/checkout/",
-                    when={"status": "pending_payment"},
+                    to="/business/bookings/{id}/payment/",
+                    when={"status": "PENDING_PAYMENT"},
                     permission="business.bookings.view",
                 ),
                 Action(

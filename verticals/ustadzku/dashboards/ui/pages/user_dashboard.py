@@ -56,6 +56,12 @@ UI_PAGES = [
                         icon="credit-card",
                         to="/ustadzku/transactions",
                     ),
+                    ShortcutItem(
+                        key="wallet",
+                        label="Wallet",
+                        icon="wallet",
+                        to="/core/wallet",
+                    ),
                 ],
                 scrollable=False,
             ),

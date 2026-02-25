@@ -19,6 +19,7 @@ from business.bookings.models import Booking
 from business.partners.models import Partner
 from business.users.models import BusinessUser
 from business.products.models import PartnerProduct
+from business.bookings.services.payment import pay_booking_with_wallet
 
 class BookingViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
@@ -239,3 +240,17 @@ class BookingViewSet(viewsets.ViewSet):
         booking.save(update_fields=["status", "confirmed_at"])
 
         return Response(BookingDetailSerializer(booking).data)
+    
+
+    @action(detail=True, methods=["post"], url_path="pay")
+    def pay(self, request, pk=None):
+        tenant = TenantService.get_current_tenant(request)
+        booking = selectors.get_booking_queryset(tenant=tenant).filter(id=pk).first()
+        if not booking:
+            return Response({"detail": "Booking not found."}, status=status.HTTP_404_NOT_FOUND)
+        
+        try:
+            pay_booking_with_wallet(tenant=tenant, user=request.user, booking=booking)
+            return Response({"status": "success", "message": "Payment successful."})
+        except Exception as e:
+            return Response({"status": "error", "message": str(e)}, status=status.HTTP_400_BAD_REQUEST)

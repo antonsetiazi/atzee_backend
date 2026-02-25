@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from typing import List, Literal, Optional
 
-Affects = Literal["session_user", "session_settings", "permissions", "config"]
+Affects = Literal["session_user", "session_settings", "permissions", "config", "reload"]
 
 @dataclass(frozen=True)
 class FileBlock:
