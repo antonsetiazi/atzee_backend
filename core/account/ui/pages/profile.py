@@ -5,7 +5,7 @@ from core.ui.schema.page import Page
 from core.ui.schema.block import (
     ContainerBlock,
     FormBlock,
-    # TextBlock,
+    ActionBlock,
     FileBlock,
 )
 from core.ui.schema.field import Field
@@ -74,6 +74,25 @@ UI_PAGES = Page(
                     permissions=["core.account.profile.update"],
                     affects="session_user"
                 ),
+            ],
+        ),
+        ContainerBlock(
+            direction="row",
+            justify="start",
+            blocks=[
+                ActionBlock(
+                    title="",
+                    actions=[
+                        Action(
+                            type="navigate",
+                            label="Change Password",
+                            icon="password",
+                            to="/account/password",
+                            permission="core.account.password.update",
+                        )
+                    ],
+                    justify="center",
+                )
             ],
         ),
     ],

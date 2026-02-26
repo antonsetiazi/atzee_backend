@@ -126,3 +126,21 @@ class MeSerializer(serializers.ModelSerializer):
             return request.build_absolute_uri(url)
 
         return url
+    
+
+class ChangePasswordSerializer(serializers.Serializer):
+    current_password = serializers.CharField(write_only=True, required=True)
+    new_password = serializers.CharField(write_only=True, required=True)
+    confirm_password = serializers.CharField(write_only=True, required=True)
+
+    def validate_current_password(self, value):
+        user = self.context["request"].user
+        if not user.check_password(value):
+            raise serializers.ValidationError("Current password is incorrect")
+        return value
+
+    def validate(self, data):
+        if data["new_password"] != data["confirm_password"]:
+            raise serializers.ValidationError("New passwords do not match")
+        validate_password(data["new_password"], user=self.context["request"].user)
+        return data

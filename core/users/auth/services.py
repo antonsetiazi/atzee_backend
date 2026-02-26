@@ -51,3 +51,13 @@ def update_user_profile(*, user: User, data: dict) -> User:
         user.save(update_fields=updated_fields)
 
     return user
+
+
+def change_user_password(user: User, new_password: str) -> User:
+    """
+    Change user's password safely
+    """
+    user.set_password(new_password)
+    user.full_clean()
+    user.save(update_fields=["password"])
+    return user

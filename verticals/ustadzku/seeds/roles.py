@@ -53,6 +53,7 @@ ROLES = [
             "core.account.profile.update",
             "core.account.settings.view",
             "core.account.settings.update",
+            "core.account.password.update",
             "core.dashboard.view",
             "ustadzku.user.dashboard.view",
             "business.user.bookings.view",

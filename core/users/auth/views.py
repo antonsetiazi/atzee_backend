@@ -4,8 +4,15 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
-from .serializers import LoginSerializer, RegisterSerializer, MeSerializer
-from .services import issue_jwt_for_user
+
+from .serializers import (
+    LoginSerializer, 
+    RegisterSerializer, 
+    MeSerializer,
+    ChangePasswordSerializer
+)
+
+from .services import issue_jwt_for_user, change_user_password
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
@@ -102,3 +109,21 @@ class UpdateAvatarView(APIView):
                 file.get_download_url()
             )
         })        
+    
+
+class ChangePasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = ChangePasswordSerializer(
+            data=request.data, context={"request": request}
+        )
+        serializer.is_valid(raise_exception=True)
+
+        new_password = serializer.validated_data["new_password"]
+        change_user_password(request.user, new_password)
+
+        return Response(
+            {"detail": "Password updated successfully"},
+            status=status.HTTP_200_OK
+        )
