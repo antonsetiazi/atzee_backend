@@ -11,6 +11,12 @@ from core.tenants.models import Tenant
 from business.partners.models import Partner
 from business.products.models import Product, PartnerProduct
 
+import os
+from django.core.files.base import ContentFile
+from core.files.models import File
+from core.files.storage import FileStorageService
+from core.users.models import User
+
 
 class Command(BaseCommand):
     help = "Seed partners + products per tenant based on vertical"
@@ -113,6 +119,15 @@ class Command(BaseCommand):
                     },
                 )
 
+                image_filename = data.get("image")
+
+                if image_filename:
+                    self._attach_partner_image(
+                        tenant=tenant,
+                        partner=partner,
+                        image_filename=image_filename,
+                    )
+
                 if created:
                     total_partner_created += 1
                 else:
@@ -156,4 +171,70 @@ class Command(BaseCommand):
                 f"Products Created: {total_product_created}\n"
                 f"PartnerProducts Created: {total_partner_product_created}"
             )
+        )
+
+
+    def _get_tenant_admin(self, tenant):
+        return (
+            User.objects.filter(
+                is_superuser=True,
+                tenant_memberships__tenant=tenant
+            ).first()
+        )
+    
+    
+    def _attach_partner_image(self, tenant, partner, image_filename):
+        """
+        Attach dummy image to partner via File model.
+        """
+
+        assets_dir = os.path.join(
+            settings.BASE_DIR,
+            "verticals",
+            tenant.vertical,
+            "seeds",
+            "assets",
+            "partners",
+        )
+
+        file_path = os.path.join(assets_dir, image_filename)
+
+        if not os.path.exists(file_path):
+            return
+
+        with open(file_path, "rb") as f:
+            content = f.read()
+
+        django_file = ContentFile(content)
+        django_file.name = image_filename
+
+        storage_path = FileStorageService.build_path(
+            tenant=tenant,
+            filename=image_filename,
+        )
+
+        final_path = FileStorageService.save(
+            path=storage_path,
+            file=django_file,
+        )
+
+        admin_user = self._get_tenant_admin(tenant)
+
+        if not admin_user:
+            return  # skip kalau tidak ada user
+
+        File.objects.update_or_create(
+            tenant=tenant,
+            related_entity="partner_image",
+            related_id=str(partner.id),
+            defaults={
+                "file": final_path,
+                "original_name": image_filename,
+                "mime_type": "image/jpeg",
+                "size": len(content),
+                "owner": admin_user,
+                "created_by": admin_user,
+                "updated_by": admin_user,
+                "is_public": True,
+            },
         )

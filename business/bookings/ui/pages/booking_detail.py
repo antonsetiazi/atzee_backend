@@ -43,8 +43,22 @@ UI_PAGES = Page(
             fields=[
                 CardField(key="product_name", label="Service"),
                 CardField(key="quantity", label="Qty"),
-                CardField(key="unit_price", label="Unit Price", format="currency"),
-                CardField(key="subtotal", label="Subtotal", format="currency"),
+                CardField(
+                    key="unit_price", 
+                    label="Unit Price", 
+                    meta={
+                        "format": "currency", 
+                        "currency": "IDR"
+                    }
+                ),
+                CardField(
+                    key="subtotal", 
+                    label="Subtotal", 
+                    meta={
+                        "format": "currency", 
+                        "currency": "IDR"
+                    }
+                ),
             ],
         ),
 

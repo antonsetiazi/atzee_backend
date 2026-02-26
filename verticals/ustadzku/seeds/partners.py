@@ -12,6 +12,7 @@ PARTNERS = [
         "base_price": 250000,
         "rating_avg": 4.8,
         "rating_count": 124,
+        "image": "ustadz1.jpg",
     },
     {
         "code": "UST002",
@@ -24,6 +25,7 @@ PARTNERS = [
         "base_price": 300000,
         "rating_avg": 4.6,
         "rating_count": 98,
+        "image": "ustadz2.jpg",
     },
     {
         "code": "UST003",
@@ -36,6 +38,7 @@ PARTNERS = [
         "base_price": 200000,
         "rating_avg": 4.9,
         "rating_count": 203,
+        "image": "ustadz3.jpg",
     },
 
     # 🔹 Tambahan 10 partner lagi
@@ -50,6 +53,7 @@ PARTNERS = [
         "base_price": 220000,
         "rating_avg": 4.5,
         "rating_count": 87,
+        "image": "ustadz4.jpg",
     },
     {
         "code": "UST005",
@@ -62,6 +66,7 @@ PARTNERS = [
         "base_price": 280000,
         "rating_avg": 4.7,
         "rating_count": 112,
+        "image": "ustadz5.jpg",
     },
     {
         "code": "UST006",
@@ -74,6 +79,7 @@ PARTNERS = [
         "base_price": 310000,
         "rating_avg": 4.6,
         "rating_count": 76,
+        "image": "ustadz6.jpg",
     },
     {
         "code": "UST007",
@@ -86,6 +92,7 @@ PARTNERS = [
         "base_price": 240000,
         "rating_avg": 4.8,
         "rating_count": 95,
+        "image": "ustadz7.jpg",
     },
     {
         "code": "UST008",
@@ -98,6 +105,7 @@ PARTNERS = [
         "base_price": 230000,
         "rating_avg": 4.7,
         "rating_count": 103,
+        "image": "ustadz8.jpg",
     },
     {
         "code": "UST009",
@@ -110,6 +118,7 @@ PARTNERS = [
         "base_price": 260000,
         "rating_avg": 4.9,
         "rating_count": 142,
+        "image": "ustadz9.jpg",
     },
     {
         "code": "UST010",
@@ -122,6 +131,7 @@ PARTNERS = [
         "base_price": 210000,
         "rating_avg": 4.5,
         "rating_count": 81,
+        "image": "ustadz10.jpg",
     },
     {
         "code": "UST011",
@@ -134,6 +144,7 @@ PARTNERS = [
         "base_price": 290000,
         "rating_avg": 4.6,
         "rating_count": 97,
+        "image": "ustadz11.jpg",
     },
     {
         "code": "UST012",
@@ -146,6 +157,7 @@ PARTNERS = [
         "base_price": 275000,
         "rating_avg": 4.7,
         "rating_count": 88,
+        "image": "ustadz12.jpg",
     },
     {
         "code": "UST013",
@@ -158,5 +170,6 @@ PARTNERS = [
         "base_price": 245000,
         "rating_avg": 4.8,
         "rating_count": 110,
+        "image": "ustadz13.jpg",
     },
 ]

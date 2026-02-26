@@ -1,7 +1,7 @@
 # core/ui/schema/block/card_list.py
 
 from dataclasses import dataclass, field
-from typing import List, Literal, Dict, Optional
+from typing import List, Literal, Dict, Optional, Any
 from core.ui.schema.action import Action
 
 CardSelectableType = Literal["none", "single", "multiple"]
@@ -12,7 +12,7 @@ CardLayoutType = Literal["grid", "list"]
 class CardField:
     key: str
     label: Optional[str] = None
-    format: Optional[str] = None
+    meta: Optional[Dict[str, Any]] = None  # currency, format, suffix
 
 
 @dataclass(frozen=True)

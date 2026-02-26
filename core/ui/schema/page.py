@@ -49,3 +49,4 @@ class Page:
     data_source: str = None
     method: HTTPMethod = "POST"
     accept_context: bool = True
+    payload_from_context: Optional[dict] = None

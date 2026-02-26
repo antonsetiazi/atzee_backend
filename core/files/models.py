@@ -67,5 +67,10 @@ class File(TenantAwareModel):
     def __str__(self) -> str:
         return self.original_name
     
-    def get_download_url(self):
-        return f"/api/files/{self.id}/download/"
+    def get_download_url(self, request=None):
+        path = f"/api/files/{self.id}/download/"
+
+        if request:
+            return request.build_absolute_uri(path)
+
+        return path

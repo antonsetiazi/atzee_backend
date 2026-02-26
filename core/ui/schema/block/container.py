@@ -25,5 +25,9 @@ class ContainerBlock:
     key: Optional[str] = None
     background_color: Optional[str] = None  # misal "bg-white", "bg-gray-50"
    
+   # separator baru
+    column_line_separator: bool = False  # garis antar kolom jika direction=row
+    row_line_separator: bool = False     # garis antar row jika direction=column
+    
     # isi
     blocks: List[Any] = field(default_factory=list)

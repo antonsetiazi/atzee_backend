@@ -4,7 +4,10 @@ import math
 from django.db.models import Q
 from core.entities.contracts import BaseEntity
 from business.partners.models import Partner
+from core.files.selectors import get_files_by_relations
+from django.conf import settings
 
+base_url = settings.BASE_BACKEND_URL
 
 class PartnerSearchEntity(BaseEntity):
     """
@@ -46,7 +49,7 @@ class PartnerSearchEntity(BaseEntity):
 
         return self.EARTH_RADIUS_KM * c
 
-    def query(self, *, user, tenant, query: dict) -> dict:
+    def query(self, *, user, tenant, query: dict, request=None) -> dict:
         """
         Expected query format:
 
@@ -150,6 +153,22 @@ class PartnerSearchEntity(BaseEntity):
 
         sliced = results[offset:limit]
 
+
+        partner_ids = [str(partner.id) for partner, _ in sliced]
+
+        files = get_files_by_relations(
+            tenant=tenant,
+            related_entity="partner_image",
+            related_ids=partner_ids,
+        )
+
+        image_map = {}
+
+        for f in files:
+            if f.related_id not in image_map:
+                image_map[f.related_id] = f.get_download_url(request=request)
+                
+
         # --- SERIALIZE ---
         data = []
         for partner, distance in sliced:
@@ -166,6 +185,7 @@ class PartnerSearchEntity(BaseEntity):
                     "rating_count": partner.rating_count,
                     "skills": meta.get("skills", []),  # kalau skill masih di meta
                     "distance_km": round(distance, 2) if distance else None,
+                    "image_url": f"{base_url}{image_map.get(str(partner.id))  or '/static/default-avatar.jpg'}",
                 }
             )
 

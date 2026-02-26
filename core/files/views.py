@@ -1,5 +1,6 @@
 # core/files/views.py
 
+import mimetypes
 from django.http import FileResponse
 from rest_framework import status, viewsets
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -132,11 +133,11 @@ class FileViewSet(viewsets.ViewSet):
         if not obj.is_public and not request.user.is_authenticated:
             return Response(status=403)
 
-        response = FileResponse(
-            obj.file.open("rb"),
-            as_attachment=False,
-        )
+        file_handle = obj.file.open("rb")
+        content_type, _ = mimetypes.guess_type(obj.file.name)
 
-        response["Content-Type"] = obj.mime_type
-        return response
+        return FileResponse(
+            file_handle,
+            content_type=content_type or "application/octet-stream",
+        )
 

@@ -67,6 +67,8 @@ class UIPage(models.Model):
     
     accept_context = models.BooleanField(default=True)
 
+    payload_from_context = models.JSONField(default=list, blank=True, null=True)
+
     is_active = models.BooleanField(default=True)
 
     class Meta:

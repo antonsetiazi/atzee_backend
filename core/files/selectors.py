@@ -64,3 +64,12 @@ def get_file_by_id_no_tenant(*, file_id):
         ).select_related("tenant").first()
     except File.DoesNotExist:
         return None
+    
+
+def get_files_by_relations(*, tenant, related_entity, related_ids):
+    return File.objects.filter(
+        tenant=tenant,
+        related_entity=related_entity,
+        related_id__in=related_ids,
+        is_deleted=False,
+    )

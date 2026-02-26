@@ -4,8 +4,11 @@ from typing import Optional
 from django.db.models import Q
 from core.entities.contracts import BaseEntity
 from business.partners.models import Partner
-from core.files.models import File
+from core.files.selectors import get_files_by_relation
 
+from django.conf import settings
+
+base_url = settings.BASE_BACKEND_URL
 
 class PartnerDetailEntity(BaseEntity):
     """
@@ -24,12 +27,14 @@ class PartnerDetailEntity(BaseEntity):
     permission = "business.partners.view"
 
     def query(self, *, user, tenant, query: dict) -> Optional[dict]:
+
         """
         query: {
             id: str | int
         }
         """
-        partner_id = query.get("id")
+        partner_id = query.get("partner_id")
+
         if not partner_id:
             return None
 
@@ -37,23 +42,23 @@ class PartnerDetailEntity(BaseEntity):
             partner = Partner.objects.get(id=partner_id, tenant=tenant, is_deleted=False)
         except Partner.DoesNotExist:
             return None
-
+        
         # ambil meta
         meta = partner.meta or {}
 
         # ambil foto dari File
-        images = File.objects.filter(
-            entity_type="partners",
-            entity_id=partner.id,
-            is_deleted=False,
+        # --- Images ---
+        images = get_files_by_relation(
+            tenant=tenant,
+            related_entity="partner_image",
+            related_id=partner.id,
         )
-
-        foto_urls = [img.get_full_url() for img in images]
+        image_urls = [f"{base_url}/api/files/{f.id}/download/" for f in images]
 
         # ambil skills
         skills = meta.get("skills", [])
 
-        # ambil jadwal (sementara dummy, nanti bisa dari tabel jadwal booking)
+        # ambil jadwal (sementara dummy, nanti bisa dari tabel jadwal booking
         available_schedule = meta.get("available_schedule", [])
 
         # serialize response
@@ -64,12 +69,12 @@ class PartnerDetailEntity(BaseEntity):
             "email": partner.email,
             "address": partner.address,
             "notes": partner.notes,
-            "base_price": meta.get("base_price"),
-            "rating_avg": meta.get("rating_avg"),
-            "rating_count": meta.get("rating_count"),
+            "base_price": partner.base_price,
+            "rating_avg": partner.rating_avg,
+            "rating_count": partner.rating_count,
             "skills": skills,
             "available_schedule": "\n".join(available_schedule) if available_schedule else None,
-            "foto": foto_urls,
+            "image_urls": image_urls,
         }
 
         return data

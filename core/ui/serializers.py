@@ -45,6 +45,7 @@ class UIPageSerializer(serializers.ModelSerializer):
             "data_source",
             "method",
             "accept_context",
+            "payload_from_context",
         ]
 
 

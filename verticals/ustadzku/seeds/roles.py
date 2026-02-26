@@ -50,7 +50,9 @@ ROLES = [
         "access_level": 5,
         "default_permissions": [
             "core.account.profile.view",
+            "core.account.profile.update",
             "core.account.settings.view",
+            "core.account.settings.update",
             "core.dashboard.view",
             "ustadzku.user.dashboard.view",
             "business.user.bookings.view",

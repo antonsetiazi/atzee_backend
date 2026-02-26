@@ -12,8 +12,8 @@ NAVIGATION_SEED = [
         "app": "ustadzku",
         "items": [
             {"action_type": "page", "target": "dashboard", "icon": "home", "route": "/dashboard", "label": "Home"},
-            {"action_type": "page", "target": "products.list", "icon": "box"},
-            {"action_type": "page", "target": "orders.list", "icon": "shopping-cart"},
+            {"action_type": "page", "target": "booking", "icon": "booking", "route": "/business/my-bookings", "label": "Booking"},
+            # {"action_type": "page", "target": "products.list", "icon": "box"},
         ],
     },
 
@@ -44,11 +44,13 @@ NAVIGATION_SEED = [
         "app": "ustadzku",
         "items": [
             {"action_type": "page", "target": "dashboard", "icon": "home", "route": "/dashboard", "label": "Home"},
-            {"action_type": "menu", "target": "users.list"},
-            {"action_type": "menu", "target": "roles.list"},
-            {"action_type": "menu", "target": "products.list"},
-            {"action_type": "menu", "target": "orders.list"},
-            {"action_type": "menu", "target": "settings.profile"},
+            {"action_type": "page", "target": "booking", "icon": "booking", "route": "/business/my-bookings", "label": "Booking"},
+            {"action_type": "page", "target": "help", "icon": "help", "route": "/business/help", "label": "Help"},
+            # {"action_type": "menu", "target": "users.list"},
+            # {"action_type": "menu", "target": "roles.list"},
+            # {"action_type": "menu", "target": "products.list"},
+            # {"action_type": "menu", "target": "orders.list"},
+            # {"action_type": "menu", "target": "settings.profile"},
         ],
     },
 ]

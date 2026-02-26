@@ -3,8 +3,8 @@
 from core.ui.registry import register_ui_module_pages
 from core.ui.schema.page import Page
 from core.ui.schema.block import (
-    FormBlock,
-    FileBlock,
+    InfoBlock,
+    ImageGalleryBlock,
     TagBlock,
     StatBlock,
     ContainerBlock,
@@ -18,10 +18,11 @@ UI_PAGES = Page(
     domain="business",
     entity="partners",
     path="/business/partners/:id/detail",
-    title="Ustadz Detail",
+    title="Partner",
     permissions=["business.partners.view"],
-    data_source="/business/partners/{id}/",
-    method="GET",
+    data_source="/entities/business/partners.detail/query/",
+    method="POST",
+    payload_from_context={"partner_id": "{id}"},
     blocks=[
         # ── Container Block untuk layout profil & info ringkas ──
         ContainerBlock(
@@ -29,30 +30,38 @@ UI_PAGES = Page(
             gap=24,
             blocks=[
                 # ── FileBlock untuk gallery foto ──
-                FileBlock(
+                ImageGalleryBlock(
                     title="Foto Ustadz",
-                    entity_type="partner",
-                    entity_id_from="id",
+                    data_key="image_urls",
                     multiple=True,
-                    accept="image/*",
-                    permissions=["business.partners.view"],
+                    max_height=250,
+                    size="md",
+                ),
+
+                ContainerBlock(
+                    direction="column",
+                    column_line_separator=True,
+                    gap=4,
+                    blocks=[
+                        InfoBlock(
+                            key="name", 
+                            title="Name", 
+                        ),
+                        InfoBlock(
+                            key="address", 
+                            title="Address", 
+                        ),
+                        InfoBlock(
+                            key="base_price", 
+                            title="Harga", 
+                            meta={
+                                "format": "currency", 
+                                "currency": "IDR"
+                            }
+                        ),
+                    ]
                 ),
                 
-                # ── FormBlock read-only untuk profil dasar ──
-                FormBlock(
-                    type="form",
-                    mode="view",
-                    title="Profil Ustadz",
-                    description="Informasi lengkap tentang ustadz",
-                    fields=[
-                        Field(key="name", label="Nama", type="text"),
-                        Field(key="email", label="Email", type="email"),
-                        Field(key="phone", label="Telepon", type="text"),
-                        Field(key="address", label="Alamat", type="textarea"),
-                        Field(key="notes", label="Catatan", type="textarea"),
-                    ],
-                    actions=[],
-                ),
                 # ── StatBlock untuk rating & tarif ──
                 ContainerBlock(
                     direction="column",
@@ -97,18 +106,18 @@ UI_PAGES = Page(
         ),
 
         # ── Jadwal tersedia (custom TableBlock / bisa ganti nanti ke ScheduleBlock) ──
-        ContainerBlock(
-            direction="column",
-            blocks=[
-                FormBlock(
-                    title="Jadwal Tersedia",
-                    mode="view",
-                    fields=[
-                        Field(key="available_schedule", label="Jadwal", type="textarea"),
-                    ],
-                )
-            ],
-        ),
+        # ContainerBlock(
+        #     direction="column",
+        #     blocks=[
+        #         FormBlock(
+        #             title="Jadwal Tersedia",
+        #             mode="view",
+        #             fields=[
+        #                 Field(key="available_schedule", label="Jadwal", type="textarea"),
+        #             ],
+        #         )
+        #     ],
+        # ),
 
         # ── Tombol Booking ──
         ContainerBlock(

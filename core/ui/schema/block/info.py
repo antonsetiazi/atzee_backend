@@ -7,7 +7,7 @@ from typing import Dict, Optional, Any
 class InfoBlock:
     key: str
     title: str
-    value: Any
+    value: Optional[str] = None
     type: str = "info"
     suffix: Optional[str] = None
     meta: Optional[Dict[str, Any]] = None  # currency, format, suffix
