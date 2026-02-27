@@ -1,3 +1,5 @@
+# core/notifications/constants.py
+
 NOTIFICATION_TYPE_SYSTEM = "system"
 NOTIFICATION_TYPE_INFO = "info"
 NOTIFICATION_TYPE_WARNING = "warning"

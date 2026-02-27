@@ -1,3 +1,5 @@
+# core/notifications/providers/email.py
+
 from .base import BaseNotificationProvider
 
 

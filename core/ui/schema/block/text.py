@@ -10,7 +10,7 @@ WidgetSize = Literal["sm", "md", "lg"]
 class TextBlock:
     key: str
     title: str
-    value: str
+    value: str = None
     type: Literal["text"] = "text"
     size: WidgetSize = "md"
     meta: Optional[Dict[str, Any]] = None

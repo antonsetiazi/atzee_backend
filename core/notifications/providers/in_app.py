@@ -1,3 +1,5 @@
+# core/notifications/providers/in_app.py
+
 from .base import BaseNotificationProvider
 
 

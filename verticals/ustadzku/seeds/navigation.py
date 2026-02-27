@@ -44,6 +44,7 @@ NAVIGATION_SEED = [
         "app": "ustadzku",
         "items": [
             {"action_type": "page", "target": "dashboard", "icon": "home", "route": "/dashboard", "label": "Home"},
+            {"action_type": "page", "target": "notification", "icon": "notification", "route": "/core/notifications", "label": "Notification"},
             {"action_type": "page", "target": "booking", "icon": "booking", "route": "/business/my-bookings", "label": "Booking"},
             {"action_type": "page", "target": "help", "icon": "help", "route": "/business/help", "label": "Help"},
             # {"action_type": "menu", "target": "users.list"},

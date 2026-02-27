@@ -66,6 +66,7 @@ ROLES = [
             "core.classifications.tags.view",
             "core.user.wallet.view",
             "core.timezones.view",
+            "core.notification.view",
         ],
     },
 
