@@ -38,3 +38,58 @@ class UserSettings(models.Model):
 
     def __str__(self):
         return f"Settings for {self.user.username}"
+
+
+class UserAddress(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="addresses",
+    )
+
+    tenant = models.ForeignKey(
+        "core_tenants.Tenant",
+        on_delete=models.CASCADE,
+        related_name="user_addresses",
+    )
+
+    label = models.CharField(max_length=100)  # Rumah, Kantor
+
+    recipient_name = models.CharField(max_length=150)
+    phone = models.CharField(max_length=30)
+
+    address_line = models.TextField()
+    city = models.CharField(max_length=100)
+    region = models.CharField(max_length=100, blank=True)
+    postal_code = models.CharField(max_length=20, blank=True)
+    country = models.CharField(max_length=100)
+
+    latitude = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        null=True,
+        blank=True
+    )
+    longitude = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        null=True,
+        blank=True
+    )
+
+    is_default = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "core_user_addresses"
+        ordering = ["-is_default", "-created_at"]
+        indexes = [
+            models.Index(fields=["user", "tenant"]),
+            models.Index(fields=["user", "is_default"]),
+        ]
+
+    def __str__(self):
+        return f"{self.label} - {self.user.username}"

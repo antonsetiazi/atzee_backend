@@ -29,4 +29,4 @@ class FormBlock:
     actions: List[Action] = field(default_factory=list)
     redirect_to: Optional[FormRedirect] = None
     affects: Optional[Affects] = None
-
+    refresh_cache: Optional[List[str]] = None

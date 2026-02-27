@@ -89,9 +89,16 @@ UI_PAGES = Page(
                             icon="password",
                             to="/account/password",
                             permission="core.account.password.update",
-                        )
+                        ),
+                        Action(
+                            type="navigate",
+                            label="Address",
+                            icon="address",
+                            to="/account/address",
+                            permission="core.account.profile.update",
+                        ),
                     ],
-                    justify="center",
+                    justify="start",
                 )
             ],
         ),

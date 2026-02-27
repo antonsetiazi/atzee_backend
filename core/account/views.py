@@ -1,10 +1,20 @@
 # core/account/views.py
 
+from rest_framework import viewsets, status
+from rest_framework.response import Response
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import action
 
-from core.account.models import UserSettings
 from core.account.serializers import UserSettingsSerializer
+from core.tenants.services import TenantService
+from core.account import selectors, services
+from core.account.serializers import (
+    UserAddressListSerializer,
+    UserAddressDetailSerializer,
+    UserAddressCreateSerializer,
+    UserAddressUpdateSerializer,
+)
 
 
 class UserSettingsView(RetrieveUpdateAPIView):
@@ -13,3 +23,130 @@ class UserSettingsView(RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user.settings
+
+
+class UserAddressViewSet(viewsets.ViewSet):
+    """
+    User Address API endpoints (tenant-scoped).
+    """
+
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request):
+        tenant = TenantService.get_current_tenant(request)
+
+        addresses = selectors.get_user_addresses(
+            tenant=tenant,
+            user=request.user
+        )
+
+        serializer = UserAddressListSerializer(addresses, many=True)
+        return Response(serializer.data)
+
+
+    def retrieve(self, request, pk=None):
+        tenant = TenantService.get_current_tenant(request)
+
+        address = selectors.get_user_address_by_id(
+            tenant=tenant,
+            user=request.user,
+            address_id=pk
+        )
+
+        if not address:
+            return Response(
+                {"detail": "Address not found."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = UserAddressDetailSerializer(address)
+        return Response(serializer.data)
+
+
+    def create(self, request):
+        try:
+            tenant = TenantService.get_current_tenant(request)
+
+            serializer = UserAddressCreateSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+
+            address = services.create_user_address(
+                tenant=tenant,
+                user=request.user,
+                **serializer.validated_data
+            )
+
+            output = UserAddressDetailSerializer(address)
+
+            return Response(
+                output.data,
+                status=status.HTTP_201_CREATED
+            )
+        except Exception as e:
+            print(e)
+
+
+    def update(self, request, pk=None):
+        tenant = TenantService.get_current_tenant(request)
+
+        serializer = UserAddressUpdateSerializer(
+            data=request.data,
+            partial=True
+        )
+        serializer.is_valid(raise_exception=True)
+
+        address = services.update_user_address(
+            tenant=tenant,
+            user=request.user,
+            address_id=pk,
+            **serializer.validated_data
+        )
+
+        output = UserAddressDetailSerializer(address)
+        return Response(output.data)
+
+
+    def partial_update(self, request, pk=None):
+        tenant = TenantService.get_current_tenant(request)
+
+        serializer = UserAddressUpdateSerializer(
+            data=request.data,
+            partial=True
+        )
+        serializer.is_valid(raise_exception=True)
+
+        address = services.update_user_address(
+            tenant=tenant,
+            user=request.user,
+            address_id=pk,
+            **serializer.validated_data
+        )
+
+        output = UserAddressDetailSerializer(address)
+        return Response(output.data)
+    
+
+    def destroy(self, request, pk=None):
+        tenant = TenantService.get_current_tenant(request)
+
+        services.delete_user_address(
+            tenant=tenant,
+            user=request.user,
+            address_id=pk
+        )
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+    @action(detail=True, methods=["post"])
+    def set_default(self, request, pk=None):
+        tenant = TenantService.get_current_tenant(request)
+
+        address = services.set_default_address(
+            tenant=tenant,
+            user=request.user,
+            address_id=pk
+        )
+
+        serializer = UserAddressDetailSerializer(address)
+        return Response(serializer.data)
