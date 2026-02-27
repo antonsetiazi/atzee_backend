@@ -1,3 +1,5 @@
+# business/payments/models.py
+
 from django.db import models
 from core.models.base import TenantAwareModel
 from core.tenants.models import Tenant

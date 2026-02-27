@@ -297,3 +297,18 @@ CACHES = {
 
 
 BASE_BACKEND_URL = "http://localhost:8000"
+
+
+# =========================
+# PAYMENT GATEWAY CONFIG
+# =========================
+
+MIDTRANS_SERVER_KEY = os.getenv("MIDTRANS_SERVER_KEY", "")
+MIDTRANS_CLIENT_KEY = os.getenv("MIDTRANS_CLIENT_KEY", "")
+MIDTRANS_IS_PRODUCTION = os.getenv("MIDTRANS_IS_PRODUCTION", "False") == "True"
+
+XENDIT_API_KEY = os.getenv("XENDIT_API_KEY", "")
+XENDIT_IS_PRODUCTION = os.getenv("XENDIT_IS_PRODUCTION", "False") == "True"
+
+# XENDIT WEBHOOK SECURITY
+XENDIT_CALLBACK_TOKEN = os.getenv("XENDIT_CALLBACK_TOKEN", "")

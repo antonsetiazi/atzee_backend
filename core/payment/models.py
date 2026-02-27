@@ -15,6 +15,12 @@ class PaymentStatus(models.TextChoices):
     CANCELLED = "CANCELLED", "Cancelled"
 
 
+class PaymentGatewayType(models.TextChoices):
+    WALLET = "WALLET", "Internal Wallet"
+    MIDTRANS = "MIDTRANS", "Midtrans"
+    XENDIT = "XENDIT", "Xendit"
+
+    
 class PaymentMethod(TenantAwareModel):
     """
     Core Payment Method
@@ -25,6 +31,12 @@ class PaymentMethod(TenantAwareModel):
     description = models.TextField(blank=True, default="")
     is_active = models.BooleanField(default=True)
 
+    gateway = models.CharField(
+        max_length=20,
+        choices=PaymentGatewayType.choices,
+        default=PaymentGatewayType.WALLET,
+    )
+    
     class Meta:
         db_table = "core_payment_methods"
         unique_together = ("tenant", "code")
@@ -66,6 +78,25 @@ class Payment(TenantAwareModel):
     reference = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField(blank=True, default="")
 
+    external_id = models.CharField(
+        max_length=150,
+        blank=True,
+        null=True,
+        help_text="Transaction ID from payment gateway"
+    )
+
+    gateway_response = models.JSONField(
+        blank=True,
+        null=True,
+        help_text="Raw response from payment gateway"
+    )
+
+    client_payload = models.JSONField(
+        blank=True,
+        null=True,
+        help_text="Data needed by frontend (redirect_url, snap_token, qr_string, etc)"
+    )
+        
     created_by = models.ForeignKey(
         User,
         null=True,

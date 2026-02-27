@@ -21,6 +21,7 @@ class PaymentSerializer(serializers.ModelSerializer):
             "status",
             "reference",
             "description",
+            "client_payload",
             "created_at",
             "updated_at",
         ]
