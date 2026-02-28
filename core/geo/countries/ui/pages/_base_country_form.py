@@ -77,6 +77,7 @@ def build_country_form_page(
                         to=redirect_page,
                     ),
                 ],
+                refresh_cache=["countries.list"],
             )
         ],
     )

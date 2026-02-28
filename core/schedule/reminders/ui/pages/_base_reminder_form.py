@@ -72,6 +72,7 @@ def build_reminder_form_page(
                     Action(type="submit", label="Save"),
                     Action(type="redirect", label="Cancel", to=redirect_page),
                 ],
+                refresh_cache=["reminders.list"],
             ),
         ],
     )

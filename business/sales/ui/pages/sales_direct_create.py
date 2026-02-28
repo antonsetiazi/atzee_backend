@@ -57,6 +57,7 @@ UI_PAGES = Page(
                     to="/business/sales/direct",
                 ),
             ],
+            refresh_cache=["sales.direct.list"],
         )
     ],
 )

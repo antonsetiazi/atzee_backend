@@ -30,9 +30,10 @@ def build_shift_list_page(
         path=path,
         title="Shifts",
         permissions=permissions,
+        data_source=data_source,
         blocks=[
             TableBlock(
-                data_source=data_source,
+                data_key="items",
                 search_mode=search_mode,
                 columns=columns,
                 detail_as_state=False,

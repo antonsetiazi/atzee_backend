@@ -44,6 +44,7 @@ def build_tag_form_page(
                     Action(type="submit", label="Save"),
                     Action(type="redirect", label="Cancel", to=redirect_page),
                 ],
+                refresh_cache=["tags.list"],
             )
         ],
     )

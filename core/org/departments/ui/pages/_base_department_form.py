@@ -62,6 +62,7 @@ def build_department_form_page(
                         to=redirect_page,
                     ),
                 ],
+                refresh_cache=["departments.list"],
             )
         ],
     )

@@ -65,6 +65,7 @@ def build_timezone_form_page(
                         to=redirect_page,
                     ),
                 ],
+                refresh_cache=["timezones.list"],
             )
         ],
     )

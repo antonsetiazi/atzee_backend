@@ -27,6 +27,9 @@ def _change_status(booking: Booking, new_status: str):
 
 @transaction.atomic
 def confirm_booking(booking: Booking):
+    if booking.partner_amount is None:
+        raise ValidationError("Financial snapshot not prepared.")
+    
     _change_status(booking, BookingStatus.CONFIRMED)
 
     booking.is_financial_locked = True

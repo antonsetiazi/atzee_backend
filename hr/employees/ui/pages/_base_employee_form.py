@@ -53,6 +53,7 @@ def build_employee_form_page(
                     Action(type="submit", label="Save"),
                     Action(type="redirect", label="Cancel", to=path.rsplit("/", 2)[0],)
                 ],
+                refresh_cache=["employees.list"],
             )
         ],
     )

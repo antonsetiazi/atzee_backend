@@ -9,6 +9,7 @@ class UsersConfig(AppConfig):
     label = "business_users"
 
     def ready(self):
+        from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.user_list import UserListEntity
         from .entities.profile import BusinessUserProfileEntity

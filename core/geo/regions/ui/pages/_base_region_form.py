@@ -72,6 +72,7 @@ def build_region_form_page(
                         to=redirect_page,
                     ),
                 ],
+                refresh_cache=["regions.list"],
             )
         ],
     )

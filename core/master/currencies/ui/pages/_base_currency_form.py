@@ -80,6 +80,7 @@ def build_currency_form_page(
                         to=redirect_page,
                     ),
                 ],
+                refresh_cache=["currencies.list"],
             )
         ],
     )

@@ -1,6 +1,7 @@
 # business/partners/models.py
 
 from django.db import models
+from django.conf import settings
 from core.models.base import TenantAwareModel, ExtensibleModel
 from django.core.validators import MinValueValidator, MaxValueValidator
 
@@ -8,6 +9,14 @@ class Partner(TenantAwareModel, ExtensibleModel):
     """
     Core partner model (business invariant).
     """
+
+    core_user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="partner_profile",
+        null=True,
+        blank=True,
+    )
 
     code = models.CharField(
         max_length=50,

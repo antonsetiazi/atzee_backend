@@ -49,6 +49,7 @@ def build_attribute_option_form_page(
                         to=redirect_page,
                     ),
                 ],
+                refresh_cache=["attribute.options.list"],
             )
         ],
     )

@@ -92,14 +92,17 @@ def create_booking(
         subtotal += item_subtotal
 
     platform_fee = subtotal * Decimal(tenant.platform_fee_percent) / Decimal(100)
+    partner_amount = subtotal - platform_fee
     total_price = subtotal + platform_fee
 
     booking.subtotal_amount = subtotal
     booking.platform_fee = platform_fee
+    booking.partner_amount = partner_amount
     booking.total_price = total_price
     booking.save(update_fields=[
         "subtotal_amount",
         "platform_fee",
+        "partner_amount",
         "total_price",
         "updated_at"
     ])

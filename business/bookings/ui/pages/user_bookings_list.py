@@ -5,14 +5,16 @@ from core.ui.schema.page import Page
 from core.ui.schema.block import TableBlock, TableColumn
 from core.ui.schema.action import Action
 
+from business.enum.permissions import BusinessPermission
+
 
 UI_PAGES = Page(
     key="user.bookings.list",
     entity="user.bookings.upcoming",
     domain="business",
     title="My Bookings",
-    path="/business/my-bookings",
-    permissions=["business.user.bookings.view"],
+    path="/business/user/bookings/schedule",
+    permissions=[BusinessPermission.USER_BOOKINGS_VIEW],
     blocks=[
         TableBlock(
             data_source="/entities/business/user.bookings.upcoming/query/",

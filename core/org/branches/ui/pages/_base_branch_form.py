@@ -55,6 +55,7 @@ def build_branch_form_page(
                         to=redirect_page,
                     ),
                 ],
+                refresh_cache=["branches.list"],
             )
         ],
     )

@@ -53,6 +53,7 @@ def build_general_journal_form_page(
                         to=redirect_page,
                     ),
                 ],
+                refresh_cache=["journals.list"],
             ),
             # TableBlock(
             #     title="Journal Lines",

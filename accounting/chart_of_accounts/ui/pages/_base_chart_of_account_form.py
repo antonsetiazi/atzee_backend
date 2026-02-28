@@ -78,6 +78,7 @@ def build_chart_of_account_form_page(
                     Action(type="submit", label="Save"),
                     Action(type="redirect", label="Cancel", to=path.rsplit("/", 2)[0],)
                 ],
+                refresh_cache=["chart_of_accounts.list"],
             )
         ],
     )

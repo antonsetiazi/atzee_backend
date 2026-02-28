@@ -28,9 +28,10 @@ def build_attribute_option_list_page(
         path=path,
         title="Attribute Options",
         permissions=permissions,
+        data_source=data_source,
         blocks=[
             TableBlock(
-                data_source=data_source,
+                data_key="items",
                 columns=columns,
                 actions=[
                     Action(

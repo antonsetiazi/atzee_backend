@@ -4,6 +4,7 @@ from core.ui.schema.page import Page
 from core.ui.schema.block import FormBlock, FileBlock
 from core.ui.schema.field import Field
 from core.ui.schema.action import Action
+from business.enum.permissions import BusinessPermission
 
 
 def build_partner_form_page(
@@ -11,6 +12,7 @@ def build_partner_form_page(
     key: str,
     domain: str,
     path: str,
+    mode: str = "create",
     submit_to: str,
     method: str,
     permissions: list[str],
@@ -45,6 +47,7 @@ def build_partner_form_page(
                 submit_to=submit_to,
                 method=method,
                 title=title,
+                mode=mode,
                 description="Lengkapi data partner dengan benar",
                 redirect_to={"page": redirect_page},
                 fields=fields,
@@ -52,6 +55,7 @@ def build_partner_form_page(
                     Action(type="submit", label="Save"),
                     Action(type="redirect", label="Cancel", to=path.rsplit("/", 2)[0],)
                 ],
+                refresh_cache=["partners.list"],
             ),
 
             FileBlock(
@@ -60,7 +64,7 @@ def build_partner_form_page(
                 entity_id_from="id",
                 multiple=True,
                 accept="image/*,.pdf",
-                permissions=["business.partners.update"],
+                permissions=[BusinessPermission.PARTNERS_UPDATE],
             ),
         ],
     )

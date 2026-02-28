@@ -54,6 +54,7 @@ def build_user_form_page(
                         to=path.rsplit("/", 2)[0],
                     ),
                 ],
+                refresh_cache=["users.list"],
             ),
 
             FileBlock(

@@ -57,6 +57,7 @@ def build_uom_form_page(
                         to=redirect_page,
                     ),
                 ],
+                refresh_cache=["uom.list"],
             )
         ],
     )

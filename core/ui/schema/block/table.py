@@ -25,6 +25,7 @@ class TableBlock:
     type: Literal["table"] = "table"
     title: Optional[str] = None
     description: Optional[str] = None
+    data_key: Optional[str] = None
     data_source: str = ""
     query: Dict[str, object] = field(default_factory=dict)
     search_mode: searchModeType = "client"

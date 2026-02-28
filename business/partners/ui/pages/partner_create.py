@@ -4,6 +4,8 @@ from core.ui.registry import register_ui_module_pages
 from business.partners.ui.pages._base_partner_form import (
     build_partner_form_page,
 )
+from business.enum.permissions import BusinessPermission
+
 
 UI_PAGES = build_partner_form_page(
     key="partners.create",
@@ -11,7 +13,7 @@ UI_PAGES = build_partner_form_page(
     path="/business/partners/create",
     submit_to="/business/partners/",
     method="POST",
-    permissions=["business.partners.add"],
+    permissions=[BusinessPermission.PARTNERS_CREATE],
     title="Create Partner",
     redirect_page="/business/partners",
 )

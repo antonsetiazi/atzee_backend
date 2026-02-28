@@ -6,6 +6,7 @@ import random
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from django.db import transaction
+from django.contrib.auth import get_user_model
 
 from core.tenants.models import Tenant
 from business.partners.models import Partner
@@ -16,7 +17,11 @@ from django.core.files.base import ContentFile
 from core.files.models import File
 from core.files.storage import FileStorageService
 from core.users.models import User
+from core.roles.models import Role, UserRole
+from core.tenants.models import UserTenant
 
+
+User = get_user_model()
 
 class Command(BaseCommand):
     help = "Seed partners + products per tenant based on vertical"
@@ -102,10 +107,14 @@ class Command(BaseCommand):
             # SEED PARTNERS
             # ─────────────────────────────────────────────
             for data in partners_config:
+
+                core_user = self._get_or_create_partner_user(tenant, data)
+
                 partner, created = Partner.objects.update_or_create(
                     tenant=tenant,
                     code=data.get("code"),
                     defaults={
+                        "core_user": core_user,
                         "name": data["name"],
                         "email": data.get("email"),
                         "phone": data.get("phone"),
@@ -238,3 +247,51 @@ class Command(BaseCommand):
                 "is_public": True,
             },
         )
+
+    def _get_or_create_partner_user(self, tenant, partner_data):
+        """
+        Ensure each partner has a core_user.
+        """
+
+        email = partner_data.get("email")
+        full_name = partner_data.get("name")
+
+        if not email:
+            return None
+
+        user, created = User.objects.update_or_create(
+            email=email,
+            defaults={
+                "username": email,
+                "full_name": full_name,
+                "is_active": True,
+                "is_staff": False,
+                "is_superuser": False,
+            }
+        )
+
+        if created:
+            user.set_password("Partner123!")
+            user.save()
+
+        # Tenant membership
+        UserTenant.objects.update_or_create(
+            user=user,
+            tenant=tenant,
+            defaults={"is_active": True}
+        )
+
+        # Assign Partner role
+        try:
+            role = Role.objects.get(
+                tenant=tenant,
+                name="Partner"
+            )
+            UserRole.objects.update_or_create(
+                user=user,
+                role=role
+            )
+        except Role.DoesNotExist:
+            pass
+
+        return user

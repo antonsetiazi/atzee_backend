@@ -14,15 +14,15 @@ register_user_seed({
 })
 
 # 🔹 Partner / Seller
-register_user_seed({
-    "email": "partner@ustadzku.com",
-    "full_name": "Ustadzku Partner",
-    "password": "Partner123!",
-    "tenant_code": "ustadzku",
-    "is_superuser": False,
-    "is_staff": False,
-    "role": "Partner",
-})
+# register_user_seed({
+#     "email": "partner@ustadzku.com",
+#     "full_name": "Ustadzku Partner",
+#     "password": "Partner123!",
+#     "tenant_code": "ustadzku",
+#     "is_superuser": False,
+#     "is_staff": False,
+#     "role": "Partner",
+# })
 
 # 🔹 Customer / Pelanggan
 register_user_seed({

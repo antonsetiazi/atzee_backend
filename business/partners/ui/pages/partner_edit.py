@@ -5,14 +5,17 @@ from core.ui.schema.field import Field
 from business.partners.ui.pages._base_partner_form import (
     build_partner_form_page,
 )
+from business.enum.permissions import BusinessPermission
+
 
 UI_PAGES = build_partner_form_page(
     key="partners.edit",
     domain="business",
+    mode="edit",
     path="/business/partners/:id/edit",
     submit_to="/business/partners/{id}/",
     method="PATCH",
-    permissions=["business.partners.update"],
+    permissions=[BusinessPermission.PARTNERS_UPDATE],
     title="Edit Partner",
     redirect_page="/business/partners",
     extra_fields=[

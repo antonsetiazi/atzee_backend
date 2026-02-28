@@ -13,6 +13,9 @@ from core.ui.schema.block import (
     ListTileSchema,
 )
 
+from business.enum.permissions import BusinessPermission
+from verticals.ustadzku.enum.permissions import UstadzkuPermission
+
 UI_PAGES = [
     Page(
         key="ustadzku.user.dashboard",
@@ -20,7 +23,7 @@ UI_PAGES = [
         domain="ustadzku",
         path="/dashboard",
         title="Dashboard",
-        permissions=["ustadzku.user.dashboard.view"],
+        permissions=[UstadzkuPermission.USER_DASHBOARD_VIEW],
         description="Ringkasan aktivitas dan booking Anda",
         data_source="/entities/ustadzku/user.dashboard/query/",
         blocks=[
@@ -50,7 +53,7 @@ UI_PAGES = [
                         key="my_bookings",
                         label="Riwayat Booking",
                         icon="calendar",
-                        to="/business/my-bookings",
+                        to="/business/user/bookings/schedule",
                     ),
                     ShortcutItem(
                         key="transactions",
@@ -119,7 +122,7 @@ UI_PAGES = [
                     status=ListFieldSchema(key="status"),
                 ),
                 layout="standard",
-                permissions=["business.bookings.view"],
+                permissions=[BusinessPermission.BOOKINGS_VIEW],
             ),
 
             # ===============================
@@ -135,7 +138,7 @@ UI_PAGES = [
                     status=ListFieldSchema(key="status"),
                 ),
                 layout="standard",
-                permissions=["business.bookings.view"],
+                permissions=[BusinessPermission.BOOKINGS_VIEW],
             )
         ],
     ),

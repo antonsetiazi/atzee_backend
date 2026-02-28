@@ -1,5 +1,9 @@
 # verticals/ustadzku/roles.py
 
+from core.enum.permissions import CorePermission
+from business.enum.permissions import BusinessPermission
+from verticals.ustadzku.enum.permissions import UstadzkuPermission
+
 ROLES = [
     # Tenant Owner / Superadmin lokal tenant
     {
@@ -15,8 +19,13 @@ ROLES = [
         "description": "Manage users, roles, and tenant settings",
         "access_level": 80,
         "default_permissions": [
-            "core.dashboard.view",
-            "ustadzku.dashboard.view",
+            CorePermission.DASHBOARD_VIEW,
+            BusinessPermission.ADMIN_BOOKINGS_VIEW,
+            UstadzkuPermission.ADMIN_DASHBOARD_VIEW,
+            BusinessPermission.PARTNERS_CREATE,
+            BusinessPermission.PARTNERS_UPDATE,
+            BusinessPermission.PARTNERS_VIEW,
+            BusinessPermission.USERS_VIEW,
         ],
     },
 
@@ -26,7 +35,7 @@ ROLES = [
         "description": "Internal staff access for operations",
         "access_level": 40,
         "default_permissions": [
-            "core.dashboard.view",
+            CorePermission.DASHBOARD_VIEW,
             "ustadzku.dashboard.view",
             "business.partners.view",
         ],
@@ -38,8 +47,7 @@ ROLES = [
         "description": "Read-only access to internal tenant data",
         "access_level": 10,
         "default_permissions": [
-            "core.dashboard.view",
-            "ustadzku.dashboard.view",
+            CorePermission.DASHBOARD_VIEW,
         ],
     },
 
@@ -49,27 +57,27 @@ ROLES = [
         "description": "External customer / client of the tenant",
         "access_level": 5,
         "default_permissions": [
-            "core.account.profile.view",
-            "core.account.profile.update",
-            "core.account.settings.view",
-            "core.account.settings.update",
-            "core.account.password.update",
-            "core.account.address.create",
-            "core.account.address.update",
-            "core.classifications.tags.view",
-            "core.dashboard.view",
-            "core.files.view",
-            "core.geo.spatial.view",
-            "core.notification.view",
-            "core.tags.view",
-            "core.timezones.view",
-            "core.user.wallet.view",
-            "business.bookings.create",
-            "business.bookings.view",
-            "business.bookings.pay",
-            "business.partners.view",
-            "business.user.bookings.view",
-            "ustadzku.user.dashboard.view",
+            CorePermission.ACCOUNT_ADDRESS_CREATE,
+            CorePermission.ACCOUNT_ADDRESS_UPDATE,
+            CorePermission.ACCOUNT_PASSWORD_UPDATE,
+            CorePermission.ACCOUNT_PROFILE_VIEW,
+            CorePermission.ACCOUNT_PROFILE_UPDATE,
+            CorePermission.ACCOUNT_SETTINGS_VIEW,
+            CorePermission.ACCOUNT_SETTINGS_UPDATE,
+            CorePermission.CLASSIFICATIONS_TAGS_VIEW,
+            CorePermission.DASHBOARD_VIEW,
+            CorePermission.FILES_VIEW,
+            CorePermission.GEO_SPATIAL_VIEW,
+            CorePermission.NOTIFICATION_VIEW,
+            CorePermission.TAGS_VIEW,
+            CorePermission.TIMEZONES_VIEW,
+            CorePermission.USER_WALLET_VIEW,
+            BusinessPermission.BOOKINGS_CREATE,
+            BusinessPermission.BOOKINGS_VIEW,
+            BusinessPermission.BOOKINGS_PAY,
+            BusinessPermission.PARTNERS_VIEW,
+            BusinessPermission.USER_BOOKINGS_VIEW,
+            UstadzkuPermission.USER_DASHBOARD_VIEW,
         ],
     },
 
@@ -79,9 +87,14 @@ ROLES = [
         "description": "External partner or seller of the tenant",
         "access_level": 5,
         "default_permissions": [
-            "core.dashboard.view",
-            "ustadzku.partner.dashboard.view",
-            "business.partners.view",
+            CorePermission.ACCOUNT_PASSWORD_UPDATE,
+            CorePermission.ACCOUNT_PROFILE_VIEW,
+            CorePermission.ACCOUNT_PROFILE_UPDATE,
+            CorePermission.DASHBOARD_VIEW,
+            CorePermission.NOTIFICATION_VIEW,
+            BusinessPermission.PARTNERS_VIEW,
+            BusinessPermission.PARTNER_BOOKINGS_VIEW,
+            UstadzkuPermission.PARTNER_DASHBOARD_VIEW,
         ],
     },
 ]

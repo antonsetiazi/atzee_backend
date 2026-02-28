@@ -76,6 +76,7 @@ def build_location_form_page(
                         to=redirect_page,
                     ),
                 ],
+                refresh_cache=["locations.list"],
             )
         ],
     )

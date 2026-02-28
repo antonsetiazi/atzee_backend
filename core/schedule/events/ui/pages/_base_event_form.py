@@ -51,6 +51,7 @@ def build_event_form_page(
                     Action(type="submit", label="Save"),
                     Action(type="redirect", label="Cancel", to=redirect_page),
                 ],
+                refresh_cache=["events.list"],
             ),
 
             # 🔽 FILE ATTACHMENTS (opsional, jika event perlu attachment)

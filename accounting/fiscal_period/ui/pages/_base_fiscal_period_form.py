@@ -50,6 +50,7 @@ def build_fiscal_period_form_page(
                         to=path.rsplit("/", 2)[0],
                     ),
                 ],
+                refresh_cache=["fiscal_period.list"],
             )
         ],
     )

@@ -12,6 +12,10 @@ class UstadzkuConfig(AppConfig):
         import verticals.ustadzku.seeds.permissions
 
         from core.entities.registry import register_entity
+        from verticals.ustadzku.entities.admin_dashboard import AdminDashboardEntity
         from verticals.ustadzku.entities.user_dashboard import UserDashboardEntity
+        from verticals.ustadzku.entities.partner_dashboard import PartnerDashboardEntity
 
+        register_entity(AdminDashboardEntity())
         register_entity(UserDashboardEntity())
+        register_entity(PartnerDashboardEntity())

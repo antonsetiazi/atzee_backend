@@ -52,6 +52,7 @@ def build_customer_form_page(
                     Action(type="submit", label="Save"),
                     Action(type="redirect", label="Cancel", to=path.rsplit("/", 2)[0],)
                 ],
+                refresh_cache=["customers.list"],
             ),
 
             # 🔽 FILE ATTACHMENTS

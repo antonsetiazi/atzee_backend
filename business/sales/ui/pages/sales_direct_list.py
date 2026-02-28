@@ -12,9 +12,10 @@ UI_PAGES = Page(
     path="/business/sales/direct",
     title="Direct Sales",
     permissions=["business.sales.view"],
+    data_source="/entities/business/sales.direct.list/query/",
     blocks=[
         TableBlock(
-            data_source="/entities/business/sales.direct.list/query/",
+            data_key="items",
             search_mode="client",
             columns=[
                 TableColumn(key="reference", label="Reference"),

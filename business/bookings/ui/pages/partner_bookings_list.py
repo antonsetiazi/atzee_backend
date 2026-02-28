@@ -2,33 +2,60 @@
 
 from core.ui.registry import register_ui_module_pages
 from core.ui.schema.page import Page
-from core.ui.schema.block import TableBlock, TableColumn
+from core.ui.schema.block import ListViewBlock, ListTileSchema, ListFieldSchema
 from core.ui.schema.action import Action
 
+from business.enum.permissions import BusinessPermission
 
 UI_PAGES = Page(
     key="partner.bookings.list",
-    entity="partner.bookings.upcoming",
+    entity="partner.bookings.schedule",
     domain="business",
-    title="Booking Schedule",
-    path="/business/partner/bookings",
-    permissions=["business.partner.bookings.view"],
+    title="My Schedule",
+    path="/business/partner/bookings/schedule",
+    data_source="/entities/business/partner.bookings.upcoming/query/",
+    permissions=[BusinessPermission.PARTNER_BOOKINGS_VIEW],
     blocks=[
-        TableBlock(
-            data_source="/entities/business/partner.bookings.upcoming/query/",
-            search_mode="server",
-            columns=[
-                TableColumn(key="booking_number", label="Booking Number", priority=1),
-                TableColumn(key="user_name", label="Customer"),
-                TableColumn(key="start_time", label="Start Time", type="datetime"),
-                TableColumn(key="duration_minutes", label="Duration (mins)"),
-                TableColumn(key="partner_amount", label="Earnings", type="currency", align="right"),
-                TableColumn(key="status", label="Status"),
-                TableColumn(key="payment_status", label="Payment"),
-            ],
-            actions=[],
-            top_actions=[],
-            detail_as_state=False,
+        ListViewBlock(
+            title="My Schedule",
+            data_key="items",  # karena response langsung array
+            layout="card",
+            tile=ListTileSchema(
+                title=ListFieldSchema(
+                    key="booking_number"
+                ),
+                subtitle=ListFieldSchema(
+                    key="partner_name"
+                ),
+                description=ListFieldSchema(
+                    key="start_time",
+                    format="datetime"
+                ),
+                trailing=ListFieldSchema(
+                    key="partner_amount",
+                    format="currency",
+                    currency="IDR"
+                ),
+                status=ListFieldSchema(
+                    key="status"
+                ),
+                meta={
+                    "Duration": ListFieldSchema(
+                        key="duration_minutes",
+                        suffix=" mins"
+                    ),
+                    "Payment": ListFieldSchema(
+                        key="payment_status"
+                    ),
+                },
+                action=Action(
+                    type="navigate",
+                    label="Detail",
+                    to="/business/bookings/{id}/detail",
+                    permission="business.user.bookings.view"
+                )
+            ),
+            permissions=["business.partner.bookings.view"],
         )
     ]
 )

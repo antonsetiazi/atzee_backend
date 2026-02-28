@@ -36,9 +36,10 @@ def build_chart_of_account_list_page(
         path=path,
         title="Chart of Accounts",
         permissions=permissions,
+        data_source=data_source,
         blocks=[
             TableBlock(
-                data_source=data_source,
+                data_key="items",
                 search_mode=search_mode,
                 columns=columns,
                 detail_as_state=False,

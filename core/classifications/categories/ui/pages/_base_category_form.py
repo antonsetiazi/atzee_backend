@@ -71,6 +71,7 @@ def build_category_form_page(
                         to=redirect_page,
                     ),
                 ],
+                refresh_cache=["categories.list"],
             )
         ],
     )

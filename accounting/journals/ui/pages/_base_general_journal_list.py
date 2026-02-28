@@ -21,9 +21,10 @@ def build_general_journal_list_page(
         path=path,
         title="General Journals",
         permissions=permissions,
+        data_source=data_source,
         blocks=[
             TableBlock(
-                data_source=data_source,
+                data_key="items",
                 search_mode="server",
                 columns=[
                     TableColumn(key="journal_number", label="Journal No"),
