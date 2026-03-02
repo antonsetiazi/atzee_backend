@@ -6,11 +6,11 @@ from core.models.base import TenantAwareModel
 from business.customers.models import Customer
 from business.partners.models import Partner
 from business.transactions.models.enums import (
-    TransactionType,
     TransactionSubType,
     TransactionStatus
 )
 
+from business.transactions.models.transaction_type import TransactionType
 
 class Transaction(TenantAwareModel):
     """
@@ -22,9 +22,10 @@ class Transaction(TenantAwareModel):
         help_text="Human readable transaction number"
     )
 
-    transaction_type = models.CharField(
-        max_length=20,
-        choices=TransactionType.choices
+    transaction_type = models.ForeignKey(
+        TransactionType,
+        on_delete=models.PROTECT,
+        related_name="transactions"
     )
 
     subtype = models.CharField(

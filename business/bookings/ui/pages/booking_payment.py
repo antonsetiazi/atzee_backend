@@ -4,6 +4,8 @@ from core.ui.registry import register_ui_module_pages
 from core.ui.schema.page import Page
 from core.ui.schema.block import ContainerBlock, InfoBlock, ActionBlock
 from core.ui.schema.action import Action
+from business.enum.permissions import BusinessPermission
+
 
 UI_PAGES = Page(
     key="bookings.payment",
@@ -11,7 +13,7 @@ UI_PAGES = Page(
     entity="bookings",
     path="/business/bookings/:id/payment",
     title="Pembayaran Booking",
-    permissions=["business.bookings.view"],
+    permissions=[BusinessPermission.BOOKINGS_PAY],
     data_source="/business/bookings/{id}/",
     method="GET",
     blocks=[

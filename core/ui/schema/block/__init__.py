@@ -20,4 +20,5 @@ from .table import TableBlock, TableColumn
 from .transaction_summary import TransactionSummaryBlock
 from .tag import TagBlock
 from .text import TextBlock
+from .transaction import TransactionBlock
 from .workflow import WorkflowBlock, WorkflowStatus

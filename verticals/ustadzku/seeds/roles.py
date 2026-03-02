@@ -1,4 +1,4 @@
-# verticals/ustadzku/roles.py
+# verticals/ustadzku/seeds/roles.py
 
 from core.enum.permissions import CorePermission
 from business.enum.permissions import BusinessPermission
@@ -36,8 +36,6 @@ ROLES = [
         "access_level": 40,
         "default_permissions": [
             CorePermission.DASHBOARD_VIEW,
-            "ustadzku.dashboard.view",
-            "business.partners.view",
         ],
     },
 

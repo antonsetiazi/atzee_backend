@@ -58,39 +58,51 @@ class TransactionViewSet(viewsets.ViewSet):
 
     def create(self, request):
         tenant = TenantService.get_current_tenant(request)
-        serializer = TransactionCreateSerializer(
-            data=request.data,
-            context={
-                "request": request,
-                "transaction_type": TransactionType.SALES,
-                "subtype": TransactionSubType.DIRECT,
-            }
-        )
-        
+
+        serializer = TransactionCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        
-        data  = serializer.validated_data
+        data = serializer.validated_data
+        print("data: ", data)
+        from business.customers.selectors import get_customer_by_id
+        from business.partners.selectors import get_partner_by_id
 
-        transaction = services.create_transaction(
-            tenant=tenant,
-            created_by=request.user,
-            transaction_type=TransactionType.SALES,
-            subtype=TransactionSubType.DIRECT,
-            reference=data.get("reference") or services.generate_sales_reference(tenant),
-            transaction_date=data["transaction_date"],
-            customer=get_customer_by_id(
+        customer = None
+        partner = None
+
+        if data.get("customer_id"):
+            customer = get_customer_by_id(
                 tenant=tenant,
-                customer_id=data.get("customer_id"),
-            ),
-            notes=data.get("notes"),
-        )
+                customer_id=data["customer_id"]
+            )
 
-        output = TransactionDetailSerializer(transaction)
+        if data.get("partner_id"):
+            partner = get_partner_by_id(
+                tenant=tenant,
+                partner_id=data["partner_id"]
+            )
 
-        return Response(
-            output.data,
-            status=status.HTTP_201_CREATED
-        )
+        try:
+            trx = services.create_full_transaction(
+                tenant=tenant,
+                created_by=request.user,
+                transaction_type=data["transaction_type"],
+                subtype=data.get("subtype"),
+                transaction_date=data["transaction_date"],
+                customer=customer,
+                partner=partner,
+                items=data.get("items"),
+                notes=data.get("notes"),
+                auto_confirm=data.get("auto_confirm", False),
+            )
+
+            output = TransactionDetailSerializer(trx)
+
+            return Response(
+                output.data,
+                status=status.HTTP_201_CREATED
+            )
+        except Exception as e:
+            print(e)
 
 
     def update(self, request, pk=None):

@@ -23,6 +23,13 @@ from business.transactions import selectors
 from core.workflows.engine import WorkflowEngine
 from core.workflows.context import WorkflowContext
 
+from business.products.selectors import get_product_by_id
+from business.transactions.policies.base import BaseTransactionPolicy
+from business.transactions.policies.registry import TransactionPolicyRegistry
+from business.transactions.reference_generators.registry import (
+    TransactionReferenceRegistry
+)
+
 @transaction.atomic
 def create_transaction(
     *,
@@ -39,16 +46,6 @@ def create_transaction(
     """
     Create new transaction in DRAFT state.
     """
-
-    if transaction_type == TransactionType.SALES:
-        if not customer:
-            raise ValidationError("Sales transaction requires customer.")
-
-        if subtype is None:
-            subtype = TransactionSubType.DIRECT
-    
-    if transaction_type == TransactionType.PURCHASE and not partner:
-        raise ValidationError("Purchase transaction requires partner.")
     
     trx = Transaction.objects.create(
         tenant=tenant,
@@ -346,3 +343,129 @@ def generate_sales_reference(tenant):
         next_number = int(last_ref.split("-")[-1]) + 1
 
     return f"{prefix}-{next_number:04d}"
+
+
+def generate_reference_by_type(*, tenant, transaction_type):
+    generator = TransactionReferenceRegistry.get_generator(transaction_type)
+
+    if not generator:
+        raise ValidationError(
+            "Reference generator not implemented for this type."
+        )
+
+    return generator(tenant)
+
+
+@transaction.atomic
+def create_full_transaction(
+    *,
+    tenant,
+    created_by,
+    transaction_type: str,
+    transaction_date,
+    subtype: str | None = None,
+    customer=None,
+    partner=None,
+    items: list | None = None,
+    notes: str | None = None,
+    auto_confirm: bool = False,
+):
+    """
+    Aggregate root factory.
+
+    Create full transaction with items in single atomic operation.
+    """
+
+    # 🔢 Reference generation (move logic here)
+    reference = generate_reference_by_type(
+        tenant=tenant,
+        transaction_type=transaction_type,
+    )
+
+    # Run base policy
+    BaseTransactionPolicy().validate(
+        transaction_type=transaction_type,
+        subtype=subtype,
+        customer=customer,
+        partner=partner,
+        items=items,
+    )
+
+    # Run registered extension policies
+    for policy in TransactionPolicyRegistry.get_policies():
+        policy().validate(
+            transaction_type=transaction_type,
+            subtype=subtype,
+            customer=customer,
+            partner=partner,
+            items=items,
+        )
+
+    trx = Transaction.objects.create(
+        tenant=tenant,
+        reference=reference,
+        transaction_type=transaction_type,
+        subtype=subtype,
+        transaction_date=transaction_date,
+        customer=customer,
+        partner=partner,
+        notes=notes,
+        status=TransactionStatus.DRAFT,
+        created_by=created_by,
+    )
+
+    # 🔥 Create items (if provided)
+    if items:
+
+        bulk_items = []
+
+        for item in items:
+
+            product = get_product_by_id(
+                tenant=tenant,
+                product_id=item["product"]
+            )
+
+            if not product:
+                raise ValidationError(f"Product {item['product']} not found.")
+
+            quantity = item["quantity"]
+            unit_price = item["unit_price"]
+
+            bulk_items.append(
+                TransactionItem(
+                    tenant=tenant,
+                    transaction=trx,
+                    product=product,
+                    quantity=quantity,
+                    unit_price=unit_price,
+                    total_price=quantity * unit_price,
+                    notes=item.get("notes"),
+                    created_by=created_by,
+                )
+            )
+
+        TransactionItem.objects.bulk_create(bulk_items)
+
+    # 🔥 Invariant: cannot confirm without items
+    if auto_confirm:
+
+        if not trx.items.exists():
+            raise ValidationError("Cannot confirm transaction without items.")
+
+        trx.status = TransactionStatus.CONFIRMED
+        trx.updated_by = created_by
+        trx.save(update_fields=["status", "updated_by", "updated_at"])
+
+        context = WorkflowContext(
+            tenant=tenant,
+            user=created_by,
+            transaction=trx,
+        )
+
+        WorkflowEngine.run(
+            event="transaction.confirmed",
+            context=context,
+        )
+
+    return trx

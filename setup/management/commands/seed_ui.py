@@ -69,8 +69,15 @@ def sync_permissions_to_db():
     lalu simpan ke database untuk semua tenant
     """
     for tenant in Tenant.objects.all():
+        tenant_vertical = tenant.vertical
+
         for perm in PermissionRegistry.all():
-            # print(perm)
+            perm_module = perm.get("module")
+            
+            # 🔥 FILTER DOMAIN
+            if perm_module not in ["core", "business", tenant_vertical]:
+                continue
+
             obj, created = Permission.objects.get_or_create(
                 tenant=tenant,
                 code=perm["code"],

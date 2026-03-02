@@ -47,11 +47,6 @@ NAVIGATION_SEED = [
             {"action_type": "page", "target": "notification", "icon": "notification", "route": "/core/notifications", "label": "Notification"},
             {"action_type": "page", "target": "booking", "icon": "booking", "route": "/business/my-bookings", "label": "Booking"},
             {"action_type": "page", "target": "help", "icon": "help", "route": "/business/help", "label": "Help"},
-            # {"action_type": "menu", "target": "users.list"},
-            # {"action_type": "menu", "target": "roles.list"},
-            # {"action_type": "menu", "target": "products.list"},
-            # {"action_type": "menu", "target": "orders.list"},
-            # {"action_type": "menu", "target": "settings.profile"},
         ],
     },
 ]

@@ -74,7 +74,7 @@ class UIPageService:
         allowed_pages = []
 
         from core.permissions.services import PermissionService
-
+    
         for page in pages:
             # cek page-level permission
             allowed = True

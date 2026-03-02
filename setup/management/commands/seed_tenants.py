@@ -11,6 +11,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         # Import semua vertical seed
         import verticals.ustadzku.seeds.tenants
+        import verticals.pos.seeds.tenants
 
         for data in all_tenant_seeds():
             obj, created = Tenant.objects.update_or_create(

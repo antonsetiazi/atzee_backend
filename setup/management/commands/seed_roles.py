@@ -80,11 +80,17 @@ class Command(BaseCommand):
 
                 # 🔑 ASSIGN DEFAULT PERMISSIONS
                 for perm_code in role_data.get("default_permissions", []):
-                    permission, _ = Permission.objects.get_or_create(
+                    permission = Permission.objects.filter(
                         tenant=tenant,
-                        code=perm_code,
-                        defaults={"description": f"Auto-generated permission for {perm_code}"}
-                    )
+                        code=perm_code
+                    ).first()
+
+                    if not permission:
+                        raise Exception(
+                            f"Permission '{perm_code}' not found for tenant '{tenant}'. "
+                            "Make sure seed_ui runs before seed_roles."
+                        )
+                    
                     _, was_created = RolePermission.objects.get_or_create(
                         role=role,
                         permission=permission,

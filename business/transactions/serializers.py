@@ -81,7 +81,24 @@ class TransactionListSerializer(serializers.ModelSerializer):
         ]
 
 
+class TransactionItemInputSerializer(serializers.Serializer):
+    product = serializers.IntegerField()
+    quantity = serializers.DecimalField(max_digits=14, decimal_places=4)
+    unit_price = serializers.DecimalField(max_digits=14, decimal_places=2)
+    notes = serializers.CharField(required=False, allow_blank=True)
+
+
 class TransactionCreateSerializer(serializers.Serializer):
+    transaction_type = serializers.ChoiceField(
+        choices=TransactionType.choices
+    )
+
+    subtype = serializers.ChoiceField(
+        choices=TransactionSubType.choices,
+        required=False,
+        allow_null=True
+    )
+
     reference = serializers.CharField(
         max_length=100, 
         required=False, 
@@ -92,7 +109,16 @@ class TransactionCreateSerializer(serializers.Serializer):
     customer_id = serializers.IntegerField(required=False)
     partner_id = serializers.IntegerField(required=False)
     notes = serializers.CharField(required=False, allow_blank=True)
+    items = TransactionItemInputSerializer(
+        many=True,
+        required=True
+    )
 
+    auto_confirm = serializers.BooleanField(
+        required=False,
+        default=False
+    )
+    
 
 class TransactionUpdateSerializer(serializers.Serializer):
     transaction_date = serializers.DateField()

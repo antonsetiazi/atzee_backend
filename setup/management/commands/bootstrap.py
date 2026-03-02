@@ -17,14 +17,14 @@ class Command(BaseCommand):
             self.stdout.write("→ Seeding tenants...")
             call_command("seed_tenants")
 
+            self.stdout.write("→ Seeding UI...")
+            call_command("seed_ui")
+
             self.stdout.write("→ Seeding roles...")
             call_command("seed_roles")
 
             self.stdout.write("→ Seeding users...")
             call_command("seed_users")
-
-            self.stdout.write("→ Seeding UI...")
-            call_command("seed_ui")
 
             self.stdout.write("→ Seeding Navigation...")
             call_command("seed_navigation")
@@ -37,6 +37,9 @@ class Command(BaseCommand):
 
             self.stdout.write("→ Seeding Timezones...")
             call_command("seed_timezones")
+
+            self.stdout.write("→ Seeding Transaction Types...")
+            call_command("seed_transaction_types")
 
             self.stdout.write("→ Seeding Payment Methods...")
             call_command("seed_payment_methods")

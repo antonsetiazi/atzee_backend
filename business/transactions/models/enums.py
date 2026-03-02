@@ -23,3 +23,9 @@ class TransactionSubType(models.TextChoices):
     MANUFACTURE = "manufacture", "Manufacturing"
     CONSIGNMENT = "consignment", "Consignment"
     SERVICE = "service", "Service"
+
+
+class TransactionDirection(models.TextChoices):
+    IN = "in"
+    OUT = "out"
+    INTERNAL = "internal"
