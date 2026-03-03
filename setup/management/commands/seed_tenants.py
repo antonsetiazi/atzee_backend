@@ -10,8 +10,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         # Import semua vertical seed
-        import verticals.ustadzku.seeds.tenants
+        import verticals.bengkel.seeds.tenants
+        import verticals.distributor.seeds.tenants
+        import verticals.hrms.seeds.tenants
+        import verticals.koperasi.seeds.tenants
+        import verticals.pesantren.seeds.tenants
         import verticals.pos.seeds.tenants
+        import verticals.ustadzku.seeds.tenants
 
         for data in all_tenant_seeds():
             obj, created = Tenant.objects.update_or_create(

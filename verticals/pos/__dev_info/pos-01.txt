@@ -1,0 +1,9 @@
+TUJUAN VERTICAL POS
+=========================================
+    Vertical POS harus:
+        - Menyediakan UX kasir cepat
+        - Menggunakan Product & Inventory dari Business
+        - Menggunakan Payment Engine dari Business
+        - Menggunakan Accounting Engine untuk posting jurnal
+        - Tidak punya logic keuangan sendiri
+

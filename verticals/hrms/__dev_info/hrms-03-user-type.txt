@@ -1,0 +1,18 @@
+🎭 Persona HRMS (Lebih Profesional & Scalable)
+=========================================
+
+Daripada pakai:
+Manager
+Staff
+Pegawai
+
+Kita gunakan istilah yang lebih umum dan enterprise-ready:
+
+| Persona              | Deskripsi                       |
+| -------------------- | ------------------------------- |
+| **HR Administrator** | Pengelola sistem HR             |
+| **HR Officer**       | Operasional HR harian           |
+| **Line Manager**     | Atasan langsung / kepala divisi |
+| **Employee**         | Karyawan biasa                  |
+| **Finance Officer**  | Pengelola payroll & jurnal      |
+| **Executive**        | Direksi / Owner                 |

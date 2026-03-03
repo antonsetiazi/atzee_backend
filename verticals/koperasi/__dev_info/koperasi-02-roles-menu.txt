@@ -1,0 +1,139 @@
+1. KETUA (Full Governance)
+=========================================
+    Kontrol penuh terhadap koperasi
+
+    Menu Akses
+        📊 Dashboard (Full Analytics)
+
+        👥 Members
+            - List & Detail
+            - Approve Member
+            - Nonaktifkan Member
+
+        💰 Savings
+            - View Semua Simpanan
+            - Koreksi Transaksi
+
+        🏦 Loans
+            - Approval Pinjaman
+            - Override Bunga
+            - Restrukturisasi
+
+        📈 SHU
+            - Generate Periode SHU
+            - Approve Distribusi
+
+        🗳 RAT
+            - Buat Periode RAT
+            - Finalisasi Laporan
+
+        📑 Reports (Full)
+        
+        ⚙ Settings
+            - Konfigurasi bunga
+            - Konfigurasi simpanan wajib
+            - Konfigurasi pembagian SHU
+
+    Ketua bisa lihat semuanya.
+
+
+2. BENDAHARA (Keuangan Operasional)
+========================================
+    Fokus ke kas & transaksi
+
+    Menu Akses
+        📊 Dashboard (Keuangan saja)
+
+        👥 Members (Read Only)
+
+        💰 Savings
+            - Input Simpanan
+            - Penarikan
+
+        🏦 Loans
+            - Cairkan Pinjaman
+            - Terima Angsuran
+
+        📈 SHU
+            - Lihat Perhitungan
+            - Draft Distribusi
+
+        📑 Reports
+            - Laporan Kas
+            - Laporan Pinjaman
+
+        ❌ Tidak bisa:
+            - Approve member
+            - Approve SHU final
+            - Edit konfigurasi global
+
+
+3. PENGAWAS (Audit & Kontrol)
+========================================
+    Tidak boleh mengubah data
+
+    Menu Akses
+        📊 Dashboard (Audit view)
+        👥 Members (Read Only)
+        💰 Savings (Read Only)
+        🏦 Loans (Read Only)
+        📈 SHU (Read Only)
+        📑 Reports (Full Access)
+        🧾 Audit Logs
+
+    Tidak bisa:
+        - Create
+        - Update
+        - Delete
+        - Approve
+
+
+4. STAFF (Operasional Harian)
+========================================
+    Input transaksi saja
+
+    Menu Akses
+        📊 Dashboard (Ringkas)
+        
+        👥 Members
+            - Tambah anggota
+
+        💰 Savings
+            - Input simpanan
+
+        🏦 Loans
+            - Input pengajuan
+            - Input angsuran
+
+        ❌ Tidak bisa:
+            - Approve loan
+            - Generate SHU
+            - Lihat laporan global
+            - Settings
+
+
+5. MEMBER (Akses Pribadi)
+========================================
+    Self service portal
+
+    Menu Akses
+        📊 My Dashboard
+
+        💰 My Savings
+            - Riwayat
+            - Saldo
+
+        🏦 My Loans
+            - Status pinjaman
+            - Jadwal angsuran
+
+        📈 My SHU
+            - SHU tahun berjalan
+
+        🧾 My Statements
+
+    Tidak bisa:
+        - Lihat anggota lain
+        - Input transaksi
+        - Settings
+        - Reports global

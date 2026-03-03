@@ -1,0 +1,266 @@
+🔧 VERTICAL: BENGKEL (WORKSHOP APP)
+=========================================
+    Vertical ini ditujukan untuk:
+        - Bengkel motor
+        - Bengkel mobil
+        - Service AC mobil
+        - Body repair
+        - Tune-up specialist
+        - UMKM perbengkelan
+
+
+🎯 TUJUAN VERTICAL BENGKEL
+=========================================
+    Vertical Bengkel bertugas menangani:
+        - Job service kendaraan
+        - Tracking kendaraan customer
+        - Sparepart & inventory
+        - Mekanik assignment
+        - Estimasi & invoice
+        - Riwayat service
+
+    Dan SEMUA itu harus berdiri di atas:
+        - Core (auth, tenant, permission)
+        - Business (transaction, inventory, accounting engine)
+
+    Vertical hanya orchestration.
+
+
+🏗 ARSITEKTUR DI ATZEE
+=========================================
+    core/
+    business/
+    verticals/
+        bengkel/
+
+
+🧩 ENTITY YANG DIBUTUHKAN
+=========================================
+    1. Customer Vehicle
+        Karena bengkel unik: customer punya kendaraan.
+
+        Entity:
+            Vehicle
+                - customer
+                - plate_number
+                - brand
+                - model
+                - year
+                - engine_number
+                - chassis_number
+                - transmission_type
+                - notes
+
+        👉 Business layer hanya tahu “Partner”
+        👉 Vertical menambahkan “Vehicle”
+
+
+    2. Service Job (Work Order)
+        Ini adalah jantung bengkel.
+
+        WorkOrder
+            - code
+            - vehicle
+            - odometer
+            - complaint
+            - diagnosis
+            - status
+            - priority
+            - estimated_finish
+            - assigned_mechanic
+            - checklist_json
+            - notes
+
+        Status lifecycle:
+            draft
+            inspection
+            waiting_approval
+            in_progress
+            waiting_parts
+            done
+            invoiced
+            closed
+            cancelled
+
+
+    3. Service Item (Jasa)
+        Berbeda dengan sparepart.
+
+        Ini adalah jasa:
+            - Tune up
+            - Ganti oli
+            - Balancing
+            - Engine overhaul
+
+        Entity:
+            ServiceProduct
+
+            Berdiri di atas Business Product
+            Tapi type = service
+
+
+    4. Sparepart Usage
+        Karena bengkel sangat tergantung stok.
+        Kita tidak buat inventory sendiri.
+        Kita gunakan:
+            business.inventory
+            business.transaction
+
+        Vertical hanya membuat:
+            - WorkOrderLine
+            - work_order
+            - product
+            - qty
+            - price
+            - line_type (service / part)
+
+        Saat work order close:
+            → Generate Business Transaction (sales)
+            → Affect inventory
+            → Affect accounting
+
+
+    5. Mechanic Management
+        Bisa pakai:
+            business.hr (optional)
+
+        Atau minimal:
+            MechanicProfile
+                - user
+                - skill_level
+                - specialization
+
+
+    6. Appointment Booking
+        Optional tapi sangat powerful untuk SaaS.
+
+        Appointment
+            - customer
+            - vehicle
+            - date
+            - service_type
+            - status
+
+
+💰 FLOW KEUANGAN
+=========================================
+    WorkOrder → Invoice → Payment
+
+    Tidak ada logic accounting di vertical.
+    Vertical hanya panggil:
+        business.transaction engine
+        business.accounting engine
+
+
+📊 DASHBOARD YANG DIBUTUHKAN
+=========================================
+    - Revenue hari ini
+    - Work order aktif
+    - Mekanik paling produktif
+    - Sparepart paling laku
+    - Pending approval
+    - Customer repeat rate
+
+    Semua via schema.
+
+    Frontend hanya render:
+        - type: card
+        - type: chart
+        - type: table
+
+
+👥 ROLE DI VERTICAL BENGKEL
+=========================================
+    Contoh:
+
+    Owner
+        Full access
+
+    Service Advisor
+        - Create work order
+        - Estimasi
+        - Approval
+
+    Mechanic
+            - Update status
+            - Isi checklist
+
+    Cashier
+        - Invoice
+        - Payment
+
+
+🧠 FITUR LANJUTAN (JIKA MAU LEVEL PRO)
+=========================================
+    1. Service Reminder
+        - Based on mileage
+        - Based on last service date
+        - Auto generate reminder notification
+
+    2. Inspection Checklist Template
+        - Template per jenis kendaraan.
+
+    3. Multi-Branch Workshop
+        - Tenant → multi location
+
+    4. Warranty Tracking
+    5. Estimation Approval via WhatsApp Link
+
+
+📦 HUBUNGAN DENGAN BUSINESS LAYER
+=========================================
+    | Kebutuhan Bengkel | Layer yang Dipakai   |
+    | ----------------- | -------------------- |
+    | Customer          | business.partner     |
+    | Product           | business.product     |
+    | Inventory         | business.inventory   |
+    | Transaction       | business.transaction |
+    | Accounting        | business.accounting  |
+    | Payment           | business.payment     |
+    | HR                | business.hr          |
+
+
+    Vertical hanya orchestration.
+
+
+🔒 MENJAGA ATURAN EMAS
+=========================================
+    ❌ Vertical tidak boleh:
+        - Edit model inventory
+        - Edit transaction
+        - Edit accounting
+        - Edit core permission engine
+
+    ✅ Vertical boleh:
+        - Extend product type
+        - Register module
+        - Tambah role
+        - Tambah entity
+        - Define workflow
+
+
+🧩 CONTOH MODULE REGISTRATION
+=========================================
+    verticals/bengkel/module.py
+
+    Register:
+        - Menu: Bengkel
+        - Submenu: Work Order
+        - Submenu: Vehicle
+        - Submenu: Appointment
+        - Submenu: Reports
+
+    Backend kirim schema.
+    Frontend render generik.
+
+
+🏁 HASIL AKHIR
+=========================================
+    Dengan desain ini:
+    ✅ Bisa dipakai bengkel kecil
+    ✅ Bisa dipakai bengkel besar
+    ✅ Bisa SaaS
+    ✅ Tidak merusak core
+    ✅ Tidak merusak business
+    ✅ Frontend tetap generik
+    ✅ Vertical bisa ditambah lagi (klinik, laundry, dll)

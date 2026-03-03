@@ -1,0 +1,22 @@
+CORE
+ ├── auth
+ ├── tenant
+ ├── role engine
+ ├── permission engine
+ ├── api contract
+ └── schema system
+
+BUSINESS
+ ├── products
+ ├── customers
+ ├── inventory
+ ├── pricing
+ ├── accounting engine
+ ├── payment engine
+ └── tax engine
+
+VERTICALS
+ ├── ustadzku
+ ├── hrms
+ ├── accounting
+ └── pos   ← (kita buat sekarang)

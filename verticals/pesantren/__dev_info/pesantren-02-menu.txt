@@ -1,0 +1,221 @@
+🔐 ROLE → MENU STRUCTURE PESANTREN
+
+    Kita desain realistis seperti pesantren modern Indonesia.
+
+    1. Owner Pesantren
+    =========================================
+        (Full tenant control)
+
+        Menu:
+        Dashboard
+            - Ringkasan santri
+            - Grafik keuangan
+            - Progres tahfidz
+            - Laporan kehadiran
+
+        Santri
+            - Data Santri
+            - Mutasi
+            - Alumni
+            - Status Aktif/Cuti
+
+        Asrama
+            - Gedung
+            - Kamar
+            - Wali Asrama
+
+        Akademik
+            - Kelas
+            - Kitab / Mapel
+            - Jadwal
+            - Nilai
+            - Absensi
+
+        Tahfidz
+            - Target Hafalan
+            - Setoran
+            - Halaqah
+            - Evaluasi
+
+        Keuangan Santri
+            - Tagihan SPP
+            - Tabungan Santri
+            - Pembayaran
+            - Denda
+
+        Accounting
+            - Jurnal
+            - Laporan Keuangan
+            - Neraca
+            - Arus Kas
+
+        Disiplin & Perizinan
+            - Izin Keluar
+            - Pelanggaran
+            - Sanksi
+
+        Asset & Wakaf
+            - Data Wakaf
+            - Aset Tanah
+            - Gedung
+            - Kendaraan
+
+        Donatur
+            - Data Donatur
+            - Program Wakaf
+            - Laporan Donasi
+
+        User & Role
+            - Manage User
+            - Manage Role
+            - Permission
+
+        Settings
+
+
+    2. Mudhir (Direktur Pesantren)
+    =========================================
+        Fokus: Operasional & Pengawasan
+
+        Menu:
+            - Dashboard
+            - Santri (View + Approve)
+            - Akademik
+            - Tahfidz
+            - Disiplin
+            - Perizinan
+            - Laporan Keuangan (Read Only)
+            - Laporan Tahfidz
+            - Laporan Akademik
+
+        ❌ Tidak bisa edit accounting
+        ❌ Tidak bisa ubah role
+
+
+    3. Ustadz
+    =========================================
+        Fokus: Mengajar
+
+        Menu:
+            - Dashboard Mengajar
+            - Jadwal Mengajar
+            - Absensi
+            - Input Nilai
+            - Input Evaluasi Akhlak
+            - Halaqah (jika pengampu)
+            - Laporan Kelas
+
+        ❌ Tidak bisa lihat keuangan
+        ❌ Tidak bisa lihat disiplin global
+
+
+    4. Musyrif (Pembimbing Asrama)
+    =========================================
+        Fokus: Asrama & Disiplin
+
+        Menu:
+            - Dashboard Asrama
+            - Data Santri (asrama saja)
+            - Absensi Asrama
+            - Pelanggaran
+            - Izin Keluar
+            - Monitoring Tahfidz (halaqahnya)
+            - Laporan Disiplin
+
+        ❌ Tidak akses accounting
+        ❌ Tidak akses akademik penuh
+
+
+    5. Staff Administrasi
+    =========================================
+        Fokus: Data & operasional
+
+        Menu:
+            - Data Santri
+            - Pendaftaran Santri Baru
+            - Mutasi
+            - Keuangan Santri
+            - Cetak Kartu Santri
+            - Dokumen
+            - Perizinan (processing)
+            - Laporan Administratif
+
+        ❌ Tidak bisa akses asset & wakaf
+        ❌ Tidak bisa ubah role
+
+
+    6. Bendahara
+    =========================================
+        Fokus: Keuangan
+
+        Menu:
+            - Dashboard Keuangan
+            - Tagihan SPP
+            - Pembayaran
+            - Tabungan Santri
+            - Jurnal
+            - Buku Kas
+            - Neraca
+            - Laporan Arus Kas
+            - Donasi & Wakaf
+
+        ❌ Tidak bisa ubah santri akademik
+        ❌ Tidak bisa ubah disiplin
+
+
+    7. Wali Santri (Parent Portal)
+    =========================================
+        Fokus: Monitoring anak
+
+        Menu:
+            - Dashboard Anak
+            - Nilai
+            - Absensi
+            - Progres Tahfidz
+            - Tagihan
+            - Riwayat Pembayaran
+            - Ajukan Izin
+            - Notifikasi
+
+        ❌ Tidak bisa lihat santri lain
+        ❌ Tidak bisa akses internal
+
+
+    8. Santri
+    =========================================
+        Fokus: Self-service
+
+        Menu:
+            - Dashboard
+            - Jadwal
+            - Nilai
+            - Progres Hafalan
+            - Riwayat Pelanggaran
+            - Tabungan
+            - Ajukan Izin
+            - Notifikasi
+
+        ❌ Tidak lihat data orang lain
+
+
+
+📊 RINGKASAN AKSES
+
+| Role        | Level |
+| ----------- | ----- |
+| Owner       | 100   |
+| Mudhir      | 90    |
+| Bendahara   | 80    |
+| Staff Admin | 70    |
+| Ustadz      | 60    |
+| Musyrif     | 60    |
+| Wali Santri | 30    |
+| Santri      | 20    |
+
+
+Tetap pakai engine permission global:
+    - viewer
+    - staff
+    - manager
+    - admin
+    - superadmin

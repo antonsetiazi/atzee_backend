@@ -1,0 +1,18 @@
+Ini adalah lanjutan dari session sebelumnya.
+
+CORE BACKEND
+==================
+
+Kita sedang membangun CORE ERP PLATFORM yang:
+- Tidak tahu domain bisnis
+- Multi-tenant sejak hari pertama
+- Siap dipakai semua business & vertical
+- Stabil 5–10 tahun
+- API contract fix → frontend bisa generik
+
+PRINSIP BESAR (WAJIB PEGANG)
+- Core ≠ Business
+- Auth & Tenant adalah gerbang semua API
+- Role & Permission bersifat engine, bukan enum
+- Frontend Core hanya konsumsi struktur
+- Vertical tidak boleh menyentuh core

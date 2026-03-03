@@ -1,0 +1,241 @@
+STRUKTUR MENU PLATFORM ADMIN – USTADZKU
+===================================================
+    1. Dashboard (Overview Global)
+        📂 verticals/ustadzku/dashboards
+
+        Menu:
+            Admin Dashboard
+
+        Isi Dashboard:
+            Total Booking (Hari ini / Bulan ini)
+            Revenue Platform
+            Pending Payment
+            Pending Payout
+            Ustadz Aktif Hari Ini
+            Order Real-Time Status
+            Anomaly / Alert System
+
+        Ini murni Vertical layer karena hanya tampilan agregasi.
+
+
+    2. User Management
+        📂 business/users
+        📂 core/users
+
+        Menu:
+            All Users
+            User Detail
+            User Activity Log
+            Suspend / Activate User
+
+        Fitur:
+            Lihat profile
+            Histori booking
+            Histori pembayaran
+            Rating yang diberikan
+            Blacklist user (jika abuse)
+
+
+    3. Ustadz / Partner Management
+        📂 business/partners
+
+        Menu:
+            All Ustadz
+            Pending Verification
+            Verified Ustadz
+            Rejected Ustadz
+            Documents Review
+            Availability Monitoring
+
+        Fitur:
+            Approve / Reject
+            Lihat dokumen
+            Lihat histori layanan
+            Rating performance
+            Suspend mitra
+            Force deactivation
+
+
+    4️. Booking Management
+        📂 business/bookings
+
+        Menu:
+            All Bookings
+            Active Bookings
+            Completed Bookings
+            Cancelled Bookings
+            Dispute / Complaint
+            Manual Override
+
+        Fitur:
+            Lihat detail booking
+            Status tracking
+            Cancel paksa
+            Ubah status (admin override)
+            Refund trigger
+
+
+    5. Payment & Settlement
+        📂 business/payments
+        📂 integrations/payment_gateway
+
+        Menu:
+            All Transactions
+            Pending Payment
+            Failed Payment
+            Refunds
+            Payout Queue
+            Payout History
+            Escrow Balance
+
+        Fitur:
+            Monitor payment gateway
+            Lihat escrow
+            Approve payout manual
+            Trigger payout
+            Audit fee platform
+
+
+    6️. Tracking & Monitoring
+        📂 verticals/ustadzku/tracking
+        📂 integrations/maps_api
+
+        Menu:
+            Live Tracking Map
+            Active Session Map
+            Location History
+
+        Fitur:
+            Lihat ustadz yang sedang menuju lokasi
+            Riwayat GPS
+            Force close session
+
+
+    7. Reviews & Ratings
+        📂 verticals/ustadzku/analytics
+
+        Menu:
+            All Reviews
+            Flagged Reviews
+            Ustadz Rating Ranking
+            Review Moderation
+
+        Fitur:
+            Hapus review abusive
+            Tandai review bermasalah
+            Analisa rating rendah
+
+
+    8️. Reports & Analytics
+        📂 business/reports
+
+        Menu:
+            Revenue Report
+            Booking Volume
+            Ustadz Performance
+            User Growth
+            Conversion Rate
+            Cancellation Analysis
+
+        Fitur:
+            Filter tanggal
+            Export CSV / Excel
+            Grafik bulanan
+
+
+    9️. Notifications & Messaging
+        📂 core/notifications
+        📂 integrations/messaging
+
+        Menu:
+            Send Broadcast
+            Notification Log
+            WhatsApp Log
+            Email Log
+            Push Notification Log
+
+        Fitur:
+            Broadcast ke semua user
+            Broadcast ke ustadz
+            Kirim notifikasi manual
+            Template management
+
+
+    10. Roles & Permissions
+        📂 core/roles
+        📂 core/permissions
+
+        Menu:
+            Roles
+            Permission Matrix
+            Admin Access Control
+
+        Contoh role:
+            Super Admin
+            Finance Admin
+            Operations Admin
+            Customer Support
+
+
+    11. Audit Logs
+        📂 core/audit_logs
+
+        Menu:
+            System Activity Log
+            Payment Audit Trail
+            Admin Action Log
+
+
+    12. Settings
+        📂 core/settings
+
+        Menu:
+            Platform Fee Settings
+            Commission %
+            Cancellation Rules
+            Radius Search Default
+            Payment Gateway Config
+            Maps API Config
+
+
+📌 Final Struktur Menu (Ringkas)
+===================================================
+    Admin
+    │
+    ├── Dashboard
+    │
+    ├── Users
+    │
+    ├── Ustadz / Partners
+    │
+    ├── Bookings
+    │
+    ├── Payments & Payout
+    │
+    ├── Live Tracking
+    │
+    ├── Reviews
+    │
+    ├── Reports
+    │
+    ├── Notifications
+    │
+    ├── Roles & Permissions
+    │
+    ├── Audit Logs
+    │
+    └── Settings
+
+
+🎯 Insight Arsitektural Penting
+===================================================
+    Perhatikan:
+        Admin tidak boleh punya logic bisnis baru
+
+    Semua action tetap lewat:
+        business/* (invariant)
+        core/* (platform)
+        integrations/* (external)
+
+    Admin hanyalah:
+        Supervisor + Controller + Override Layer

@@ -1,0 +1,72 @@
+Dan ini progress yang sudah kita lalui
+
+SESSION 1 :
+core/users/models.py
+core/users/auth/serializers.py
+core/users/auth/services.py
+core/users/auth/views.py
+core/users/auth/urls.py
+
+SESSION 2:
+core/tenants/models.py
+core/tenants/middleware.py
+core/tenants/serializers.py
+core/tenants/services.py
+core/tenants/views.py
+core/tenants/urls.py
+core/users/auth/services.py (UPDATE)
+
+SESSION 3:
+core/roles/models.py
+core/roles/serializers.py
+core/roles/services.py
+core/roles/views.py
+core/roles/urls.py
+
+SESSION 4:
+core/permissions/models.py
+core/permissions/services.py
+core/permissions/middleware.py
+core/permissions/decorators.py
+core/permissions/serializers.py
+core/permissions/views.py
+core/permissions/urls.py
+
+SESSION 5:
+core/ui/apps.py
+core/ui/models.py
+core/ui/serializers.py
+core/ui/services.py
+core/ui/views.py
+core/ui/urls.py
+
+SESSION 6:
+core/settings/models.py
+core/settings/serializers.py
+core/settings/services.py
+core/settings/views.py
+core/settings/urls.py
+core/permissions/decorators.py (UPDATE)
+
+SESSION 7:
+core/audit_logs/models.py
+core/audit_logs/middleware.py
+core/audit_logs/context.py
+core/audit_logs/mixins.py
+core/audit_logs/signals.py
+
+SESSION 8:
+core/notifications/models.py
+core/notifications/constants.py
+core/notifications/providers/base.py
+core/notifications/providers/in_app.py
+core/notifications/providers/email.py
+core/notifications/services.py
+core/notifications/signals.py
+core/notifications/serializers.py
+core/notifications/views.py
+core/notifications/urls.py
+core/notifications/apps.py
+
+SESSION 9:
+shared/utils/exceptions.py

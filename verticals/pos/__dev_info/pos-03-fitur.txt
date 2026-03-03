@@ -1,0 +1,88 @@
+FITUR WAJIB VERTICAL POS
+=========================================
+    Kita bagi menjadi 5 domain besar.
+
+    1. Master POS Configuration
+        Digunakan untuk setup toko retail.
+
+        Fitur:
+            - Outlet / Store
+            - Register / Cash Drawer
+            - Shift Management
+            - Default tax profile
+            - Default price list
+            - Receipt template
+            - Printer setup
+            - Payment method allowed
+
+        POS tidak buat produk baru.
+        POS hanya memilih price list & tax profile.
+
+
+    2. Sales Transaction Engine (Real-Time)
+        Ini jantung POS.
+
+        Flow:
+            - Scan / search product
+            - Add to cart
+            - Apply discount
+            - Apply tax
+            - Select payment
+            - Confirm
+            - Print receipt
+            - Post accounting entry
+            - Deduct stock
+
+        Fitur:
+            - Barcode scanning
+            - Quick add product
+            - Quantity control
+            - Line discount
+            - Cart discount
+            - Multi-payment
+            - Split bill
+            - Hold transaction
+            - Refund
+            - Void transaction
+
+        Semua posting tetap lewat:
+            - Business Inventory Engine
+            - Business Accounting Engine
+            - Business Payment Engine
+
+
+    3. Shift & Cash Control
+        Retail butuh kontrol kas.
+
+        Fitur:
+            - Open shift
+            - Initial cash
+            - Close shift
+            - Cash counting
+            - Over/short detection
+            - Cash movement (in/out)
+            - Shift report
+
+        Ini penting untuk audit dan fraud prevention.
+
+
+    4. Reporting (Retail Focused)
+        Berbeda dengan Accounting report.
+
+        POS butuh:
+            - Daily sales
+            - Sales per cashier
+            - Sales per outlet
+            - Top product
+            - Hourly sales
+            - Payment method breakdown
+            - Refund report
+
+        Ini hanya agregasi dari transaksi.
+
+
+    5. Offline Mode (Opsional Tapi Strategis)
+        Kalau mau naik kelas:
+            - Local transaction queue
+            - Sync when online
+            - Conflict resolver

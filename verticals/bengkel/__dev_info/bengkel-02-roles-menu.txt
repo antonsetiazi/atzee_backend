@@ -1,0 +1,202 @@
+🧭 STRUKTUR MENU UTAMA – VERTICAL BENGKEL
+=========================================
+    Root Menu:
+        Bengkel
+
+    Sub menu akan berbeda tergantung role.
+
+
+    1. OWNER (Full Control)
+    =========================================
+        Owner melihat SEMUA.
+
+        Dashboard
+            - Overview Revenue
+            - Work Order Aktif
+            - Pending Approval
+            - Mekanik Performance
+            - Low Stock Alert
+
+        Work Order
+            - Semua Work Order
+            - Create Work Order
+            - Approval Estimasi
+            - History
+
+        Vehicle
+            - Daftar Kendaraan
+            - Riwayat Service
+            - Reminder Service
+
+        Customer
+            - Customer List
+            - Customer History
+
+        Services
+            - Master Jasa
+            - Harga Jasa
+            - Template Checklist
+
+        Sparepart
+            - Daftar Sparepart
+            - Stock
+            - Stock Movement
+
+        Mechanic
+            - Daftar Mekanik
+            - Skill Level
+            - Assignment Board
+
+        Appointment
+            - Jadwal Booking
+            - Calendar View
+
+        Finance
+            - Invoice
+            - Payment
+            - Outstanding
+            - Laporan Revenue
+
+        Reports
+            - Revenue Report
+            - Sparepart Usage
+            - Mekanik Productivity
+            - Customer Retention
+
+        Settings
+            - Workflow Setting
+            - Reminder Rule
+            - Branch
+            - Printer Setup
+
+    2. SERVICE ADVISOR
+    =========================================
+        Fokus ke front desk & operasional.
+
+        Dashboard
+            - Work Order Hari Ini
+            - Pending Approval
+            - Estimasi Menunggu Konfirmasi
+
+        Work Order
+            - Create
+            - Edit
+            - Approval
+            - Print Estimasi
+
+        Tidak bisa:
+            - Delete invoice
+            - Edit accounting
+
+        Vehicle
+            - Input kendaraan baru
+            - Lihat riwayat service
+
+        Customer
+            - Tambah customer
+            - Edit data customer
+
+        Appointment
+            - Buat booking
+            - Reschedule
+
+        Sparepart (View Only)
+            - Cek stok
+
+        Tidak bisa:
+            Edit harga global
+            Adjust inventory
+
+
+    3. MECHANIC
+    =========================================
+        Fokus 100% ke pengerjaan.
+
+        My Jobs
+            - Assigned Work Orders
+            - Update Status
+            - Start / Pause / Finish
+
+        Checklist
+            - Isi inspection checklist
+            - Upload foto kerusakan
+
+        Parts Request
+            - Request sparepart
+            - Lihat parts yang dialokasikan
+
+        Tidak bisa:
+            - Lihat revenue
+            - Lihat invoice
+            - Edit harga
+
+
+    4. CASHIER
+    =========================================
+        Fokus ke pembayaran.
+
+        Invoice
+            - Generate Invoice
+            - Edit sebelum final
+            - Print Invoice
+
+        Payment
+            - Terima pembayaran
+            - Split payment
+            - Refund (dengan approval)
+
+        Daily Closing
+            - Closing kas
+            - Laporan harian
+
+        Work Order (View Only)
+            - Hanya yang status = done
+
+        Tidak bisa:
+            - Edit work order teknis
+            - Edit stok
+
+
+📦 STRUKTUR MENU FINAL (HIERARKI)
+=========================================
+    Bengkel
+    │
+    ├── Dashboard
+    ├── Work Order
+    │   ├── All Work Orders
+    │   ├── My Jobs
+    │   └── Approval Queue
+    │
+    ├── Vehicle
+    ├── Customer
+    ├── Appointment
+    │
+    ├── Services
+    │   ├── Service List
+    │   └── Checklist Template
+    │
+    ├── Sparepart
+    │   ├── Product List
+    │   ├── Stock
+    │   └── Movement
+    │
+    ├── Mechanic
+    │   └── Assignment Board
+    │
+    ├── Finance
+    │   ├── Invoice
+    │   ├── Payment
+    │   └── Closing
+    │
+    ├── Reports
+    │
+    └── Settings
+
+    Role hanya menentukan:
+        visible: true/false
+        readonly: true/false
+        allowed_actions: []
+
+    Frontend tetap generik.
+
+

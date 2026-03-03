@@ -109,8 +109,13 @@ HR_APPS = [
 
 VERTICAL_APPS = [
     "verticals.apotek.apps.ApotekConfig",
-    "verticals.ustadzku.apps.UstadzkuConfig",
+    "verticals.bengkel.apps.BengkelConfig",
+    "verticals.distributor.apps.DistributorConfig",
+    "verticals.hrms.apps.HRMSConfig",
+    "verticals.koperasi.apps.KoperasiConfig",
+    "verticals.pesantren.apps.PesantrenConfig",
     "verticals.pos.apps.POSConfig",
+    "verticals.ustadzku.apps.UstadzkuConfig",
 ]
 
 INSTALLED_APPS = (

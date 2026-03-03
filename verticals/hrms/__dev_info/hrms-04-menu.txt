@@ -1,0 +1,129 @@
+1. HR Administrator (Full HR Control)
+    Fokus: Struktur, konfigurasi, dan kontrol penuh.
+
+    Menu:
+        HRMS
+        ├── Dashboard
+        ├── Organization Structure
+        │     ├── Branches
+        │     ├── Departments
+        │     ├── Positions
+        │     └── Reporting Lines
+        ├── Employees
+        │     ├── All Employees
+        │     ├── Employment Contracts
+        │     ├── Employment Types
+        │     └── Documents
+        ├── Attendance Management
+        │     ├── Shift Setup
+        │     ├── Shift Assignment
+        │     ├── Attendance Records
+        │     └── Overtime Requests
+        ├── Leave Management
+        │     ├── Leave Types
+        │     ├── Leave Balance Rules
+        │     └── Leave Requests
+        ├── Payroll
+        │     ├── Payroll Components
+        │     ├── Payroll Period
+        │     ├── Generate Payroll
+        │     └── Payroll History
+        ├── Performance
+        │     ├── KPI Templates
+        │     ├── Reviews
+        │     └── Scores
+        ├── Reports
+        └── Settings
+
+    Ini persona paling lengkap.
+
+
+2. HR Officer (Operasional Harian)
+    Fokus: eksekusi, bukan desain struktur.
+
+    Menu:
+        HRMS
+        ├── Dashboard
+        ├── Employees
+        ├── Attendance Records
+        ├── Leave Requests
+        ├── Overtime Requests
+        ├── Payroll Processing
+        └── Reports
+
+    Tidak bisa:
+        - Ubah struktur organisasi
+        - Ubah komponen payroll global
+
+
+3. Line Manager (Atasan Langsung)
+    Fokus: timnya sendiri.
+
+    Menu:
+        HRMS
+        ├── Dashboard (Team Overview)
+        ├── My Team
+        │     ├── Team Members
+        │     ├── Attendance Summary
+        │     ├── Leave Summary
+        ├── Approvals
+        │     ├── Leave Approval
+        │     ├── Overtime Approval
+        │     └── Attendance Adjustment
+        ├── Performance Review
+        └── Reports (Team Only)
+
+    Tidak bisa:
+        - Lihat payroll global
+        - Lihat karyawan luar timnya
+
+
+4. Employee (Self-Service)
+    Fokus: diri sendiri.
+
+    Menu:
+        My HR
+        ├── My Profile
+        ├── My Attendance
+        ├── My Leave
+        │     ├── Apply Leave
+        │     └── Leave History
+        ├── My Overtime
+        ├── My Payroll Slip
+        ├── My Performance Review
+        └── My Documents
+
+    Ini sangat penting untuk SaaS modern:
+    Self-service portal.
+
+
+5. Finance Officer
+    Fokus: Payroll & Accounting.
+
+    Menu:
+        HRMS
+        ├── Payroll Dashboard
+        ├── Payroll Period
+        ├── Payroll Generation
+        ├── Payroll Approval
+        ├── Journal Posting
+        └── Payroll Reports
+
+    Tidak bisa:
+        - Ubah data employee
+        - Ubah struktur organisasi
+
+
+6. Executive (Direksi / Owner)
+    Fokus: Insight & Monitoring.
+
+    Menu:
+        HRMS
+        ├── Executive Dashboard
+        ├── Workforce Overview
+        ├── Payroll Summary
+        ├── Attendance Statistics
+        ├── Leave Statistics
+        └── Performance Summary
+
+    Read-only atau approval-level tinggi.

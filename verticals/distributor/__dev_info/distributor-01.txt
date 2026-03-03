@@ -1,0 +1,192 @@
+🎯 DEFINISI VERTICAL: DISTRIBUTOR
+=========================================
+    Aplikasi untuk perusahaan yang:
+        - Membeli barang dari Principal / Supplier
+        - Menyimpan di Gudang
+        - Menjual ke Toko / Retail / Reseller
+        - Mengelola Sales Lapangan
+        - Mengatur Piutang
+        - Mengatur Wilayah distribusi
+        - Mengelola retur & klaim
+
+
+🏗 POSISI DALAM ARSITEKTUR ATZEE
+=========================================
+    CORE
+    ├── auth
+    ├── tenant
+    ├── permission engine
+    ├── accounting engine
+    ├── stock engine
+    ├── transaction engine
+    ├── document engine
+    └── schedule engine
+
+    BUSINESS
+    ├── products
+    ├── customers
+    ├── suppliers
+    ├── warehouse
+    ├── payments
+    ├── accounting
+    └── inventory
+
+    VERTICAL
+    └── distributor
+
+    Distributor tidak membuat engine baru.
+    Ia menyusun ulang engine yang sudah ada.
+
+
+🧱 ENTITY KHUSUS DISTRIBUTOR
+=========================================
+    Berikut entity tambahan yang masuk verticals/distributor/
+
+    1. Principal
+        Principal = Brand Owner / Produsen
+
+        Field tambahan:
+            - exclusive_region
+            - contract_start
+            - contract_end
+            - credit_terms
+            - rebate_scheme
+
+        Relasi:
+            - Principal → Products
+            - Principal → Purchase Contracts
+
+    2. Salesman / Sales Team
+        Field:
+            - assigned_region
+            - target_monthly
+            - commission_scheme
+            - supervisor
+
+        Relasi:
+            - Salesman → Customer
+            - Salesman → Sales Order
+
+
+    3. Distribution Area / Territory
+        Field:
+            - region_name
+            - coverage_area
+            - manager
+            - active
+
+        Relasi:
+            - Territory → Salesman
+            - Territory → Customer
+
+
+    4. Delivery Order (DO)
+        Flow:
+            Sales Order → Delivery Order → Invoice → Payment
+
+        Field tambahan:
+            - vehicle
+            - driver
+            - dispatch_time
+            - delivered_time
+            - proof_of_delivery
+
+
+    5. Sales Return & Purchase Return
+        Fitur:
+            - Return reason
+            - Damage category
+            - Claim to principal
+            - Auto accounting impact
+            - Auto stock movement
+
+
+🔁 WORKFLOW UTAMA DISTRIBUTOR
+=========================================
+    1. Purchase Flow
+        Purchase Order
+            ↓
+        Goods Receipt
+            ↓
+        Stock Update
+            ↓
+        Supplier Invoice
+            ↓
+        Payment
+
+    2. Sales Flow (Field Sales)
+        Salesman Create Sales Order
+            ↓
+        Warehouse Generate Delivery Order
+            ↓
+        Stock Deduction
+            ↓
+        Invoice
+            ↓
+        Payment / Credit
+            ↓
+        Aging Monitoring
+
+    3. Return Flow
+        Customer Return
+            ↓
+        Warehouse Inspection
+            ↓
+        Stock Adjustment
+            ↓
+        Credit Note
+
+
+📊 FITUR WAJIB DISTRIBUTOR
+=========================================
+Sekarang kita breakdown secara sistematis.
+
+    📦 Inventory Features
+    =========================================
+        - Multi warehouse
+        - Batch tracking
+        - Expired date tracking
+        - Fast moving analysis
+        - Slow moving analysis
+        - Stock aging
+        - Stock valuation
+
+
+    💰 Financial Features
+    =========================================
+        - Piutang aging
+        - Credit limit per customer
+        - Credit block otomatis
+        - Rebate & discount tracking
+        - Commission calculation
+        - Cost per delivery
+        - Gross margin per product
+        - Profit per territory
+
+
+    🚚 Logistics Features
+    =========================================
+        - Delivery planning
+        - Route assignment
+        - Driver assignment
+        - Partial delivery
+        - Backorder
+        - POD upload (foto tanda tangan)
+
+
+    🧾 Commercial Features
+    =========================================
+        - Multi price level
+        - Promo period
+        - Bundle / carton conversion
+        - Quantity break discount
+        - Bonus product scheme
+
+
+    👨‍💼 Sales Management
+    =========================================
+        - Target vs Realisasi
+        - KPI per salesman
+        - Area performance
+        - Visit tracking (opsional via mobile)
+        - Outstanding order monitoring

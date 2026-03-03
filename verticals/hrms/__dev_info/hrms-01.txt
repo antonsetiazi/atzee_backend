@@ -1,0 +1,11 @@
+Tujuan HRMS di Atzee Platform
+=========================================
+    HRMS di dalam arsitektur kamu harus:
+        - Multi-tenant
+        - Tidak merusak core
+        - Memakai Entity Engine
+        - Memakai Permission Engine
+        - Memakai Workflow Engine
+        - Bisa dipakai UMKM sampai perusahaan menengah
+        - Bisa hidup 5–10 tahun tanpa redesign
+
