@@ -13,6 +13,7 @@ class Command(BaseCommand):
         import verticals.bengkel.seeds.tenants
         import verticals.distributor.seeds.tenants
         import verticals.hrms.seeds.tenants
+        import verticals.isp.seeds.tenants
         import verticals.koperasi.seeds.tenants
         import verticals.pesantren.seeds.tenants
         import verticals.pos.seeds.tenants

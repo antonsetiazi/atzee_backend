@@ -112,6 +112,7 @@ VERTICAL_APPS = [
     "verticals.bengkel.apps.BengkelConfig",
     "verticals.distributor.apps.DistributorConfig",
     "verticals.hrms.apps.HRMSConfig",
+    "verticals.isp.apps.IspConfig",
     "verticals.koperasi.apps.KoperasiConfig",
     "verticals.pesantren.apps.PesantrenConfig",
     "verticals.pos.apps.POSConfig",

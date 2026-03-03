@@ -1,0 +1,216 @@
+📡 Vertical Baru: ISP / WISP Management System
+=========================================
+    Vertical ini akan dipakai oleh:
+        - ISP Fiber (FTTH)
+        - RT/RW Net
+        - WISP (pakai radio)
+        - ISP skala kota/kabupaten
+        - Penyedia layanan hotspot
+
+
+🎯 Tujuan Vertical Ini
+=========================================
+    Menyediakan sistem untuk:
+        - Kelola pelanggan internet
+        - Kelola paket & bandwidth
+        - Kelola tagihan & pembayaran
+        - Integrasi Mikrotik / OLT / PPPoE
+        - Monitoring jaringan
+        - Suspend otomatis jika belum bayar
+
+
+🧱 Arsitektur di Atzee
+=========================================
+    Tetap mengikuti arsitektur emas kamu:
+
+    Core
+    ├── Auth
+    ├── Tenant
+    ├── Role Engine
+    └── Schedule
+
+    Business
+    ├── Customer
+    ├── Subscription
+    ├── Invoice
+    ├── Payment
+    └── Asset
+
+    Verticals
+    └── isp/
+
+    Vertical ini tidak boleh menyentuh core
+    Hanya extend business.
+
+
+🧩 Domain Utama ISP
+=========================================
+    1. Customer Management
+        Sudah bisa pakai Business Customer, tapi ISP perlu tambahan:
+            - IP Address
+            - Router / ONU
+            - MAC Address
+            - PPPoE Username
+            - ODP Location
+            - Tiang / jalur kabel
+
+        👉 Ini masuk vertical isp_customer_profile
+
+
+    2. Internet Package Management
+        Fitur:
+            - Paket 10 Mbps
+            - Paket 20 Mbps
+            - Paket Unlimited
+            - FUP support
+            - Static IP addon
+            - Installation fee
+
+        Model:
+            IspPackage
+            - name
+            - speed_download
+            - speed_upload
+            - price
+            - fup_limit
+            - burst_speed
+
+
+    3. Subscription Engine
+        Customer berlangganan paket:
+            IspSubscription
+            - customer
+            - package
+            - start_date
+            - status (active / suspended / terminated)
+            - billing_cycle
+
+        Harus bisa:
+            - Suspend otomatis jika invoice unpaid
+            - Reactivate jika payment success
+            - Auto create invoice bulanan
+
+
+    4. Billing & Invoice
+        Gunakan Business Accounting.
+
+        Vertical hanya menentukan:
+            - Auto recurring invoice
+            - Due date rule
+            - Grace period
+            - Denda keterlambatan
+
+
+    5. Network Device Integration
+        Ini bagian paling penting.
+
+        Integrasi dengan:
+            - Mikrotik (API)
+            - PPPoE Server
+            - OLT (jika FTTH)
+            - Radius Server
+
+        Fitur:
+            - Create PPPoE user otomatis
+            - Disable user jika suspend
+            - Enable user jika bayar
+            - Sync bandwidth profile
+
+
+    6. Network Monitoring
+        - Online / offline status
+        - Bandwidth usage
+        - Ping latency
+        - Traffic graph
+        - Downtime log
+
+        Bisa integrate:
+            - SNMP
+            - Mikrotik API
+            - Zabbix style monitoring
+
+
+    7. Area & Infrastructure Management
+        Untuk ISP serius:
+            - Area / Region
+            - ODP
+            - OLT Port
+            - Tower
+            - Distribution Node
+            - Cable path
+
+        Model:
+            - IspNode
+            - IspArea
+            - IspInfrastructureAsset
+
+
+    8. Installation & Technician Management
+        - Jadwal pemasangan
+        - Ticket gangguan
+        - Work order
+        - Teknisi assignment
+        - Status pemasangan
+        
+        Bisa reuse Core Schedule Engine kamu.
+
+
+    9. Trouble Ticket System
+        - Customer buat laporan
+        - Admin assign teknisi
+        - Status: Open / In Progress / Closed
+        - SLA tracking
+
+
+    10. Voucher / Hotspot (Optional)
+        Untuk RT/RW net:
+            - Generate voucher
+            - Expired time
+            - Bandwidth limit
+            - Single device login
+
+
+🧠 Engine-Level Thinking (Sesuai Filosofi Kamu)
+=========================================
+    Vertical ISP bukan sekadar CRUD.
+
+    Ia punya 3 engine penting:
+        1. Provisioning Engine
+            Menghubungkan:
+            Subscription → Router API → PPPoE User → Bandwidth Profile
+        
+        2. Billing Automation Engine
+            Subscription → Recurring Invoice → Payment → Suspend Logic
+        
+        3. Network Sync Engine
+            Device → Status → Customer → Ticket
+
+
+📦 Nama Vertical Yang Cocok
+=========================================
+    Beberapa opsi:
+
+    | Nama             | Kesan          |
+    | ---------------- | -------------- |
+    | isp              | Clean & jelas  |
+    | wisp             | Fokus wireless |
+    | netprovider      | Lebih umum     |
+    | broadband        | Profesional    |
+    | network_operator | Enterprise     |
+    | atzee_connect    | Branding SaaS  |
+
+
+    Rekomendasi paling clean untuk struktur:
+        verticals/isp/
+
+
+🎯 Target Market
+=========================================
+    Ini cocok untuk:
+        - RT/RW Net
+        - ISP kabupaten
+        - ISP fiber lokal
+        - Wireless provider desa
+        - Operator hotspot
+
+    Market Indonesia sangat besar.
