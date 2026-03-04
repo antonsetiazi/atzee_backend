@@ -7,8 +7,8 @@ class PesantrenConfig(AppConfig):
     name = "verticals.pesantren"
     label = "verticals_pesantren"
 
-    # def ready(self):
-        # from .ui import bootstrap 
+    def ready(self):
+        from .ui import bootstrap 
         # import verticals.pesantren.seeds.permissions
 
         # from core.entities.registry import register_entity

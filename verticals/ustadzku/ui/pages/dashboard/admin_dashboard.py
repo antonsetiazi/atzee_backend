@@ -1,4 +1,4 @@
-# verticals/ustadzku/dashboards/ui/pages/admin_dashboard.py
+# verticals/ustadzku/ui/pages/dahsboard/admin_dashboard.py
 
 from core.ui.registry import register_ui_module_pages
 from core.ui.schema.page import Page

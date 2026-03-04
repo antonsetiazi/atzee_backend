@@ -2,7 +2,7 @@
 
 from core.enum.permissions import CorePermission
 from business.enum.permissions import BusinessPermission
-from verticals.hrms.enum.permissions import HRMSPermission
+from verticals.hrms.enum.permissions import HrmsPermission
 
 
 ROLES = [
@@ -14,37 +14,9 @@ ROLES = [
         "access_level": 100,
         "default_permissions": [
 
-            # CorePermission.DASHBOARD_VIEW,
+            CorePermission.DASHBOARD_VIEW,
 
-            # Organization
-            # HRMSPermission.ORGANIZATION_VIEW, 
-            # HRMSPermission.ORGANIZATION_MANAGE,
-
-            # Employees
-            # HRMSPermission.EMPLOYEE_VIEW,  
-            # HRMSPermission.EMPLOYEE_CREATE, 
-            # HRMSPermission.EMPLOYEE_UPDATE,
-            # HRMSPermission.EMPLOYEE_DELETE, 
-
-            # Attendance
-            # HRMSPermission.ATTENDANCE_VIEW,
-            # HRMSPermission.ATTENDANCE_MANAGE,  
-
-            # Leave
-            # HRMSPermission.LEAVE_VIEW,  
-            # HRMSPermission.LEAVE_APPROVE,
-
-            # Payroll
-            # HRMSPermission.PAYROLL_VIEW, 
-            # HRMSPermission.PAYROLL_GENERATE,
-            # HRMSPermission.PAYROLL_APPROVE,
-
-            # Performance
-            # HRMSPermission.PERFORMANCE_VIEW, 
-            # HRMSPermission.PERFORMANCE_MANAGE,
-
-            # Reports
-            # HRMSPermission.REPORT_VIEW, 
+            HrmsPermission.ADMIN_DASHBOARD_VIEW, 
         ],
     },
 
@@ -56,12 +28,9 @@ ROLES = [
         "access_level": 90,
         "default_permissions": [
 
-            # CorePermission.DASHBOARD_VIEW,
+            CorePermission.DASHBOARD_VIEW,
 
-            # HRMSPermission.EXECUTIVE_DASHBOARD_VIEW,
-            # HRMSPermission.EMPLOYEE_VIEW,
-            # HRMSPermission.PAYROLL_VIEW,
-            # HRMSPermission.REPORT_VIEW,
+            HrmsPermission.EXECUTIVE_DASHBOARD_VIEW,
         ],
     },
 
@@ -73,14 +42,9 @@ ROLES = [
         "access_level": 80,
         "default_permissions": [
 
-            # CorePermission.DASHBOARD_VIEW,
+            CorePermission.DASHBOARD_VIEW,
 
-            # HRMSPermission.PAYROLL_VIEW,
-            # HRMSPermission.PAYROLL_GENERATE,
-            # HRMSPermission.PAYROLL_APPROVE,
-
-            # HRMSPermission.PAYROLL_JOURNAL_POST, 
-            # HRMSPermission.REPORT_VIEW,
+            HrmsPermission.FINANCE_DASHBOARD_VIEW,
         ],
     },
 
@@ -92,20 +56,9 @@ ROLES = [
         "access_level": 70,
         "default_permissions": [
 
-            # CorePermission.DASHBOARD_VIEW,
+            CorePermission.DASHBOARD_VIEW,
 
-            # HRMSPermission.EMPLOYEE_VIEW,
-            # HRMSPermission.EMPLOYEE_CREATE,
-            # HRMSPermission.EMPLOYEE_UPDATE,
-
-            # HRMSPermission.ATTENDANCE_VIEW,
-            # HRMSPermission.ATTENDANCE_MANAGE,
-
-            # HRMSPermission.LEAVE_VIEW,
-            # HRMSPermission.LEAVE_APPROVE,
-
-            # HRMSPermission.PAYROLL_VIEW,
-            # HRMSPermission.REPORT_VIEW,
+            HrmsPermission.OFFICER_DASHBOARD_VIEW,
         ],
     },
 
@@ -117,17 +70,9 @@ ROLES = [
         "access_level": 60,
         "default_permissions": [
 
-            # CorePermission.DASHBOARD_VIEW,
+            CorePermission.DASHBOARD_VIEW,
 
-            # HRMSPermission.TEAM_DASHBOARD_VIEW, 
-            # HRMSPermission.TEAM_MEMBER_VIEW,
-
-            # HRMSPermission.ATTENDANCE_VIEW,
-
-            # HRMSPermission.LEAVE_VIEW,
-            # HRMSPermission.LEAVE_APPROVE,
-
-            # HRMSPermission.PERFORMANCE_VIEW,
+            HrmsPermission.LINE_MANAGER_DASHBOARD_VIEW, 
         ],
     },
 
@@ -139,13 +84,9 @@ ROLES = [
         "access_level": 40,
         "default_permissions": [
 
-            # CorePermission.DASHBOARD_VIEW,
+            CorePermission.DASHBOARD_VIEW,
 
-            # HRMSPermission.MY_PROFILE_VIEW,
-            # HRMSPermission.MY_ATTENDANCE_VIEW,
-            # HRMSPermission.MY_LEAVE_REQUEST,
-            # HRMSPermission.MY_PAYROLL_VIEW,
-            # HRMSPermission.MY_PERFORMANCE_VIEW,
+            HrmsPermission.EMPLOYEE_DASHBOARD_VIEW,
         ],
     },
 

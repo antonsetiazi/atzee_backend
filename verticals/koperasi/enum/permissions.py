@@ -4,14 +4,11 @@ from enum import Enum
 
 class KoperasiPermission(str, Enum):
 
-    # ORGANIZATION_VIEW = "koperasi.organization.view"
-    # ORGANIZATION_MANAGE = "koperasi.organization.manage"
-
-    # MY_PROFILE_VIEW = "koperasi.my.profile.view"
-    # MY_ATTENDANCE_VIEW = "koperasi.my.attendance.view"
-    # MY_LEAVE_REQUEST = "koperasi.my.leave.request"
-    # MY_PAYROLL_VIEW = "koperasi.my.payroll.view"
-    # MY_PERFORMANCE_VIEW = "koperasi.my.performance.view"
+    KETUA_DASHBOARD_VIEW = "koperasi.ketua.dashboard.view"
+    BENDAHARA_DASHBOARD_VIEW = "koperasi.bendahara.dashboard.view"
+    PENGAWAS_DASHBOARD_VIEW = "koperasi.pengawas.dashboard.view"
+    STAFF_DASHBOARD_VIEW = "koperasi.staff.dashboard.view"
+    MEMBER_DASHBOARD_VIEW = "koperasi.member.dashboard.view"
 
 
     def __str__(self):

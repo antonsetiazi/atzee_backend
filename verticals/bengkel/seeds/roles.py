@@ -2,7 +2,7 @@
 
 from core.enum.permissions import CorePermission
 # from business.enum.permissions import BusinessPermission
-# from verticals.bengkel.enum.permissions import BengkelPermission
+from verticals.bengkel.enum.permissions import BengkelPermission
 
 
 ROLES = [
@@ -27,21 +27,7 @@ ROLES = [
             CorePermission.DASHBOARD_VIEW,
 
             # # Bengkel
-            # BengkelPermission.DASHBOARD_VIEW,
-            # BengkelPermission.WORK_ORDER_VIEW,
-            # BengkelPermission.WORK_ORDER_CREATE,
-            # BengkelPermission.WORK_ORDER_UPDATE,
-            # BengkelPermission.WORK_ORDER_APPROVE,
-            # BengkelPermission.VEHICLE_VIEW,
-            # BengkelPermission.VEHICLE_CREATE,
-            # BengkelPermission.APPOINTMENT_VIEW,
-            # BengkelPermission.APPOINTMENT_CREATE,
-
-            # # Business
-            # BusinessPermission.CUSTOMERS_VIEW,
-            # BusinessPermission.CUSTOMERS_CREATE,
-            # BusinessPermission.PRODUCTS_VIEW,
-            # BusinessPermission.INVENTORY_VIEW,
+            BengkelPermission.SERVICE_ADVISOR_DASHBOARD_VIEW,
         ],
     },
 
@@ -53,14 +39,11 @@ ROLES = [
         "access_level": 40,
         "default_permissions": [
 
-            # Bengkel
-            # BengkelPermission.MY_JOB_VIEW,
-            # BengkelPermission.WORK_ORDER_UPDATE_STATUS,
-            # BengkelPermission.CHECKLIST_UPDATE,
-            # BengkelPermission.PARTS_REQUEST_CREATE,
+            # Core
+            CorePermission.DASHBOARD_VIEW,
 
-            # # Business
-            # BusinessPermission.PRODUCTS_VIEW,
+            # Bengkel
+            BengkelPermission.MECHANIC_DASHBOARD_VIEW,
         ],
     },
 
@@ -75,14 +58,8 @@ ROLES = [
             # Core
             CorePermission.DASHBOARD_VIEW,
 
-            # # Bengkel
-            # BengkelPermission.WORK_ORDER_DONE_VIEW,
-            # BengkelPermission.DAILY_CLOSING_VIEW,
-
-            # # Business
-            # BusinessPermission.TRANSACTION_VIEW,
-            # BusinessPermission.TRANSACTION_CREATE,
-            # BusinessPermission.PAYMENT_CREATE,
+            # Bengkel
+            BengkelPermission.CASHIER_DASHBOARD_VIEW,
         ],
     },
 ]

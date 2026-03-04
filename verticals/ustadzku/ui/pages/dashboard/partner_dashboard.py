@@ -1,4 +1,4 @@
-# verticals/ustadzku/dashboards/ui/pages/user_dashboard.py
+# verticals/ustadzku/ui/pages/dashboard/partner_dashboard.py
 
 from core.ui.registry import register_ui_module_pages
 from core.ui.schema.page import Page
@@ -18,14 +18,14 @@ from verticals.ustadzku.enum.permissions import UstadzkuPermission
 
 UI_PAGES = [
     Page(
-        key="ustadzku.user.dashboard",
+        key="ustadzku.partner.dashboard",
         entity="dashboard",
         domain="ustadzku",
         path="/dashboard",
-        title="Dashboard",
-        permissions=[UstadzkuPermission.USER_DASHBOARD_VIEW],
-        description="Ringkasan aktivitas dan booking Anda",
-        data_source="/entities/ustadzku/user.dashboard/query/",
+        title="Dashboard Mitra",
+        permissions=[UstadzkuPermission.PARTNER_DASHBOARD_VIEW],
+        description="Ringkasan aktivitas, booking masuk, dan performa Anda sebagai Mitra",
+        data_source="/entities/ustadzku/partner.dashboard/query/",
         blocks=[
 
             # ===============================
@@ -38,34 +38,34 @@ UI_PAGES = [
             ),
 
             # ===============================
-            # Shortcut: Cari Ustadz
+            # Shortcut: Aksi Cepat Mitra
             # ===============================
             ShortcutBlock(
                 title="Aksi Cepat",
                 items=[
                     ShortcutItem(
-                        key="search_ustadz",
-                        label="Cari Ustadz",
-                        icon="search",
-                        to="/business/partners/search",
+                        key="incoming_bookings",
+                        label="Booking Masuk",
+                        icon="inbox",
+                        to="/business/partner/bookings/schedule",
                     ),
                     ShortcutItem(
-                        key="my_bookings",
-                        label="Riwayat Booking",
+                        key="my_schedule",
+                        label="Jadwal & Kalender",
                         icon="calendar",
-                        to="/business/user/bookings/schedule",
+                        to="/business/bookings/schedule",
                     ),
                     ShortcutItem(
-                        key="transactions",
-                        label="Transaksi",
-                        icon="credit-card",
-                        to="/ustadzku/transactions",
+                        key="active_services",
+                        label="Layanan Aktif",
+                        icon="map-pin",
+                        to="/verticals/ustadzku/tracking/active",
                     ),
                     ShortcutItem(
-                        key="wallet",
-                        label="Wallet",
-                        icon="wallet",
-                        to="/core/wallet",
+                        key="earnings",
+                        label="Pendapatan",
+                        icon="dollar-sign",
+                        to="/business/payments/overview",
                     ),
                 ],
                 scrollable=False,
@@ -79,9 +79,16 @@ UI_PAGES = [
                 gap=16,
                 blocks=[
                     StatBlock(
-                        key="upcoming_booking",
+                        key="today_bookings",
+                        title="Booking Hari Ini",
+                        data_key="today_bookings",
+                        size="sm",
+                        value=None,
+                    ),
+                    StatBlock(
+                        key="upcoming_bookings",
                         title="Booking Mendatang",
-                        data_key="upcoming_booking",
+                        data_key="upcoming_bookings_count",
                         size="sm",
                         value=None,
                     ),
@@ -93,16 +100,16 @@ UI_PAGES = [
                         value=None,
                     ),
                     StatBlock(
-                        key="completed_booking",
-                        title="Selesai",
-                        data_key="completed_booking",
+                        key="total_earnings",
+                        title="Total Pendapatan (Bulan Ini)",
+                        data_key="total_earnings",
                         size="sm",
                         value=None,
                     ),
                     StatBlock(
-                        key="total_booking",
-                        title="Total Booking",
-                        data_key="total_booking",
+                        key="average_rating",
+                        title="Rating Rata-Rata",
+                        data_key="average_rating",
                         size="sm",
                         value=None,
                     ),
@@ -110,14 +117,14 @@ UI_PAGES = [
             ),
 
             # ======================================
-            # UPCOMING LIST
+            # LIST BOOKING MASUK
             # ======================================
             ListViewBlock(
-                title="Booking Mendatang",
-                data_key="upcoming_bookings",
+                title="Booking Masuk",
+                data_key="incoming_bookings",
                 tile=ListTileSchema(
                     title=ListFieldSchema(key="booking_number"),
-                    subtitle=ListFieldSchema(key="partner_name"),
+                    subtitle=ListFieldSchema(key="user_name"),
                     description=ListFieldSchema(key="start_time", format="date"),
                     status=ListFieldSchema(key="status"),
                 ),
@@ -125,20 +132,36 @@ UI_PAGES = [
                 permissions=[BusinessPermission.BOOKINGS_VIEW],
             ),
 
-            # ===============================
-            # RIWAYAT TERAKHIR
-            # ===============================
+            # ======================================
+            # LIST LAYANAN AKTIF
+            # ======================================
             ListViewBlock(
-                title="Riwayat Terakhir",
-                data_key="recent_bookings",
+                title="Layanan Aktif",
+                data_key="active_services",
+                tile=ListTileSchema(
+                    title=ListFieldSchema(key="service_name"),
+                    subtitle=ListFieldSchema(key="user_name"),
+                    description=ListFieldSchema(key="current_status"),
+                    status=ListFieldSchema(key="status"),
+                ),
+                layout="standard",
+                permissions=["verticals.ustadzku.tracking.view"],
+            ),
+
+            # ======================================
+            # RIWAYAT TERAKHIR / BOOKING SELESAI
+            # ======================================
+            ListViewBlock(
+                title="Riwayat Layanan",
+                data_key="recent_services",
                 tile=ListTileSchema(
                     title=ListFieldSchema(key="booking_number"),
-                    subtitle=ListFieldSchema(key="partner_name"),
+                    subtitle=ListFieldSchema(key="user_name"),
                     description=ListFieldSchema(key="start_time", format="date"),
                     status=ListFieldSchema(key="status"),
                 ),
                 layout="standard",
-                permissions=[BusinessPermission.BOOKINGS_VIEW],
+                permissions=["business.bookings.view"],
             )
         ],
     ),

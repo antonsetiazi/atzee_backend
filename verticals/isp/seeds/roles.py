@@ -2,7 +2,7 @@
 
 from core.enum.permissions import CorePermission
 # from business.enum.permissions import BusinessPermission
-# from verticals.isp.enum.permissions import IspPermission
+from verticals.isp.enum.permissions import IspPermission
 
 
 ROLES = [
@@ -25,16 +25,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # # Business
-            # BusinessPermission.CUSTOMERS_VIEW,
-            # BusinessPermission.SUBSCRIPTIONS_VIEW,
-            # BusinessPermission.INVOICES_VIEW,
-            # BusinessPermission.PAYMENTS_VIEW,
-
-            # # ISP
-            # IspPermission.DASHBOARD_VIEW,
-            # IspPermission.MONITORING_VIEW,
-            # IspPermission.REPORT_VIEW,
+            IspPermission.GM_DASHBOARD_VIEW,
         ],
     },
 
@@ -48,13 +39,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # # Business
-            # BusinessPermission.INVOICES_VIEW,
-            # BusinessPermission.PAYMENTS_VIEW,
-            # BusinessPermission.FINANCIAL_REPORT_VIEW,
-
-            # # ISP
-            # IspPermission.FINANCIAL_REPORT_VIEW,
+            IspPermission.FINANCE_DASHBOARD_VIEW,
         ],
     },
 
@@ -68,14 +53,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # ISP Core Network
-            # IspPermission.DEVICE_VIEW,
-            # IspPermission.DEVICE_MANAGE,
-            # IspPermission.IP_POOL_VIEW,
-            # IspPermission.IP_POOL_MANAGE,
-            # IspPermission.BANDWIDTH_PROFILE_VIEW,
-            # IspPermission.BANDWIDTH_PROFILE_MANAGE,
-            # IspPermission.MONITORING_VIEW,
+            IspPermission.NETWORK_DASHBOARD_VIEW,
         ],
     },
 
@@ -89,11 +67,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # IspPermission.MONITORING_VIEW,
-            # IspPermission.ACTIVE_SESSION_VIEW,
-            # IspPermission.SESSION_RESTART,
-            # IspPermission.TICKET_VIEW,
-            # IspPermission.TICKET_CREATE,
+            IspPermission.NOC_DASHBOARD_VIEW,
         ],
     },
 
@@ -107,14 +81,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # # Business Billing
-            # BusinessPermission.INVOICES_VIEW,
-            # BusinessPermission.INVOICES_MANAGE,
-            # BusinessPermission.PAYMENTS_VIEW,
-            # BusinessPermission.PAYMENTS_MANAGE,
-
-            # # ISP Billing
-            # IspPermission.OVERDUE_VIEW,
+            IspPermission.BILLING_DASHBOARD_VIEW,
         ],
     },
 
@@ -128,12 +95,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # BusinessPermission.CUSTOMERS_VIEW,
-            # BusinessPermission.SUBSCRIPTIONS_VIEW,
-
-            # IspPermission.TICKET_VIEW,
-            # IspPermission.TICKET_CREATE,
-            # IspPermission.INSTALLATION_VIEW,
+            IspPermission.CS_DASHBOARD_VIEW,
         ],
     },
 
@@ -147,11 +109,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # IspPermission.LEAD_VIEW,
-            # IspPermission.LEAD_CREATE,
-            # IspPermission.SALES_ORDER_VIEW,
-            # IspPermission.SALES_ORDER_CREATE,
-            # IspPermission.COMMISSION_VIEW,
+            IspPermission.SALES_DASHBOARD_VIEW,
         ],
     },
 
@@ -163,10 +121,9 @@ ROLES = [
         "access_level": 20,
         "default_permissions": [
 
-            # IspPermission.MY_TASK_VIEW,
-            # IspPermission.INSTALLATION_VIEW,
-            # IspPermission.INSTALLATION_UPDATE,
-            # IspPermission.TICKET_VIEW,
+            CorePermission.DASHBOARD_VIEW,
+
+            IspPermission.FIELD_DASHBOARD_VIEW,
         ],
     },
 
@@ -178,11 +135,9 @@ ROLES = [
         "access_level": 10,
         "default_permissions": [
 
-            # IspPermission.PORTAL_DASHBOARD_VIEW,
-            # IspPermission.MY_SUBSCRIPTION_VIEW,
-            # IspPermission.MY_INVOICE_VIEW,
-            # IspPermission.MY_TICKET_VIEW,
-            # IspPermission.MY_TICKET_CREATE,
+            CorePermission.DASHBOARD_VIEW,
+
+            IspPermission.CUSTOMER_PORTAL_VIEW,
         ],
     },
 

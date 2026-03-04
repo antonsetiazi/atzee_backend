@@ -2,7 +2,7 @@
 
 from core.enum.permissions import CorePermission
 # from business.enum.permissions import BusinessPermission
-# from verticals.koperasi.enum.permissions import KoperasiPermission
+from verticals.koperasi.enum.permissions import KoperasiPermission
 
 
 ROLES = [
@@ -18,32 +18,7 @@ ROLES = [
             # Core
             CorePermission.DASHBOARD_VIEW,
 
-            # # Members
-            # KoperasiPermission.MEMBER_VIEW,
-            # KoperasiPermission.MEMBER_CREATE,
-            # KoperasiPermission.MEMBER_APPROVE,
-
-            # # Savings
-            # KoperasiPermission.SAVINGS_VIEW,
-            # KoperasiPermission.SAVINGS_CREATE,
-
-            # # Loans
-            # KoperasiPermission.LOAN_VIEW,
-            # KoperasiPermission.LOAN_CREATE,
-            # KoperasiPermission.LOAN_APPROVE,
-
-            # # SHU
-            # KoperasiPermission.SHU_VIEW,
-            # KoperasiPermission.SHU_GENERATE,
-            # KoperasiPermission.SHU_APPROVE,
-
-            # # RAT
-            # KoperasiPermission.RAT_VIEW,
-            # KoperasiPermission.RAT_MANAGE,
-
-            # # Reports & Settings
-            # KoperasiPermission.REPORT_VIEW,
-            # KoperasiPermission.SETTINGS_MANAGE,
+            KoperasiPermission.KETUA_DASHBOARD_VIEW,
         ],
     },
 
@@ -57,23 +32,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # # Members (view only)
-            # KoperasiPermission.MEMBER_VIEW,
-
-            # # Savings
-            # KoperasiPermission.SAVINGS_VIEW,
-            # KoperasiPermission.SAVINGS_CREATE,
-
-            # # Loans
-            # KoperasiPermission.LOAN_VIEW,
-            # KoperasiPermission.LOAN_CREATE,
-
-            # # SHU
-            # KoperasiPermission.SHU_VIEW,
-            # KoperasiPermission.SHU_GENERATE,
-
-            # # Reports
-            # KoperasiPermission.REPORT_VIEW,
+            KoperasiPermission.BENDAHARA_DASHBOARD_VIEW,
         ],
     },
 
@@ -87,12 +46,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # KoperasiPermission.MEMBER_VIEW,
-            # KoperasiPermission.SAVINGS_VIEW,
-            # KoperasiPermission.LOAN_VIEW,
-            # KoperasiPermission.SHU_VIEW,
-            # KoperasiPermission.RAT_VIEW,
-            # KoperasiPermission.REPORT_VIEW,
+            KoperasiPermission.PENGAWAS_DASHBOARD_VIEW,
         ],
     },
 
@@ -106,17 +60,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # # Members
-            # KoperasiPermission.MEMBER_VIEW,
-            # KoperasiPermission.MEMBER_CREATE,
-
-            # # Savings
-            # KoperasiPermission.SAVINGS_VIEW,
-            # KoperasiPermission.SAVINGS_CREATE,
-
-            # # Loans
-            # KoperasiPermission.LOAN_VIEW,
-            # KoperasiPermission.LOAN_CREATE,
+            KoperasiPermission.STAFF_DASHBOARD_VIEW,
         ],
     },
 
@@ -130,10 +74,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # KoperasiPermission.MY_SAVINGS_VIEW,
-            # KoperasiPermission.MY_LOAN_VIEW,
-            # KoperasiPermission.MY_SHU_VIEW,
-            # KoperasiPermission.MY_STATEMENT_VIEW,
+            KoperasiPermission.MEMBER_DASHBOARD_VIEW,
         ],
     },
 

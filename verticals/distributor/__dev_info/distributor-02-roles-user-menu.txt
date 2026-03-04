@@ -62,7 +62,7 @@
         - Finance Manager
 
 
-📦 1️⃣ SALES MANAGER MENU
+1. SALES MANAGER MENU
 =========================================
     Dashboard
         - Target vs Realisasi
@@ -88,7 +88,7 @@
         - Commission Calculation
 
 
-📦 2️⃣ WAREHOUSE MANAGER MENU
+2. WAREHOUSE MANAGER MENU
 =========================================
     Dashboard
         - Stock Value
@@ -108,7 +108,7 @@
         - Return Inspection
 
 
-📦 3️⃣ FINANCE MANAGER MENU
+3. FINANCE MANAGER MENU
 =========================================
     Dashboard
         - Total Receivable

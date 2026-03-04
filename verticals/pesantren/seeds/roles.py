@@ -2,7 +2,7 @@
 
 from core.enum.permissions import CorePermission
 # from business.enum.permissions import BusinessPermission
-# from verticals.pesantren.enum.permissions import PesantrenPermission
+from verticals.pesantren.enum.permissions import PesantrenPermission
 
 
 ROLES = [
@@ -24,15 +24,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # # Pesantren
-            # PesantrenPermission.SANTRI_VIEW,
-            # PesantrenPermission.AKADEMIK_VIEW,
-            # PesantrenPermission.TAHFIDZ_VIEW,
-            # PesantrenPermission.DISIPLIN_VIEW,
-            # PesantrenPermission.REPORT_VIEW,
-
-            # # Business (read-only style)
-            # BusinessPermission.REPORT_VIEW,
+            PesantrenPermission.MUDHIR_DASHBOARD_VIEW,
         ],
     },
 
@@ -45,15 +37,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # # Pesantren Financial
-            # PesantrenPermission.KEUANGAN_VIEW,
-            # PesantrenPermission.KEUANGAN_MANAGE,
-            # PesantrenPermission.DONATUR_VIEW,
-
-            # # Business Accounting
-            # BusinessPermission.ACCOUNTING_VIEW,
-            # BusinessPermission.TRANSACTION_VIEW,
-            # BusinessPermission.TRANSACTION_CREATE,
+            PesantrenPermission.BENDAHARA_DASHBOARD_VIEW,
         ],
     },
 
@@ -66,14 +50,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # PesantrenPermission.SANTRI_VIEW,
-            # PesantrenPermission.SANTRI_CREATE,
-            # PesantrenPermission.SANTRI_UPDATE,
-
-            # PesantrenPermission.PERIZINAN_VIEW,
-            # PesantrenPermission.PERIZINAN_PROCESS,
-
-            # PesantrenPermission.KEUANGAN_VIEW,
+            PesantrenPermission.STAFF_ADMIN_DASHBOARD_VIEW,
         ],
     },
 
@@ -86,11 +63,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # PesantrenPermission.AKADEMIK_VIEW,
-            # PesantrenPermission.NILAI_INPUT,
-            # PesantrenPermission.ABSENSI_INPUT,
-
-            # PesantrenPermission.TAHFIDZ_VIEW,
+            PesantrenPermission.USTADZ_DASHBOARD_VIEW,
         ],
     },
 
@@ -103,14 +76,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # PesantrenPermission.ASRAMA_VIEW,
-            # PesantrenPermission.ABSENSI_ASRAMA_INPUT,
-
-            # PesantrenPermission.DISIPLIN_VIEW,
-            # PesantrenPermission.DISIPLIN_CREATE,
-
-            # PesantrenPermission.PERIZINAN_VIEW,
-            # PesantrenPermission.PERIZINAN_APPROVE,
+            PesantrenPermission.MUSYRIF_DASHBOARD_VIEW,
         ],
     },
 
@@ -123,11 +89,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # PesantrenPermission.PORTAL_VIEW,
-            # PesantrenPermission.NILAI_VIEW,
-            # PesantrenPermission.TAHFIDZ_VIEW,
-            # PesantrenPermission.KEUANGAN_VIEW,
-            # PesantrenPermission.PERIZINAN_CREATE,
+            PesantrenPermission.WALI_DASHBOARD_VIEW,
         ],
     },
 
@@ -140,11 +102,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # PesantrenPermission.PORTAL_VIEW,
-            # PesantrenPermission.JADWAL_VIEW,
-            # PesantrenPermission.NILAI_VIEW,
-            # PesantrenPermission.TAHFIDZ_VIEW,
-            # PesantrenPermission.PERIZINAN_CREATE,
+            PesantrenPermission.SANTRI_DASHBOARD_VIEW,
         ],
     },
 

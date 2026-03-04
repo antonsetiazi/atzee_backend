@@ -8,7 +8,7 @@ class UstadzkuConfig(AppConfig):
     label = "verticals_ustadzku"
 
     def ready(self):
-        from .dashboards.ui import bootstrap 
+        from .ui import bootstrap  
         import verticals.ustadzku.seeds.permissions
 
         from core.entities.registry import register_entity

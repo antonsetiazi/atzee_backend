@@ -4,14 +4,14 @@ from enum import Enum
 
 class PesantrenPermission(str, Enum):
 
-    # ORGANIZATION_VIEW = "pesantren.organization.view"
-    # ORGANIZATION_MANAGE = "pesantren.organization.manage"
-
-    # MY_PROFILE_VIEW = "pesantren.my.profile.view"
-    # MY_ATTENDANCE_VIEW = "pesantren.my.attendance.view"
-    # MY_LEAVE_REQUEST = "pesantren.my.leave.request"
-    # MY_PAYROLL_VIEW = "pesantren.my.payroll.view"
-    # MY_PERFORMANCE_VIEW = "pesantren.my.performance.view"
+    OWNER_DASHBOARD_VIEW = "pesantren.owner.dashboard.view"
+    MUDHIR_DASHBOARD_VIEW = "pesantren.mudhir.dashboard.view"
+    USTADZ_DASHBOARD_VIEW = "pesantren.ustadz.dashboard.view"
+    MUSYRIF_DASHBOARD_VIEW = "pesantren.musyrif.dashboard.view"
+    STAFF_ADMIN_DASHBOARD_VIEW = "pesantren.staff.admin.dashboard.view"
+    BENDAHARA_DASHBOARD_VIEW = "pesantren.bendahara.dashboard.view"
+    WALI_DASHBOARD_VIEW = "pesantren.wali.dashboard.view"
+    SANTRI_DASHBOARD_VIEW = "pesantren.santri.dashboard.view"
 
 
     def __str__(self):

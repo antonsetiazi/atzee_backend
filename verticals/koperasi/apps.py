@@ -7,8 +7,8 @@ class KoperasiConfig(AppConfig):
     name = "verticals.koperasi"
     label = "verticals_koperasi"
 
-    # def ready(self):
-        # from .ui import bootstrap 
+    def ready(self):
+        from .ui import bootstrap 
         # import verticals.koperasi.seeds.permissions
 
         # from core.entities.registry import register_entity

@@ -7,8 +7,8 @@ class IspConfig(AppConfig):
     name = "verticals.isp"
     label = "verticals_isp"
 
-    # def ready(self):
-        # from .ui import bootstrap 
+    def ready(self):
+        from .ui import bootstrap 
         # import verticals.isp.seeds.permissions
 
         # from core.entities.registry import register_entity

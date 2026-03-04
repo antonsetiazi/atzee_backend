@@ -74,327 +74,212 @@
     Fokus ke KPI & kontrol.
 
     Menu:
+        # Dashboard
+            - KPI Overview
+            - Revenue Summary
+            - Active Customer
+            - Network Status Summary
 
-    Dashboard
+        # Customer Management
+            - Customers
+            - Subscriptions
+            - Installations
 
-    KPI Overview
+        # Billing & Finance
+            - Invoices (read)
+            - Payments (read)
+            - Financial Reports
 
-    Revenue Summary
+        # Network Management
+            - Monitoring (read)
+            - Network Summary
 
-    Active Customer
+        # Operations
+            - Tickets
+            - SLA Monitoring
 
-    Network Status Summary
-
-    Customer Management
-
-    Customers
-
-    Subscriptions
-
-    Installations
-
-    Billing & Finance
-
-    Invoices (read)
-
-    Payments (read)
-
-    Financial Reports
-
-    Network Management
-
-    Monitoring (read)
-
-    Network Summary
-
-    Operations
-
-    Tickets
-
-    SLA Monitoring
-
-    Reports
-
-    Semua laporan
+        # Reports
+            - Semua laporan
 
     Tidak bisa:
-
-    Edit device
-
-    Ubah bandwidth profile
-
-    Edit role system
+        - Edit device
+        - Ubah bandwidth profile
+        - Edit role system
 
 
 3. Network Engineer
 =========================================
     Menu:
+        Network Management
+            - Devices
+            - OLT / Routers
+            - IP Pools
+            - VLAN
+            - Bandwidth Profiles
+            - Active Sessions
+            - Network Topology
+            - Monitoring
 
-    Network Management
-
-    Devices
-
-    OLT / Routers
-
-    IP Pools
-
-    VLAN
-
-    Bandwidth Profiles
-
-    Active Sessions
-
-    Network Topology
-
-    Monitoring
-
-    Customer Management
-
-    Subscriptions (technical view)
-
-    PPPoE Accounts
+        Customer Management
+            - Subscriptions (technical view)
+            - PPPoE Accounts
 
     Tidak bisa:
-
-    Invoice
-
-    Payment
-
-    Financial reports
+        - Invoice
+        - Payment
+        - Financial reports
 
 
 4. NOC Staff
 =========================================
     Menu:
+        Dashboard
+            - Live Network Status
+            - Active Alerts
 
-    Dashboard
+        Network Management
+            - Monitoring
+            - Active Sessions
+            - Restart Session
+            - Temporary Suspend
 
-    Live Network Status
-
-    Active Alerts
-
-    Network Management
-
-    Monitoring
-
-    Active Sessions
-
-    Restart Session
-
-    Temporary Suspend
-
-    Operations
-
-    Trouble Tickets
-
-    SLA Monitoring
+        Operations
+            - Trouble Tickets
+            - SLA Monitoring
 
     Tidak bisa:
-
-    Device config
-
-    Billing
-
-    Paket management
+        - Device config
+        - Billing
+        - Paket management
 
 
 5. Billing Staff
 =========================================
     Menu:
+        Billing & Finance
+            - Invoices
+            - Payments
+            - Recurring Billing
+            - Penalties
+            - Suspend/Unsuspend (billing trigger)
 
-    Billing & Finance
+        Customer Management
+            - Customers (billing view)
+            - Subscriptions
 
-    Invoices
-
-    Payments
-
-    Recurring Billing
-
-    Penalties
-
-    Suspend/Unsuspend (billing trigger)
-
-    Customer Management
-
-    Customers (billing view)
-
-    Subscriptions
-
-    Reports
-
-    Aging Receivable
-
-    Overdue List
+        Reports
+            - Aging Receivable
+            - Overdue List
 
     Tidak bisa:
-
-    Network device
-
-    IP pool
-
-    Monitoring
+        - Network device
+        - IP pool
+        - Monitoring
 
 
 6. Customer Service
 =========================================
     Menu:
+        Customer Management
+            - Customers
+            - Subscriptions
+            - Installations
 
-    Customer Management
+        Operations
+            - Trouble Tickets
+            - Work Orders
+            - Schedule Technician
 
-    Customers
-
-    Subscriptions
-
-    Installations
-
-    Operations
-
-    Trouble Tickets
-
-    Work Orders
-
-    Schedule Technician
-
-    Billing & Finance
-
-    Invoice (read only)
-
-    Payment Status (read only)
+        Billing & Finance
+            - Invoice (read only)
+            - Payment Status (read only)
 
     Tidak bisa:
-
-    Edit paket
-
-    Ubah device
-
-    Ubah financial
+        - Edit paket
+        - Ubah device
+        - Ubah financial
 
 
 7. Field Technician
 =========================================
     Menu:
+        Operations
+            - My Work Orders
+            - Installation Tasks
+            - Ticket Assignments
 
-    Operations
-
-    My Work Orders
-
-    Installation Tasks
-
-    Ticket Assignments
-
-    Customer Management
-
-    Customer Detail (limited)
-
-    Update MAC / ONU
-
-    Upload Photo Evidence
+        Customer Management
+            - Customer Detail (limited)
+            - Update MAC / ONU
+            - Upload Photo Evidence
 
     Tidak bisa:
-
-    Billing
-
-    Reports
-
-    Device management
+        - Billing
+        - Reports
+        - Device management
 
 
 8. Sales Marketing
 =========================================
     Menu:
+        Sales & Marketing
+            - Leads
+            - Sales Orders
+            - Promotions
+            - Commission Tracking
 
-    Sales & Marketing
+        Customer Management
+            - Create Customer
+            - Submit Installation Request
 
-    Leads
-
-    Sales Orders
-
-    Promotions
-
-    Commission Tracking
-
-    Customer Management
-
-    Create Customer
-
-    Submit Installation Request
-
-    Reports
-
-    Sales Performance
-
-    Target Tracking
+        Reports
+            - Sales Performance
+            - Target Tracking
 
     Tidak bisa:
-
-    Billing full access
-
-    Network config
+        - Billing full access
+        - Network config
 
 
 9. Finance Manager
 =========================================
     Menu:
+        Billing & Finance
+            - Invoices
+            - Payments
+            - Recurring Billing
+            - Financial Reports
+            - Cashflow
+            - Write-off Approval
 
-    Billing & Finance
-
-    Invoices
-
-    Payments
-
-    Recurring Billing
-
-    Financial Reports
-
-    Cashflow
-
-    Write-off Approval
-
-    Reports
-
-    Revenue
-
-    Profit
-
-    AR Aging
-
-    Customer Payment Trend
+        Reports
+            - Revenue
+            - Profit
+            - AR Aging
+            - Customer Payment Trend
 
     Tidak bisa:
-
-    Network config
+        - Network config
 
 
 10. Customer (Portal)
 =========================================
     Menu:
+        Dashboard
+            - Connection Status
+            - Usage Summary
 
-    Dashboard
+        My Account
+            - My Subscription
+            - My Package
+            - Upgrade/Downgrade Request
 
-    Connection Status
+        Billing
+            - My Invoices
+            - Payment History
+            - Pay Now
 
-    Usage Summary
-
-    My Account
-
-    My Subscription
-
-    My Package
-
-    Upgrade/Downgrade Request
-
-    Billing
-
-    My Invoices
-
-    Payment History
-
-    Pay Now
-
-    Support
-
-    Create Ticket
-
-    My Tickets
-
-    Installation Status
+        Support
+            - Create Ticket
+            - My Tickets
+            - Installation Status

@@ -10,7 +10,8 @@ WidgetSize = Literal["sm", "md", "lg"]
 class ChartBlock:
     key: str
     title: str
-    value: Any  # ChartValue: labels + datasets
+    value: Any = None
     type: Literal["chart"] = "chart"
     size: WidgetSize = "md"
     meta: Optional[Dict[str, Any]] = None
+    data_key: Optional[str] = None

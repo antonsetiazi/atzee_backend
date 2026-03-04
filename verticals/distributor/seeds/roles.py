@@ -2,7 +2,7 @@
 
 from core.enum.permissions import CorePermission
 # from business.enum.permissions import BusinessPermission
-# from verticals.distributor.enum.permissions import DistributorPermission
+from verticals.distributor.enum.permissions import DistributorPermission
 
 
 ROLES = [
@@ -28,15 +28,8 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # # Distributor
-            # DistributorPermission.GLOBAL_DASHBOARD_VIEW,
-            # DistributorPermission.REPORT_VIEW,
-
-            # # Business
-            # BusinessPermission.PRODUCTS_VIEW,
-            # BusinessPermission.INVENTORY_VIEW,
-            # BusinessPermission.CUSTOMERS_VIEW,
-            # BusinessPermission.SUPPLIERS_VIEW,
+            # Distributor
+            DistributorPermission.EXECUTIVE_DASHBOARD_VIEW,
         ],
     },
 
@@ -51,14 +44,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # DistributorPermission.SALES_DASHBOARD_VIEW,
-            # DistributorPermission.SALES_ORDER_VIEW,
-            # DistributorPermission.SALES_ORDER_CREATE,
-            # DistributorPermission.SALES_RETURN_VIEW,
-            # DistributorPermission.SALES_TARGET_VIEW,
-
-            # BusinessPermission.CUSTOMERS_VIEW,
-            # BusinessPermission.PRODUCTS_VIEW,
+            DistributorPermission.SALES_MANAGER_DASHBOARD_VIEW,
         ],
     },
 
@@ -73,13 +59,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # DistributorPermission.WAREHOUSE_DASHBOARD_VIEW,
-            # DistributorPermission.GOODS_RECEIPT_VIEW,
-            # DistributorPermission.DELIVERY_ORDER_VIEW,
-            # DistributorPermission.STOCK_ADJUSTMENT,
-
-            # BusinessPermission.INVENTORY_VIEW,
-            # BusinessPermission.PRODUCTS_VIEW,
+            DistributorPermission.WAREHOUSE_MANAGER_DASHBOARD_VIEW,
         ],
     },
 
@@ -94,12 +74,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # DistributorPermission.FINANCE_DASHBOARD_VIEW,
-            # DistributorPermission.INVOICE_VIEW,
-            # DistributorPermission.PAYMENT_VIEW,
-            # DistributorPermission.AGING_REPORT_VIEW,
-
-            # BusinessPermission.CUSTOMERS_VIEW,
+            DistributorPermission.FINANCE_MANAGER_DASHBOARD_VIEW,
         ],
     },
 
@@ -114,11 +89,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # DistributorPermission.SALESREP_DASHBOARD_VIEW,
-            # DistributorPermission.SALES_ORDER_CREATE,
-            # DistributorPermission.SALES_ORDER_VIEW,
-
-            # BusinessPermission.CUSTOMERS_VIEW,
+            DistributorPermission.SALES_REP_DASHBOARD_VIEW,
         ],
     },
 
@@ -133,12 +104,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # DistributorPermission.SALES_ORDER_VIEW,
-            # DistributorPermission.SALES_ORDER_CREATE,
-            # DistributorPermission.INVOICE_CREATE,
-            # DistributorPermission.INVOICE_VIEW,
-
-            # BusinessPermission.CUSTOMERS_VIEW,
+            DistributorPermission.ADMIN_SALES_DASHBOARD_VIEW,
         ],
     },
 
@@ -153,8 +119,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # DistributorPermission.GOODS_RECEIPT_VIEW,
-            # DistributorPermission.DELIVERY_ORDER_VIEW,
+            DistributorPermission.WAREHOUSE_STAFF_DASHBOARD_VIEW,
         ],
     },
 
@@ -169,9 +134,7 @@ ROLES = [
 
             CorePermission.DASHBOARD_VIEW,
 
-            # DistributorPermission.PAYMENT_CREATE,
-            # DistributorPermission.PAYMENT_VIEW,
-            # DistributorPermission.INVOICE_VIEW,
+            DistributorPermission.FINANCE_STAFF_DASHBOARD_VIEW,
         ],
     },
 ]

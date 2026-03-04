@@ -4,14 +4,11 @@ from enum import Enum
 
 class BengkelPermission(str, Enum):
 
-    # ORGANIZATION_VIEW = "bengkel.organization.view"
-    # ORGANIZATION_MANAGE = "bengkel.organization.manage"
+    OWNER_DASHBOARD_VIEW = "bengkel.owner.dashboard.view"
+    SERVICE_ADVISOR_DASHBOARD_VIEW = "bengkel.service.advisor.dashboard.view"
+    MECHANIC_DASHBOARD_VIEW = "bengkel.mechanic.dashboard.view"
+    CASHIER_DASHBOARD_VIEW = "bengkel.cashier.dashboard.view"
 
-    # MY_PROFILE_VIEW = "bengkel.my.profile.view"
-    # MY_ATTENDANCE_VIEW = "bengkel.my.attendance.view"
-    # MY_LEAVE_REQUEST = "bengkel.my.leave.request"
-    # MY_PAYROLL_VIEW = "bengkel.my.payroll.view"
-    # MY_PERFORMANCE_VIEW = "bengkel.my.performance.view"
 
 
     def __str__(self):

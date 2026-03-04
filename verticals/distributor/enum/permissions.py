@@ -4,14 +4,14 @@ from enum import Enum
 
 class DistributorPermission(str, Enum):
 
-    # ORGANIZATION_VIEW = "distributor.organization.view"
-    # ORGANIZATION_MANAGE = "distributor.organization.manage"
-
-    # MY_PROFILE_VIEW = "distributor.my.profile.view"
-    # MY_ATTENDANCE_VIEW = "distributor.my.attendance.view"
-    # MY_LEAVE_REQUEST = "distributor.my.leave.request"
-    # MY_PAYROLL_VIEW = "distributor.my.payroll.view"
-    # MY_PERFORMANCE_VIEW = "distributor.my.performance.view"
+    EXECUTIVE_DASHBOARD_VIEW = "distributor.executive.dashboard.view"
+    SALES_MANAGER_DASHBOARD_VIEW = "distributor.sales.manager.dashboard.view"
+    WAREHOUSE_MANAGER_DASHBOARD_VIEW = "distributor.warehouse.manager.dashboard.view"
+    FINANCE_MANAGER_DASHBOARD_VIEW = "distributor.finance.manager.dashboard.view"
+    SALES_REP_DASHBOARD_VIEW = "distributor.sales.rep.dashboard.view"
+    ADMIN_SALES_DASHBOARD_VIEW = "distributor.admin.sales.dashboard.view"
+    WAREHOUSE_STAFF_DASHBOARD_VIEW = "distributor.warehouse.staff.dashboard.view"
+    FINANCE_STAFF_DASHBOARD_VIEW = "distributor.finance.staff.dashboard.view"
 
 
     def __str__(self):

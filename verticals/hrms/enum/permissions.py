@@ -2,7 +2,15 @@
 
 from enum import Enum
 
-class HRMSPermission(str, Enum):
+class HrmsPermission(str, Enum):
+
+    ADMIN_DASHBOARD_VIEW = "hrms.admin.dashboard.view"
+    OFFICER_DASHBOARD_VIEW = "hrms.officer.dashboard.view"
+    LINE_MANAGER_DASHBOARD_VIEW = "hrms.line.manager.dashboard.view"
+    EMPLOYEE_DASHBOARD_VIEW = "hrms.employee.dashboard.view"
+    FINANCE_DASHBOARD_VIEW = "hrms.finance.dashboard.view"
+    EXECUTIVE_DASHBOARD_VIEW = "hrms.executive.dashboard.view"
+
 
     ORGANIZATION_VIEW = "hrms.organization.view"
     ORGANIZATION_MANAGE = "hrms.organization.manage"
@@ -58,8 +66,6 @@ class HRMSPermission(str, Enum):
 
     TEAM_DASHBOARD_VIEW = "hrms.team.dashboard.view"
     TEAM_MEMBER_VIEW = "hrms.team.member.view"
-
-    EXECUTIVE_DASHBOARD_VIEW = "hrms.executive.dashboard.view"
 
     MY_PROFILE_VIEW = "hrms.my.profile.view"
     MY_ATTENDANCE_VIEW = "hrms.my.attendance.view"

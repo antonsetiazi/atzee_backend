@@ -8,7 +8,7 @@ class DistributorConfig(AppConfig):
     label = "verticals_distributor"
 
     def ready(self):
-        # from .ui import bootstrap 
+        from .ui import bootstrap 
         # import verticals.distributor.seeds.permissions
 
         from core.entities.registry import register_entity
