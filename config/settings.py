@@ -108,6 +108,7 @@ HR_APPS = [
 ]
 
 VERTICAL_APPS = [
+    "verticals.agri.apps.AgriConfig",
     "verticals.apotek.apps.ApotekConfig",
     "verticals.bengkel.apps.BengkelConfig",
     "verticals.distributor.apps.DistributorConfig",

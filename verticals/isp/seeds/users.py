@@ -9,7 +9,7 @@ register_user_seed({
     "full_name": "ISP Owner",
     "password": "Owner123!",
     "tenant_code": "isp",
-    "is_superuser": True,
+    "is_superuser": False,
     "is_staff": True,
     "role": "Owner",
 })

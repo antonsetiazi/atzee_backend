@@ -12,7 +12,14 @@ ROLES = [
         "name": "Owner",
         "description": "Tenant owner with full control over workshop operations",
         "access_level": 100,
-        "auto_assign": "owner",
+        "default_permissions": [
+
+            # Core
+            CorePermission.DASHBOARD_VIEW,
+
+            # Bengkel
+            BengkelPermission.OWNER_DASHBOARD_VIEW,
+        ],
     },
 
 

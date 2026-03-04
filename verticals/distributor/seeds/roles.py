@@ -14,7 +14,13 @@ ROLES = [
         "name": "Owner",
         "description": "Tenant owner with full control over Distributor ERP",
         "access_level": 100,
-        "auto_assign": "owner",
+        "default_permissions": [
+
+            CorePermission.DASHBOARD_VIEW,
+
+            # Distributor
+            DistributorPermission.EXECUTIVE_DASHBOARD_VIEW,
+        ],
     },
 
     # ======================================================

@@ -13,6 +13,12 @@ ROLES = [
         "description": "Full control over ISP tenant including finance and network infrastructure",
         "access_level": 100,
         "auto_assign": "owner",
+        "default_permissions": [
+
+            CorePermission.DASHBOARD_VIEW,
+
+            IspPermission.OWNER_DASHBOARD_VIEW,
+        ],
     },
 
 

@@ -8,7 +8,7 @@ register_user_seed({
     "full_name": "Ustadzku Admin",
     "password": "Admin123!",
     "tenant_code": "ustadzku",
-    "is_superuser": True,
+    "is_superuser": False,
     "is_staff": True,
     "role": "Admin",
 })

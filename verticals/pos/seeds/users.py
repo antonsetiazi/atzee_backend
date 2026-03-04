@@ -9,7 +9,7 @@ register_user_seed({
     "full_name": "POS Owner",
     "password": "Owner123!",
     "tenant_code": "pos",
-    "is_superuser": True,
+    "is_superuser": False,
     "is_staff": True,
     "role": "Owner",
 })
