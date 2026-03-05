@@ -12,6 +12,7 @@ class Command(BaseCommand):
         # Import semua vertical seed
         import verticals.agri.seeds.tenants
         import verticals.bengkel.seeds.tenants
+        import verticals.cbs.seeds.tenants
         import verticals.distributor.seeds.tenants
         import verticals.hrms.seeds.tenants
         import verticals.isp.seeds.tenants

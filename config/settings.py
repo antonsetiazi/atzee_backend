@@ -111,6 +111,7 @@ VERTICAL_APPS = [
     "verticals.agri.apps.AgriConfig",
     "verticals.apotek.apps.ApotekConfig",
     "verticals.bengkel.apps.BengkelConfig",
+    "verticals.cbs.apps.CbsConfig",
     "verticals.distributor.apps.DistributorConfig",
     "verticals.hrms.apps.HRMSConfig",
     "verticals.isp.apps.IspConfig",

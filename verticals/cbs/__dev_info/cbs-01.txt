@@ -1,0 +1,117 @@
+🎯 Tujuan Vertical Perbankan
+=========================================
+    Vertical ini harus:
+        - Multi-branch
+        - Multi-product
+        - Multi-currency
+        - Audit-proof
+        - Regulator-ready
+        - Fully integrated dengan Accounting Engine
+
+
+🏦 Modul Utama dalam verticals.cbs
+=========================================
+
+    1. CIF (Customer Information File)
+    =========================================
+        - Individual
+        - Corporate
+        - KYC
+        - Risk Rating
+        - AML Flag
+        - PEP Flag
+        - Beneficial Owner
+
+
+    2. Account Management
+    =========================================
+        Jenis:
+            - Savings
+            - Current
+            - Time Deposit
+            - Loan Account
+            - Virtual Account
+
+        Fitur:
+            - Multi currency
+            - Joint account
+            - Freeze
+            - Daily limit
+            - Statement
+            - Auto GL Posting
+
+
+    3. Transaction Engine
+    =========================================
+        - Cash deposit
+        - Withdrawal
+        - Internal transfer
+        - Interbranch transfer
+        - Fee charge
+        - Interest posting
+        - Reversal
+        - EOD batch
+
+        WAJIB:
+            - Atomic
+            - Double entry
+            - Immutable journal
+            - Reconciliation ready
+
+
+    4. Loan & Credit Engine
+    =========================================
+        - Loan application
+        - Credit scoring
+        - Approval workflow
+        - Collateral
+        - Amortization schedule
+        - NPL tracking
+        - Provisioning
+        - Restructuring
+
+
+    5. Treasury & Branch Control
+    =========================================
+        - Cash vault control
+        - Interbranch settlement
+        - Liquidity monitoring
+        - Fund transfer internal
+
+
+    6. Compliance & Audit
+    =========================================
+        - AML monitoring
+        - Suspicious transaction flag
+        - Regulatory reporting
+        - Immutable audit trail
+        - User activity log
+
+
+🔐 Role Persona untuk CBS
+=========================================
+
+    | Role               | Fungsi              |
+    | ------------------ | ------------------- |
+    | Director           | Full tenant control |
+    | Branch Manager     | Kontrol cabang      |
+    | Credit Officer     | Analisa kredit      |
+    | Teller             | Transaksi           |
+    | Back Office        | Rekonsiliasi        |
+    | Compliance Officer | AML & audit         |
+    | Auditor            | Read-only           |
+
+
+    Semua tetap pakai:
+        - CorePermission
+        - BusinessPermission
+        - CbsPermission
+
+
+📌 Keunggulan Nama "cbs"
+=========================================
+    ✅ Industri-recognized
+    ✅ Profesional
+    ✅ Enterprise ready
+    ✅ Tidak terlalu sempit
+    ✅ Cocok 10+ tahun
