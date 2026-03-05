@@ -116,6 +116,7 @@ VERTICAL_APPS = [
     "verticals.hrms.apps.HRMSConfig",
     "verticals.isp.apps.IspConfig",
     "verticals.koperasi.apps.KoperasiConfig",
+    "verticals.marketplace.apps.MarketplaceConfig",
     "verticals.pesantren.apps.PesantrenConfig",
     "verticals.pos.apps.POSConfig",
     "verticals.research.apps.ResearchConfig",

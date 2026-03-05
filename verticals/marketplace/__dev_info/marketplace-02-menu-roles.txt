@@ -1,0 +1,309 @@
+🔐 ROLE → MENU STRUCTURE MARKETPLACE
+=========================================
+
+
+    1. Buyer (Customer App)
+    =========================================
+        Ini adalah sisi pengguna yang membeli produk.
+
+        Contoh: pengguna Tokopedia / Shopee.
+
+        Menu biasanya sederhana tetapi sering digunakan.
+
+        + Menu Buyer
+            - Home
+            - Browse
+            - Categories
+            - Flash Sale
+            - Cart
+            - Orders
+            - Wishlist
+            - Messages
+            - Notifications
+            - Account
+
+        + Struktur Detail
+            Home
+            ├─ Recommendations
+            ├─ Trending
+            ├─ New Products
+
+            Browse
+            ├─ All Products
+            ├─ Filter
+            └─ Search
+
+            Categories
+            ├─ Electronics
+            ├─ Fashion
+            ├─ Home
+            └─ dll
+
+            Flash Sale
+            ├─ Today Deals
+            └─ Limited Offers
+
+            Cart
+
+            Orders
+            ├─ Pending Payment
+            ├─ Processing
+            ├─ Shipped
+            ├─ Completed
+            └─ Returns
+
+            Wishlist
+
+            Messages
+            ├─ Seller Chat
+            └─ Support
+
+            Notifications
+            ├─ Order Updates
+            ├─ Promotions
+            └─ System
+
+            Account
+            ├─ Profile
+            ├─ Addresses
+            ├─ Payment Methods
+            ├─ Coupons
+            └─ Settings
+
+
+    2. Seller (Seller Dashboard)
+    =========================================
+        Ini adalah dashboard penjual.
+        Biasanya jauh lebih kompleks.
+        Contoh: Shopee Seller Center.
+
+        + Menu Seller
+            - Dashboard
+            - Products
+            - Orders
+            - Inventory
+            - Shipping
+            - Marketing
+            - Finance
+            - Reviews
+            - Customers
+            - Store
+            - Reports
+            - Settings
+
+        + Dashboard
+            Dashboard
+            ├─ Sales Today
+            ├─ Orders Pending
+            ├─ Revenue
+            └─ Store Performance
+
+        + Products
+            Products
+            ├─ Product List
+            ├─ Add Product
+            ├─ Categories
+            ├─ Variants
+            └─ Product Images
+
+        + Orders
+            Orders
+            ├─ New Orders
+            ├─ Processing
+            ├─ Ready to Ship
+            ├─ Shipped
+            ├─ Completed
+            └─ Returns
+
+        + Inventory
+            Inventory
+            ├─ Stock List
+            ├─ Low Stock
+            └─ Stock Movement
+
+        + Shipping
+            Shipping
+            ├─ Shipping Settings
+            ├─ Courier Integration
+            └─ Shipment Tracking
+
+        + Marketing
+            Marketing
+            ├─ Vouchers
+            ├─ Discounts
+            ├─ Campaigns
+            ├─ Flash Sale
+            └─ Ads
+
+        + Finance
+            Finance
+            ├─ Sales Summary
+            ├─ Transactions
+            ├─ Commission
+            ├─ Balance
+            └─ Withdrawals
+
+        + Reviews
+            Reviews
+            ├─ Product Reviews
+            ├─ Reply Reviews
+            └─ Report Reviews
+
+        + Customers
+            Customers
+            ├─ Customer List
+            ├─ Messages
+            └─ Followers
+
+        + Store
+            Store
+            ├─ Store Profile
+            ├─ Store Design
+            ├─ Store Policies
+            └─ Store Verification
+
+        + Reports
+            Reports
+            ├─ Sales Report
+            ├─ Product Performance
+            ├─ Traffic Analytics
+            └─ Conversion Rate
+
+        + Settings
+            Settings
+            ├─ Store Settings
+            ├─ Payment Settings
+            ├─ Notification Settings
+            └─ Staff Management
+
+
+    3. Admin (Marketplace Operator)
+    =========================================
+        Ini adalah panel pengelola marketplace.
+        Biasanya paling kompleks karena mengawasi seluruh sistem.
+
+        + Menu Admin
+            - Dashboard
+            - Users
+            - Stores
+            - Products
+            - Orders
+            - Payments
+            - Shipping
+            - Promotions
+            - Reviews
+            - Disputes
+            - Reports
+            - System
+
+        + Dashboard
+            Dashboard
+            ├─ Marketplace Revenue
+            ├─ Total Orders
+            ├─ Active Sellers
+            └─ System Health
+
+        + Users
+            Users
+            ├─ Buyers
+            ├─ Sellers
+            └─ Admins
+
+        + Stores
+            Stores
+            ├─ Store List
+            ├─ Verification
+            ├─ Suspended Stores
+            └─ Store Ratings
+
+        + Products
+            Products
+            ├─ All Products
+            ├─ Pending Approval
+            ├─ Reported Products
+            └─ Categories
+
+        + Orders
+            Orders
+            ├─ All Orders
+            ├─ Pending
+            ├─ Shipping
+            ├─ Completed
+            └─ Cancelled
+
+        + Payments
+            Payments
+            ├─ Transactions
+            ├─ Escrow
+            ├─ Seller Payouts
+            └─ Commission Rules
+
+        + Shipping
+            Shipping
+            ├─ Courier Providers
+            ├─ Shipping Zones
+            └─ Delivery Monitoring
+
+        + Promotions
+            Promotions
+            ├─ Campaigns
+            ├─ Flash Sales
+            ├─ Coupons
+            └─ Ads
+
+        + Reviews
+            Reviews
+            ├─ Product Reviews
+            ├─ Store Reviews
+            └─ Reported Reviews
+
+        + Disputes
+            Disputes
+            ├─ Returns
+            ├─ Refunds
+            ├─ Complaints
+            └─ Fraud Cases
+
+        + Reports
+            Reports
+            ├─ Sales
+            ├─ Seller Performance
+            ├─ Buyer Activity
+            └─ Revenue
+        
+        + System
+            System
+            ├─ Roles & Permissions
+            ├─ Audit Logs
+            ├─ Notifications
+            └─ Settings
+
+
+Gambaran Besar Menu Marketplace
+=========================================
+    Jika diringkas:
+
+    Marketplace System
+    │
+    ├─ Buyer App
+    │   ├─ Home
+    │   ├─ Browse
+    │   ├─ Cart
+    │   ├─ Orders
+    │   └─ Account
+    │
+    ├─ Seller Dashboard
+    │   ├─ Dashboard
+    │   ├─ Products
+    │   ├─ Orders
+    │   ├─ Marketing
+    │   ├─ Finance
+    │   └─ Reports
+    │
+    └─ Admin Console
+        ├─ Users
+        ├─ Stores
+        ├─ Products
+        ├─ Orders
+        ├─ Payments
+        └─ System

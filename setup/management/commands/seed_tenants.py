@@ -17,6 +17,7 @@ class Command(BaseCommand):
         import verticals.hrms.seeds.tenants
         import verticals.isp.seeds.tenants
         import verticals.koperasi.seeds.tenants
+        import verticals.marketplace.seeds.tenants
         import verticals.pesantren.seeds.tenants
         import verticals.pos.seeds.tenants
         import verticals.research.seeds.tenants
