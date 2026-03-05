@@ -18,6 +18,7 @@ class Command(BaseCommand):
         import verticals.koperasi.seeds.tenants
         import verticals.pesantren.seeds.tenants
         import verticals.pos.seeds.tenants
+        import verticals.research.seeds.tenants
         import verticals.ustadzku.seeds.tenants
 
         for data in all_tenant_seeds():
