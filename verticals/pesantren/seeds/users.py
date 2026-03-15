@@ -1,6 +1,7 @@
 # verticals/pesantren/seeds/users.py
 
 from core.users.seed_registry import register_user_seed
+from core.roles.enums import RoleCode
 
 
 # 🔥 1️⃣ Owner Pesantren (Full Control)
@@ -11,7 +12,7 @@ register_user_seed({
     "tenant_code": "pesantren",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Owner",
+    "role_code": RoleCode.OWNER
 })
 
 
@@ -23,7 +24,7 @@ register_user_seed({
     "tenant_code": "pesantren",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Mudhir",
+    "role_code": RoleCode.DIRECTOR
 })
 
 
@@ -35,7 +36,7 @@ register_user_seed({
     "tenant_code": "pesantren",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Bendahara",
+    "role_code": RoleCode.FINANCE
 })
 
 
@@ -47,7 +48,7 @@ register_user_seed({
     "tenant_code": "pesantren",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Staff Admin",
+    "role_code": RoleCode.ADMIN
 })
 
 
@@ -59,7 +60,7 @@ register_user_seed({
     "tenant_code": "pesantren",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Ustadz",
+    "role_code": RoleCode.STAFF
 })
 
 
@@ -71,7 +72,7 @@ register_user_seed({
     "tenant_code": "pesantren",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Musyrif",
+    "role_code": RoleCode.ADVISOR
 })
 
 
@@ -83,7 +84,7 @@ register_user_seed({
     "tenant_code": "pesantren",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Wali Santri",
+    "role_code": RoleCode.ADVISOR
 })
 
 
@@ -95,5 +96,5 @@ register_user_seed({
     "tenant_code": "pesantren",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Santri",
+    "role_code": RoleCode.CUSTOMER
 })

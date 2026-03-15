@@ -1,6 +1,7 @@
 # verticals/research/seeds/users.py
 
 from core.users.seed_registry import register_user_seed
+from core.roles.enums import RoleCode
 
 
 # =========================================================
@@ -13,7 +14,7 @@ register_user_seed({
     "tenant_code": "research",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Admin",
+    "role_code": RoleCode.ADMIN
 })
 
 
@@ -27,7 +28,7 @@ register_user_seed({
     "tenant_code": "research",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Research Director",
+    "role_code": RoleCode.DIRECTOR
 })
 
 
@@ -41,7 +42,7 @@ register_user_seed({
     "tenant_code": "research",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Committee Member",
+    "role_code": RoleCode.SUPERVISOR
 })
 
 
@@ -55,7 +56,7 @@ register_user_seed({
     "tenant_code": "research",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Reviewer",
+    "role_code": RoleCode.VIEWER
 })
 
 
@@ -69,7 +70,7 @@ register_user_seed({
     "tenant_code": "research",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Principal Investigator",
+    "role_code": RoleCode.SUPERVISOR
 })
 
 
@@ -83,7 +84,7 @@ register_user_seed({
     "tenant_code": "research",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Researcher",
+    "role_code": RoleCode.CUSTOMER
 })
 
 
@@ -97,7 +98,7 @@ register_user_seed({
     "tenant_code": "research",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Research Assistant",
+    "role_code": RoleCode.CUSTOMER
 })
 
 
@@ -111,5 +112,5 @@ register_user_seed({
     "tenant_code": "research",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Finance Officer",
+    "role_code": RoleCode.FINANCE
 })

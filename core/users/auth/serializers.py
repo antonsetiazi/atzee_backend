@@ -97,6 +97,7 @@ class MeSerializer(serializers.ModelSerializer):
     username = serializers.EmailField(source="email")
     tenant_id = serializers.SerializerMethodField()
     avatar_url = serializers.SerializerMethodField()
+    role_id = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -106,6 +107,7 @@ class MeSerializer(serializers.ModelSerializer):
             "full_name", 
             "tenant_id",
             "avatar_url",
+            "role_id",
         ]
 
     def get_tenant_id(self, obj):
@@ -127,6 +129,18 @@ class MeSerializer(serializers.ModelSerializer):
 
         return url
     
+    def get_role_id(self, obj):
+        # Ambil role user di tenant pertama, atau None jika guest
+        membership = obj.tenant_memberships.first()
+        if not membership:
+            return None
+        user_role = (
+            obj.user_roles.filter(role__tenant_id=membership.tenant.id)
+            .select_related("role")
+            .first()
+        )
+        return str(user_role.role.id) if user_role else None
+    
 
 class ChangePasswordSerializer(serializers.Serializer):
     current_password = serializers.CharField(write_only=True, required=True)
@@ -144,3 +158,13 @@ class ChangePasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError("New passwords do not match")
         validate_password(data["new_password"], user=self.context["request"].user)
         return data
+    
+
+class RequestOTPSerializer(serializers.Serializer):
+    phone = serializers.CharField(max_length=20)
+
+
+class VerifyOTPSerializer(serializers.Serializer):
+    phone = serializers.CharField(max_length=20)
+    otp = serializers.CharField(max_length=128)
+    tenant_code = serializers.CharField()    

@@ -1,6 +1,7 @@
 # verticals/ustadzku/seeds/users.py
 
 from core.users.seed_registry import register_user_seed
+from core.roles.enums import RoleCode
 
 # 🔹 Admin
 register_user_seed({
@@ -10,7 +11,7 @@ register_user_seed({
     "tenant_code": "ustadzku",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Admin",
+    "role_code": RoleCode.ADMIN
 })
 
 # 🔹 Partner / Seller
@@ -21,7 +22,7 @@ register_user_seed({
     "tenant_code": "ustadzku",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Partner",
+    "role_code": RoleCode.PARTNER
 })
 
 # 🔹 Customer / Pelanggan
@@ -32,5 +33,5 @@ register_user_seed({
     "tenant_code": "ustadzku",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Customer",
+    "role_code": RoleCode.CUSTOMER
 })

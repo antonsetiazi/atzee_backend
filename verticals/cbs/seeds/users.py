@@ -1,6 +1,7 @@
 # verticals/cbs/seeds/users.py
 
 from core.users.seed_registry import register_user_seed
+from core.roles.enums import RoleCode
 
 
 # 🔹 Director (Full Control Tenant Level)
@@ -11,7 +12,7 @@ register_user_seed({
     "tenant_code": "cbs",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Director",
+    "role_code": RoleCode.DIRECTOR
 })
 
 
@@ -23,7 +24,7 @@ register_user_seed({
     "tenant_code": "cbs",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Branch Manager",
+    "role_code": RoleCode.MANAGER
 })
 
 
@@ -35,7 +36,7 @@ register_user_seed({
     "tenant_code": "cbs",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Credit Officer",
+    "role_code": RoleCode.STAFF
 })
 
 
@@ -47,7 +48,7 @@ register_user_seed({
     "tenant_code": "cbs",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Teller",
+    "role_code": RoleCode.CASHIER
 })
 
 
@@ -59,7 +60,7 @@ register_user_seed({
     "tenant_code": "cbs",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Back Office",
+    "role_code": RoleCode.ADMIN
 })
 
 
@@ -71,7 +72,7 @@ register_user_seed({
     "tenant_code": "cbs",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Compliance Officer",
+    "role_code": RoleCode.ADMIN
 })
 
 
@@ -83,5 +84,5 @@ register_user_seed({
     "tenant_code": "cbs",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Auditor",
+    "role_code": RoleCode.VIEWER
 })

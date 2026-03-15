@@ -2,7 +2,7 @@
 
 from core.roles.models import Role
 from core.permissions.models import Permission, RolePermission
-
+from core.roles.enums import RoleCode
 
 ADMIN_ROLE_NAME = "Admin"
 ADMIN_ACCESS_LEVEL = 1000
@@ -14,8 +14,9 @@ def ensure_admin_role(*, tenant):
     """
     role, _ = Role.objects.get_or_create(
         tenant=tenant,
-        name=ADMIN_ROLE_NAME,
+        code=RoleCode.ADMIN,
         defaults={
+            "name": ADMIN_ROLE_NAME,
             "description": "Tenant administrator",
             "access_level": ADMIN_ACCESS_LEVEL,
         }

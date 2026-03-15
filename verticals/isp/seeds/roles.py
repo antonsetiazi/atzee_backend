@@ -3,12 +3,13 @@
 from core.enum.permissions import CorePermission
 # from business.enum.permissions import BusinessPermission
 from verticals.isp.enum.permissions import IspPermission
-
+from core.roles.enums import RoleCode
 
 ROLES = [
 
     # 🔥 100 - Owner (Full ISP Control)
     {
+        "code": RoleCode.OWNER,
         "name": "Owner",
         "description": "Full control over ISP tenant including finance and network infrastructure",
         "access_level": 100,
@@ -24,6 +25,7 @@ ROLES = [
 
     # 🏢 90 - General Manager
     {
+        "code": RoleCode.GM,
         "name": "General Manager",
         "description": "Manage overall ISP operations, customers, billing and monitoring",
         "access_level": 90,
@@ -38,6 +40,7 @@ ROLES = [
 
     # 💳 80 - Finance Manager
     {
+        "code": RoleCode.FINANCE,
         "name": "Finance Manager",
         "description": "Manage ISP financial operations and reporting",
         "access_level": 80,
@@ -52,6 +55,7 @@ ROLES = [
 
     # 🧠 70 - Network Engineer
     {
+        "code": RoleCode.TECHNICIAN,
         "name": "Network Engineer",
         "description": "Manage network devices, IP pools, bandwidth and provisioning",
         "access_level": 70,
@@ -66,6 +70,7 @@ ROLES = [
 
     # 🖥 60 - NOC Staff
     {
+        "code": RoleCode.TECHNICIAN,
         "name": "NOC Staff",
         "description": "Monitor network health and handle technical incidents",
         "access_level": 60,
@@ -80,6 +85,7 @@ ROLES = [
 
     # 💰 50 - Billing Staff
     {
+        "code": RoleCode.FINANCE,
         "name": "Billing Staff",
         "description": "Handle invoicing, payments and overdue accounts",
         "access_level": 50,
@@ -94,6 +100,7 @@ ROLES = [
 
     # 📞 40 - Customer Service
     {
+        "code": RoleCode.ADMIN,
         "name": "Customer Service",
         "description": "Handle customer inquiries and trouble tickets",
         "access_level": 40,
@@ -106,22 +113,9 @@ ROLES = [
     },
 
 
-    # 📈 30 - Sales Marketing
-    {
-        "name": "Sales Marketing",
-        "description": "Manage leads, sales orders and promotions",
-        "access_level": 30,
-        "default_permissions": [
-
-            CorePermission.DASHBOARD_VIEW,
-
-            IspPermission.SALES_DASHBOARD_VIEW,
-        ],
-    },
-
-
     # 🔧 20 - Field Technician
     {
+        "code": RoleCode.TECHNICIAN,
         "name": "Field Technician",
         "description": "Handle installations and on-site troubleshooting",
         "access_level": 20,
@@ -136,6 +130,7 @@ ROLES = [
 
     # 🌐 10 - Customer (Portal)
     {
+        "code": RoleCode.CUSTOMER,
         "name": "Customer",
         "description": "Self-service portal for ISP subscribers",
         "access_level": 10,

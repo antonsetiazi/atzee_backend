@@ -1,3 +1,5 @@
+# core/roles/urls.py
+
 from django.urls import path
 from core.roles.views import RoleListCreateView, RoleDetailView
 

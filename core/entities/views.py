@@ -2,7 +2,7 @@
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny
 
 from core.tenants.services import TenantService
 from .services import EntityQueryService
@@ -10,20 +10,16 @@ from .services import EntityExecuteService
 
 
 class EntityQueryView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     
     def post(self, request, domain: str, entity: str):
-        # print('post')
-        # print(domain)
-        # print(entity)
         if not domain or not entity:
             return Response(
                 {"detail": "Invalid entity route"},
                 status=400,
             )
-        # print('1')
+
         tenant = TenantService.get_current_tenant(request)
-        # print('2')
                 
         try:
             result = EntityQueryService.execute(
@@ -48,7 +44,7 @@ class EntityQueryView(APIView):
 
 
 class EntityExecuteView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def post(self, request, domain: str, entity: str):
 

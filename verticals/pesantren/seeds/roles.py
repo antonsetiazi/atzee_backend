@@ -3,12 +3,14 @@
 from core.enum.permissions import CorePermission
 # from business.enum.permissions import BusinessPermission
 from verticals.pesantren.enum.permissions import PesantrenPermission
+from core.roles.enums import RoleCode
 
 
 ROLES = [
 
     # 🔥 OWNER (Full Control)
     {
+        "code": RoleCode.OWNER,
         "name": "Owner",
         "description": "Full control over pesantren system",
         "access_level": 100,
@@ -17,6 +19,7 @@ ROLES = [
 
     # 🏛 MUDHIR (Director)
     {
+        "code": RoleCode.DIRECTOR,
         "name": "Mudhir",
         "description": "Oversee academic, tahfidz, and discipline operations",
         "access_level": 90,
@@ -30,6 +33,7 @@ ROLES = [
 
     # 💰 BENDAHARA
     {
+        "code": RoleCode.FINANCE,
         "name": "Bendahara",
         "description": "Manage pesantren financial operations",
         "access_level": 80,
@@ -43,6 +47,7 @@ ROLES = [
 
     # 🧾 STAFF ADMIN
     {
+        "code": RoleCode.ADMIN,
         "name": "Staff Admin",
         "description": "Handle santri administration and registration",
         "access_level": 70,
@@ -56,6 +61,7 @@ ROLES = [
 
     # 📚 USTADZ
     {
+        "code": RoleCode.STAFF,
         "name": "Ustadz",
         "description": "Teach classes and manage academic records",
         "access_level": 60,
@@ -69,6 +75,7 @@ ROLES = [
 
     # 🕌 MUSYRIF (Dorm Supervisor)
     {
+        "code": RoleCode.SUPERVISOR,
         "name": "Musyrif",
         "description": "Supervise dormitory and student discipline",
         "access_level": 60,
@@ -82,6 +89,7 @@ ROLES = [
 
     # 👨‍👩‍👧 WALI SANTRI
     {
+        "code": RoleCode.GM,
         "name": "Wali Santri",
         "description": "Monitor child academic and financial progress",
         "access_level": 30,
@@ -95,6 +103,7 @@ ROLES = [
 
     # 🧑‍🎓 SANTRI
     {
+        "code": RoleCode.CUSTOMER,
         "name": "Santri",
         "description": "Access personal academic and tahfidz data",
         "access_level": 20,

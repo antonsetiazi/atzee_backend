@@ -1,7 +1,7 @@
 # verticals/bengkel/seeds/users.py
 
 from core.users.seed_registry import register_user_seed
-
+from core.roles.enums import RoleCode
 
 # 🔥 Owner (Full Control)
 register_user_seed({
@@ -11,7 +11,7 @@ register_user_seed({
     "tenant_code": "bengkel",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Owner",
+    "role_code": RoleCode.OWNER
 })
 
 
@@ -19,11 +19,11 @@ register_user_seed({
 register_user_seed({
     "email": "advisor@bengkel.com",
     "full_name": "Service Advisor",
-    "password": "Advisor123!",
+    "password": "Advisor123!", 
     "tenant_code": "bengkel",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Service Advisor",
+    "role_code": RoleCode.ADVISOR
 })
 
 
@@ -35,7 +35,7 @@ register_user_seed({
     "tenant_code": "bengkel",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Mechanic",
+    "role_code": RoleCode.TECHNICIAN
 })
 
 
@@ -47,5 +47,5 @@ register_user_seed({
     "tenant_code": "bengkel",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Cashier",
+    "role_code": RoleCode.CASHIER
 })

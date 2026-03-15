@@ -51,8 +51,9 @@ class Command(BaseCommand):
             for role_data in roles_config:
                 role, created = Role.objects.update_or_create(
                     tenant=tenant,
-                    name=role_data["name"],
+                    code=role_data["code"],                    
                     defaults={
+                        "name": role_data["name"],
                         "description": role_data["description"],
                         "access_level": role_data["access_level"],
                     }
@@ -67,10 +68,16 @@ class Command(BaseCommand):
                 auto_assign = role_data.get("auto_assign")
                 user = None
                 if auto_assign == "owner":
-                    users = User.objects.filter(
+                    owners = User.objects.filter(
                         tenant_memberships__tenant=tenant,
                         is_superuser=True
                     )
+
+                    for user in owners:
+                        UserRole.objects.update_or_create(
+                            user=user,
+                            role=role
+                        )
 
                 if user:
                     UserRole.objects.update_or_create(

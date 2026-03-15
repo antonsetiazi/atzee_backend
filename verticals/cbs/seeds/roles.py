@@ -3,12 +3,14 @@
 from core.enum.permissions import CorePermission
 from business.enum.permissions import BusinessPermission
 from verticals.cbs.enum.permissions import CbsPermission
+from core.roles.enums import RoleCode
 
 
 ROLES = [
 
     # 🏦 Director (Full Tenant Control)
     {
+        "code": RoleCode.DIRECTOR,
         "name": "Director",
         "description": "Full control over CBS operations across all branches",
         "access_level": 100,
@@ -26,6 +28,7 @@ ROLES = [
 
     # 🏢 Branch Manager
     {
+        "code": RoleCode.MANAGER,
         "name": "Branch Manager",
         "description": "Manage branch operations, loans, and staff",
         "access_level": 80,
@@ -41,6 +44,7 @@ ROLES = [
 
     # 📊 Credit Officer
     {
+        "code": RoleCode.STAFF,
         "name": "Credit Officer",
         "description": "Analyze and process loan applications",
         "access_level": 60,
@@ -55,6 +59,7 @@ ROLES = [
 
     # 💵 Teller
     {
+        "code": RoleCode.CASHIER,
         "name": "Teller",
         "description": "Handle daily customer transactions",
         "access_level": 40,
@@ -69,6 +74,7 @@ ROLES = [
 
     # 🧾 Back Office
     {
+        "code": RoleCode.ADMIN,
         "name": "Back Office",
         "description": "Reconciliation and operational verification",
         "access_level": 55,
@@ -83,6 +89,7 @@ ROLES = [
 
     # 🛡 Compliance Officer
     {
+        "code": RoleCode.ADMIN,
         "name": "Compliance Officer",
         "description": "Monitor AML, risk and regulatory compliance",
         "access_level": 75,
@@ -97,6 +104,7 @@ ROLES = [
 
     # 🔎 Auditor (Read Only)
     {
+        "code": RoleCode.VIEWER,
         "name": "Auditor",
         "description": "Read-only access for auditing purposes",
         "access_level": 50,

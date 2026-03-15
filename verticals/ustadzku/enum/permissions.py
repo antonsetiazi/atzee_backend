@@ -4,6 +4,8 @@ from enum import Enum
 
 class UstadzkuPermission(str, Enum):
 
+    GUEST_HOME_VIEW = "ustadzku.guest.home.view"
+
     ADMIN_DASHBOARD_VIEW = "ustadzku.admin.dashboard.view"
     PARTNER_DASHBOARD_VIEW = "ustadzku.partner.dashboard.view"
     USER_DASHBOARD_VIEW = "ustadzku.user.dashboard.view"

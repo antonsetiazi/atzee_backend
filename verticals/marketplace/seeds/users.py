@@ -1,7 +1,7 @@
 # verticals/marketplace/seeds/users.py
 
 from core.users.seed_registry import register_user_seed
-
+from core.roles.enums import RoleCode
 
 # 🔹 Marketplace Admin
 register_user_seed({
@@ -11,7 +11,7 @@ register_user_seed({
     "tenant_code": "marketplace",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Admin",
+    "role_code": RoleCode.ADMIN
 })
 
 
@@ -23,7 +23,7 @@ register_user_seed({
     "tenant_code": "marketplace",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Seller",
+    "role_code": RoleCode.PARTNER
 })
 
 
@@ -35,5 +35,5 @@ register_user_seed({
     "tenant_code": "marketplace",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Buyer",
+    "role_code": RoleCode.CUSTOMER
 })

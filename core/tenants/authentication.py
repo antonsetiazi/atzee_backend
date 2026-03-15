@@ -1,3 +1,5 @@
+# core/tenants/authentication.py
+
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 from core.tenants.models import Tenant

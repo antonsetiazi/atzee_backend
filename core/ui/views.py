@@ -2,7 +2,7 @@
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from core.tenants.services import TenantService
 from .services import (
@@ -15,6 +15,8 @@ from .serializers import (
     UIMenuSerializer, 
     UIPageSerializer, 
 )
+
+from .models import UIPage
 
 
 class UIMenuView(APIView):
@@ -32,7 +34,7 @@ class UIMenuView(APIView):
 
 
 class UIPageView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request, page_key):
         tenant = TenantService.get_current_tenant(request)
@@ -54,7 +56,7 @@ class UIPageView(APIView):
 
 
 class UIPageListView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request):
         tenant = TenantService.get_current_tenant(request)
@@ -70,33 +72,44 @@ class UIPageListView(APIView):
     
 
 class NavigationView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request):
-        tenant = TenantService.get_current_tenant(request)
-        nav_type = request.query_params.get("type")
-        app = request.query_params.get("app")
-        device = request.query_params.get("device", "all")
+        try:
+            tenant = TenantService.get_current_tenant(request)
 
-        if not nav_type:
-            return Response(
-                {"detail": "type query param is required"},
-                status=400,
+            nav_type = request.query_params.get("type")
+            device = request.query_params.get("device", "all")
+
+            if not nav_type:
+                return Response(
+                    {"detail": "type query param is required"},
+                    status=400,
+                )
+            
+            # resolve role
+            role = "guest"
+
+            if request.user.is_authenticated and request.role:
+                role = request.role.code
+
+            strategy = NavigationStrategyService.get_strategy(
+                user=request.user,
+                tenant=tenant,
+                nav_type=nav_type,
+                device=device,
+                app=tenant.code,
+                role=role,
             )
 
-        strategy = NavigationStrategyService.get_strategy(
-            user=request.user,
-            tenant=tenant,
-            nav_type=nav_type,
-            device=device,
-            app=app,
-            role=getattr(request.user, "role", None),
-        )
+            if not strategy:
+                return Response(
+                    {"detail": "Navigation not found"},
+                    status=404,
+                )
 
-        if not strategy:
-            return Response(
-                {"detail": "Navigation not found"},
-                status=404,
-            )
-
-        return Response(strategy)
+            return Response(strategy)
+        
+        except Exception as e:
+            print(e)
+    

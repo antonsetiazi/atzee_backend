@@ -3,15 +3,10 @@
 from django.http import JsonResponse
 from core.tenants.models import Tenant
 
-TENANT_OPTIONAL_PATHS = (
-    "/api/auth/",
-    "/api/tenants",          # list & switch
-    "/admin"
-)
 
 class TenantContextMiddleware:
     """
-    Resolve active tenant from authenticated token context.
+    Resolve tenant dari header frontend.
     """
 
     def __init__(self, get_response):
@@ -19,34 +14,28 @@ class TenantContextMiddleware:
 
     def __call__(self, request):
 
-        # Belum login → lewati
-        if not request.user.is_authenticated:
-            return self.get_response(request)
+        tenant_code = request.headers.get("X-Tenant-Code")
 
-        # 🔓 BOOTSTRAP API → tenant OPTIONAL
-        for path in TENANT_OPTIONAL_PATHS:
-            if request.path.startswith(path):
-                return self.get_response(request)
-
-        # 🔑 AMBIL DARI HEADER (INI KUNCI)
-        tenant_id = request.headers.get("X-Tenant-ID")
-        # tenant_id = getattr(request.auth, "active_tenant", None)
-
-        if not tenant_id:
+        if not tenant_code:
             return JsonResponse(
-                {"detail": "Active tenant not set"},
-                status=403
+                {"detail": "Tenant code missing"},
+                status=400
             )
 
         try:
-            tenant = Tenant.objects.get(id=tenant_id, is_active=True)
+            tenant = Tenant.objects.only(
+                "id", "name", "code", "branding"
+            ).get(
+                code=tenant_code,
+                is_active=True
+            )
         except Tenant.DoesNotExist:
             return JsonResponse(
                 {"detail": "Invalid tenant"},
                 status=403
             )
 
-        request.tenant_id = tenant_id
         request.tenant = tenant
-        
+        request.tenant_id = tenant.id
+
         return self.get_response(request)

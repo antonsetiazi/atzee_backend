@@ -77,11 +77,11 @@ class Command(BaseCommand):
             # --------------------------------------------------
             # ROLE
             # --------------------------------------------------
-            role_name = data.get("role")
-            if role_name:
+            role_code = data.get("role_code")
+            if role_code:
                 role = Role.objects.get(
                     tenant=tenant_obj,
-                    name=role_name
+                    code=role_code
                 )
 
                 UserRole.objects.update_or_create(

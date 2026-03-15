@@ -1,0 +1,112 @@
+1. Arsitektur OTP WhatsApp di Atzee
+=========================================
+
+        User
+        │
+        │ Request OTP
+        ▼
+        Business Layer
+        (Auth Service)
+        │
+        │ generate OTP
+        ▼
+        Core Layer
+        OTP Service
+        │
+        │ send message
+        ▼
+        Integration Layer
+        WhatsApp Provider
+        (Twilio / Meta / Fonnte)
+        │
+        ▼
+        WhatsApp User
+
+        | Layer       | Tugas                          |
+        | ----------- | ------------------------------ |
+        | Core        | generate & validate OTP        |
+        | Business    | menentukan kapan OTP digunakan |
+        | Integration | kirim pesan WhatsApp           |
+        | Vertical    | tidak tahu apa-apa tentang OTP |
+
+
+2. Flow OTP Login WhatsApp
+=========================================
+    Step 1
+    --------------------------------
+        User input nomor WhatsApp
+            +62812345678
+
+        Frontend:
+            POST /auth/request-otp
+
+    Step 2
+    --------------------------------
+        Backend generate OTP
+            123456
+
+        OTP disimpan:
+            - otp_code
+            - phone
+            - expired_at
+            - attempts
+
+    Step 3
+    --------------------------------
+        Backend kirim WhatsApp
+
+        Message:
+            Kode OTP Anda: 123456
+
+            Jangan bagikan kode ini kepada siapapun.
+            Berlaku selama 5 menit.
+
+
+    Step 4
+    --------------------------------
+        User input OTP
+            POST /auth/verify-otp
+
+
+    Step 5
+    --------------------------------
+        Jika benar:
+            JWT Token dibuat
+            User login
+
+
+3. Struktur Folder di Atzee
+=========================================
+
+    backend/
+    │
+    ├── core/
+    │   └── otp/
+    │       ├── services/
+    │       │   └── otp_service.py
+    │       │
+    │       ├── models/
+    │       │   └── otp_code.py
+    │       │
+    │       └── utils/
+    │           └── otp_generator.py
+    │
+    ├── integrations/
+    │   └── whatsapp/
+    │       ├── providers/
+    │       │   ├── meta.py
+    │       │   ├── twilio.py
+    │       │   └── fonnte.py
+    │       │
+    │       └── whatsapp_service.py
+    │
+    ├── business/
+    │   └── auth/
+    │       ├── services/
+    │       │   └── auth_service.py
+    │       │
+    │       └── api/
+    │           └── auth_api.py
+
+
+    OTPService.send_whatsapp_otp("6287827599638")

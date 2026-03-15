@@ -1,6 +1,7 @@
 # core/permissions/services.py
 
 from core.permissions.models import Permission
+from core.roles.enums import RoleCode
 
 class PermissionService:
     """
@@ -33,13 +34,27 @@ class PermissionService:
 
     @staticmethod
     def can_access(*, user, tenant, permission_code: str) -> bool:
+        # -------------------------
+        # GUEST ACCESS
+        # -------------------------
         if not user or not user.is_authenticated:
-            return False
+            return Permission.objects.filter(
+                tenant=tenant,
+                code=permission_code,
+                permission_roles__role__code=RoleCode.GUEST,
+                permission_roles__role__tenant=tenant,
+            ).exists()
+    
 
+        # -------------------------
         # PLATFORM OVERRIDE
+        # -------------------------
         if user.is_superuser:
             return True
 
+        # -------------------------
+        # NORMAL USER
+        # -------------------------
         return PermissionService.user_has_permission(
             user=user,
             tenant=tenant,

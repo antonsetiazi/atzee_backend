@@ -1,6 +1,7 @@
 # verticals/hrms/seeds/users.py
 
 from core.users.seed_registry import register_user_seed
+from core.roles.enums import RoleCode
 
 
 # 🔹 HR Administrator (Full Control HR)
@@ -11,7 +12,7 @@ register_user_seed({
     "tenant_code": "hrms",
     "is_superuser": False,
     "is_staff": True,
-    "role": "HR Administrator",
+    "role_code": RoleCode.ADMIN
 })
 
 
@@ -23,7 +24,7 @@ register_user_seed({
     "tenant_code": "hrms",
     "is_superuser": False,
     "is_staff": True,
-    "role": "HR Officer",
+    "role_code": RoleCode.STAFF
 })
 
 
@@ -35,7 +36,7 @@ register_user_seed({
     "tenant_code": "hrms",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Line Manager",
+    "role_code": RoleCode.MANAGER
 })
 
 
@@ -47,7 +48,7 @@ register_user_seed({
     "tenant_code": "hrms",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Employee",
+    "role_code": RoleCode.STAFF
 })
 
 
@@ -59,7 +60,7 @@ register_user_seed({
     "tenant_code": "hrms",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Finance Officer",
+    "role_code": RoleCode.FINANCE
 })
 
 
@@ -71,5 +72,5 @@ register_user_seed({
     "tenant_code": "hrms",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Executive",
+    "role_code": RoleCode.DIRECTOR
 })

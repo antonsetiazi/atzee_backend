@@ -16,3 +16,11 @@ PRINSIP BESAR (WAJIB PEGANG)
 - Role & Permission bersifat engine, bukan enum
 - Frontend Core hanya konsumsi struktur
 - Vertical tidak boleh menyentuh core
+
+
+Tenant → fixed dari frontend (.env)
+Guest → role default saat belum login
+Login → memilih role
+JWT → membawa tenant_id + role_id
+Tidak ada tenant switch
+Tidak ada role switch

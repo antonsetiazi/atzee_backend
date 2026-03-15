@@ -70,6 +70,7 @@ CORE_APPS = [
     "core.widgets.apps.WidgetsConfig",
     "core.org.departments.apps.DepartmentsConfig",
     "core.org.branches.apps.BranchesConfig",
+    "core.otp.apps.OTPConfig",
     "core.files.apps.FilesConfig",
     "core.payment.apps.PaymentConfig",
     "core.schedule.events.apps.EventsConfig",
@@ -156,6 +157,7 @@ MIDDLEWARE = [
 
     # CORE CONTEXT (SETELAH USER TER-RESOLVE)
     "core.tenants.middleware.TenantContextMiddleware",
+    "core.roles.middleware.RoleContextMiddleware",
     "core.permissions.middleware.PermissionGuardMiddleware",
 
     # AUDIT PALING AKHIR
@@ -271,6 +273,8 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
     "x-app",
     "x-puid",
     "x-tenant-id",
+    "x-tenant-code",
+    "x-role-id",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -323,3 +327,16 @@ XENDIT_IS_PRODUCTION = os.getenv("XENDIT_IS_PRODUCTION", "False") == "True"
 
 # XENDIT WEBHOOK SECURITY
 XENDIT_CALLBACK_TOKEN = os.getenv("XENDIT_CALLBACK_TOKEN", "")
+
+
+# =========================
+# WHATSAPP CONFIG
+# =========================
+FONNTE_API_KEY = os.getenv("FONNTE_API_KEY")
+
+
+# =========================
+# AUTH CONFIG
+# =========================
+AUTH_METHODS = os.getenv("AUTH_METHODS", "password").split(",")
+AUTH_DEFAULT_METHOD = os.getenv("AUTH_DEFAULT_METHOD", "password")

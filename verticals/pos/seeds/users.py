@@ -1,6 +1,7 @@
 # verticals/pos/seeds/users.py
 
 from core.users.seed_registry import register_user_seed
+from core.roles.enums import RoleCode
 
 
 # 🔹 Tenant Owner (Superuser Lokal Tenant)
@@ -11,7 +12,7 @@ register_user_seed({
     "tenant_code": "pos",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Owner",
+    "role_code": RoleCode.OWNER
 })
 
 
@@ -23,7 +24,7 @@ register_user_seed({
     "tenant_code": "pos",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Manager",
+    "role_code": RoleCode.MANAGER
 })
 
 
@@ -35,7 +36,7 @@ register_user_seed({
     "tenant_code": "pos",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Supervisor",
+    "role_code": RoleCode.SUPERVISOR
 })
 
 
@@ -47,7 +48,7 @@ register_user_seed({
     "tenant_code": "pos",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Cashier",
+    "role_code": RoleCode.CASHIER
 })
 
 
@@ -59,5 +60,5 @@ register_user_seed({
     "tenant_code": "pos",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Area Manager",
+    "role_code": RoleCode.MANAGER
 })

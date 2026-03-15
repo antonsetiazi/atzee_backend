@@ -4,39 +4,40 @@ BRANDING = {
     "appName": "Ustadzku",
     "logoUrl": "/branding/ustadzku/logo.png",
     "faviconUrl": "/branding/ustadzku/logo.svg",
+
     "theme": {
         "mode": "light",
 
-        # Core Colors
-        "primary": "#2563eb",
-        "secondary": "#1e40af",
-        "accent": "#10b981",
+        # Core Brand Colors (Inspired by Logo)
+        "primary": "#2E7D32",        # Emerald Green
+        "secondary": "#1B5E20",      # Deep Islamic Green
+        "accent": "#D4AF37",         # Premium Gold
 
-        # Surface System
-        "background": "#0f172a",
-        "surface": "#1e293b",
-        "surfaceAlt": "#334155",
+        # Surface System (Light Mode)
+        "background": "#FFFFFF",
+        "surface": "#F8FAF9",
+        "surfaceAlt": "#EEF2EF",
 
         # Text System
-        "textPrimary": "#f8fafc",
-        "textSecondary": "#cbd5e1",
-        "textMuted": "#94a3b8",
+        "textPrimary": "#0F172A",
+        "textSecondary": "#334155",
+        "textMuted": "#64748B",
 
         # State Colors
-        "success": "#22c55e",
-        "warning": "#f59e0b",
-        "error": "#ef4444",
+        "success": "#16A34A",
+        "warning": "#F59E0B",
+        "error": "#EF4444",
 
         # Border
-        "border": "#334155",
+        "border": "#E2E8F0",
 
-        # Radius & Shadow
-        "radius": "12px",
-        "shadow": "0 4px 20px rgba(0,0,0,0.4)",
+        # Radius & Shadow (Premium feel)
+        "radius": "14px",
+        "shadow": "0 8px 30px rgba(0,0,0,0.08)",
 
         # Typography
         "font": {
-            "family": "'Inter', sans-serif",
+            "family": "'Inter', 'Noto Sans', sans-serif",
             "size": "16px",
             "weight": "400"
         }

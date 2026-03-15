@@ -1,29 +1,52 @@
 # core/users/auth/views.py
 
+from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
 
 from .serializers import (
-    LoginSerializer, 
     RegisterSerializer, 
     MeSerializer,
     ChangePasswordSerializer
 )
 
+from .serializers import RequestOTPSerializer, VerifyOTPSerializer
 from .services import issue_jwt_for_user, change_user_password
+from core.otp.services import OTPService
+from .services import AuthService
+from shared.utils.phone import normalize_phone
+from core.otp.utils.hash import verify_otp
 
+class AuthConfigView(APIView):
+    """
+    Return authentication configuration used by frontend login UI.
+    """
+
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        return Response({
+            "methods": settings.AUTH_METHODS,
+            "default_method": settings.AUTH_DEFAULT_METHOD,
+        })
+    
 class LoginView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        try:
-            serializer = LoginSerializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
 
-            user = serializer.validated_data["user"]
-            tenant = serializer.validated_data["tenant"]
+        email = request.data.get("email")
+        password = request.data.get("password")
+        tenant_code = request.data.get("tenant_code")
+
+        try:
+            user, tenant = AuthService.login_with_password(
+                email=email,
+                password=password,
+                tenant_code=tenant_code
+            )
 
             tokens = issue_jwt_for_user(
                 user=user,
@@ -44,7 +67,10 @@ class LoginView(APIView):
                 "tokens": tokens,
             })
         except Exception as e:
-            print(e)
+            return Response(
+                {"detail": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
 
 class MeView(APIView):
@@ -127,3 +153,67 @@ class ChangePasswordView(APIView):
             {"detail": "Password updated successfully"},
             status=status.HTTP_200_OK
         )
+    
+
+class RequestOTPView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        try:
+            serializer = RequestOTPSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+
+            phone = normalize_phone(serializer.validated_data["phone"])
+            
+            OTPService.send_whatsapp_otp(phone)
+
+            return Response({
+                "detail": "OTP sent"
+            }, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+    
+
+class VerifyOTPView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        try:
+            serializer = VerifyOTPSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            
+            phone = normalize_phone(serializer.validated_data["phone"])
+            otp = serializer.validated_data["otp"]
+            tenant_code = serializer.validated_data["tenant_code"]
+
+            try:
+
+                user, tenant = AuthService.login_with_otp(
+                    phone=phone,
+                    otp=otp,
+                    tenant_code=tenant_code
+                )
+
+                tokens = issue_jwt_for_user(
+                    user=user,
+                    active_tenant_id=tenant.id
+                )
+
+                return Response({
+                    "user": {
+                        "id": str(user.id),
+                        "username": user.email,
+                        "full_name": user.full_name,
+                        "tenant_id": str(tenant.id),
+                    },
+                    "tokens": tokens,
+                })
+
+            except Exception as e:
+
+                return Response(
+                    {"detail": str(e)},
+                    status=status.HTTP_400_BAD_REQUEST
+                ) 
+        except Exception as e:
+            print(e)

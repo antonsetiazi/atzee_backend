@@ -3,6 +3,7 @@
 from core.enum.permissions import CorePermission
 # from business.enum.permissions import BusinessPermission
 from verticals.distributor.enum.permissions import DistributorPermission
+from core.roles.enums import RoleCode
 
 
 ROLES = [
@@ -11,6 +12,7 @@ ROLES = [
     # 👑 OWNER (FULL TENANT CONTROL)
     # ======================================================
     {
+        "code": RoleCode.OWNER,
         "name": "Owner",
         "description": "Tenant owner with full control over Distributor ERP",
         "access_level": 100,
@@ -27,6 +29,7 @@ ROLES = [
     # 🧠 GENERAL MANAGER
     # ======================================================
     {
+        "code": RoleCode.GM,
         "name": "General Manager",
         "description": "Oversee overall distributor operations",
         "access_level": 90,
@@ -43,6 +46,7 @@ ROLES = [
     # 📊 SALES MANAGER
     # ======================================================
     {
+        "code": RoleCode.MANAGER,
         "name": "Sales Manager",
         "description": "Manage sales team, territory, and sales performance",
         "access_level": 80,
@@ -58,6 +62,7 @@ ROLES = [
     # 📦 WAREHOUSE MANAGER
     # ======================================================
     {
+        "code": RoleCode.WAREHOUSE,
         "name": "Warehouse Manager",
         "description": "Manage warehouse and stock operations",
         "access_level": 75,
@@ -73,6 +78,7 @@ ROLES = [
     # 💰 FINANCE MANAGER
     # ======================================================
     {
+        "code": RoleCode.FINANCE,
         "name": "Finance Manager",
         "description": "Oversee receivable, payment, and financial reports",
         "access_level": 75,
@@ -85,24 +91,10 @@ ROLES = [
     },
 
     # ======================================================
-    # 🚚 SALES REP (FIELD)
-    # ======================================================
-    {
-        "name": "Sales Rep",
-        "description": "Field sales representative handling customer orders",
-        "access_level": 50,
-        "default_permissions": [
-
-            CorePermission.DASHBOARD_VIEW,
-
-            DistributorPermission.SALES_REP_DASHBOARD_VIEW,
-        ],
-    },
-
-    # ======================================================
     # 🧾 ADMIN SALES
     # ======================================================
     {
+        "code": RoleCode.ADMIN,
         "name": "Admin Sales",
         "description": "Handle sales order entry and invoice processing",
         "access_level": 55,
@@ -115,24 +107,10 @@ ROLES = [
     },
 
     # ======================================================
-    # 📦 WAREHOUSE STAFF
-    # ======================================================
-    {
-        "name": "Warehouse Staff",
-        "description": "Handle goods receipt and delivery processing",
-        "access_level": 45,
-        "default_permissions": [
-
-            CorePermission.DASHBOARD_VIEW,
-
-            DistributorPermission.WAREHOUSE_STAFF_DASHBOARD_VIEW,
-        ],
-    },
-
-    # ======================================================
     # 💵 FINANCE STAFF
     # ======================================================
     {
+        "code": RoleCode.FINANCE,
         "name": "Finance Staff",
         "description": "Handle payment entry and invoice recording",
         "access_level": 45,

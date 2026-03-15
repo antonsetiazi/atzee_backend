@@ -2,8 +2,23 @@
 
 from rest_framework_simplejwt.tokens import RefreshToken
 from core.users.models import User
+from core.roles.models import UserRole
+
+from .methods.password_login import authenticate_password
+from .methods.otp_login import authenticate_otp
 
 
+class AuthService:
+
+    @staticmethod
+    def login_with_password(email, password, tenant_code):
+        return authenticate_password(email, password, tenant_code)
+
+    @staticmethod
+    def login_with_otp(phone, otp, tenant_code):
+        return authenticate_otp(phone, otp, tenant_code)
+    
+    
 class AuthTokenService:
     """
     Centralized JWT issuing service for Core Platform.
@@ -13,10 +28,24 @@ class AuthTokenService:
     def issue_tokens(user, *, active_tenant_id: str):
         refresh = RefreshToken.for_user(user)
 
+        # cari role user di tenant ini
+        user_role = (
+            UserRole.objects
+            .filter(
+                user=user,
+                role__tenant_id=active_tenant_id
+            )
+            .select_related("role")
+            .first()
+        )
+
+        role_id = str(user_role.role.id) if user_role else None
+        
         # CORE CLAIMS (LOCKED)
         refresh["active_tenant"] = str(active_tenant_id)
         refresh["user_id"] = str(user.id)
         refresh["username"] = user.username
+        refresh["role_id"] = role_id
 
         return {
             "access": str(refresh.access_token),
@@ -61,3 +90,5 @@ def change_user_password(user: User, new_password: str) -> User:
     user.full_clean()
     user.save(update_fields=["password"])
     return user
+
+

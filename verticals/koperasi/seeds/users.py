@@ -1,7 +1,7 @@
 # verticals/koperasi/seeds/users.py
 
 from core.users.seed_registry import register_user_seed
-
+from core.roles.enums import RoleCode
 
 # 👑 Ketua
 register_user_seed({
@@ -12,6 +12,7 @@ register_user_seed({
     "is_superuser": False,
     "is_staff": True,
     "role": "Ketua",
+    "role_code": RoleCode.DIRECTOR
 })
 
 
@@ -23,7 +24,7 @@ register_user_seed({
     "tenant_code": "koperasi",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Bendahara",
+    "role_code": RoleCode.FINANCE
 })
 
 
@@ -35,7 +36,7 @@ register_user_seed({
     "tenant_code": "koperasi",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Pengawas",
+    "role_code": RoleCode.ADVISOR
 })
 
 
@@ -47,7 +48,7 @@ register_user_seed({
     "tenant_code": "koperasi",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Staff",
+    "role_code": RoleCode.STAFF
 })
 
 
@@ -59,5 +60,5 @@ register_user_seed({
     "tenant_code": "koperasi",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Member",
+    "role_code": RoleCode.CUSTOMER
 })

@@ -1,3 +1,5 @@
+# core/permissions/urls.py
+
 from django.urls import path
 from core.permissions.views import (
     MyPermissionView,

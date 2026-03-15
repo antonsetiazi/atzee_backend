@@ -2,6 +2,7 @@
 
 from django.db import models
 from core.tenants.models import Tenant
+from core.roles.enums import RoleCode
 
 
 class Role(models.Model):
@@ -9,6 +10,12 @@ class Role(models.Model):
         Tenant,
         on_delete=models.CASCADE,
         related_name="roles"
+    )
+
+    code = models.CharField(
+        max_length=50,
+        choices=[(r.value, r.value) for r in RoleCode],
+        db_index=True,
     )
 
     name = models.CharField(max_length=100)
@@ -27,14 +34,19 @@ class Role(models.Model):
 
     is_system = models.BooleanField(default=True)
 
+    is_default = models.BooleanField(
+        default=False,
+        help_text="Default role for new users in this tenant"
+    )
+
     class Meta:
         db_table = "core_roles"
-        unique_together = ("tenant", "name")
+        unique_together = ("tenant", "code")
         ordering = ["access_level"]
 
     
     def __str__(self):
-        return f"{self.name} ({self.access_level})"
+        return f"{self.name} ({self.code})"
     
 
 class UserRole(models.Model):

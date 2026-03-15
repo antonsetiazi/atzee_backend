@@ -3,12 +3,14 @@
 from core.enum.permissions import CorePermission
 from business.enum.permissions import BusinessPermission
 from verticals.pos.enum.permissions import PosPermission
+from core.roles.enums import RoleCode
 
 
 ROLES = [
 
     # 🔥 Owner (Full tenant control)
     {
+        "code": RoleCode.OWNER,
         "name": "Owner",
         "description": "Tenant owner with full control over POS operations",
         "access_level": 100,
@@ -18,6 +20,7 @@ ROLES = [
 
     # 🏬 Store Manager
     {
+        "code": RoleCode.MANAGER,
         "name": "Manager",
         "description": "Manage store operations, reports, and staff",
         "access_level": 80,
@@ -43,6 +46,7 @@ ROLES = [
 
     # 👨‍💼 Shift Supervisor
     {
+        "code": RoleCode.SUPERVISOR,
         "name": "Supervisor",
         "description": "Supervise cashier and manage shifts",
         "access_level": 60,
@@ -63,6 +67,7 @@ ROLES = [
 
     # 🧾 Cashier
     {
+        "code": RoleCode.CASHIER,
         "name": "Cashier",
         "description": "Handle daily POS transactions",
         "access_level": 40,
@@ -79,6 +84,7 @@ ROLES = [
 
     # 🌍 Area Manager (Multi Outlet Monitoring)
     {
+        "code": RoleCode.MANAGER,
         "name": "Area Manager",
         "description": "Monitor multiple outlets performance",
         "access_level": 70,

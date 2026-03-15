@@ -1,9 +1,7 @@
-# verticals/distributor/seeds/users.py
-
-# verticals/distributor/seeds/users.py
+# verticals/distributor/seeds/users.py 
 
 from core.users.seed_registry import register_user_seed
-
+from core.roles.enums import RoleCode
 
 # ==========================================================
 # 🔹 EXECUTIVE LEVEL
@@ -17,7 +15,7 @@ register_user_seed({
     "tenant_code": "distributor",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Owner",
+    "role_code": RoleCode.OWNER
 })
 
 
@@ -33,7 +31,7 @@ register_user_seed({
     "tenant_code": "distributor",
     "is_superuser": False,
     "is_staff": True,
-    "role": "General Manager",
+    "role_code": RoleCode.GM
 })
 
 # Sales Manager
@@ -44,7 +42,7 @@ register_user_seed({
     "tenant_code": "distributor",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Sales Manager",
+    "role_code": RoleCode.MANAGER
 })
 
 # Warehouse Manager
@@ -55,7 +53,7 @@ register_user_seed({
     "tenant_code": "distributor",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Warehouse Manager",
+    "role_code": RoleCode.WAREHOUSE
 })
 
 # Finance Manager
@@ -66,7 +64,7 @@ register_user_seed({
     "tenant_code": "distributor",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Finance Manager",
+    "role_code": RoleCode.FINANCE
 })
 
 
@@ -75,15 +73,15 @@ register_user_seed({
 # ==========================================================
 
 # Sales Rep (Field Sales)
-register_user_seed({
-    "email": "sales.rep@distributor.com",
-    "full_name": "Sales Representative",
-    "password": "SalesRep123!",
-    "tenant_code": "distributor",
-    "is_superuser": False,
-    "is_staff": False,
-    "role": "Sales Rep",
-})
+# register_user_seed({
+#     "email": "sales.rep@distributor.com",
+#     "full_name": "Sales Representative",
+#     "password": "SalesRep123!",
+#     "tenant_code": "distributor",
+#     "is_superuser": False,
+#     "is_staff": False,
+#     "role": "Sales Rep",
+# })
 
 # Admin Sales
 register_user_seed({
@@ -93,7 +91,7 @@ register_user_seed({
     "tenant_code": "distributor",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Admin Sales",
+    "role_code": RoleCode.ADMIN
 })
 
 # Warehouse Staff
@@ -104,7 +102,7 @@ register_user_seed({
     "tenant_code": "distributor",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Warehouse Staff",
+    "role_code": RoleCode.WAREHOUSE
 })
 
 # Finance Staff
@@ -115,5 +113,5 @@ register_user_seed({
     "tenant_code": "distributor",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Finance Staff",
+    "role_code": RoleCode.FINANCE
 })

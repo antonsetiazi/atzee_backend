@@ -1,6 +1,7 @@
 # verticals/agri/seeds/users.py
 
 from core.users.seed_registry import register_user_seed
+from core.roles.enums import RoleCode
 
 
 # 👑 OWNER (Strategic Level)
@@ -11,7 +12,7 @@ register_user_seed({
     "tenant_code": "agri",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Owner",
+    "role_code": RoleCode.OWNER
 })
 
 
@@ -23,7 +24,7 @@ register_user_seed({
     "tenant_code": "agri",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Farm Manager",
+    "role_code": RoleCode.MANAGER
 })
 
 
@@ -35,7 +36,7 @@ register_user_seed({
     "tenant_code": "agri",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Field Supervisor",
+    "role_code": RoleCode.SUPERVISOR
 })
 
 
@@ -47,7 +48,7 @@ register_user_seed({
     "tenant_code": "agri",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Worker",
+    "role_code": RoleCode.STAFF
 })
 
 
@@ -59,5 +60,5 @@ register_user_seed({
     "tenant_code": "agri",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Finance",
+    "role_code": RoleCode.FINANCE
 })

@@ -36,15 +36,20 @@ class TenantService:
         """
         Resolve tenant dari request (header / token)
         """
-        tenant_id = request.META.get("HTTP_X_TENANT_ID") 
+        tenant_code = request.META.get("HTTP_X_TENANT_CODE") 
 
-        if not tenant_id:
+        if not tenant_code:
             raise PermissionDenied("Tenant context missing")
 
-        return TenantService.validate_user_tenant_access(
-            user=request.user,
-            tenant_id=tenant_id,
-        )
+        tenant = Tenant.objects.filter(
+            code=tenant_code,
+            is_active=True
+        ).first()
+            
+        if not tenant:
+            raise PermissionDenied("Tenant not found")
+
+        return tenant
 
 
 # ------------------------------------------------------------------

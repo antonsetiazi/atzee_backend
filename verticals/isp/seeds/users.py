@@ -1,6 +1,7 @@
 # verticals/isp/seeds/users.py
 
 from core.users.seed_registry import register_user_seed
+from core.roles.enums import RoleCode
 
 
 # 🔥 100 - Owner
@@ -11,7 +12,7 @@ register_user_seed({
     "tenant_code": "isp",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Owner",
+    "role_code": RoleCode.OWNER
 })
 
 
@@ -23,7 +24,7 @@ register_user_seed({
     "tenant_code": "isp",
     "is_superuser": False,
     "is_staff": True,
-    "role": "General Manager",
+    "role_code": RoleCode.GM
 })
 
 
@@ -35,7 +36,7 @@ register_user_seed({
     "tenant_code": "isp",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Finance Manager",
+    "role_code": RoleCode.FINANCE
 })
 
 
@@ -47,7 +48,7 @@ register_user_seed({
     "tenant_code": "isp",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Network Engineer",
+    "role_code": RoleCode.TECHNICIAN
 })
 
 
@@ -59,7 +60,7 @@ register_user_seed({
     "tenant_code": "isp",
     "is_superuser": False,
     "is_staff": True,
-    "role": "NOC Staff",
+    "role_code": RoleCode.TECHNICIAN
 })
 
 
@@ -71,7 +72,7 @@ register_user_seed({
     "tenant_code": "isp",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Billing Staff",
+    "role_code": RoleCode.FINANCE
 })
 
 
@@ -83,7 +84,7 @@ register_user_seed({
     "tenant_code": "isp",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Customer Service",
+    "role_code": RoleCode.ADMIN
 })
 
 
@@ -95,7 +96,7 @@ register_user_seed({
     "tenant_code": "isp",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Sales Marketing",
+    "role_code": RoleCode.STAFF
 })
 
 
@@ -107,7 +108,7 @@ register_user_seed({
     "tenant_code": "isp",
     "is_superuser": False,
     "is_staff": True,
-    "role": "Field Technician",
+    "role_code": RoleCode.TECHNICIAN
 })
 
 
@@ -119,5 +120,5 @@ register_user_seed({
     "tenant_code": "isp",
     "is_superuser": False,
     "is_staff": False,
-    "role": "Customer",
+    "role_code": RoleCode.CUSTOMER
 })

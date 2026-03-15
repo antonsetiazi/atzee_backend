@@ -2,7 +2,8 @@
 
 from django.db import transaction
 from core.roles.models import Role, UserRole
-from core.roles.bootstrap import ADMIN_ROLE_NAME
+from core.roles.enums import RoleCode
+
 
 def list_roles(*, tenant):
     return Role.objects.filter(tenant=tenant)
@@ -12,6 +13,7 @@ def list_roles(*, tenant):
 def create_role(*, tenant, data):
     return Role.objects.create(
         tenant=tenant,
+        code=data["code"],
         name=data["name"],
         description=data.get("description", ""),
         access_level=data["access_level"],
@@ -49,8 +51,9 @@ def ensure_user_has_role(*, user, tenant):
 
     # ambil role default (access_level terendah)
     default_role = Role.objects.filter(
-        tenant=tenant
-    ).order_by("access_level").first()
+        tenant=tenant,
+        is_default=True
+    ).first()
 
     if not default_role:
         raise Exception("Tenant has no roles defined")
@@ -75,7 +78,7 @@ def ensure_user_is_admin(*, user, tenant):
 
     admin_role = Role.objects.get(
         tenant=tenant,
-        name=ADMIN_ROLE_NAME,
+        code=RoleCode.ADMIN
     )
 
     UserRole.objects.create(

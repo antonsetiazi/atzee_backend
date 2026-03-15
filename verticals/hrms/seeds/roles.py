@@ -3,12 +3,14 @@
 from core.enum.permissions import CorePermission
 from business.enum.permissions import BusinessPermission
 from verticals.hrms.enum.permissions import HrmsPermission
+from core.roles.enums import RoleCode
 
 
 ROLES = [
 
     # 🔥 HR Administrator (Full HR Control)
     {
+        "code": RoleCode.ADMIN,
         "name": "HR Administrator",
         "description": "Full control over HRMS configuration and operations",
         "access_level": 100,
@@ -23,6 +25,7 @@ ROLES = [
 
     # 👑 Executive (Strategic Monitoring)
     {
+        "code": RoleCode.DIRECTOR,
         "name": "Executive",
         "description": "Strategic oversight of workforce and payroll",
         "access_level": 90,
@@ -37,6 +40,7 @@ ROLES = [
 
     # 💰 Finance Officer (Payroll & Journal)
     {
+        "code": RoleCode.FINANCE,
         "name": "Finance Officer",
         "description": "Manage payroll processing and accounting integration",
         "access_level": 80,
@@ -51,6 +55,7 @@ ROLES = [
 
     # 🧾 HR Officer (Daily HR Operations)
     {
+        "code": RoleCode.ADMIN,
         "name": "HR Officer",
         "description": "Handle daily HR operational activities",
         "access_level": 70,
@@ -65,6 +70,7 @@ ROLES = [
 
     # 👨‍💼 Line Manager (Team-Level Control)
     {
+        "code": RoleCode.MANAGER,
         "name": "Line Manager",
         "description": "Manage team members and approve requests",
         "access_level": 60,
@@ -79,6 +85,7 @@ ROLES = [
 
     # 👤 Employee (Self-Service User)
     {
+        "code": RoleCode.CUSTOMER,
         "name": "Employee",
         "description": "Self-service access to personal HR data",
         "access_level": 40,

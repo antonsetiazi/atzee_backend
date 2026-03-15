@@ -3,10 +3,23 @@
 from core.enum.permissions import CorePermission
 from business.enum.permissions import BusinessPermission
 from verticals.ustadzku.enum.permissions import UstadzkuPermission
+from core.roles.enums import RoleCode
+
 
 ROLES = [
+    {
+        "code": RoleCode.GUEST,
+        "name": "Guest",
+        "description": "Public visitor (not authenticated)",
+        "access_level": 0,
+        "default_permissions": [
+            UstadzkuPermission.GUEST_HOME_VIEW,
+        ],
+    },
+
     # Tenant Owner / Superadmin lokal tenant
     {
+        "code": RoleCode.OWNER,
         "name": "Owner",
         "description": "Tenant owner, full control over tenant",
         "access_level": 100,
@@ -15,6 +28,7 @@ ROLES = [
 
     # Admin tenant: manage users, roles, settings
     {
+        "code": RoleCode.ADMIN,
         "name": "Admin",
         "description": "Manage users, roles, and tenant settings",
         "access_level": 80,
@@ -31,6 +45,7 @@ ROLES = [
 
     # Staff: operational role, internal user
     {
+        "code": RoleCode.STAFF,
         "name": "Staff",
         "description": "Internal staff access for operations",
         "access_level": 40,
@@ -39,18 +54,9 @@ ROLES = [
         ],
     },
 
-    # Viewer: read-only internal role
-    {
-        "name": "Viewer",
-        "description": "Read-only access to internal tenant data",
-        "access_level": 10,
-        "default_permissions": [
-            CorePermission.DASHBOARD_VIEW,
-        ],
-    },
-
     # Customer / Pelanggan: user eksternal yang membeli layanan
     {
+        "code": RoleCode.CUSTOMER,
         "name": "Customer",
         "description": "External customer / client of the tenant",
         "access_level": 5,
@@ -81,6 +87,7 @@ ROLES = [
 
     # Partner / Seller: user eksternal yang menjual produk/jasa via tenant
     {
+        "code": RoleCode.PARTNER,
         "name": "Partner",
         "description": "External partner or seller of the tenant",
         "access_level": 5,

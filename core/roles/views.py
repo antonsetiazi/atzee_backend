@@ -1,3 +1,5 @@
+# core/roles/views.py
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -37,7 +39,7 @@ class RoleDetailView(APIView):
         serializer.is_valid(raise_exception=True)
 
         role = services.update_role(
-            user=request.user,
+            tenant=request.tenant,
             role_id=role_id,
             data=serializer.validated_data
         )

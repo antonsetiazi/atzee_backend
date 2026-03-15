@@ -3,12 +3,14 @@
 from core.enum.permissions import CorePermission
 # from business.enum.permissions import BusinessPermission
 from verticals.research.enum.permissions import ResearchPermission
+from core.roles.enums import RoleCode
 
 
 ROLES = [
 
     # 🔥 Research Director (Full Vertical Control)
     {
+        "code": RoleCode.OWNER,
         "name": "Research Director",
         "description": "Full control over research vertical including governance and funding",
         "access_level": 100,
@@ -26,6 +28,7 @@ ROLES = [
 
     # 🏛 Committee Member (Approval Authority)
     {
+        "code": RoleCode.DIRECTOR,
         "name": "Committee Member",
         "description": "Review and approve research proposals",
         "access_level": 80,
@@ -40,6 +43,7 @@ ROLES = [
 
     # 🧪 Reviewer
     {
+        "code": RoleCode.SUPERVISOR,
         "name": "Reviewer",
         "description": "Review assigned research proposals",
         "access_level": 70,
@@ -54,6 +58,7 @@ ROLES = [
 
     # 👨‍🔬 Principal Investigator (Project Owner)
     {
+        "code": RoleCode.MANAGER,
         "name": "Principal Investigator",
         "description": "Lead research projects and manage team",
         "access_level": 75,
@@ -68,6 +73,7 @@ ROLES = [
 
     # 🔬 Researcher
     {
+        "code": RoleCode.CUSTOMER,
         "name": "Researcher",
         "description": "Execute research tasks and update progress",
         "access_level": 60,
@@ -82,6 +88,7 @@ ROLES = [
 
     # 🧾 Research Assistant
     {
+        "code": RoleCode.STAFF,
         "name": "Research Assistant",
         "description": "Support research documentation and logistics",
         "access_level": 50,
@@ -96,6 +103,7 @@ ROLES = [
 
     # 💰 Finance Officer
     {
+        "code": RoleCode.FINANCE,
         "name": "Finance Officer",
         "description": "Manage and monitor research budgets",
         "access_level": 65,
@@ -110,6 +118,7 @@ ROLES = [
 
     # 🛠 Admin (Operational System Admin)
     {
+        "code": RoleCode.ADMIN,
         "name": "Admin",
         "description": "Manage operational system and user setup",
         "access_level": 85,

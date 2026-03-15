@@ -5,7 +5,10 @@ from django.db import models
 
 class User(AbstractUser):
     full_name = models.CharField(max_length=255)
-    phone = models.CharField(max_length=50, blank=True, null=True)
+    
+    phone = models.CharField(max_length=50, blank=True, null=True, unique=True)
+    is_phone_verified = models.BooleanField(default=False)
+    
     is_verified = models.BooleanField(default=False)
 
     avatar = models.ForeignKey(
