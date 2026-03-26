@@ -18,7 +18,7 @@ from business.bookings.services.create_booking import create_booking
 from business.bookings.models import Booking
 from business.partners.models import Partner
 from business.users.models import BusinessUser
-from business.products.models import PartnerProduct
+from business.products.models import PartnerOffering
 from business.bookings.services.payment import pay_booking_with_wallet
 
 class BookingViewSet(viewsets.ViewSet):
@@ -95,8 +95,8 @@ class BookingViewSet(viewsets.ViewSet):
             is_deleted=False
         )
 
-        # 🔥 Ambil layanan milik partner lewat PartnerProduct
-        partner_products = PartnerProduct.objects.filter(
+        # 🔥 Ambil layanan milik partner lewat PartnerOffering
+        partner_products = PartnerOffering.objects.filter(
             tenant=tenant,
             partner=partner,
             is_active=True,
@@ -132,7 +132,7 @@ class BookingViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        partner_products = PartnerProduct.objects.filter(
+        partner_products = PartnerOffering.objects.filter(
             tenant=tenant,
             partner_id=partner_id,
             product_id__in=service_ids,
@@ -166,7 +166,7 @@ class BookingViewSet(viewsets.ViewSet):
 
         service_ids = service_ids.split(",")
 
-        partner_products = PartnerProduct.objects.filter(
+        partner_products = PartnerOffering.objects.filter(
             tenant=tenant,
             partner_id=partner_id,
             product_id__in=service_ids,

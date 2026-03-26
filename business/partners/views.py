@@ -18,8 +18,8 @@ from business.partners.serializers import (
 
 from business.partners.availability import generate_partner_daily_slots
 
-from business.products.selectors import get_partner_service_queryset
-from business.products.serializers import PartnerServiceCardSerializer
+from business.products.selectors import get_partner_offerings
+from business.products.serializers import PartnerOfferingCardSerializer
 
 class PartnerViewSet(viewsets.ViewSet):
     """
@@ -197,12 +197,12 @@ class PartnerViewSet(viewsets.ViewSet):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        offerings = get_partner_service_queryset(
+        offerings = get_partner_offerings(
             tenant=tenant,
             partner_id=partner.id
         )
 
-        serializer = PartnerServiceCardSerializer(
+        serializer = PartnerOfferingCardSerializer(
             offerings,
             many=True
         )

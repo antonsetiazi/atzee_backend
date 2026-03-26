@@ -1,14 +1,13 @@
+# business/products/selectors.py
+
 from typing import Optional
 from django.db.models import QuerySet, Q
 
-from business.products.models import Product, PartnerProduct
+from business.products.models import Product, PartnerOffering
 from core.tenants.models import Tenant
 
 
 def get_product_queryset(*, tenant: Tenant) -> QuerySet[Product]:
-    """
-    Base queryset for product (tenant scoped).
-    """
     return Product.objects.filter(
         tenant=tenant,
         is_deleted=False
@@ -18,16 +17,16 @@ def get_product_queryset(*, tenant: Tenant) -> QuerySet[Product]:
 def get_products(
         *, 
         tenant: Tenant,
-        only_active: bool = True
+        only_active: bool = True,
+        product_type: Optional[str] = None
 ) -> QuerySet[Product]:
-    """
-    Get all products for a tenant.
-    """
-
     qs = get_product_queryset(tenant=tenant)
 
     if only_active:
         qs = qs.filter(is_active=True)
+
+    if product_type:
+        qs = qs.filter(product_type=product_type)
 
     return qs.order_by("name")
 
@@ -37,13 +36,7 @@ def get_product_by_id(
         tenant: Tenant, 
         product_id: int
 ) -> Optional[Product]:
-    """
-    Get single product by ID.
-    """
-    try:
-        return get_product_queryset(tenant=tenant).get(id=product_id)
-    except Product.DoesNotExist:
-        return None
+    return get_product_queryset(tenant=tenant).filter(id=product_id).first()
     
 
 def search_products(
@@ -51,14 +44,11 @@ def search_products(
         tenant: Tenant, 
         keyword: str
 ) -> QuerySet[Product]: 
-    """
-    Search product by name or code.
-    """
     return (
         get_product_queryset(tenant=tenant)
         .filter(
-            Q(name__icontains=keyword)
-            | Q(code__icontains=keyword)
+            Q(name__icontains=keyword) | 
+            Q(code__icontains=keyword)
         )
         .order_by("name")
     )
@@ -74,26 +64,30 @@ def product_exists(
     ).exists()
 
 
-def get_partner_service_queryset(
+# 🔥 CLEAN: offering instead of service
+def get_partner_offerings(
     *,
     tenant: Tenant,
-    partner_id: int
-) -> QuerySet[PartnerProduct]:
-    """
-    Get active service offerings for a partner.
-    Only product_type = service.
-    """
+    partner_id: int,
+    only_active: bool = True,
+    product_type: Optional[str] = None
+) -> QuerySet[PartnerOffering]:
 
-    return (
-        PartnerProduct.objects
+    qs = (
+        PartnerOffering.objects
         .filter(
             tenant=tenant,
             partner_id=partner_id,
-            is_active=True,
-            product__product_type=Product.TYPE_SERVICE,
             product__is_deleted=False,
             product__is_active=True,
         )
         .select_related("product")
-        .order_by("product__name")
     )
+
+    if only_active:
+        qs = qs.filter(is_active=True)
+
+    if product_type:
+        qs = qs.filter(product__product_type=product_type)
+
+    return qs.order_by("product__name")

@@ -13,6 +13,11 @@ PARTNERS = [
         "rating_avg": 4.8,
         "rating_count": 124,
         "image": "ustadz1.jpg",
+        "service_profile": {
+            "specialization": "Tahsin & Tahfidz",
+            "experience_years": 8,
+            "bio": "Berpengalaman mengajar tahsin dan tahfidz untuk anak & dewasa."
+        }
     },
     {
         "code": "UST002",
@@ -26,6 +31,11 @@ PARTNERS = [
         "rating_avg": 4.6,
         "rating_count": 98,
         "image": "ustadz2.jpg",
+        "service_profile": {
+            "specialization": "Kajian Tafsir",
+            "experience_years": 12,
+            "bio": "Mengajar tafsir Al-Qur'an dengan pendekatan tematik."
+        }
     },
     {
         "code": "UST003",
@@ -39,6 +49,11 @@ PARTNERS = [
         "rating_avg": 4.9,
         "rating_count": 203,
         "image": "ustadz3.jpg",
+        "service_profile": {
+            "specialization": "Kajian Fiqih & Muamalah",
+            "experience_years": 10,
+            "bio": "Fokus pada kajian fiqih praktis untuk kehidupan sehari-hari."
+        }
     },
 
     # 🔹 Tambahan 10 partner lagi
@@ -54,6 +69,11 @@ PARTNERS = [
         "rating_avg": 4.5,
         "rating_count": 87,
         "image": "ustadz4.jpg",
+        "service_profile": {
+            "specialization": "Tahsin & Tahfidz",
+            "experience_years": 8,
+            "bio": "Berpengalaman mengajar tahsin dan tahfidz untuk anak & dewasa."
+        }
     },
     {
         "code": "UST005",
@@ -67,6 +87,11 @@ PARTNERS = [
         "rating_avg": 4.7,
         "rating_count": 112,
         "image": "ustadz5.jpg",
+        "service_profile": {
+            "specialization": "Kajian Tafsir",
+            "experience_years": 12,
+            "bio": "Mengajar tafsir Al-Qur'an dengan pendekatan tematik."
+        }
     },
     {
         "code": "UST006",
@@ -80,6 +105,11 @@ PARTNERS = [
         "rating_avg": 4.6,
         "rating_count": 76,
         "image": "ustadz6.jpg",
+        "service_profile": {
+            "specialization": "Tahsin & Tahfidz",
+            "experience_years": 8,
+            "bio": "Berpengalaman mengajar tahsin dan tahfidz untuk anak & dewasa."
+        }
     },
     {
         "code": "UST007",
@@ -93,6 +123,11 @@ PARTNERS = [
         "rating_avg": 4.8,
         "rating_count": 95,
         "image": "ustadz7.jpg",
+        "service_profile": {
+            "specialization": "Kajian Fiqih & Muamalah",
+            "experience_years": 10,
+            "bio": "Fokus pada kajian fiqih praktis untuk kehidupan sehari-hari."
+        }
     },
     {
         "code": "UST008",
@@ -106,6 +141,11 @@ PARTNERS = [
         "rating_avg": 4.7,
         "rating_count": 103,
         "image": "ustadz8.jpg",
+        "service_profile": {
+            "specialization": "Kajian Tafsir",
+            "experience_years": 12,
+            "bio": "Mengajar tafsir Al-Qur'an dengan pendekatan tematik."
+        }
     },
     {
         "code": "UST009",
@@ -119,6 +159,11 @@ PARTNERS = [
         "rating_avg": 4.9,
         "rating_count": 142,
         "image": "ustadz9.jpg",
+        "service_profile": {
+            "specialization": "Kajian Fiqih & Muamalah",
+            "experience_years": 10,
+            "bio": "Fokus pada kajian fiqih praktis untuk kehidupan sehari-hari."
+        }
     },
     {
         "code": "UST010",
@@ -132,6 +177,11 @@ PARTNERS = [
         "rating_avg": 4.5,
         "rating_count": 81,
         "image": "ustadz10.jpg",
+        "service_profile": {
+            "specialization": "Kajian Tafsir",
+            "experience_years": 12,
+            "bio": "Mengajar tafsir Al-Qur'an dengan pendekatan tematik."
+        }
     },
     {
         "code": "UST011",
@@ -145,6 +195,11 @@ PARTNERS = [
         "rating_avg": 4.6,
         "rating_count": 97,
         "image": "ustadz11.jpg",
+        "service_profile": {
+            "specialization": "Tahsin & Tahfidz",
+            "experience_years": 8,
+            "bio": "Berpengalaman mengajar tahsin dan tahfidz untuk anak & dewasa."
+        }
     },
     {
         "code": "UST012",
@@ -158,6 +213,11 @@ PARTNERS = [
         "rating_avg": 4.7,
         "rating_count": 88,
         "image": "ustadz12.jpg",
+        "service_profile": {
+            "specialization": "Kajian Fiqih & Muamalah",
+            "experience_years": 10,
+            "bio": "Fokus pada kajian fiqih praktis untuk kehidupan sehari-hari."
+        }
     },
     {
         "code": "UST013",
@@ -171,5 +231,10 @@ PARTNERS = [
         "rating_avg": 4.8,
         "rating_count": 110,
         "image": "ustadz13.jpg",
+        "service_profile": {
+            "specialization": "Tahsin & Tahfidz",
+            "experience_years": 8,
+            "bio": "Berpengalaman mengajar tahsin dan tahfidz untuk anak & dewasa."
+        }
     },
 ]

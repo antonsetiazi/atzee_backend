@@ -7,7 +7,7 @@ from core.models.base import TenantAwareModel, ExtensibleModel
 
 class Product(TenantAwareModel, ExtensibleModel):
     """
-    Core product / service model (business invariant).
+    Core product / service definition (business invariant).
     """
 
     TYPE_GOOD = "good"
@@ -30,36 +30,52 @@ class Product(TenantAwareModel, ExtensibleModel):
     product_type = models.CharField(
         max_length=20,
         choices=PRODUCT_TYPE_CHOICES,
-        default=TYPE_GOOD
+        default=TYPE_GOOD,
+        db_index=True
     )
 
     description = models.TextField(
         blank=True,
         null=True
     )
+
+    is_active = models.BooleanField(default=True, db_index=True)
     
 
     class Meta:
         db_table = "business_products"
-        unique_together = ("tenant", "code")
         ordering = ["name"]
+        indexes = [
+            models.Index(fields=["tenant", "product_type"]),
+            models.Index(fields=["tenant", "is_active"]),
+        ]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["tenant", "code"],
+                name="unique_product_code_per_tenant",
+                condition=~models.Q(code=None)
+            )
+        ]
 
 
     def __str__(self):
         return self.name
     
 
-class PartnerProduct(TenantAwareModel):
+class PartnerOffering(TenantAwareModel):
+    """
+    Partner-specific offering (price, duration, availability).
+    """
     partner = models.ForeignKey(
         "business_partners.Partner",
         on_delete=models.CASCADE,
-        related_name="partner_products"
+        related_name="offerings"
     )
 
     product = models.ForeignKey(
-        "business_product.Product",
+        "business_products.Product",
         on_delete=models.CASCADE,
-        related_name="partner_products"
+        related_name="offerings"
     )
 
     price = models.DecimalField(
@@ -72,7 +88,12 @@ class PartnerProduct(TenantAwareModel):
         default=60
     )
 
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True, db_index=True)
 
     class Meta:
+        db_table = "business_partner_offerings"
         unique_together = ("tenant", "partner", "product")
+        indexes = [
+            models.Index(fields=["tenant", "partner"]),
+            models.Index(fields=["tenant", "is_active"]),
+        ]

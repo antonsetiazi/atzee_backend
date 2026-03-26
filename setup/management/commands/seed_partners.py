@@ -10,7 +10,8 @@ from django.contrib.auth import get_user_model
 
 from core.tenants.models import Tenant
 from business.partners.models import Partner
-from business.products.models import Product, PartnerProduct
+from business.partners.models import PartnerServiceProfile
+from business.products.models import Product, PartnerOffering
 
 import os
 from django.core.files.base import ContentFile
@@ -128,6 +129,17 @@ class Command(BaseCommand):
                     },
                 )
 
+                service_profile_data = data.get("service_profile")
+                if service_profile_data:
+                    PartnerServiceProfile.objects.update_or_create(
+                        partner=partner,
+                        defaults={
+                            "specialization": service_profile_data.get("specialization"),
+                            "experience_years": service_profile_data.get("experience_years", 0),
+                            "bio": service_profile_data.get("bio"),
+                        }
+                    )
+
                 image_filename = data.get("image")
 
                 if image_filename:
@@ -152,7 +164,7 @@ class Command(BaseCommand):
                     )
 
                     for product in selected_products:
-                        _, pp_created = PartnerProduct.objects.update_or_create(
+                        _, pp_created = PartnerOffering.objects.update_or_create(
                             tenant=tenant,
                             partner=partner,
                             product=product,
@@ -178,7 +190,7 @@ class Command(BaseCommand):
                 f"Partners Created: {total_partner_created}\n"
                 f"Partners Updated: {total_partner_updated}\n"
                 f"Products Created: {total_product_created}\n"
-                f"PartnerProducts Created: {total_partner_product_created}"
+                f"PartnerOfferings Created: {total_partner_product_created}"
             )
         )
 
@@ -207,7 +219,7 @@ class Command(BaseCommand):
         )
 
         file_path = os.path.join(assets_dir, image_filename)
-
+            
         if not os.path.exists(file_path):
             return
 
@@ -227,10 +239,10 @@ class Command(BaseCommand):
             file=django_file,
         )
 
-        admin_user = self._get_tenant_admin(tenant)
-
-        if not admin_user:
-            return  # skip kalau tidak ada user
+        # Gunakan partner.core_user sebagai owner
+        partner_user = partner.core_user
+        if not partner_user:
+            return  # skip kalau partner tidak punya core_user
 
         File.objects.update_or_create(
             tenant=tenant,
@@ -241,9 +253,9 @@ class Command(BaseCommand):
                 "original_name": image_filename,
                 "mime_type": "image/jpeg",
                 "size": len(content),
-                "owner": admin_user,
-                "created_by": admin_user,
-                "updated_by": admin_user,
+                "owner": partner_user,
+                "created_by": partner_user,
+                "updated_by": partner_user,
                 "is_public": True,
             },
         )

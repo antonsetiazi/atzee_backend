@@ -22,6 +22,7 @@ BRANDING = {
         "textPrimary": "#0F172A",
         "textSecondary": "#334155",
         "textMuted": "#64748B",
+        "textBrandSoft": "rgba(34, 197, 94, 0.8)",
 
         # State Colors
         "success": "#16A34A",

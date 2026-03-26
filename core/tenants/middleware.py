@@ -14,6 +14,10 @@ class TenantContextMiddleware:
 
     def __call__(self, request):
 
+        # 🔥 BYPASS GLOBAL ENDPOINTS
+        if self._should_skip_tenant(request):
+            return self.get_response(request)
+        
         tenant_code = request.headers.get("X-Tenant-Code")
 
         if not tenant_code:
@@ -39,3 +43,13 @@ class TenantContextMiddleware:
         request.tenant_id = tenant.id
 
         return self.get_response(request)
+    
+    # 🔥 NEW METHOD
+    def _should_skip_tenant(self, request):
+        path = request.path
+
+        return (
+            path.startswith("/api/files/")  # 🔥 download endpoint
+            or path.startswith("/media/")   # kalau nanti pakai media static
+            or path.startswith("/static/")  # static files
+        )

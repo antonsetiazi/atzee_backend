@@ -100,4 +100,6 @@ urlpatterns = [
 
     # --- Verticals ---
     path("api/verticals/apotek/", include("verticals.apotek.api.urls")),
+    
+    path("api/discovery/", include("discovery.urls")),
 ]

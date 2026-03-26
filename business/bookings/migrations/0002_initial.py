@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ("business_bookings", "0001_initial"),
         ("business_partners", "0001_initial"),
-        ("business_product", "0001_initial"),
+        ("business_products", "0001_initial"),
         ("business_users", "0001_initial"),
         ("core_tenants", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
@@ -93,7 +93,7 @@ class Migration(migrations.Migration):
             name="product",
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.PROTECT,
-                to="business_product.product",
+                to="business_products.product",
             ),
         ),
         migrations.AddField(

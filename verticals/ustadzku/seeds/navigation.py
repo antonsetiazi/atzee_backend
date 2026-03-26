@@ -12,7 +12,7 @@ NAVIGATION_SEED = [
         "app": "ustadzku",
         "items": [
             {"action_type": "page", "target": "profile", "icon": "profile", "route": "/account/profile", "label": "Profil"},
-            {"action_type": "page", "target": "partner", "icon": "search", "route": "/business/partners/search", "label": "Cari Ustadz"},
+            {"action_type": "page", "target": "partner", "icon": "search", "route": "/services", "label": "Cari Ustadz"},
             {"action_type": "page", "target": "home", "icon": "home", "route": "/dashboard", "label": "Beranda"},
             {"action_type": "page", "target": "transactions", "icon": "transaction", "route": "/business/transaction", "label": "Transaksi"},
             {"action_type": "page", "target": "booking", "icon": "booking", "route": "/business/my-bookings", "label": "Booking"},
@@ -30,7 +30,7 @@ NAVIGATION_SEED = [
         "app": "ustadzku",
         "items": [
             {"action_type": "page", "target": "profile", "icon": "profile", "route": "/account/profile", "label": "Profil"},
-            {"action_type": "page", "target": "partner", "icon": "search", "route": "/business/partners/search", "label": "Cari Ustadz"},
+            {"action_type": "page", "target": "partner", "icon": "search", "route": "/services", "label": "Cari Ustadz"},
             {"action_type": "page", "target": "home", "icon": "home", "route": "/dashboard", "label": "Beranda"},
             {"action_type": "page", "target": "transactions", "icon": "transaction", "route": "/business/transaction", "label": "Transaksi"},
             {"action_type": "page", "target": "booking", "icon": "booking", "route": "/business/my-bookings", "label": "Booking"},
@@ -81,7 +81,7 @@ NAVIGATION_SEED = [
         "app": "ustadzku",
         "items": [
             {"action_type": "page", "target": "profile", "icon": "profile", "route": "/account/profile", "label": "Profil"},
-            {"action_type": "page", "target": "partner", "icon": "search", "route": "/business/partners/search", "label": "Cari Ustadz"},
+            {"action_type": "page", "target": "partner", "icon": "search", "route": "/services", "label": "Cari Ustadz"},
             {"action_type": "page", "target": "home", "icon": "home", "route": "/dashboard", "label": "Beranda"},
             {"action_type": "page", "target": "transactions", "icon": "transaction", "route": "/business/transaction", "label": "Transaksi"},
             {"action_type": "page", "target": "booking", "icon": "booking", "route": "/business/my-bookings", "label": "Booking"},
@@ -99,7 +99,7 @@ NAVIGATION_SEED = [
         "app": "ustadzku",
         "items": [
             {"action_type": "page", "target": "profile", "icon": "profile", "route": "/account/profile", "label": "Profil"},
-            {"action_type": "page", "target": "partner", "icon": "search", "route": "/business/partners/search", "label": "Cari Ustadz"},
+            {"action_type": "page", "target": "partner", "icon": "search", "route": "/services", "label": "Cari Ustadz"},
             {"action_type": "page", "target": "home", "icon": "home", "route": "/dashboard", "label": "Beranda"},
             {"action_type": "page", "target": "transactions", "icon": "transaction", "route": "/business/transaction", "label": "Transaksi"},
             {"action_type": "page", "target": "booking", "icon": "booking", "route": "/business/my-bookings", "label": "Booking"},

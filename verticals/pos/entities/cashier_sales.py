@@ -5,7 +5,7 @@ from django.db.models import Prefetch
 
 from core.entities.contracts import BaseEntity
 
-from business.products.models import Product, PartnerProduct
+from business.products.models import Product, PartnerOffering
 from core.schedule.shifts.models import Shift
 
 from verticals.pos.enum.permissions import PosPermission
@@ -30,7 +30,7 @@ class CashierSalesEntity(BaseEntity):
             # =====================================================
 
             partner_products_qs = (
-                PartnerProduct.objects
+                PartnerOffering.objects
                 .select_related("product")
                 .filter(
                     tenant=tenant,

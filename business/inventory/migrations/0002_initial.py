@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("business_inventory", "0001_initial"),
-        ("business_product", "0001_initial"),
+        ("business_products", "0001_initial"),
         ("core_tenants", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="inventory_lots",
-                to="business_product.product",
+                to="business_products.product",
             ),
         ),
         migrations.AddField(
@@ -74,7 +74,7 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="stock_items",
-                to="business_product.product",
+                to="business_products.product",
             ),
         ),
         migrations.AddField(
@@ -125,7 +125,7 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.PROTECT,
                 related_name="stock_movements",
-                to="business_product.product",
+                to="business_products.product",
             ),
         ),
         migrations.AddField(

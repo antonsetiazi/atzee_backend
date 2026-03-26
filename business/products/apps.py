@@ -4,7 +4,7 @@ from django.apps import AppConfig
 class ProductsConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "business.products"
-    label = "business_product"
+    label = "business_products"
 
 
     def ready(self):

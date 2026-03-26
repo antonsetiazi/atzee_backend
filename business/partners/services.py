@@ -5,6 +5,7 @@ from django.db import transaction
 from django.core.exceptions import ValidationError
 
 from business.partners.models import Partner
+from business.partners.models import PartnerServiceProfile
 from business.partners import selectors
 from core.tenants.models import Tenant
 from core.users.models import User
@@ -85,6 +86,10 @@ def create_partner(
         notes=notes,
         extensions=extensions or {},
         created_by=created_by
+    )
+
+    PartnerServiceProfile.objects.create(
+        partner=partner
     )
 
     return partner
