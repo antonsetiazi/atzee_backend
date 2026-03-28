@@ -47,7 +47,7 @@ UI_PAGES = [
                         key="search_ustadz",
                         label="Cari Ustadz",
                         icon="search",
-                        to="/business/partners/search",
+                        to="/services",
                     ),
                     ShortcutItem(
                         key="my_bookings",
@@ -57,9 +57,9 @@ UI_PAGES = [
                     ),
                     ShortcutItem(
                         key="transactions",
-                        label="Transaksi",
+                        label="Order",
                         icon="credit-card",
-                        to="/ustadzku/transactions",
+                        to="/orders",
                     ),
                     ShortcutItem(
                         key="wallet",

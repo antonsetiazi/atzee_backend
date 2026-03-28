@@ -1,7 +1,6 @@
 # setup/management/commands/seed_partners.py
 
 import importlib
-import random
 
 from django.core.management.base import BaseCommand
 from django.conf import settings
@@ -11,7 +10,6 @@ from django.contrib.auth import get_user_model
 from core.tenants.models import Tenant
 from business.partners.models import Partner
 from business.partners.models import PartnerServiceProfile
-from business.products.models import Product, PartnerOffering
 
 import os
 from django.core.files.base import ContentFile
@@ -68,41 +66,6 @@ class Command(BaseCommand):
                 )
                 continue
 
-            # ─────────────────────────────────────────────
-            # LOAD PRODUCT CONFIG
-            # ─────────────────────────────────────────────
-            try:
-                product_module_path = f"verticals.{vertical}.seeds.products"
-                product_module = importlib.import_module(product_module_path)
-                products_config = getattr(product_module, "PRODUCTS", [])
-            except ModuleNotFoundError:
-                products_config = []
-                self.stdout.write(
-                    self.style.WARNING(
-                        f"No products module found for vertical '{vertical}'"
-                    )
-                )
-
-            # ─────────────────────────────────────────────
-            # SEED PRODUCTS
-            # ─────────────────────────────────────────────
-            tenant_products = []
-
-            for pdata in products_config:
-                product, created = Product.objects.update_or_create(
-                    tenant=tenant,
-                    code=pdata.get("code"),
-                    defaults={
-                        "name": pdata["name"],
-                        "product_type": pdata.get("product_type", Product.TYPE_SERVICE),
-                        "description": pdata.get("description"),
-                    },
-                )
-
-                tenant_products.append(product)
-
-                if created:
-                    total_product_created += 1
 
             # ─────────────────────────────────────────────
             # SEED PARTNERS
@@ -154,32 +117,6 @@ class Command(BaseCommand):
                 else:
                     total_partner_updated += 1
 
-                # ─────────────────────────────────────────
-                # ASSIGN 3 RANDOM PRODUCTS PER PARTNER
-                # ─────────────────────────────────────────
-                if tenant_products:
-                    selected_products = random.sample(
-                        tenant_products,
-                        min(3, len(tenant_products))
-                    )
-
-                    for product in selected_products:
-                        _, pp_created = PartnerOffering.objects.update_or_create(
-                            tenant=tenant,
-                            partner=partner,
-                            product=product,
-                            defaults={
-                                "price": (
-                                    (partner.base_price or 200000)
-                                    + random.randint(-50000, 50000)
-                                ),
-                                "duration_minutes": random.choice([60, 90, 120]),
-                                "is_active": True,
-                            },
-                        )
-
-                        if pp_created:
-                            total_partner_product_created += 1
 
         # ─────────────────────────────────────────────
         # SUMMARY
@@ -188,9 +125,7 @@ class Command(BaseCommand):
             self.style.SUCCESS(
                 "\nSeeding completed:\n"
                 f"Partners Created: {total_partner_created}\n"
-                f"Partners Updated: {total_partner_updated}\n"
-                f"Products Created: {total_product_created}\n"
-                f"PartnerOfferings Created: {total_partner_product_created}"
+                f"Partners Updated: {total_partner_updated}"
             )
         )
 

@@ -17,7 +17,27 @@ PARTNERS = [
             "specialization": "Tahsin & Tahfidz",
             "experience_years": 8,
             "bio": "Berpengalaman mengajar tahsin dan tahfidz untuk anak & dewasa."
-        }
+        },
+        "products": [
+            {
+                "code": "CERAMAH",
+                "name": "Ceramah Umum",
+                "price": 400000,
+                "duration_minutes": 90,
+            },
+            {
+                "code": "PRIVAT",
+                "name": "Privat Ngaji",
+                "price": 450000,
+                "duration_minutes": 120,
+            },
+            {
+                "code": "KAJIAN",
+                "name": "Kajian Rutin",
+                "price": 350000,
+                "duration_minutes": 60,
+            },
+        ]
     },
     {
         "code": "UST002",
@@ -35,7 +55,27 @@ PARTNERS = [
             "specialization": "Kajian Tafsir",
             "experience_years": 12,
             "bio": "Mengajar tafsir Al-Qur'an dengan pendekatan tematik."
-        }
+        },
+        "products": [
+            {
+                "code": "CERAMAH",
+                "name": "Ceramah Umum",
+                "price": 300000,
+                "duration_minutes": 90,
+            },
+            {
+                "code": "PRIVAT",
+                "name": "Privat Ngaji",
+                "price": 350000,
+                "duration_minutes": 120,
+            },
+            {
+                "code": "KAJIAN",
+                "name": "Kajian Rutin",
+                "price": 250000,
+                "duration_minutes": 60,
+            },
+        ]
     },
     {
         "code": "UST003",
@@ -53,7 +93,27 @@ PARTNERS = [
             "specialization": "Kajian Fiqih & Muamalah",
             "experience_years": 10,
             "bio": "Fokus pada kajian fiqih praktis untuk kehidupan sehari-hari."
-        }
+        },
+        "products": [
+            {
+                "code": "CERAMAH",
+                "name": "Ceramah Umum",
+                "price": 400000,
+                "duration_minutes": 90,
+            },
+            {
+                "code": "PRIVAT",
+                "name": "Privat Ngaji",
+                "price": 450000,
+                "duration_minutes": 120,
+            },
+            {
+                "code": "KAJIAN",
+                "name": "Kajian Rutin",
+                "price": 350000,
+                "duration_minutes": 60,
+            },
+        ]
     },
 
     # 🔹 Tambahan 10 partner lagi
@@ -73,7 +133,27 @@ PARTNERS = [
             "specialization": "Tahsin & Tahfidz",
             "experience_years": 8,
             "bio": "Berpengalaman mengajar tahsin dan tahfidz untuk anak & dewasa."
-        }
+        },
+        "products": [
+            {
+                "code": "CERAMAH",
+                "name": "Ceramah Umum",
+                "price": 400000,
+                "duration_minutes": 90,
+            },
+            {
+                "code": "PRIVAT",
+                "name": "Privat Ngaji",
+                "price": 450000,
+                "duration_minutes": 120,
+            },
+            {
+                "code": "KAJIAN",
+                "name": "Kajian Rutin",
+                "price": 350000,
+                "duration_minutes": 60,
+            },
+        ]
     },
     {
         "code": "UST005",
@@ -91,7 +171,27 @@ PARTNERS = [
             "specialization": "Kajian Tafsir",
             "experience_years": 12,
             "bio": "Mengajar tafsir Al-Qur'an dengan pendekatan tematik."
-        }
+        },
+        "products": [
+            {
+                "code": "CERAMAH",
+                "name": "Ceramah Umum",
+                "price": 300000,
+                "duration_minutes": 90,
+            },
+            {
+                "code": "PRIVAT",
+                "name": "Privat Ngaji",
+                "price": 350000,
+                "duration_minutes": 120,
+            },
+            {
+                "code": "KAJIAN",
+                "name": "Kajian Rutin",
+                "price": 250000,
+                "duration_minutes": 60,
+            },
+        ]
     },
     {
         "code": "UST006",
@@ -109,7 +209,27 @@ PARTNERS = [
             "specialization": "Tahsin & Tahfidz",
             "experience_years": 8,
             "bio": "Berpengalaman mengajar tahsin dan tahfidz untuk anak & dewasa."
-        }
+        },
+        "products": [
+            {
+                "code": "CERAMAH",
+                "name": "Ceramah Umum",
+                "price": 400000,
+                "duration_minutes": 90,
+            },
+            {
+                "code": "PRIVAT",
+                "name": "Privat Ngaji",
+                "price": 450000,
+                "duration_minutes": 120,
+            },
+            {
+                "code": "KAJIAN",
+                "name": "Kajian Rutin",
+                "price": 350000,
+                "duration_minutes": 60,
+            },
+        ]
     },
     {
         "code": "UST007",
@@ -127,7 +247,27 @@ PARTNERS = [
             "specialization": "Kajian Fiqih & Muamalah",
             "experience_years": 10,
             "bio": "Fokus pada kajian fiqih praktis untuk kehidupan sehari-hari."
-        }
+        },
+        "products": [
+            {
+                "code": "CERAMAH",
+                "name": "Ceramah Umum",
+                "price": 400000,
+                "duration_minutes": 90,
+            },
+            {
+                "code": "PRIVAT",
+                "name": "Privat Ngaji",
+                "price": 450000,
+                "duration_minutes": 120,
+            },
+            {
+                "code": "KAJIAN",
+                "name": "Kajian Rutin",
+                "price": 350000,
+                "duration_minutes": 60,
+            },
+        ]
     },
     {
         "code": "UST008",
@@ -145,7 +285,27 @@ PARTNERS = [
             "specialization": "Kajian Tafsir",
             "experience_years": 12,
             "bio": "Mengajar tafsir Al-Qur'an dengan pendekatan tematik."
-        }
+        },
+        "products": [
+            {
+                "code": "CERAMAH",
+                "name": "Ceramah Umum",
+                "price": 300000,
+                "duration_minutes": 90,
+            },
+            {
+                "code": "PRIVAT",
+                "name": "Privat Ngaji",
+                "price": 350000,
+                "duration_minutes": 120,
+            },
+            {
+                "code": "KAJIAN",
+                "name": "Kajian Rutin",
+                "price": 250000,
+                "duration_minutes": 60,
+            },
+        ]
     },
     {
         "code": "UST009",
@@ -163,7 +323,27 @@ PARTNERS = [
             "specialization": "Kajian Fiqih & Muamalah",
             "experience_years": 10,
             "bio": "Fokus pada kajian fiqih praktis untuk kehidupan sehari-hari."
-        }
+        },
+        "products": [
+            {
+                "code": "CERAMAH",
+                "name": "Ceramah Umum",
+                "price": 400000,
+                "duration_minutes": 90,
+            },
+            {
+                "code": "PRIVAT",
+                "name": "Privat Ngaji",
+                "price": 450000,
+                "duration_minutes": 120,
+            },
+            {
+                "code": "KAJIAN",
+                "name": "Kajian Rutin",
+                "price": 350000,
+                "duration_minutes": 60,
+            },
+        ]
     },
     {
         "code": "UST010",
@@ -181,7 +361,27 @@ PARTNERS = [
             "specialization": "Kajian Tafsir",
             "experience_years": 12,
             "bio": "Mengajar tafsir Al-Qur'an dengan pendekatan tematik."
-        }
+        },
+        "products": [
+            {
+                "code": "CERAMAH",
+                "name": "Ceramah Umum",
+                "price": 400000,
+                "duration_minutes": 90,
+            },
+            {
+                "code": "PRIVAT",
+                "name": "Privat Ngaji",
+                "price": 450000,
+                "duration_minutes": 120,
+            },
+            {
+                "code": "KAJIAN",
+                "name": "Kajian Rutin",
+                "price": 350000,
+                "duration_minutes": 60,
+            },
+        ]
     },
     {
         "code": "UST011",
@@ -199,7 +399,27 @@ PARTNERS = [
             "specialization": "Tahsin & Tahfidz",
             "experience_years": 8,
             "bio": "Berpengalaman mengajar tahsin dan tahfidz untuk anak & dewasa."
-        }
+        },
+        "products": [
+            {
+                "code": "CERAMAH",
+                "name": "Ceramah Umum",
+                "price": 300000,
+                "duration_minutes": 90,
+            },
+            {
+                "code": "PRIVAT",
+                "name": "Privat Ngaji",
+                "price": 350000,
+                "duration_minutes": 120,
+            },
+            {
+                "code": "KAJIAN",
+                "name": "Kajian Rutin",
+                "price": 250000,
+                "duration_minutes": 60,
+            },
+        ]
     },
     {
         "code": "UST012",
@@ -217,7 +437,27 @@ PARTNERS = [
             "specialization": "Kajian Fiqih & Muamalah",
             "experience_years": 10,
             "bio": "Fokus pada kajian fiqih praktis untuk kehidupan sehari-hari."
-        }
+        },
+        "products": [
+            {
+                "code": "CERAMAH",
+                "name": "Ceramah Umum",
+                "price": 400000,
+                "duration_minutes": 90,
+            },
+            {
+                "code": "PRIVAT",
+                "name": "Privat Ngaji",
+                "price": 450000,
+                "duration_minutes": 120,
+            },
+            {
+                "code": "KAJIAN",
+                "name": "Kajian Rutin",
+                "price": 350000,
+                "duration_minutes": 60,
+            },
+        ]
     },
     {
         "code": "UST013",
@@ -235,6 +475,26 @@ PARTNERS = [
             "specialization": "Tahsin & Tahfidz",
             "experience_years": 8,
             "bio": "Berpengalaman mengajar tahsin dan tahfidz untuk anak & dewasa."
-        }
+        },
+        "products": [
+            {
+                "code": "CERAMAH",
+                "name": "Ceramah Umum",
+                "price": 300000,
+                "duration_minutes": 90,
+            },
+            {
+                "code": "PRIVAT",
+                "name": "Privat Ngaji",
+                "price": 350000,
+                "duration_minutes": 120,
+            },
+            {
+                "code": "KAJIAN",
+                "name": "Kajian Rutin",
+                "price": 250000,
+                "duration_minutes": 60,
+            },
+        ]
     },
 ]

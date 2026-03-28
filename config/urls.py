@@ -98,6 +98,9 @@ urlpatterns = [
     path("api/hr/", include("hr.employees.urls")),
     path("api/hr/", include("hr.attendance.urls")),
 
+    # --- MARKETPLACE ---
+    path("api/marketplace/", include("marketplace.urls")),
+
     # --- Verticals ---
     path("api/verticals/apotek/", include("verticals.apotek.api.urls")),
     

@@ -47,6 +47,9 @@ class Command(BaseCommand):
             self.stdout.write("→ Seeding Branding...")
             call_command("seed_branding")
 
+            self.stdout.write("→ Seeding Marketplace...")
+            call_command("seed_marketplace")
+
             # 4️⃣ Ensure superadmin
             self.ensure_superadmin()
             

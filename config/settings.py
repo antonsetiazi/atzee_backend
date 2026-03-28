@@ -108,6 +108,10 @@ HR_APPS = [
     "hr.payroll.apps.PayrollConfig",
 ]
 
+MARKETPLACE_APPS = [
+    "marketplace.apps.MarketplaceConfig",
+]
+
 VERTICAL_APPS = [
     "verticals.agri.apps.AgriConfig",
     "verticals.apotek.apps.ApotekConfig",
@@ -136,6 +140,7 @@ INSTALLED_APPS = (
     + BUSINESS_APPS 
     + ACCOUNTING_APPS 
     + HR_APPS
+    + MARKETPLACE_APPS
     + VERTICAL_APPS
     + ["setup"]
 )
