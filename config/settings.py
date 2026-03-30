@@ -87,10 +87,10 @@ BUSINESS_APPS = [
     "business.products.apps.ProductsConfig",
     "business.inventory.apps.InventoryConfig",
     "business.partners.apps.PartnersConfig",
-    "business.bookings.apps.BookingsConfig",
     "business.transactions.apps.TransactionsConfig",
     "business.documents.apps.DocumentsConfig",
     "business.payments.apps.PaymentsConfig",
+    "business.booking.apps.BookingConfig",
 ]
 
 ACCOUNTING_APPS = [
@@ -245,7 +245,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+# TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Jakarta"
 
 USE_I18N = True
 

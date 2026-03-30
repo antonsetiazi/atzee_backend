@@ -33,7 +33,7 @@ class CreateOrderView(APIView):
             "total": int(order.total_amount),
             "status": order.status,
         })
-    
+
 
 class OrderListView(ListAPIView):
     serializer_class = OrderSerializer
@@ -68,4 +68,4 @@ class OrderDetailView(RetrieveAPIView):
                 user=self.request.user,
             )
             .prefetch_related("items__listing__product")
-        )    
+        )

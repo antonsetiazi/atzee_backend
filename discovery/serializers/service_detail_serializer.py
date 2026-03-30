@@ -7,13 +7,21 @@ class ServiceDetailSerializer(serializers.Serializer):
     id = serializers.IntegerField(source="partner.id")
     name = serializers.CharField(source="partner.name")
 
+    resource_id = serializers.SerializerMethodField()
+
     avatar_url = serializers.SerializerMethodField()
     offerings = serializers.SerializerMethodField()
 
     specialization = serializers.SerializerMethodField()
     experience_years = serializers.SerializerMethodField()
     bio = serializers.SerializerMethodField()
-
+    working_hours = serializers.SerializerMethodField()
+    
+    
+    def get_resource_id(self, obj):
+        profile = obj.get("service_profile")
+        return str(profile.id) if profile else None
+    
     def get_avatar_url(self, obj):
         request = self.context.get("request")
         images = obj.get("images")
@@ -54,3 +62,14 @@ class ServiceDetailSerializer(serializers.Serializer):
     def get_bio(self, obj):
         profile = obj.get("service_profile")
         return profile.bio if profile else None
+
+    def get_working_hours(self, obj):
+        profile = obj.get("service_profile")
+
+        if profile and profile.working_hours:
+            return profile.working_hours
+
+        return {
+            "start": 8,
+            "end": 18
+        }

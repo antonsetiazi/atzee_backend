@@ -16,7 +16,11 @@ PARTNERS = [
         "service_profile": {
             "specialization": "Tahsin & Tahfidz",
             "experience_years": 8,
-            "bio": "Berpengalaman mengajar tahsin dan tahfidz untuk anak & dewasa."
+            "bio": "Berpengalaman mengajar tahsin dan tahfidz untuk anak & dewasa.",
+            "working_hours": {
+                "start": 2,
+                "end": 21
+            }
         },
         "products": [
             {
@@ -54,7 +58,11 @@ PARTNERS = [
         "service_profile": {
             "specialization": "Kajian Tafsir",
             "experience_years": 12,
-            "bio": "Mengajar tafsir Al-Qur'an dengan pendekatan tematik."
+            "bio": "Mengajar tafsir Al-Qur'an dengan pendekatan tematik.",
+            "working_hours": {
+                "start": 8,
+                "end": 12
+            }
         },
         "products": [
             {
@@ -92,7 +100,11 @@ PARTNERS = [
         "service_profile": {
             "specialization": "Kajian Fiqih & Muamalah",
             "experience_years": 10,
-            "bio": "Fokus pada kajian fiqih praktis untuk kehidupan sehari-hari."
+            "bio": "Fokus pada kajian fiqih praktis untuk kehidupan sehari-hari.",
+            "working_hours": {
+                "start": 8,
+                "end": 12
+            }
         },
         "products": [
             {
@@ -132,7 +144,11 @@ PARTNERS = [
         "service_profile": {
             "specialization": "Tahsin & Tahfidz",
             "experience_years": 8,
-            "bio": "Berpengalaman mengajar tahsin dan tahfidz untuk anak & dewasa."
+            "bio": "Berpengalaman mengajar tahsin dan tahfidz untuk anak & dewasa.",
+            "working_hours": {
+                "start": 3,
+                "end": 15
+            }
         },
         "products": [
             {
@@ -170,7 +186,11 @@ PARTNERS = [
         "service_profile": {
             "specialization": "Kajian Tafsir",
             "experience_years": 12,
-            "bio": "Mengajar tafsir Al-Qur'an dengan pendekatan tematik."
+            "bio": "Mengajar tafsir Al-Qur'an dengan pendekatan tematik.",
+            "working_hours": {
+                "start": 8,
+                "end": 12
+            }
         },
         "products": [
             {
@@ -208,7 +228,11 @@ PARTNERS = [
         "service_profile": {
             "specialization": "Tahsin & Tahfidz",
             "experience_years": 8,
-            "bio": "Berpengalaman mengajar tahsin dan tahfidz untuk anak & dewasa."
+            "bio": "Berpengalaman mengajar tahsin dan tahfidz untuk anak & dewasa.",
+            "working_hours": {
+                "start": 8,
+                "end": 12
+            }
         },
         "products": [
             {
@@ -246,7 +270,11 @@ PARTNERS = [
         "service_profile": {
             "specialization": "Kajian Fiqih & Muamalah",
             "experience_years": 10,
-            "bio": "Fokus pada kajian fiqih praktis untuk kehidupan sehari-hari."
+            "bio": "Fokus pada kajian fiqih praktis untuk kehidupan sehari-hari.",
+            "working_hours": {
+                "start": 8,
+                "end": 12
+            }
         },
         "products": [
             {
@@ -284,7 +312,11 @@ PARTNERS = [
         "service_profile": {
             "specialization": "Kajian Tafsir",
             "experience_years": 12,
-            "bio": "Mengajar tafsir Al-Qur'an dengan pendekatan tematik."
+            "bio": "Mengajar tafsir Al-Qur'an dengan pendekatan tematik.",
+            "working_hours": {
+                "start": 8,
+                "end": 12
+            }
         },
         "products": [
             {
@@ -322,7 +354,11 @@ PARTNERS = [
         "service_profile": {
             "specialization": "Kajian Fiqih & Muamalah",
             "experience_years": 10,
-            "bio": "Fokus pada kajian fiqih praktis untuk kehidupan sehari-hari."
+            "bio": "Fokus pada kajian fiqih praktis untuk kehidupan sehari-hari.",
+            "working_hours": {
+                "start": 3,
+                "end": 18
+            }
         },
         "products": [
             {
@@ -360,7 +396,11 @@ PARTNERS = [
         "service_profile": {
             "specialization": "Kajian Tafsir",
             "experience_years": 12,
-            "bio": "Mengajar tafsir Al-Qur'an dengan pendekatan tematik."
+            "bio": "Mengajar tafsir Al-Qur'an dengan pendekatan tematik.",
+            "working_hours": {
+                "start": 8,
+                "end": 12
+            }
         },
         "products": [
             {
@@ -398,7 +438,11 @@ PARTNERS = [
         "service_profile": {
             "specialization": "Tahsin & Tahfidz",
             "experience_years": 8,
-            "bio": "Berpengalaman mengajar tahsin dan tahfidz untuk anak & dewasa."
+            "bio": "Berpengalaman mengajar tahsin dan tahfidz untuk anak & dewasa.",
+            "working_hours": {
+                "start": 8,
+                "end": 12
+            }
         },
         "products": [
             {
@@ -436,7 +480,11 @@ PARTNERS = [
         "service_profile": {
             "specialization": "Kajian Fiqih & Muamalah",
             "experience_years": 10,
-            "bio": "Fokus pada kajian fiqih praktis untuk kehidupan sehari-hari."
+            "bio": "Fokus pada kajian fiqih praktis untuk kehidupan sehari-hari.",
+            "working_hours": {
+                "start": 8,
+                "end": 12
+            }
         },
         "products": [
             {
@@ -474,7 +522,11 @@ PARTNERS = [
         "service_profile": {
             "specialization": "Tahsin & Tahfidz",
             "experience_years": 8,
-            "bio": "Berpengalaman mengajar tahsin dan tahfidz untuk anak & dewasa."
+            "bio": "Berpengalaman mengajar tahsin dan tahfidz untuk anak & dewasa.",
+            "working_hours": {
+                "start": 8,
+                "end": 12
+            }
         },
         "products": [
             {

@@ -5,7 +5,7 @@ from django.db import models
 from django.db.models import Sum, Avg
 
 from core.entities.contracts import BaseEntity
-from business.bookings.models import Booking, BookingStatus
+# from business.bookings.models import Booking, BookingStatus
 from business.partners.models import Partner
 from core.widgets.models import UIWidget
 
@@ -47,50 +47,50 @@ class PartnerDashboardEntity(BaseEntity):
             # -----------------------------------------
             # BASE QUERYSET
             # -----------------------------------------
-            qs = Booking.objects.filter(
-                tenant=tenant,
-                partner=partner,
-            )
+            # qs = Booking.objects.filter(
+            #     tenant=tenant,
+            #     partner=partner,
+            # )
 
             # -----------------------------------------
             # SUMMARY COUNTS / STATS
             # -----------------------------------------
-            today_bookings = qs.filter(
-                start_time__date=now.date(),
-                status__in=[
-                    BookingStatus.CONFIRMED,
-                    BookingStatus.ON_GOING,
-                    BookingStatus.PENDING_PAYMENT,
-                ]
-            ).count()
+            # today_bookings = qs.filter(
+            #     start_time__date=now.date(),
+            #     status__in=[
+            #         BookingStatus.CONFIRMED,
+            #         BookingStatus.ON_GOING,
+            #         BookingStatus.PENDING_PAYMENT,
+            #     ]
+            # ).count()
 
-            upcoming_bookings_count = qs.filter(
-                start_time__gt=now,
-                status__in=[
-                    BookingStatus.CONFIRMED,
-                    BookingStatus.PENDING_PAYMENT,
-                ],
-            ).count()
+            # upcoming_bookings_count = qs.filter(
+            #     start_time__gt=now,
+            #     status__in=[
+            #         BookingStatus.CONFIRMED,
+            #         BookingStatus.PENDING_PAYMENT,
+            #     ],
+            # ).count()
 
-            active_booking = qs.filter(
-                status=BookingStatus.ON_GOING
-            ).count()
+            # active_booking = qs.filter(
+            #     status=BookingStatus.ON_GOING
+            # ).count()
 
             # -----------------------------------------
             # TOTAL PENDAPATAN BULAN INI
             # -----------------------------------------
-            total_earnings = (
-                Booking.objects.filter(
-                    tenant=tenant,
-                    partner=partner,
-                    status=BookingStatus.SETTLED,
-                    start_time__year=now.year,
-                    start_time__month=now.month,
-                    is_deleted=False,
-                )
-                .aggregate(total=Sum("partner_amount"))["total"]
-                or 0
-            )
+            # total_earnings = (
+            #     Booking.objects.filter(
+            #         tenant=tenant,
+            #         partner=partner,
+            #         status=BookingStatus.SETTLED,
+            #         start_time__year=now.year,
+            #         start_time__month=now.month,
+            #         is_deleted=False,
+            #     )
+            #     .aggregate(total=Sum("partner_amount"))["total"]
+            #     or 0
+            # )
 
             # -----------------------------------------
             # RATING RATA-RATA
@@ -100,54 +100,54 @@ class PartnerDashboardEntity(BaseEntity):
             # -----------------------------------------
             # LIST BOOKING MASUK (MAX 5)
             # -----------------------------------------
-            incoming_qs = qs.filter(
-                status__in=[BookingStatus.PENDING_PAYMENT, BookingStatus.CONFIRMED]
-            ).order_by("start_time")[:5]
+            # incoming_qs = qs.filter(
+            #     status__in=[BookingStatus.PENDING_PAYMENT, BookingStatus.CONFIRMED]
+            # ).order_by("start_time")[:5]
 
-            incoming_bookings = [
-                {
-                    "id": str(b.id),
-                    "booking_number": b.booking_number,
-                    "user_name": str(b.user),
-                    "start_time": b.start_time.isoformat(),
-                    "status": b.status,
-                }
-                for b in incoming_qs
-            ]
+            # incoming_bookings = [
+            #     {
+            #         "id": str(b.id),
+            #         "booking_number": b.booking_number,
+            #         "user_name": str(b.user),
+            #         "start_time": b.start_time.isoformat(),
+            #         "status": b.status,
+            #     }
+            #     for b in incoming_qs
+            # ]
 
             # -----------------------------------------
             # LIST LAYANAN AKTIF (MAX 5)
             # -----------------------------------------
-            active_qs = qs.filter(status=BookingStatus.ON_GOING).order_by("start_time")[:5]
+            # active_qs = qs.filter(status=BookingStatus.ON_GOING).order_by("start_time")[:5]
 
-            active_services = [
-                {
-                    "id": str(b.id),
-                    "service_name": b.service_name,
-                    "user_name": str(b.user),
-                    "current_status": b.status,
-                    "status": b.status,
-                }
-                for b in active_qs
-            ]
+            # active_services = [
+            #     {
+            #         "id": str(b.id),
+            #         "service_name": b.service_name,
+            #         "user_name": str(b.user),
+            #         "current_status": b.status,
+            #         "status": b.status,
+            #     }
+            #     for b in active_qs
+            # ]
 
             # -----------------------------------------
             # RIWAYAT LAYANAN (MAX 5)
             # -----------------------------------------
-            recent_qs = qs.filter(
-                status__in=[BookingStatus.COMPLETED, BookingStatus.SETTLED, BookingStatus.CANCELLED]
-            ).order_by("-start_time")[:5]
+            # recent_qs = qs.filter(
+            #     status__in=[BookingStatus.COMPLETED, BookingStatus.SETTLED, BookingStatus.CANCELLED]
+            # ).order_by("-start_time")[:5]
 
-            recent_services = [
-                {
-                    "id": str(b.id),
-                    "booking_number": b.booking_number,
-                    "user_name": str(b.user),
-                    "start_time": b.start_time.isoformat(),
-                    "status": b.status,
-                }
-                for b in recent_qs
-            ]
+            # recent_services = [
+            #     {
+            #         "id": str(b.id),
+            #         "booking_number": b.booking_number,
+            #         "user_name": str(b.user),
+            #         "start_time": b.start_time.isoformat(),
+            #         "status": b.status,
+            #     }
+            #     for b in recent_qs
+            # ]
 
             # -----------------------------------------
             # BANNERS
@@ -180,14 +180,14 @@ class PartnerDashboardEntity(BaseEntity):
             # FINAL RESPONSE
             # -----------------------------------------
             return {
-                "today_bookings": today_bookings,
-                "upcoming_bookings_count": upcoming_bookings_count,
-                "active_booking": active_booking,
-                "total_earnings": float(total_earnings),
+                # "today_bookings": today_bookings,
+                # "upcoming_bookings_count": upcoming_bookings_count,
+                # "active_booking": active_booking,
+                # "total_earnings": float(total_earnings),
                 "average_rating": round(float(average_rating), 2),
-                "incoming_bookings": incoming_bookings,
-                "active_services": active_services,
-                "recent_services": recent_services,
+                # "incoming_bookings": incoming_bookings,
+                # "active_services": active_services,
+                # "recent_services": recent_services,
                 "banners": banners,
             }
 

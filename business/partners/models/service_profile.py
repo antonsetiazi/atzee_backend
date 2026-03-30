@@ -30,6 +30,18 @@ class PartnerServiceProfile(models.Model):
         null=True,
     )
 
+    working_hours = models.JSONField(
+        default=dict,
+        blank=True,
+        help_text="""
+        Example:
+        {
+            "start": 8,
+            "end": 18
+        }
+        """
+    )
+
     class Meta:
         db_table = "business_partners_service_profile"
 

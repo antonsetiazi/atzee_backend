@@ -82,7 +82,7 @@ urlpatterns = [
     path("api/business/", include("business.products.urls")),
     path("api/business/", include("business.inventory.urls")),
     path("api/business/", include("business.partners.urls")),
-    path("api/business/", include("business.bookings.urls")),
+    path("api/business/", include("business.booking.api.urls")),
     path("api/business/", include("business.transactions.urls")),
     path("api/business/", include("business.documents.urls")),
     path("api/business/", include("business.payments.urls")),

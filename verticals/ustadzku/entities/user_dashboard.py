@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.db import models
 
 from core.entities.contracts import BaseEntity
-from business.bookings.models import Booking, BookingStatus
+# from business.bookings.models import Booking, BookingStatus
 from business.users.models import BusinessUser
 from core.widgets.models import UIWidget
 
@@ -45,78 +45,78 @@ class UserDashboardEntity(BaseEntity):
             # -----------------------------------------
             # BASE QUERYSET
             # -----------------------------------------
-            qs = Booking.objects.filter(
-                tenant=tenant,
-                user=business_user,
-            )
+            # qs = Booking.objects.filter(
+            #     tenant=tenant,
+            #     user=business_user,
+            # )
 
             # -----------------------------------------
             # SUMMARY COUNTS
             # -----------------------------------------
-            upcoming_booking = qs.filter(
-                start_time__gt=now,
-                status__in=[
-                    BookingStatus.CONFIRMED,
-                    BookingStatus.PENDING_PAYMENT,
-                ],
-            ).count()
+            # upcoming_booking = qs.filter(
+            #     start_time__gt=now,
+            #     status__in=[
+            #         BookingStatus.CONFIRMED,
+            #         BookingStatus.PENDING_PAYMENT,
+            #     ],
+            # ).count()
 
-            active_booking = qs.filter(
-                status=BookingStatus.ON_GOING
-            ).count()
+            # active_booking = qs.filter(
+            #     status=BookingStatus.ON_GOING
+            # ).count()
 
-            completed_booking = qs.filter(
-                status__in=[
-                    BookingStatus.COMPLETED,
-                    BookingStatus.SETTLED,
-                ]
-            ).count()
+            # completed_booking = qs.filter(
+            #     status__in=[
+            #         BookingStatus.COMPLETED,
+            #         BookingStatus.SETTLED,
+            #     ]
+            # ).count()
 
-            total_booking = qs.count()
+            # total_booking = qs.count()
 
             # -----------------------------------------
             # UPCOMING BOOKINGS (MAX 5)
             # -----------------------------------------
-            upcoming_qs = qs.filter(
-                start_time__gte=now,
-                status__in=[
-                    BookingStatus.CONFIRMED,
-                    BookingStatus.PENDING_PAYMENT,
-                ],
-            ).order_by("start_time")[:5]
+            # upcoming_qs = qs.filter(
+            #     start_time__gte=now,
+            #     status__in=[
+            #         BookingStatus.CONFIRMED,
+            #         BookingStatus.PENDING_PAYMENT,
+            #     ],
+            # ).order_by("start_time")[:5]
 
-            upcoming_bookings = [
-                {
-                    "id": str(b.id),
-                    "booking_number": b.booking_number,
-                    "partner_name": str(b.partner),
-                    "start_time": b.start_time.isoformat(),
-                    "status": b.status,
-                }
-                for b in upcoming_qs
-            ]
+            # upcoming_bookings = [
+            #     {
+            #         "id": str(b.id),
+            #         "booking_number": b.booking_number,
+            #         "partner_name": str(b.partner),
+            #         "start_time": b.start_time.isoformat(),
+            #         "status": b.status,
+            #     }
+            #     for b in upcoming_qs
+            # ]
 
             # -----------------------------------------
             # RECENT BOOKINGS (MAX 5)
             # -----------------------------------------
-            recent_qs = qs.filter(
-                status__in=[
-                    BookingStatus.COMPLETED,
-                    BookingStatus.CANCELLED,
-                    BookingStatus.SETTLED,
-                ]
-            ).order_by("-start_time")[:5]
+            # recent_qs = qs.filter(
+            #     status__in=[
+            #         BookingStatus.COMPLETED,
+            #         BookingStatus.CANCELLED,
+            #         BookingStatus.SETTLED,
+            #     ]
+            # ).order_by("-start_time")[:5]
 
-            recent_bookings = [
-                {
-                    "id": str(b.id),
-                    "booking_number": b.booking_number,
-                    "partner_name": str(b.partner),
-                    "start_time": b.start_time.isoformat(),
-                    "status": b.status,
-                }
-                for b in recent_qs
-            ]
+            # recent_bookings = [
+            #     {
+            #         "id": str(b.id),
+            #         "booking_number": b.booking_number,
+            #         "partner_name": str(b.partner),
+            #         "start_time": b.start_time.isoformat(),
+            #         "status": b.status,
+            #     }
+            #     for b in recent_qs
+            # ]
 
             # -----------------------------------------
             # BANNERS (FROM UIWidget)
@@ -152,12 +152,12 @@ class UserDashboardEntity(BaseEntity):
             # FINAL RESPONSE (FLAT STRUCTURE)
             # -----------------------------------------
             return {
-                "upcoming_booking": upcoming_booking,
-                "active_booking": active_booking,
-                "completed_booking": completed_booking,
-                "total_booking": total_booking,
-                "upcoming_bookings": upcoming_bookings,
-                "recent_bookings": recent_bookings,
+                # "upcoming_booking": upcoming_booking,
+                # "active_booking": active_booking,
+                # "completed_booking": completed_booking,
+                # "total_booking": total_booking,
+                # "upcoming_bookings": upcoming_bookings,
+                # "recent_bookings": recent_bookings,
                 "banners": banners,
             }
 

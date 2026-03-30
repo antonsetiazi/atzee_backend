@@ -33,8 +33,10 @@ class Order(TenantAwareModel):
 
     total_amount = models.DecimalField(max_digits=12, decimal_places=2)
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    # 🔥 LINK KE BOOKING (SESSION-BASED)
+    booking_id = models.IntegerField(null=True, blank=True)
 
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = "marketplace_orders"
@@ -43,6 +45,7 @@ class Order(TenantAwareModel):
         indexes = [
             models.Index(fields=["tenant", "user"]),
             models.Index(fields=["tenant", "status"]),
+            models.Index(fields=["booking_id"]),
         ]
 
         constraints = [

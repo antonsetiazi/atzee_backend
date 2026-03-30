@@ -100,6 +100,10 @@ class Command(BaseCommand):
                             "specialization": service_profile_data.get("specialization"),
                             "experience_years": service_profile_data.get("experience_years", 0),
                             "bio": service_profile_data.get("bio"),
+                            "working_hours": service_profile_data.get("working_hours", {
+                                "start": 8,
+                                "end": 18
+                            }),
                         }
                     )
 
