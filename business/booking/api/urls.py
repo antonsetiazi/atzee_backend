@@ -5,7 +5,9 @@ from .views import (
     CreateBookingHoldAPI,
     ConfirmBookingAPI,
     CancelBookingAPI,
-    AvailabilityAPI
+    AvailabilityAPI,
+    MyBookingListAPI,
+    BookingDetailAPI,
 )
 
 urlpatterns = [
@@ -17,4 +19,7 @@ urlpatterns = [
 
     # 📅 Availability
     path("booking/availability", AvailabilityAPI.as_view()),
+
+    path("booking/my", MyBookingListAPI.as_view()),
+    path("booking/<int:booking_id>", BookingDetailAPI.as_view()),
 ]

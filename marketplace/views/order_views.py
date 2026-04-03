@@ -4,10 +4,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework import status
 
 from marketplace.models.order import Order
 from marketplace.serializers.order_output_serializer import OrderSerializer
 from marketplace.serializers.order_serializer import CreateOrderSerializer
+from marketplace.services.order_completion_service import complete_order
 from core.tenants.services import TenantService
 
 
@@ -69,3 +71,28 @@ class OrderDetailView(RetrieveAPIView):
             )
             .prefetch_related("items__listing__product")
         )
+    
+
+class CompleteOrderView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, id):
+        try:
+            order = complete_order(order_id=id, user=request.user)
+
+            return Response({
+                "success": True,
+                "status": order.status,
+            })
+
+        except ValueError as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        except PermissionError as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_403_FORBIDDEN
+            )    

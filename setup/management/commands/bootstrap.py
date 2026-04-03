@@ -44,6 +44,9 @@ class Command(BaseCommand):
             self.stdout.write("→ Seeding Payment Methods...")
             call_command("seed_payment_methods")
 
+            self.stdout.write("→ Seeding Payment Gateway Configs...")
+            call_command("seed_payment_gateway_configs")
+
             self.stdout.write("→ Seeding Branding...")
             call_command("seed_branding")
 

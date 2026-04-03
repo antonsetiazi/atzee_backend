@@ -1,0 +1,246 @@
+# 🧠 CONTEXT — PAYMENT SYSTEM (FINAL)
+
+---
+
+## 🎯 POSISI DALAM ARSITEKTUR
+
+```text
+Payment = business layer (business/payments)
+```
+
+**Bukan marketplace**
+
+Alasan:
+
+* Payment bersifat universal (marketplace, ERP, subscription, dll)
+* Marketplace hanya trigger, bukan pemilik logic payment
+
+---
+
+## 🧱 DOMAIN STRUCTURE
+
+```text
+business/payment_gateway/
+  models/
+  services/
+  providers/
+  webhook/
+```
+
+---
+
+## 📦 CORE ENTITIES
+
+### 1. Payment
+
+```text
+- id
+- amount
+- currency
+- status (pending, success, failed, expired)
+- provider (midtrans, xendit)
+- channel (gopay, va, qris, dll)
+- external_id
+- paid_at
+- reference_id (order_id, generic)
+```
+
+---
+
+### 2. PaymentMethod (Admin Config)
+
+```text
+- name
+- provider
+- is_active
+- config (JSON)
+```
+
+---
+
+### 3. PaymentGatewayConfig (Per Tenant)
+
+```text
+- tenant_id
+- provider
+- api_key
+- secret_key
+- environment (sandbox/live)
+- is_active
+```
+
+---
+
+## 🔄 FLOW UTAMA (WAJIB)
+
+```text
+Create Order
+→ Create Payment (PENDING)
+
+→ Call Payment Gateway
+→ Return payment_url / token
+
+→ User bayar (via gateway UI)
+
+→ Webhook dari gateway
+→ Backend proses:
+
+    Payment = SUCCESS
+    Order = PAID
+    Booking = CONFIRMED
+```
+
+---
+
+## ❗ RULE KRITIS
+
+### 1. SOURCE OF TRUTH
+
+```text
+Payment success hanya dari backend (webhook)
+Frontend tidak boleh menentukan status
+```
+
+---
+
+### 2. RELATIONSHIP
+
+```text
+Order = financial intent
+Booking = slot lock
+Payment = transaksi uang
+```
+
+---
+
+### 3. FLOW VALID
+
+```text
+Payment SUCCESS
+→ Order PAID
+→ Booking CONFIRMED
+```
+
+---
+
+### 4. INVALID FLOW (DILARANG)
+
+```text
+Frontend set paid ❌
+Payment langsung ke partner ❌
+Order dianggap selesai saat bayar ❌
+```
+
+---
+
+## 🔌 PAYMENT PROVIDER (WAJIB ABSTRACTION)
+
+```text
+BasePaymentProvider
+  ├── MidtransProvider
+  └── XenditProvider
+```
+
+---
+
+### Interface:
+
+```python
+create_payment(payment)
+handle_webhook(payload)
+```
+
+---
+
+## ⚙️ ADMIN CONTROL
+
+### Payment Method
+
+```text
+Aktif / nonaktif channel (GoPay, VA, QRIS, dll)
+```
+
+---
+
+### Gateway Config
+
+```text
+Set API key per tenant
+Set sandbox / live
+```
+
+---
+
+## 🧪 MODE
+
+### DEV (sekarang)
+
+```text
+Simulasi tapi tetap lewat flow backend
+(bukan hardcode frontend)
+```
+
+---
+
+### PROD (nanti)
+
+```text
+Full gateway + webhook
+```
+
+---
+
+## 🔮 FUTURE READY (SUDAH DIANTISIPASI)
+
+### Wallet (tenant balance)
+
+```text
+Payment → masuk ke tenant (escrow)
+```
+
+---
+
+### Payout
+
+```text
+Setelah layanan selesai
+→ transfer ke partner
+```
+
+---
+
+## 🔥 KONSEP BESAR
+
+```text
+Ini bukan sekadar payment
+Ini adalah foundation escrow system
+```
+
+---
+
+## 🧠 SATU KALIMAT INTI
+
+> Payment diproses di backend melalui gateway/webhook, bersifat generic di business layer, dan menjadi penghubung antara order (intent) dan booking (execution), dengan arah menuju escrow & payout system.
+
+---
+
+Kalau nanti aku mulai “ngaco” saat coding, cukup kirim ini —
+langsung kita reset ke jalur yang benar 🔥
+
+
+Struktur:
+  business/payment_gateway/         ← 🚀 NEW DOMAIN
+    models.py
+    services.py
+    selectors.py
+    providers/
+      base.py
+      midtrans.py
+      xendit.py
+    webhooks/
+      midtrans.py
+      xendit.py
+
+
+SIMULATOR PEMBAYARAN MIDTRANS
+https://simulator.sandbox.midtrans.com/bca/va/payment

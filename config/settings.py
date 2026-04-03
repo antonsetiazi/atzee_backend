@@ -72,7 +72,6 @@ CORE_APPS = [
     "core.org.branches.apps.BranchesConfig",
     "core.otp.apps.OTPConfig",
     "core.files.apps.FilesConfig",
-    "core.payment.apps.PaymentConfig",
     "core.schedule.events.apps.EventsConfig",
     "core.schedule.holidays.apps.HolidaysConfig",
     "core.schedule.shifts.apps.ShiftsConfig",
@@ -90,6 +89,7 @@ BUSINESS_APPS = [
     "business.transactions.apps.TransactionsConfig",
     "business.documents.apps.DocumentsConfig",
     "business.payments.apps.PaymentsConfig",
+    "business.payment_gateway.apps.PaymentGatewayConfig",
     "business.booking.apps.BookingConfig",
 ]
 

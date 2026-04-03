@@ -4,11 +4,11 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 
 from core.tenants.models import Tenant
-from core.payment.models import PaymentMethod, PaymentGatewayType
+from business.payment_gateway.models import PaymentMethod
 
 
 class Command(BaseCommand):
-    help = "Seed default Payment Methods for all tenants"
+    help = "Seed payment methods (real channels) for all tenants"
 
     def handle(self, *args, **options):
         tenants = Tenant.objects.all()
@@ -17,37 +17,83 @@ class Command(BaseCommand):
             self.stdout.write(self.style.WARNING("No tenants found."))
             return
 
+        # 🔥 REALISTIC PAYMENT CHANNELS (INDONESIA)
         default_methods = [
+            # =========================
+            # MIDTRANS (E-WALLET)
+            # =========================
             {
-                "code": "wallet",
-                "name": "Internal Wallet",
-                "gateway": PaymentGatewayType.WALLET,
+                "code": "gopay",
+                "name": "GoPay",
+                "provider": PaymentMethod.PROVIDER_MIDTRANS,
+                "order": 1,
             },
             {
-                "code": "midtrans",
-                "name": "Midtrans Snap",
-                "gateway": PaymentGatewayType.MIDTRANS,
+                "code": "shopeepay",
+                "name": "ShopeePay",
+                "provider": PaymentMethod.PROVIDER_MIDTRANS,
+                "order": 2,
+            },
+
+            # =========================
+            # MIDTRANS (BANK VA)
+            # =========================
+            {
+                "code": "bca_va",
+                "name": "BCA Virtual Account",
+                "provider": PaymentMethod.PROVIDER_MIDTRANS,
+                "order": 3,
             },
             {
-                "code": "xendit",
-                "name": "Xendit Gateway",
-                "gateway": PaymentGatewayType.XENDIT,
+                "code": "bni_va",
+                "name": "BNI Virtual Account",
+                "provider": PaymentMethod.PROVIDER_MIDTRANS,
+                "order": 4,
+            },
+            {
+                "code": "bri_va",
+                "name": "BRI Virtual Account",
+                "provider": PaymentMethod.PROVIDER_MIDTRANS,
+                "order": 5,
+            },
+
+            # =========================
+            # MIDTRANS (QRIS)
+            # =========================
+            {
+                "code": "qris",
+                "name": "QRIS",
+                "provider": PaymentMethod.PROVIDER_MIDTRANS,
+                "order": 6,
+            },
+
+            # =========================
+            # XENDIT (OPTIONAL)
+            # =========================
+            {
+                "code": "xendit_va",
+                "name": "Virtual Account (Xendit)",
+                "provider": PaymentMethod.PROVIDER_XENDIT,
+                "order": 10,
             },
         ]
 
         for tenant in tenants:
             with transaction.atomic():
                 for method in default_methods:
-                    PaymentMethod.objects.get_or_create(
+                    PaymentMethod.objects.update_or_create(
                         tenant=tenant,
                         code=method["code"],
                         defaults={
                             "name": method["name"],
-                            "gateway": method["gateway"],
-                            "is_active": method["code"] == "wallet",
+                            "provider": method["provider"],
+                            "order": method["order"],
+                            "is_active": True,  # 🔥 aktif semua by default
                         },
                     )
 
             self.stdout.write(
-                self.style.SUCCESS(f"✔ Payment methods seeded for tenant: {tenant.code or tenant.name}")
+                self.style.SUCCESS(
+                    f"✔ Payment methods seeded for tenant: {tenant.code or tenant.name}"
+                )
             )

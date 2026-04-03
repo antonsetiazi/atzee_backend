@@ -14,10 +14,9 @@ class OrderItemInputSerializer(serializers.Serializer):
 
 class CreateOrderSerializer(serializers.Serializer):
     items = OrderItemInputSerializer(many=True)
-    payment_method = serializers.CharField()
 
     # 🔥 BOOKING (SESSION LEVEL)
-    booking_id = serializers.IntegerField()
+    booking_id = serializers.IntegerField(required=False, allow_null=True)
 
     def create(self, validated_data):
         tenant = self.context["tenant"]

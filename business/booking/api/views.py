@@ -14,6 +14,11 @@ from business.booking.models import Booking
 
 from .serializers import CreateHoldBookingSerializer
 
+from business.booking.services.query import (
+    get_user_bookings,
+    get_booking_detail,
+)
+
 
 class CreateBookingHoldAPI(APIView):
     permission_classes = [IsAuthenticated]
@@ -33,6 +38,7 @@ class CreateBookingHoldAPI(APIView):
                 end_time=serializer.validated_data["end_time"],
                 order_id=None,  # 🔥 BELUM ADA ORDER
                 meta=serializer.validated_data.get("meta"),
+                created_by=request.user,
             )
 
             return Response({
@@ -110,3 +116,51 @@ class AvailabilityAPI(APIView):
         )
 
         return Response(data)   
+    
+
+class MyBookingListAPI(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        tenant = TenantService.get_current_tenant(request)
+
+        bookings = get_user_bookings(
+            tenant=tenant,
+            user=request.user
+        )
+
+        data = [
+            {
+                "id": str(b.id),
+                "resource_id": b.resource_id,
+                "start_time": b.start_time,
+                "end_time": b.end_time,
+                "status": b.status,
+            }
+            for b in bookings
+        ]
+
+        return Response(data)    
+    
+
+class BookingDetailAPI(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, booking_id):
+        tenant = TenantService.get_current_tenant(request)
+
+        booking = get_booking_detail(
+            tenant=tenant,
+            user=request.user,
+            booking_id=booking_id
+        )
+
+        data = {
+            "id": str(booking.id),
+            "resource_id": booking.resource_id,
+            "start_time": booking.start_time,
+            "end_time": booking.end_time,
+            "status": booking.status,
+        }
+
+        return Response(data)    

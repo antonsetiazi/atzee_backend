@@ -38,6 +38,10 @@ class Order(TenantAwareModel):
 
     created_at = models.DateTimeField(auto_now_add=True)
 
+    paid_at = models.DateTimeField(null=True, blank=True)
+
+    completed_at = models.DateTimeField(null=True, blank=True)
+    
     class Meta:
         db_table = "marketplace_orders"
         ordering = ["-created_at"]

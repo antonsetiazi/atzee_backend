@@ -53,7 +53,7 @@ UI_PAGES = [
                         key="my_bookings",
                         label="Riwayat Booking",
                         icon="calendar",
-                        to="/business/user/bookings/schedule",
+                        to="/bookings",
                     ),
                     ShortcutItem(
                         key="transactions",

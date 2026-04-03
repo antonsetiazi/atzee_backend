@@ -20,6 +20,7 @@ def create_hold_booking(
     end_time,
     order_id=None,
     meta: dict = None,
+    created_by=None,
 ):
     """
     Create HOLD booking (SESSION-BASED)
@@ -82,6 +83,7 @@ def create_hold_booking(
             expires_at=expires_at,
             order_id=order_id,
             meta=meta or {},
+            created_by=created_by,
         )
 
         return booking
