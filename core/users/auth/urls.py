@@ -7,7 +7,8 @@ from .views import (
     MeView, 
     RegisterView, 
     UpdateAvatarView,
-    ChangePasswordView
+    ChangePasswordView,
+    RefreshTokenView
 )
 
 from .views import RequestOTPView, VerifyOTPView
@@ -17,6 +18,8 @@ urlpatterns = [
     
     path("login/", LoginView.as_view()),
     path("me/", MeView.as_view()),
+    path("refresh/", RefreshTokenView.as_view()),
+    
     path("register/", RegisterView.as_view()),
     path("me/avatar/", UpdateAvatarView.as_view()),
     path("change-password/", ChangePasswordView.as_view()), 

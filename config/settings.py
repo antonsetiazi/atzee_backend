@@ -135,6 +135,7 @@ INSTALLED_APPS = (
     + [
         "rest_framework",
         "rest_framework.authtoken",
+        "rest_framework_simplejwt.token_blacklist",
     ]
     + CORE_APPS 
     + BUSINESS_APPS 
@@ -289,9 +290,11 @@ CORS_ALLOW_ALL_ORIGINS = False  # tetap aman
 SERVICE_API_KEY = os.getenv("SERVICE_API_KEY")
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-    # ...
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
+
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
 }
 
 

@@ -21,9 +21,9 @@ def create_payment_view(request):
         order_id = request.data.get("order_id")
         method_code = request.data.get("payment_method")
 
-        if not order_id or not method_code:
+        if not order_id:
             return Response(
-                {"error": "order_id dan payment_method wajib"},
+                {"error": "order_id wajib"},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -34,14 +34,28 @@ def create_payment_view(request):
             tenant=tenant
         )
 
-        # 🔗 ambil payment method
-        method = get_object_or_404(
-            PaymentMethod,
-            tenant=tenant,
-            code=method_code,
-            is_active=True
-        )
+        method = None
 
+        if method_code:
+            method = get_object_or_404(
+                PaymentMethod,
+                tenant=tenant,
+                code=method_code,
+                is_active=True
+            )
+        else:
+            # 🔥 AUTO PICK DEFAULT (Midtrans Snap case)
+            method = PaymentMethod.objects.filter(
+                tenant=tenant,
+                is_active=True
+            ).first()
+
+            if not method:
+                return Response(
+                    {"error": "Metode pembayaran tidak tersedia"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+    
         # 💰 create payment gateway
         payment = create_payment(
             tenant=tenant,

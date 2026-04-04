@@ -5,6 +5,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 
 from .serializers import (
     RegisterSerializer, 
@@ -14,10 +16,13 @@ from .serializers import (
 
 from .serializers import RequestOTPSerializer, VerifyOTPSerializer
 from .services import issue_jwt_for_user, change_user_password
-from core.otp.services import OTPService
+from .services import AuthTokenService
 from .services import AuthService
-from shared.utils.phone import normalize_phone
+
+from core.otp.services import OTPService
 from core.otp.utils.hash import verify_otp
+from shared.utils.phone import normalize_phone
+
 
 class AuthConfigView(APIView):
     """
@@ -217,3 +222,42 @@ class VerifyOTPView(APIView):
                 ) 
         except Exception as e:
             print(e)
+
+
+class RefreshTokenView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        refresh_token = request.data.get("refresh")
+
+        if not refresh_token:
+            return Response(
+                {"detail": "Refresh token required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            token = RefreshToken(refresh_token)
+
+            user_id = token.get("user_id")
+            active_tenant = token.get("active_tenant")
+
+            if not user_id or not active_tenant:
+                raise InvalidToken("Invalid token payload")
+
+            from core.users.models import User
+
+            user = User.objects.get(id=user_id)
+
+            tokens = AuthTokenService.issue_tokens(
+                user=user,
+                active_tenant_id=active_tenant
+            )
+
+            return Response(tokens)
+
+        except (TokenError, InvalidToken, User.DoesNotExist):
+            return Response(
+                {"detail": "Invalid or expired refresh token"},
+                status=status.HTTP_401_UNAUTHORIZED
+            )            

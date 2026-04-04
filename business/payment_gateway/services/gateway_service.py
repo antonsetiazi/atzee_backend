@@ -230,7 +230,10 @@ def _on_payment_success(payment: PaymentGateway):
     """
 
     try:
+        # print("🔥 _on_payment_success CALLED", payment.id)
+
         if payment.reference_type == "order":
+            # print("🔥 ORDER FLOW", payment.reference_id)
 
             # 👉 Import disini (lazy import)
             from marketplace.services.payment_service import handle_order_payment_by_id
