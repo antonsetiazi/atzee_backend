@@ -9,6 +9,7 @@ from .chart import ChartBlock
 from .container import ContainerBlock 
 from .file import FileBlock
 from .form import FormBlock, FormRedirect 
+from .header import HeaderBlock
 from .image_gallery import ImageGalleryBlock
 from .info import InfoBlock
 from .list import ListBlock, ListItemField

@@ -1,7 +1,7 @@
 # core/ui/schema/page.py
 
 from dataclasses import dataclass
-from typing import Literal, List, Optional, Union
+from typing import Literal, List, Optional, Union, Dict, Any
 
 
 from .block import (
@@ -50,3 +50,4 @@ class Page:
     method: HTTPMethod = "POST"
     accept_context: bool = True
     payload_from_context: Optional[dict] = None
+    meta: Optional[Dict[str, Any]] = None

@@ -4,10 +4,14 @@ from django.utils import timezone
 from django.db import models
 
 from core.entities.contracts import BaseEntity
-# from business.bookings.models import Booking, BookingStatus
 from business.users.models import BusinessUser
 from core.widgets.models import UIWidget
 
+from marketplace.models.order import Order, OrderStatus
+from business.booking.models import Booking, BookingStatus
+from business.booking.services.booking_read_service import (
+    get_partner_name_from_order
+)
 
 class UserDashboardEntity(BaseEntity):
     """
@@ -31,92 +35,102 @@ class UserDashboardEntity(BaseEntity):
                 core_user=user,
             )
         except BusinessUser.DoesNotExist:
-            return {
-                "upcoming_booking": 0,
-                "active_booking": 0,
-                "completed_booking": 0,
-                "total_booking": 0,
-                "upcoming_bookings": [],
-                "recent_bookings": [],
-                "banners": None,
-            }
+            return self._empty()
 
         try:
+
             # -----------------------------------------
-            # BASE QUERYSET
+            # ORDER BASE (SOURCE OF TRUTH)
             # -----------------------------------------
-            # qs = Booking.objects.filter(
-            #     tenant=tenant,
-            #     user=business_user,
-            # )
+            orders = (
+                Order.objects
+                .filter(
+                    tenant=tenant,
+                    user=user,
+                    booking_id__isnull=False,
+                )
+                .prefetch_related("items__listing__partner")
+            )
+
+            booking_ids = orders.values_list("booking_id", flat=True)
+
+            bookings = Booking.objects.filter(
+                tenant=tenant,
+                # id__in=booking_ids,
+            )
 
             # -----------------------------------------
             # SUMMARY COUNTS
             # -----------------------------------------
-            # upcoming_booking = qs.filter(
-            #     start_time__gt=now,
-            #     status__in=[
-            #         BookingStatus.CONFIRMED,
-            #         BookingStatus.PENDING_PAYMENT,
-            #     ],
-            # ).count()
+            upcoming_booking = bookings.filter(
+                start_time__gt=now,
+                status__in=[
+                    BookingStatus.HOLD,
+                ],
+            ).count()
 
-            # active_booking = qs.filter(
-            #     status=BookingStatus.ON_GOING
-            # ).count()
+            active_booking = bookings.filter(
+                status=BookingStatus.COMPLETED
+            ).count()
 
-            # completed_booking = qs.filter(
-            #     status__in=[
-            #         BookingStatus.COMPLETED,
-            #         BookingStatus.SETTLED,
-            #     ]
-            # ).count()
+            completed_booking = bookings.filter(
+                status=BookingStatus.CONFIRMED
+            ).count()
 
-            # total_booking = qs.count()
+            # total_booking = bookings.count()
 
             # -----------------------------------------
             # UPCOMING BOOKINGS (MAX 5)
             # -----------------------------------------
-            # upcoming_qs = qs.filter(
-            #     start_time__gte=now,
-            #     status__in=[
-            #         BookingStatus.CONFIRMED,
-            #         BookingStatus.PENDING_PAYMENT,
-            #     ],
-            # ).order_by("start_time")[:5]
+            upcoming_qs = bookings.filter(
+                start_time__gte=now,
+                status__in=[
+                    BookingStatus.CONFIRMED,
+                    BookingStatus.HOLD,
+                ],
+            ).order_by("start_time")[:5]
 
-            # upcoming_bookings = [
-            #     {
-            #         "id": str(b.id),
-            #         "booking_number": b.booking_number,
-            #         "partner_name": str(b.partner),
-            #         "start_time": b.start_time.isoformat(),
-            #         "status": b.status,
-            #     }
-            #     for b in upcoming_qs
-            # ]
+            upcoming_bookings = [
+                {
+                    "id": str(b.id),
+                    "start_time": b.start_time.isoformat(),
+                    "status": b.status,
+                    "resource_type": b.resource_type,
+                    "resource_id": b.resource_id,
+                }
+                for b in upcoming_qs
+            ]
 
             # -----------------------------------------
-            # RECENT BOOKINGS (MAX 5)
+            # MAP BOOKING → ORDER
             # -----------------------------------------
-            # recent_qs = qs.filter(
-            #     status__in=[
-            #         BookingStatus.COMPLETED,
-            #         BookingStatus.CANCELLED,
-            #         BookingStatus.SETTLED,
-            #     ]
-            # ).order_by("-start_time")[:5]
+            orders_map = {
+                str(o.booking_id): o
+                for o in orders
+            }
 
-            # recent_bookings = [
-            #     {
-            #         "id": str(b.id),
-            #         "booking_number": b.booking_number,
-            #         "partner_name": str(b.partner),
-            #         "start_time": b.start_time.isoformat(),
-            #         "status": b.status,
-            #     }
-            #     for b in recent_qs
-            # ]
+            # -----------------------------------------
+            # RECENT BOOKINGS (ENRICHED)
+            # -----------------------------------------
+            recent_qs = bookings.filter(
+                status__in=[
+                    BookingStatus.COMPLETED,
+                    BookingStatus.CANCELED,
+                ]
+            ).order_by("-start_time")[:5]
+
+            recent_bookings = []
+
+            for b in recent_qs:
+                order = orders_map.get(str(b.id))
+
+                recent_bookings.append({
+                    "id": str(b.id),
+                    "booking_number": order.order_number if order else f"BOOK-{b.id}",
+                    "partner_name": get_partner_name_from_order(order) or "-",
+                    "start_time": b.start_time.isoformat(),
+                    "status": b.status,
+                })
 
             # -----------------------------------------
             # BANNERS (FROM UIWidget)
@@ -152,23 +166,27 @@ class UserDashboardEntity(BaseEntity):
             # FINAL RESPONSE (FLAT STRUCTURE)
             # -----------------------------------------
             return {
-                # "upcoming_booking": upcoming_booking,
-                # "active_booking": active_booking,
-                # "completed_booking": completed_booking,
+                "upcoming_booking": upcoming_booking,
+                "active_booking": active_booking,
+                "completed_booking": completed_booking,
                 # "total_booking": total_booking,
-                # "upcoming_bookings": upcoming_bookings,
-                # "recent_bookings": recent_bookings,
+                "upcoming_bookings": upcoming_bookings,
+                "recent_bookings": recent_bookings,
                 "banners": banners,
             }
 
         except Exception as e:
             print(e)
-            return {
-                "upcoming_booking": 0,
-                "active_booking": 0,
-                "completed_booking": 0,
-                "total_booking": 0,
-                "upcoming_bookings": [],
-                "recent_bookings": [],
-                "banners": None,
-            }
+            return self._empty()
+        
+
+    def _empty(self):
+        return {
+            "upcoming_booking": 0,
+            "active_booking": 0,
+            "completed_booking": 0,
+            "total_booking": 0,
+            "upcoming_bookings": [],
+            "recent_bookings": [],
+            "banners": None,
+        }

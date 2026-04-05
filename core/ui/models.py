@@ -71,6 +71,8 @@ class UIPage(models.Model):
 
     is_active = models.BooleanField(default=True)
 
+    meta = models.JSONField(default=dict, blank=True)
+    
     class Meta:
         ordering = ["key"]
 

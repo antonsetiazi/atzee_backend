@@ -11,8 +11,29 @@ from discovery.serializers.service_listing_serializer import ServiceListingSeria
 from discovery.serializers.service_detail_serializer import ServiceDetailSerializer
 from rest_framework import status
 from discovery.selectors import marketplace as marketplace_selector
+from core.classifications.categories import selectors as category_selectors
 
 
+class CategoryListView(APIView):
+    """
+    List categories by scope (public endpoint, no auth required)
+    GET /discovery/categories/?scope=partners.service
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        tenant = TenantService.get_current_tenant(request)
+        scope = request.GET.get("scope")
+        if not scope:
+            return Response({"detail": "scope parameter required"}, status=400)
+
+        qs = category_selectors.get_category_queryset(tenant=tenant)
+        qs = qs.filter(scope=scope).order_by("name")
+
+        categories = [{"id": c.id, "name": c.name} for c in qs]
+
+        return Response(categories)
+    
 class ProductListingView(APIView):
     permission_classes = [AllowAny]
 

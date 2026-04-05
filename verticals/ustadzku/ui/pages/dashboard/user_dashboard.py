@@ -3,6 +3,7 @@
 from core.ui.registry import register_ui_module_pages
 from core.ui.schema.page import Page
 from core.ui.schema.block import (
+    HeaderBlock,
     ContainerBlock,
     StatBlock,
     ShortcutBlock,
@@ -24,9 +25,28 @@ UI_PAGES = [
         path="/dashboard",
         title="Dashboard",
         permissions=[UstadzkuPermission.USER_DASHBOARD_VIEW],
+        meta={
+            "showBottomNav": True,
+            "showHeader": False,
+            "fullscreen": False,
+            "headerMode": "overlay",
+            
+        },
         description="Ringkasan aktivitas dan booking Anda",
         data_source="/entities/ustadzku/user.dashboard/query/",
         blocks=[
+
+            # ===============================
+            # 🔥 HEADER DASHBOARD
+            # ===============================
+            HeaderBlock(
+                title="Dashboard",
+                subtitle="Ringkasan aktivitas Anda",
+                variant="dashboard",
+                show_greeting=True,
+                show_avatar=True,
+                show_search=True,
+            ),
 
             # ===============================
             # Banner / Notifikasi Penting
@@ -94,18 +114,18 @@ UI_PAGES = [
                     ),
                     StatBlock(
                         key="completed_booking",
-                        title="Selesai",
+                        title="Booking Selesai",
                         data_key="completed_booking",
                         size="sm",
                         value=None,
                     ),
-                    StatBlock(
-                        key="total_booking",
-                        title="Total Booking",
-                        data_key="total_booking",
-                        size="sm",
-                        value=None,
-                    ),
+                    # StatBlock(
+                    #     key="total_booking",
+                    #     title="Total Booking",
+                    #     data_key="total_booking",
+                    #     size="sm",
+                    #     value=None,
+                    # ),
                 ]
             ),
 

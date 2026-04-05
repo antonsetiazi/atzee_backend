@@ -104,6 +104,7 @@ def seed_pages(pages: list[dict], page_model=UIPage):
                 "accept_context": page_data.get("accept_context", True),
                 "payload_from_context": page_data.get("payload_from_context", True),
                 "is_active": page_data.get("is_active", True),
+                "meta": page_data.get("meta") or {},
             },
         )
 
