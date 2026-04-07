@@ -10,6 +10,11 @@ from marketplace.models.order import Order
 from marketplace.serializers.order_output_serializer import OrderSerializer
 from marketplace.serializers.order_serializer import CreateOrderSerializer
 from marketplace.services.order_completion_service import complete_order
+from marketplace.services.order_assignment_service import (
+    assign_partner_to_order, 
+    accept_order, 
+    reject_order
+)
 from core.tenants.services import TenantService
 
 
@@ -34,6 +39,7 @@ class CreateOrderView(APIView):
             "id": order.id,
             "total": int(order.total_amount),
             "status": order.status,
+            "payment_status": order.payment_status,
         })
 
 
@@ -96,3 +102,66 @@ class CompleteOrderView(APIView):
                 {"error": str(e)},
                 status=status.HTTP_403_FORBIDDEN
             )    
+        
+
+class AssignPartnerView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, id):
+        tenant = TenantService.get_current_tenant(request)
+
+        partner_id = request.data.get("partner_id")
+
+        order = assign_partner_to_order(
+            tenant=tenant,
+            order_id=id,
+            partner_id=partner_id
+        )
+
+        return Response({
+            "success": True,
+            "partner_id": order.partner.id
+        })        
+    
+
+class AcceptOrderView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, id):
+        tenant = TenantService.get_current_tenant(request)
+
+        if not hasattr(request.user, "partner_profile"):
+            return Response({"detail": "Not a partner"}, status=403)
+
+        partner = request.user.partner_profile
+
+        order = accept_order(
+            tenant=tenant,
+            order_id=id,
+            partner=partner
+        )
+
+        return Response({
+            "success": True,
+            "order_id": order.id
+        })    
+    
+
+class RejectOrderView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, id):
+        tenant = TenantService.get_current_tenant(request)
+
+        if not hasattr(request.user, "partner_profile"):
+            return Response({"detail": "Not a partner"}, status=403)
+
+        partner = request.user.partner_profile
+
+        reject_order(
+            tenant=tenant,
+            order_id=id,
+            partner=partner
+        )
+
+        return Response({"success": True})    

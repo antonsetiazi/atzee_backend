@@ -29,8 +29,7 @@ UI_PAGES = [
             "showBottomNav": True,
             "showHeader": False,
             "fullscreen": False,
-            "headerMode": "overlay",
-            
+            "headerMode": "overlay",            
         },
         description="Ringkasan aktivitas dan booking Anda",
         data_source="/entities/ustadzku/user.dashboard/query/",

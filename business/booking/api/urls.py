@@ -10,6 +10,8 @@ from .views import (
     BookingDetailAPI,
 )
 
+from .views_partner_schedule import PartnerScheduleAPI
+
 urlpatterns = [
     path("booking/hold", CreateBookingHoldAPI.as_view()),
 
@@ -22,4 +24,6 @@ urlpatterns = [
 
     path("booking/my", MyBookingListAPI.as_view()),
     path("booking/<int:booking_id>", BookingDetailAPI.as_view()),
+
+    path("booking/partner/schedule", PartnerScheduleAPI.as_view()),
 ]

@@ -91,6 +91,7 @@ BUSINESS_APPS = [
     "business.payments.apps.PaymentsConfig",
     "business.payment_gateway.apps.PaymentGatewayConfig",
     "business.booking.apps.BookingConfig",
+    "business.tracking.apps.TrackingConfig",
 ]
 
 ACCOUNTING_APPS = [

@@ -3,15 +3,30 @@
 from django.db import models
 from core.models.base import TenantAwareModel
 from core.users.models import User
+from core.account.models import UserAddress
 
 from marketplace.models.listing import PartnerListing
+from business.partners.models import Partner
+
+class FulfillmentType(models.TextChoices):
+    DELIVERY = "delivery"
+    ON_SITE = "on_site"
+    PICKUP = "pickup"
+    ONLINE = "online"
+
+
+class PaymentStatus(models.TextChoices):
+    UNPAID = "unpaid"
+    PAID = "paid"
+    FAILED = "failed"
 
 
 class OrderStatus(models.TextChoices):
     PENDING = "pending"
-    PAID = "paid"
+    ACCEPTED = "accepted"
+    ON_GOING = "on_going"
     COMPLETED = "completed"
-    FAILED = "failed"
+    CANCELLED = "cancelled"
 
 
 class Order(TenantAwareModel):
@@ -20,9 +35,31 @@ class Order(TenantAwareModel):
         on_delete=models.PROTECT
     )
 
+    selected_partner = models.ForeignKey(
+        Partner,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="selected_orders"
+    )
+    
+    partner = models.ForeignKey(
+        Partner,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="assigned_orders"
+    )
+
     order_number = models.CharField(
         max_length=50,
         db_index=True
+    )
+
+    payment_status = models.CharField(
+        max_length=20,
+        choices=PaymentStatus.choices,
+        default=PaymentStatus.UNPAID
     )
 
     status = models.CharField(
@@ -36,10 +73,30 @@ class Order(TenantAwareModel):
     # 🔥 LINK KE BOOKING (SESSION-BASED)
     booking_id = models.IntegerField(null=True, blank=True)
 
+    # 🔥 NEW: Fulfillment Type
+    fulfillment_type = models.CharField(
+        max_length=20,
+        choices=FulfillmentType.choices,
+        default=FulfillmentType.ON_SITE
+    )
+
+    # 🔥 NEW: Address reference (optional)
+    address = models.ForeignKey(
+        UserAddress,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="orders"
+    )
+
+    # 🔥 NEW: Snapshot (immutable)
+    address_snapshot = models.JSONField(
+        null=True,
+        blank=True
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
-
     paid_at = models.DateTimeField(null=True, blank=True)
-
     completed_at = models.DateTimeField(null=True, blank=True)
     
     class Meta:

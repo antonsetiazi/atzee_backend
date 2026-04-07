@@ -4,6 +4,7 @@ from django.db import transaction
 from django.utils import timezone
 
 from marketplace.models import Order
+from marketplace.models.order import PaymentStatus
 from business.booking.models import Booking
 from business.booking.services.confirm import confirm_booking
 
@@ -25,7 +26,7 @@ def handle_order_payment_by_id(order_id: str, payment):
         return
 
     # 🔁 IDEMPOTENCY
-    if order.status == "paid":
+    if order.payment_status == PaymentStatus.PAID:
         return
 
     # =========================
@@ -41,6 +42,6 @@ def handle_order_payment_by_id(order_id: str, payment):
     # =========================
     # 💾 UPDATE ORDER
     # =========================
-    order.status = "paid"
+    order.payment_status = PaymentStatus.PAID
     order.paid_at = timezone.now()
-    order.save(update_fields=["status", "paid_at"])
+    order.save(update_fields=["payment_status", "paid_at"])

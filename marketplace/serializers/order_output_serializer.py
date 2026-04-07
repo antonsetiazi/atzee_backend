@@ -20,13 +20,44 @@ class OrderItemSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True, read_only=True)
 
+    address = serializers.JSONField(source="address_snapshot", read_only=True)
+
+    selected_partner = serializers.SerializerMethodField()
+    partner = serializers.SerializerMethodField()
+
+    payment_status = serializers.CharField(read_only=True)
+
+    def get_selected_partner(self, obj):
+        if not obj.selected_partner:
+            return None
+        
+        return {
+            "id": obj.selected_partner.id,
+            "name": obj.selected_partner.name,
+        }
+
+    def get_partner(self, obj):
+        if not obj.partner:
+            return None
+        
+        return {
+            "id": obj.partner.id,
+            "name": obj.partner.name,
+            "phone": obj.partner.phone,
+        }
+    
     class Meta:
         model = Order
         fields = [
             "id",
             "order_number",
             "status",
+            "payment_status",
             "total_amount",
+            "fulfillment_type",
+            "address",
+            "selected_partner",
+            "partner",
             "created_at",
             "items",
         ]

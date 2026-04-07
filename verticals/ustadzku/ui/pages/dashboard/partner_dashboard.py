@@ -24,6 +24,12 @@ UI_PAGES = [
         path="/dashboard",
         title="Dashboard Mitra",
         permissions=[UstadzkuPermission.PARTNER_DASHBOARD_VIEW],
+        meta={
+            "showBottomNav": True,
+            "showHeader": False,
+            "fullscreen": False,
+            "headerMode": "overlay",            
+        },
         description="Ringkasan aktivitas, booking masuk, dan performa Anda sebagai Mitra",
         data_source="/entities/ustadzku/partner.dashboard/query/",
         blocks=[
@@ -53,7 +59,7 @@ UI_PAGES = [
                         key="my_schedule",
                         label="Jadwal & Kalender",
                         icon="calendar",
-                        to="/business/bookings/schedule",
+                        to="/partner/schedule",
                     ),
                     ShortcutItem(
                         key="active_services",

@@ -45,9 +45,25 @@ NAVIGATION_SEED = [
         "device": "mobile",
         "app": "ustadzku",
         "items": [
-            {"action_type": "page", "target": "dashboard", "icon": "home", "route": "/dashboard", "label": "Home"},
-            {"action_type": "page", "target": "my_products.list", "icon": "box"},
-            {"action_type": "page", "target": "sales.list", "icon": "dollar-sign"},
+            {"action_type": "page", "target": "profile", "icon": "profile", "route": "/account/profile", "label": "Profil"},
+            {"action_type": "page", "target": "home", "icon": "home", "route": "/dashboard", "label": "Beranda"},
+            {"action_type": "page", "target": "orders", "icon": "order", "route": "/partner/orders", "label": "Order"},
+        ],
+    },
+
+    # =========================
+    # Desktop Sidebar - Partner
+    # =========================
+    {
+        "tenant_code": None,
+        "role": "partner",
+        "type": "sidebar",
+        "device": "desktop",
+        "app": "ustadzku",
+        "items": [
+            {"action_type": "page", "target": "profile", "icon": "profile", "route": "/account/profile", "label": "Profil"},
+            {"action_type": "page", "target": "home", "icon": "home", "route": "/dashboard", "label": "Beranda"},
+            {"action_type": "page", "target": "orders", "icon": "order", "route": "/partner/orders", "label": "Order"},
         ],
     },
 
