@@ -84,6 +84,7 @@ urlpatterns = [
     path("api/business/", include("business.documents.urls")),
     path("api/business/", include("business.payments.urls")),
     path("api/payments/", include("business.payment_gateway.urls")),
+    path("api/tracking/", include("business.tracking.urls")),
 
     # --- Accounting ---
     path("api/accounting/", include("accounting.chart_of_accounts.urls")),

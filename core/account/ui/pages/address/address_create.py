@@ -8,7 +8,7 @@ from core.account.ui.pages.address._base_address_form import (
 UI_PAGES = build_address_form_page(
     key="account.address.create",
     domain="core",
-    path="/account/address/create",
+    path="/admin/account/address/create",
     submit_to="/account/address/",
     method="POST",
     permissions=["core.account.address.create"],
