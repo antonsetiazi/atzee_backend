@@ -49,8 +49,8 @@ class TenantContextMiddleware:
         path = request.path
 
         return (
-            path.startswith("/api/files/")  # 🔥 download endpoint
-            or path.startswith("/media/")   # kalau nanti pakai media static
+            path.startswith("/media/")   # kalau nanti pakai media static
             or path.startswith("/static/")  # static files
             or path.startswith("/api/payments/webhook/")
+            or path.endswith("/download/")
         )

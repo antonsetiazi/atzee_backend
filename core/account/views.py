@@ -5,7 +5,9 @@ from rest_framework.response import Response
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
+from rest_framework.views import APIView
 
+from core.users.auth.services import update_user_profile
 from core.account.serializers import UserSettingsSerializer
 from core.tenants.services import TenantService
 from core.account import selectors, services
@@ -16,6 +18,20 @@ from core.account.serializers import (
     UserAddressUpdateSerializer,
 )
 
+class UpdateProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request):
+        user = update_user_profile(
+            user=request.user,
+            data=request.data
+        )
+
+        return Response({
+            "full_name": user.full_name,
+            "phone": user.phone,
+        })
+    
 
 class UserSettingsView(RetrieveUpdateAPIView):
     serializer_class = UserSettingsSerializer

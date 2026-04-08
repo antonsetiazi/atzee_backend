@@ -14,6 +14,8 @@ class HeaderBlock:
     title: Optional[str] = None
     subtitle: Optional[str] = None
 
+    bleed: bool = True
+    
     # 🔥 behavior
     variant: HeaderVariant = "default"
 

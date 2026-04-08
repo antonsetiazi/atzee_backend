@@ -3,6 +3,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
+from core.account.views import UpdateProfileView
 from core.account.views import UserSettingsView, UserAddressViewSet
 
 router = DefaultRouter()
@@ -10,5 +11,6 @@ router.register(r"address", UserAddressViewSet, basename="user-address")
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("profile/", UpdateProfileView.as_view(), name="update-profile"),
     path("settings/", UserSettingsView.as_view(), name="user-settings"),
 ]

@@ -54,6 +54,8 @@ UI_PAGES = [
                 title="Informasi Penting",
                 data_key="banners",
                 size="lg",
+                padding="md",
+                margin_bottom="lg",
             ),
 
             # ===============================

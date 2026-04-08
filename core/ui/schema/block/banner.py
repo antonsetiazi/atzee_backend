@@ -5,6 +5,7 @@ from typing import Literal, Optional
 
 
 WidgetSize = Literal["sm", "md", "lg"]
+SpacingSize = Literal["none", "sm", "md", "lg"]
 
 @dataclass(frozen=True)
 class BannerBlock:
@@ -14,3 +15,5 @@ class BannerBlock:
     data_key: Optional[str] = None
     size: WidgetSize = "lg"
     
+    padding: SpacingSize = "md"
+    margin_bottom: SpacingSize = "md"
