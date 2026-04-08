@@ -17,7 +17,7 @@ urlpatterns = [
 
     # 🔄 Booking lifecycle
     path("booking/<uuid:booking_id>/confirm", ConfirmBookingAPI.as_view()),
-    path("booking/<uuid:booking_id>/cancel", CancelBookingAPI.as_view()),
+    path("booking/<int:booking_id>/cancel", CancelBookingAPI.as_view()),
 
     # 📅 Availability
     path("booking/availability", AvailabilityAPI.as_view()),
