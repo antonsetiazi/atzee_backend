@@ -27,6 +27,11 @@ class OrderSerializer(serializers.ModelSerializer):
 
     payment_status = serializers.CharField(read_only=True)
 
+    bookingId = serializers.SerializerMethodField()
+
+    def get_bookingId(self, obj):
+        return obj.booking_id
+    
     def get_selected_partner(self, obj):
         if not obj.selected_partner:
             return None
@@ -59,5 +64,6 @@ class OrderSerializer(serializers.ModelSerializer):
             "selected_partner",
             "partner",
             "created_at",
+            "bookingId",
             "items",
         ]

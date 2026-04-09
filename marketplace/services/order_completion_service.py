@@ -3,7 +3,7 @@
 from django.db import transaction
 from django.utils import timezone
 
-from marketplace.models.order import Order, OrderStatus
+from marketplace.models.order import Order, OrderStatus, PaymentStatus
 from business.booking.services.complete_by_id import complete_booking_by_id
 
 
@@ -23,8 +23,16 @@ def complete_order(order_id: int, user):
     if order.user_id != user.id:
         raise PermissionError("Bukan pemilik order")
 
-    if order.status != OrderStatus.PAID:
-        raise ValueError("Order belum dibayar atau sudah selesai")
+    # payment must be paid
+    if order.payment_status != PaymentStatus.PAID:
+        raise ValueError("Order belum dibayar")
+    
+    # only accepted / on_going can complete
+    if order.status not in [
+        OrderStatus.ACCEPTED,
+        OrderStatus.ON_GOING,
+    ]:
+        raise ValueError("Order belum dapat diselesaikan")
 
     # =========================
     # 🔗 BOOKING COMPLETION

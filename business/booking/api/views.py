@@ -11,6 +11,7 @@ from business.booking.services.confirm import confirm_booking
 from business.booking.services.cancel import cancel_booking
 from business.booking.services.availability import get_availability
 from business.booking.models import Booking
+from business.reviews.models import Review
 
 from .serializers import CreateHoldBookingSerializer
 
@@ -155,12 +156,21 @@ class BookingDetailAPI(APIView):
             booking_id=booking_id
         )
 
+        has_reviewed = hasattr(booking, "review")
+
+        can_review = (
+            booking.status == "COMPLETED"
+            and not has_reviewed
+        )
+
         data = {
             "id": str(booking.id),
             "resource_id": booking.resource_id,
             "start_time": booking.start_time,
             "end_time": booking.end_time,
             "status": booking.status,
+            "can_review": can_review,
+            "has_reviewed": has_reviewed,
         }
 
         return Response(data)    
