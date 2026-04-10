@@ -6,6 +6,8 @@ from core.notifications.views import (
     NotificationMarkReadView,
     NotificationUnreadCountView,
     NotificationMarkAllReadView,
+    NotificationClearAllView,
+    NotificationCreateView
 )
 
 urlpatterns = [
@@ -13,4 +15,6 @@ urlpatterns = [
     path("unread-count/", NotificationUnreadCountView.as_view()),
     path("<int:pk>/read/", NotificationMarkReadView.as_view()),
     path("mark-all-read/", NotificationMarkAllReadView.as_view()),
+    path("clear/", NotificationClearAllView.as_view()),
+    path("create/", NotificationCreateView.as_view()),
 ]

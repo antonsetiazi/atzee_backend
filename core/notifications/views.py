@@ -80,3 +80,37 @@ class NotificationMarkAllReadView(APIView):
         ).update(is_read=True)
 
         return Response({"status": "ok"})
+
+
+class NotificationClearAllView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request):
+        Notification.objects.filter(
+            user=request.user,
+            tenant=getattr(request, "tenant", None)
+        ).delete()
+
+        return Response({"status": "ok"})
+    
+
+class NotificationCreateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        data = request.data
+
+        notification = Notification.objects.create(
+            user=request.user,
+            tenant=getattr(request, "tenant", None),
+            event=data.get("event", "manual"),
+            level=data.get("level", "info"),
+            title=data.get("title"),
+            message=data.get("message"),
+            entity_type=data.get("entity_type"),
+            entity_id=data.get("entity_id"),
+            payload=data.get("payload", {}),
+        )
+
+        serializer = NotificationSerializer(notification)
+        return Response(serializer.data, status=201)    
