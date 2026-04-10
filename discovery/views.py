@@ -30,7 +30,16 @@ class CategoryListView(APIView):
         qs = category_selectors.get_category_queryset(tenant=tenant)
         qs = qs.filter(scope=scope).order_by("name")
 
-        categories = [{"id": c.id, "name": c.name} for c in qs]
+        categories = [
+            {
+                "id": c.id,
+                "code": c.code,
+                "name": c.name,
+                "scope": c.scope,
+                "parent": c.parent_id,
+            }
+            for c in qs
+        ]
 
         return Response(categories)
     
@@ -71,12 +80,14 @@ class ServiceListingView(APIView):
         tenant = TenantService.get_current_tenant(request)
 
         search = request.GET.get("search")
-        source = request.GET.get("source", "marketplace")  # 🔥 penting
+        source = request.GET.get("source", "marketplace") 
+        categories = request.GET.getlist("category")
 
         qs = get_service_listings(
             tenant=tenant,
             search=search,
             source=source,
+            categories=categories,
         )
 
         page = int(request.GET.get("page", 1))

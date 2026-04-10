@@ -28,7 +28,12 @@ def get_product_listings(*, tenant: Tenant, search: str | None = None):
     return qs.order_by("-id")
 
 
-def get_service_listings(*, tenant: Tenant, search: str | None = None):
+def get_service_listings(
+        *, 
+        tenant: Tenant, 
+        search: str | None = None, 
+        categories: list[str] | None = None
+):
     """
     Listing service marketplace.
     """
@@ -40,12 +45,17 @@ def get_service_listings(*, tenant: Tenant, search: str | None = None):
             product__is_active=True,
             product__type="service",
         )
-        .select_related("product", "partner")
+        .select_related("product", "partner", "product__category")
     )
 
     if search:
         qs = qs.filter(partner__name__icontains=search)
 
+    if categories:
+        qs = qs.filter(
+            product__category__code__in=categories
+        )
+        
     # GROUP BY partner
     qs = (
         qs

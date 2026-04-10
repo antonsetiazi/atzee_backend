@@ -5,7 +5,7 @@ from discovery.selectors import marketplace as marketplace_selector
 # from discovery.selectors import business as business_selector
 
 
-def get_service_listings(*, tenant, search=None, source="marketplace"):
+def get_service_listings(*, tenant, search=None, source="marketplace", categories=None,):
     """
     source:
     - marketplace
@@ -16,17 +16,12 @@ def get_service_listings(*, tenant, search=None, source="marketplace"):
     if source == "marketplace":
         return marketplace_selector.get_service_listings(
             tenant=tenant,
-            search=search
+            search=search,
+            categories=categories,
         )
-
-    # future extension
-    # elif source == "business":
-    #     return business_selector.get_service_listings(...)
-
-    # elif source == "all":
-    #     merge results
 
     return marketplace_selector.get_service_listings(
         tenant=tenant,
-        search=search
+        search=search,
+        categories=categories,
     )

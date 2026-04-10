@@ -28,4 +28,9 @@ CATEGORIES = [
         "name": "Tahsin / Mengaji",
         "scope": "partners.service_category",
     },
+    {
+        "code": "kajian",
+        "name": "Kajian",
+        "scope": "partners.service_category",
+    },
 ]

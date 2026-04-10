@@ -10,6 +10,7 @@ from core.tenants.models import Tenant
 from business.partners.models import Partner
 from marketplace.models.catalog import MarketplaceProduct
 from marketplace.models.listing import PartnerListing
+from core.classifications.categories.models import Category
 
 
 class Command(BaseCommand):
@@ -56,6 +57,16 @@ class Command(BaseCommand):
 
                 for prod in products:
 
+                    category = None
+
+                    category_code = prod.get("category_code")
+                    if category_code:
+                        category = Category.objects.filter(
+                            tenant=tenant,
+                            code=category_code,
+                            scope="partners.service_category"
+                        ).first()
+
                     # ✅ CREATE PRODUCT (CATALOG)
                     mp, created = MarketplaceProduct.objects.update_or_create(
                         tenant=tenant,
@@ -64,6 +75,7 @@ class Command(BaseCommand):
                         defaults={
                             "name": prod.get("name"),
                             "type": MarketplaceProduct.TYPE_SERVICE,
+                            "category": category,
                             "is_active": True,
                         }
                     )

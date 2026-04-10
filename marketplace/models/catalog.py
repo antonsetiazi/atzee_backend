@@ -2,7 +2,7 @@
 
 from django.db import models
 from core.models.base import TenantAwareModel
-
+from core.classifications.categories.models import Category
 
 class MarketplaceProduct(TenantAwareModel):
     """
@@ -32,9 +32,18 @@ class MarketplaceProduct(TenantAwareModel):
         choices=TYPE_CHOICES
     )
 
+    
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="marketplace_products"
+    )
+
     is_active = models.BooleanField(default=True)
 
-    
+
     class Meta:
         db_table = "marketplace_products"
         unique_together = ("partner", "code")
