@@ -24,13 +24,28 @@ class OrderSerializer(serializers.ModelSerializer):
 
     selected_partner = serializers.SerializerMethodField()
     partner = serializers.SerializerMethodField()
+    customer = serializers.SerializerMethodField()
 
     payment_status = serializers.CharField(read_only=True)
-
     bookingId = serializers.SerializerMethodField()
 
     def get_bookingId(self, obj):
         return obj.booking_id
+    
+    def get_customer(self, obj):
+        user = obj.user
+        if not user:
+            return None
+
+        full_name = getattr(user, "full_name", None)
+        username = getattr(user, "username", None)
+        phone = getattr(user, "phone", None)
+
+        return {
+            "id": user.id,
+            "name": full_name or username or "Customer",
+            "phone": phone,
+        }
     
     def get_selected_partner(self, obj):
         if not obj.selected_partner:
@@ -61,6 +76,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "total_amount",
             "fulfillment_type",
             "address",
+            "customer",
             "selected_partner",
             "partner",
             "created_at",
