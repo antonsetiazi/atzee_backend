@@ -4,6 +4,11 @@ from django.db import models
 from django.conf import settings
 from core.models.base import TenantAwareModel, ExtensibleModel
 from django.core.validators import MinValueValidator, MaxValueValidator
+from core.geo.countries.models import Country
+from core.geo.regions.models import Region
+from core.geo.cities.models import City
+from core.geo.districts.models import District
+from core.geo.villages.models import Village
 
 class Partner(TenantAwareModel, ExtensibleModel):
     """
@@ -43,6 +48,46 @@ class Partner(TenantAwareModel, ExtensibleModel):
         null=True
     )
 
+    country = models.ForeignKey(
+        Country,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="partners"
+    )
+
+    region = models.ForeignKey(
+        Region,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="partners"
+    )
+
+    city = models.ForeignKey(
+        City,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="partners"
+    )
+
+    district = models.ForeignKey(
+        District,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="partners"
+    )
+
+    village = models.ForeignKey(
+        Village,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="partners"
+    )
+
     notes = models.TextField(
         blank=True,
         null=True
@@ -76,6 +121,18 @@ class Partner(TenantAwareModel, ExtensibleModel):
         unique_together = ("tenant", "code")
         ordering = ["name"]
 
+
+    @property
+    def location_label(self):
+        if self.city:
+            return self.city.name
+        if self.region:
+            return self.region.name
+        return "Lokasi belum diatur"
+    
+    @property
+    def city_name(self):
+        return self.city.name if self.city else None
 
     def __str__(self):
         return self.name

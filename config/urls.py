@@ -54,6 +54,9 @@ urlpatterns = [
     # --- Core Geo ---
     path("api/", include("core.geo.countries.urls")),
     path("api/", include("core.geo.regions.urls")),
+    path("api/", include("core.geo.cities.urls")),
+    path("api/", include("core.geo.districts.urls")),
+    path("api/", include("core.geo.villages.urls")),
     path("api/", include("core.geo.timezones.urls")),
     path("api/", include("core.geo.spatial.urls")),
 

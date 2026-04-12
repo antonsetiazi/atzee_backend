@@ -49,36 +49,33 @@ class CountryViewSet(viewsets.ViewSet):
 
 
     def partial_update(self, request, pk=None):
-        try:
-            tenant = TenantService.get_current_tenant(request)
-            country = selectors.get_country_by_id(
-                tenant=tenant,
-                country_id=pk
+        tenant = TenantService.get_current_tenant(request)
+        country = selectors.get_country_by_id(
+            tenant=tenant,
+            country_id=pk
+        )
+
+        if not country:
+            return Response(
+                {"detail": "Country not found."},
+                status=status.HTTP_404_NOT_FOUND
             )
 
-            if not country:
-                return Response(
-                    {"detail": "Country not found."},
-                    status=status.HTTP_404_NOT_FOUND
-                )
+        serializer = CountryUpdateSerializer(
+            data=request.data,
+            partial=True
+        )
+        serializer.is_valid(raise_exception=True)
 
-            serializer = CountryUpdateSerializer(
-                data=request.data,
-                partial=True
-            )
-            serializer.is_valid(raise_exception=True)
+        country = services.update_country(
+            tenant=tenant,
+            country_id=country.id,
+            updated_by=request.user,
+            **serializer.validated_data
+        )
 
-            country = services.update_country(
-                tenant=tenant,
-                country_id=country.id,
-                updated_by=request.user,
-                **serializer.validated_data
-            )
-
-            output = CountryDetailSerializer(country)
-            return Response(output.data)
-        except Exception as e:
-            print(e)
+        output = CountryDetailSerializer(country)
+        return Response(output.data)
 
     
     def destroy(self, request, pk=None):

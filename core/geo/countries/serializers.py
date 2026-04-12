@@ -17,7 +17,7 @@ class CountryDetailSerializer(serializers.ModelSerializer):
 
 
 class CountryCreateSerializer(serializers.Serializer):
-    code = serializers.CharField(max_length=5)
+    code = serializers.CharField(max_length=3)
     name = serializers.CharField(max_length=100)
     phone_code = serializers.CharField(required=False, allow_blank=True)
     currency_code = serializers.CharField(required=False, allow_blank=True)

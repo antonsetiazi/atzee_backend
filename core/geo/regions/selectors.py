@@ -5,12 +5,10 @@ from django.db.models import QuerySet
 
 from core.geo.regions.models import Region
 from core.geo.countries.models import Country
-from core.tenants.models import Tenant
 
 
-def get_region_queryset(*, tenant: Tenant) -> QuerySet[Region]:
+def get_region_queryset() -> QuerySet[Region]:
     return Region.objects.filter(
-        tenant=tenant,
         is_deleted=False,
         is_active=True,
     ).select_related("country")
@@ -18,23 +16,21 @@ def get_region_queryset(*, tenant: Tenant) -> QuerySet[Region]:
 
 def get_regions(
     *,
-    tenant: Tenant,
-    country: Optional[Country] = None,
+    country_id: Optional[int] = None,
 ) -> QuerySet[Region]:
-    qs = get_region_queryset(tenant=tenant)
-    if country:
-        qs = qs.filter(country=country)
+    qs = get_region_queryset()
+    if country_id:
+        qs = qs.filter(country_id=country_id)
+
     return qs
 
 
 def get_region_by_id(
     *,
-    tenant: Tenant,
     region_id: int,
 ) -> Optional[Region]:
     try:
         return get_region_queryset(
-            tenant=tenant
         ).get(id=region_id)
     except Region.DoesNotExist:
         return None

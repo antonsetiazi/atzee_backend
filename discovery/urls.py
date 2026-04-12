@@ -6,6 +6,7 @@ from discovery.views import (
     ServiceListingView,
     ServiceDetailView,
     CategoryListView,
+    CityListView,
 )
 
 urlpatterns = [
@@ -13,4 +14,5 @@ urlpatterns = [
     path("listings/services/", ServiceListingView.as_view()),
     path("services/<int:partner_id>/", ServiceDetailView.as_view()),
     path("categories/", CategoryListView.as_view()),
+    path("cities/", CityListView.as_view()),
 ]

@@ -6,6 +6,9 @@ PARTNERS = [
         "name": "Ustadz Ahmad",
         "email": "ahmad@ustadzku.com",
         "phone": "081234567890",
+        "country_code": "ID",
+        "region_code": "31",        # DKI Jakarta
+        "city_code": "31.74",       # Jakarta Selatan
         "address": "Jakarta Selatan",
         "latitude": -6.2615,
         "longitude": 106.8106,
@@ -51,6 +54,9 @@ PARTNERS = [
         "name": "Ustadz Yusuf",
         "email": "yusuf@ustadzku.com",
         "phone": "081298765432",
+        "country_code": "ID",
+        "region_code": "32",        # Jawa Barat
+        "city_code": "32.76",       # Depok
         "address": "Depok",
         "latitude": -6.4025,
         "longitude": 106.7942,
@@ -96,6 +102,9 @@ PARTNERS = [
         "name": "Ustadz Rahman",
         "email": "rahman@ustadzku.com",
         "phone": "081377788899",
+        "country_code": "ID",
+        "region_code": "32",        # Jawa Barat
+        "city_code": "32.75",       # Bekasi
         "address": "Bekasi",
         "latitude": -6.2383,
         "longitude": 106.9756,
@@ -143,7 +152,10 @@ PARTNERS = [
         "name": "Ustadz Fadli",
         "email": "fadli@ustadzku.com",
         "phone": "081211122233",
-        "address": "Tangerang",
+        "country_code": "ID",
+        "region_code": "32",        # Jawa Barat
+        "city_code": "32.76",       # Depok
+        "address": "Depok",
         "latitude": -6.1784,
         "longitude": 106.6313,
         "base_price": 220000,
@@ -188,7 +200,10 @@ PARTNERS = [
         "name": "Ustadz Hendra",
         "email": "hendra@ustadzku.com",
         "phone": "081266677788",
-        "address": "Bogor",
+        "country_code": "ID",
+        "region_code": "31",        # DKI Jakarta
+        "city_code": "31.74",       # Jakarta Selatan
+        "address": "Jakarta Selatan",
         "latitude": -6.5975,
         "longitude": 106.7974,
         "base_price": 280000,
@@ -233,7 +248,10 @@ PARTNERS = [
         "name": "Ustadz Zain",
         "email": "zain@ustadzku.com",
         "phone": "081299988877",
-        "address": "Jakarta Pusat",
+        "country_code": "ID",
+        "region_code": "32",        # Jawa Barat
+        "city_code": "32.76",       # Depok
+        "address": "Depok",
         "latitude": -6.1862,
         "longitude": 106.8283,
         "base_price": 310000,
@@ -278,7 +296,10 @@ PARTNERS = [
         "name": "Ustadz Farhan",
         "email": "farhan@ustadzku.com",
         "phone": "081233344455",
-        "address": "Jakarta Barat",
+        "country_code": "ID",
+        "region_code": "31",        # DKI Jakarta
+        "city_code": "31.74",       # Jakarta Selatan
+        "address": "Jakarta Selatan",
         "latitude": -6.1718,
         "longitude": 106.7872,
         "base_price": 240000,
@@ -323,7 +344,10 @@ PARTNERS = [
         "name": "Ustadz Arif",
         "email": "arif@ustadzku.com",
         "phone": "081277788899",
-        "address": "Jakarta Timur",
+        "country_code": "ID",
+        "region_code": "32",        # Jawa Barat
+        "city_code": "32.76",       # Depok
+        "address": "Depok",
         "latitude": -6.2112,
         "longitude": 106.8955,
         "base_price": 230000,
@@ -368,7 +392,10 @@ PARTNERS = [
         "name": "Ustadz Karim",
         "email": "karim@ustadzku.com",
         "phone": "081288899900",
-        "address": "Jakarta Utara",
+        "country_code": "ID",
+        "region_code": "31",        # DKI Jakarta
+        "city_code": "31.74",       # Jakarta Selatan
+        "address": "Jakarta Selatan",
         "latitude": -6.1200,
         "longitude": 106.8681,
         "base_price": 260000,
@@ -413,7 +440,10 @@ PARTNERS = [
         "name": "Ustadz Ilham",
         "email": "ilham@ustadzku.com",
         "phone": "081299900011",
-        "address": "Bekasi Timur",
+        "country_code": "ID",
+        "region_code": "32",        # Jawa Barat
+        "city_code": "32.76",       # Depok
+        "address": "Depok",
         "latitude": -6.2350,
         "longitude": 106.9980,
         "base_price": 210000,
@@ -458,7 +488,10 @@ PARTNERS = [
         "name": "Ustadz Adi",
         "email": "adi@ustadzku.com",
         "phone": "081255566677",
-        "address": "Depok Selatan",
+        "country_code": "ID",
+        "region_code": "31",        # DKI Jakarta
+        "city_code": "31.74",       # Jakarta Selatan
+        "address": "Jakarta Selatan",
         "latitude": -6.3950,
         "longitude": 106.7900,
         "base_price": 290000,
@@ -503,7 +536,10 @@ PARTNERS = [
         "name": "Ustadz Rafi",
         "email": "rafi@ustadzku.com",
         "phone": "081288877766",
-        "address": "Tangerang Selatan",
+        "country_code": "ID",
+        "region_code": "32",        # Jawa Barat
+        "city_code": "32.76",       # Depok
+        "address": "Depok",
         "latitude": -6.3025,
         "longitude": 106.7210,
         "base_price": 275000,
@@ -548,7 +584,10 @@ PARTNERS = [
         "name": "Ustadz Dani",
         "email": "dani@ustadzku.com",
         "phone": "081299911122",
-        "address": "Cibubur",
+        "country_code": "ID",
+        "region_code": "31",        # DKI Jakarta
+        "city_code": "31.74",       # Jakarta Selatan
+        "address": "Jakarta Selatan",
         "latitude": -6.3790,
         "longitude": 106.8880,
         "base_price": 245000,

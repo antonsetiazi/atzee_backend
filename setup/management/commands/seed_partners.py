@@ -18,12 +18,15 @@ from core.files.storage import FileStorageService
 from core.users.models import User
 from core.roles.models import Role, UserRole
 from core.tenants.models import UserTenant
-
+from core.geo.countries.models import Country
+from core.geo.regions.models import Region
+from core.geo.cities.models import City
 
 User = get_user_model()
 
 class Command(BaseCommand):
     help = "Seed partners + products per tenant based on vertical"
+
 
     @transaction.atomic
     def handle(self, *args, **options):
@@ -74,6 +77,8 @@ class Command(BaseCommand):
 
                 core_user = self._get_or_create_partner_user(tenant, data)
 
+                country, region, city = self._resolve_geo(data)
+                
                 partner, created = Partner.objects.update_or_create(
                     tenant=tenant,
                     code=data.get("code"),
@@ -82,6 +87,9 @@ class Command(BaseCommand):
                         "name": data["name"],
                         "email": data.get("email"),
                         "phone": data.get("phone"),
+                        "country": country,
+                        "region": region,
+                        "city": city,
                         "address": data.get("address"),
                         "notes": data.get("notes"),
                         "search_latitude": data.get("latitude"),
@@ -246,3 +254,26 @@ class Command(BaseCommand):
             pass
 
         return user
+    
+
+    def _resolve_geo(self, data):
+        country = None
+        region = None
+        city = None
+
+        if data.get("country_code"):
+            country = Country.objects.filter(
+                code=data["country_code"]
+            ).first()
+
+        if data.get("region_code"):
+            region = Region.objects.filter(
+                code=data["region_code"]
+            ).first()
+
+        if data.get("city_code"):
+            city = City.objects.filter(
+                code=data["city_code"]
+            ).first()
+
+        return country, region, city

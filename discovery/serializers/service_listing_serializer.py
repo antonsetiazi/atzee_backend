@@ -11,6 +11,8 @@ class ServiceListingSerializer(serializers.Serializer):
     starting_price = serializers.IntegerField()
     service_count = serializers.IntegerField()
     priceLabel = serializers.SerializerMethodField()
+    city = serializers.SerializerMethodField()
+    
 
     def get_image(self, obj):
         request = self.context.get("request")
@@ -41,3 +43,21 @@ class ServiceListingSerializer(serializers.Serializer):
     def get_priceLabel(self, obj):
         return f"Mulai dari Rp {int(obj['starting_price']):,}"
     
+    def get_city(self, obj):
+        name = obj.get("partner__city__name")
+
+        if not name:
+            return "Lokasi belum diatur"
+
+        # 🔥 normalize nama kota Indonesia
+        replacements = [
+            "Kota Administrasi ",
+            "Kabupaten ",
+            "Kota ",
+        ]
+
+        for r in replacements:
+            if name.startswith(r):
+                return name.replace(r, "", 1)
+
+        return name

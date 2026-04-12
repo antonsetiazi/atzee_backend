@@ -12,7 +12,9 @@ from discovery.serializers.service_detail_serializer import ServiceDetailSeriali
 from rest_framework import status
 from discovery.selectors import marketplace as marketplace_selector
 from core.classifications.categories import selectors as category_selectors
+from core.geo.cities.models import City
 
+import math
 
 class CategoryListView(APIView):
     """
@@ -77,45 +79,62 @@ class ServiceListingView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        tenant = TenantService.get_current_tenant(request)
+        try:
+            tenant = TenantService.get_current_tenant(request)
 
-        search = request.GET.get("search")
-        source = request.GET.get("source", "marketplace") 
-        categories = request.GET.getlist("category")
+            search = request.GET.get("search")
+            source = request.GET.get("source", "marketplace") 
+            categories = request.GET.getlist("category")
+            lat = request.GET.get("lat")
+            lng = request.GET.get("lng")
+            radius = request.GET.get("radius")
+            city = request.GET.get("city")
 
-        qs = get_service_listings(
-            tenant=tenant,
-            search=search,
-            source=source,
-            categories=categories,
-        )
+            lat = float(lat) if lat else None
+            lng = float(lng) if lng else None
+            radius = int(radius) if radius else None
 
-        page = int(request.GET.get("page", 1))
-        per_page = 12
+            qs = get_service_listings(
+                tenant=tenant,
+                search=search,
+                source=source,
+                categories=categories,
+                city=city,
+                lat=lat,
+                lng=lng,
+                radius_km=radius,
+            )
 
-        start = (page - 1) * per_page
-        end = start + per_page
+            page = int(request.GET.get("page", 1))
+            per_page = 12
 
-        total = qs.count()
+            start = (page - 1) * per_page
+            end = start + per_page
 
-        serializer = ServiceListingSerializer(
-            qs[start:end],
-            many=True,
-            context={
-                "request": request,
-                "tenant": tenant,
-            },
-        )
+            total = len(qs)
 
-        return Response({
-            "data": serializer.data,
-            "meta": {
-                "page": page,
-                "per_page": per_page,
-                "total": total,
-            }
-        })
-    
+            serializer = ServiceListingSerializer(
+                qs[start:end],
+                many=True,
+                context={
+                    "request": request,
+                    "tenant": tenant,
+                },
+            )
+
+            total_pages = math.ceil(total / per_page)
+
+            return Response({
+                "data": serializer.data,
+                "meta": {
+                    "page": page,
+                    "per_page": per_page,
+                    "total": total,
+                    "total_pages": total_pages,
+                }
+            })
+        except Exception as e:
+            print(e)
 
 class ServiceDetailView(APIView):
     permission_classes = [AllowAny]
@@ -137,3 +156,21 @@ class ServiceDetailView(APIView):
         )
 
         return Response(serializer.data)
+    
+
+class CityListView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        cities = City.objects.all().order_by("name")
+
+        data = [
+            {
+                "id": c.id,
+                "code": c.code,
+                "name": c.name,
+            }
+            for c in cities
+        ]
+
+        return Response(data)    

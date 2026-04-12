@@ -1,11 +1,11 @@
 # core/geo/regions/models.py
 
 from django.db import models
-from core.models.base import TenantAwareModel
+from core.models.base import GlobalMasterModel
 from core.geo.countries.models import Country
 
 
-class Region(TenantAwareModel):
+class Region(GlobalMasterModel):
     """
     Administrative region.
     Example: Jawa Barat, California
@@ -19,13 +19,19 @@ class Region(TenantAwareModel):
 
     code = models.CharField(max_length=20)
     name = models.CharField(max_length=100)
+    center_latitude = models.FloatField(null=True, blank=True)
+    center_longitude = models.FloatField(null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
 
     class Meta:
         db_table = "core_regions"
-        unique_together = ("tenant", "country", "code")
+        constraints = [
+            models.UniqueConstraint(
+                fields=["country", "code"],
+                name="uniq_region_country_code"
+            )
+        ]
         ordering = ["name"]
-
     def __str__(self):
         return self.name

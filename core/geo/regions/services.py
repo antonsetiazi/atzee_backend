@@ -7,7 +7,6 @@ from rest_framework.exceptions import ValidationError
 from core.geo.regions.models import Region
 from core.geo.regions import selectors
 from core.geo.countries.selectors import get_country_by_id
-from core.tenants.models import Tenant
 from core.users.models import User
 
 
@@ -17,12 +16,11 @@ def _normalize(value: Optional[str]) -> str:
 
 def _validate_region_uniqueness(
     *,
-    tenant: Tenant,
     country_id: int,
     code: str,
     exclude_region_id: Optional[int] = None,
 ) -> None:
-    qs = selectors.get_region_queryset(tenant=tenant).filter(
+    qs = selectors.get_region_queryset().filter(
         country_id=country_id,
         code=code,
     )
@@ -39,7 +37,6 @@ def _validate_region_uniqueness(
 @transaction.atomic
 def create_region(
     *,
-    tenant: Tenant,
     created_by: User,
     country_id: int,
     code: str,
@@ -47,7 +44,6 @@ def create_region(
 ) -> Region:
 
     country = get_country_by_id(
-        tenant=tenant,
         country_id=country_id
     )
 
@@ -58,13 +54,11 @@ def create_region(
     name = _normalize(name)
 
     _validate_region_uniqueness(
-        tenant=tenant,
         country_id=country.id,
         code=code,
     )
 
     return Region.objects.create(
-        tenant=tenant,
         country=country,
         code=code,
         name=name,
@@ -75,7 +69,6 @@ def create_region(
 @transaction.atomic
 def update_region(
     *,
-    tenant: Tenant,
     region_id: int,
     updated_by: User,
     code: Optional[str] = None,
@@ -84,7 +77,6 @@ def update_region(
 ) -> Region:
 
     region = selectors.get_region_by_id(
-        tenant=tenant,
         region_id=region_id
     )
 
@@ -94,7 +86,6 @@ def update_region(
     if code is not None:
         code = _normalize(code).upper()
         _validate_region_uniqueness(
-            tenant=tenant,
             country_id=region.country_id,
             code=code,
             exclude_region_id=region.id,
@@ -122,13 +113,11 @@ def update_region(
 @transaction.atomic
 def delete_region(
     *,
-    tenant: Tenant,
     region_id: int,
     deleted_by: User,
 ) -> None:
 
     region = selectors.get_region_by_id(
-        tenant=tenant,
         region_id=region_id
     )
 

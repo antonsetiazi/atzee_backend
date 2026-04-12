@@ -27,6 +27,11 @@ class RegionDetailSerializer(serializers.ModelSerializer):
         allow_null=True,
     )
 
+    country_name = serializers.CharField(
+        source="country.name",
+        read_only=True
+    )
+
     class Meta:
         model = Region
         fields = [
@@ -34,6 +39,7 @@ class RegionDetailSerializer(serializers.ModelSerializer):
             "code",
             "name",
             "country_id",
+            "country_name",
             "created_at",
             "updated_at",
         ]
