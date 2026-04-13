@@ -1,5 +1,6 @@
 # marketplace/models/order.py
 
+from decimal import Decimal
 from django.db import models
 from core.models.base import TenantAwareModel
 from core.users.models import User
@@ -66,6 +67,18 @@ class Order(TenantAwareModel):
         max_length=20,
         choices=OrderStatus.choices,
         default=OrderStatus.PENDING
+    )
+
+    subtotal_amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=Decimal("0.00")
+    )
+
+    total_fee_amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=Decimal("0.00")
     )
 
     total_amount = models.DecimalField(max_digits=12, decimal_places=2)

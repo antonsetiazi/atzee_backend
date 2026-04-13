@@ -9,8 +9,9 @@ from marketplace.models.order import Order, OrderStatus, PaymentStatus
 from business.booking.services.complete_by_id import complete_booking_by_id
 
 from core.wallet import services as wallet_services
+from core.wallet.services import _create_transaction
 from core.wallet import selectors as wallet_selectors
-
+from core.fees.models import OrderFee
 
 @transaction.atomic
 def complete_order(order_id: int, user):
@@ -58,22 +59,38 @@ def complete_order(order_id: int, user):
     # =========================================================
     # 💰 ESCROW RELEASE → PARTNER WALLET
     # =========================================================
-  
+    
+    fees = OrderFee.objects.filter(order=order)
+
+    total_customer_fee = Decimal("0")
+    total_partner_fee = Decimal("0")
+
+    for f in fees:
+        if f.applies_to == "customer":
+            total_customer_fee += f.amount
+        elif f.applies_to == "partner":
+            total_partner_fee += f.amount
+    
+    subtotal = Decimal(order.subtotal_amount)
+
+    partner_receive = subtotal - total_partner_fee
+    platform_earning = total_customer_fee + total_partner_fee
+
     user_wallet = wallet_selectors.get_wallet_or_create(
         tenant=order.tenant,
         user=order.user
     )
 
-    # system_wallet = wallet_selectors.get_system_wallet(
-    #     tenant=order.tenant
-    # )
+    system_wallet = wallet_selectors.get_system_wallet(
+        tenant=order.tenant
+    )
     
     partner_wallet = wallet_selectors.get_wallet_or_create(
         tenant=order.tenant,
         user=order.partner.core_user
     )
     
-    amount = Decimal(order.total_amount)
+    amount = partner_receive
 
     wallet_services.escrow_release_to_partner(
         tenant=order.tenant,
@@ -84,6 +101,17 @@ def complete_order(order_id: int, user):
         reference_id=str(order.id),
         idempotency_key=f"release-order-{order.id}",
         description="Order completed - release to partner"
+    )
+
+    _create_transaction(
+        tenant=order.tenant,
+        wallet=system_wallet,
+        amount=platform_earning,
+        tx_type="platform_fee",
+        reference_type="order",
+        reference_id=str(order.id),
+        idempotency_key=f"platform-fee-{order.id}",
+        description="Platform fee from order"
     )
 
 

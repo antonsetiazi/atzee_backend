@@ -2,13 +2,14 @@
 
 from django.urls import path
 from marketplace.views.order_views import (
+    OrderPreviewView,
     CreateOrderView,
     OrderListView,
     OrderDetailView,
     CompleteOrderView,
     AssignPartnerView,
     AcceptOrderView,
-    RejectOrderView
+    RejectOrderView,
 )
 
 from marketplace.views.partner_order_views import (
@@ -24,6 +25,7 @@ urlpatterns = [
     path("orders/<int:id>/assign-partner/", AssignPartnerView.as_view()),
     path("orders/<int:id>/accept/", AcceptOrderView.as_view()),
     path("orders/<int:id>/reject/", RejectOrderView.as_view()),
+    path("orders/preview/", OrderPreviewView.as_view()),
 
     path("partner/orders/", PartnerOrderListView.as_view()),
     path("partner/orders/<int:id>/", PartnerOrderDetailView.as_view()),

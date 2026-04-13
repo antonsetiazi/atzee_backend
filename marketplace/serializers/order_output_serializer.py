@@ -2,7 +2,7 @@
 
 from rest_framework import serializers
 from marketplace.models.order import Order, OrderItem
-
+from core.fees.models import OrderFee
 
 class OrderItemSerializer(serializers.ModelSerializer):
     name = serializers.CharField(source="listing.product.name")
@@ -28,6 +28,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     payment_status = serializers.CharField(read_only=True)
     bookingId = serializers.SerializerMethodField()
+    fees = serializers.SerializerMethodField()
 
     def get_bookingId(self, obj):
         return obj.booking_id
@@ -66,6 +67,19 @@ class OrderSerializer(serializers.ModelSerializer):
             "phone": obj.partner.phone,
         }
     
+    def get_fees(self, obj):
+        fees = OrderFee.objects.filter(order_id=obj.id)
+
+        return [
+            {
+                "name": f.fee_name,
+                "amount": f.amount,
+                "type": f.fee_type,
+                "applies_to": f.applies_to,
+            }
+            for f in fees
+        ]
+    
     class Meta:
         model = Order
         fields = [
@@ -73,6 +87,8 @@ class OrderSerializer(serializers.ModelSerializer):
             "order_number",
             "status",
             "payment_status",
+            "subtotal_amount",
+            "total_fee_amount",
             "total_amount",
             "fulfillment_type",
             "address",
@@ -82,4 +98,5 @@ class OrderSerializer(serializers.ModelSerializer):
             "created_at",
             "bookingId",
             "items",
+            "fees",
         ]

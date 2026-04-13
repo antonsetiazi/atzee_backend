@@ -1,5 +1,7 @@
 # marketplace/views/order_views.py
 
+from decimal import Decimal
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -17,6 +19,60 @@ from marketplace.services.order_assignment_service import (
 )
 from core.tenants.services import TenantService
 
+from core.fees.services.fee_engine import FeeEngine
+from core.fees.types import FeeInput
+
+
+class OrderPreviewView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        tenant = TenantService.get_current_tenant(request)
+
+        items = request.data.get("items", [])
+        partner_id = request.data.get("selected_partner_id")
+
+        if not items:
+            return Response({"error": "Items kosong"}, status=400)
+
+        # =========================
+        # HITUNG SUBTOTAL
+        # =========================
+        subtotal = Decimal("0")
+
+        for item in items:
+            price = Decimal(str(item.get("price", 0)))
+            qty = int(item.get("qty", 1))
+            subtotal += price * qty
+
+        # =========================
+        # FEE ENGINE
+        # =========================
+        engine = FeeEngine()
+
+        result = engine.calculate(
+            FeeInput(
+                tenant_id=str(tenant.id),
+                amount=subtotal,
+                partner_id=partner_id,
+            )
+        )
+
+        return Response({
+            "subtotal": int(subtotal),
+
+            "fees": [
+                {
+                    "name": f.name,
+                    "amount": int(f.amount),
+                }
+                for f in result.customer_fees
+            ],
+
+            "total_fee": int(result.total_customer_fee),
+            "total": int(result.final_customer_pay),
+        })
+    
 
 class CreateOrderView(APIView):
     permission_classes = [IsAuthenticated]

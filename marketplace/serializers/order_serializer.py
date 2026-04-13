@@ -1,6 +1,8 @@
 # marketplace/serializers/order_serializer.py
 
+from decimal import Decimal
 from rest_framework import serializers
+from django.db import transaction
 import uuid
 
 from core.account.selectors import get_user_address_by_id
@@ -9,6 +11,10 @@ from business.partners.selectors import get_partner_by_id
 from marketplace.models.order import Order, OrderItem
 from marketplace.models.order import PaymentStatus, OrderStatus
 from marketplace.models.listing import PartnerListing
+
+from core.fees.services.fee_engine import FeeEngine
+from core.fees.types import FeeInput
+from core.fees.models import OrderFee
 
 
 class OrderItemInputSerializer(serializers.Serializer):
@@ -28,6 +34,7 @@ class CreateOrderSerializer(serializers.Serializer):
         required=True
     )
     
+    @transaction.atomic
     def create(self, validated_data):
         tenant = self.context["tenant"]
         user = self.context["request"].user
@@ -93,7 +100,7 @@ class CreateOrderSerializer(serializers.Serializer):
         if len(listing_map) != len(items_data):
             raise serializers.ValidationError("Listing tidak valid")
 
-        total = 0
+        total = Decimal("0")
 
         order = Order.objects.create(
             tenant=tenant,
@@ -115,7 +122,7 @@ class CreateOrderSerializer(serializers.Serializer):
             listing = listing_map[item["id"]]
             qty = item["qty"]
 
-            price = listing.price
+            price = Decimal(listing.price)
             subtotal = price * qty
             total += subtotal
 
@@ -130,7 +137,40 @@ class CreateOrderSerializer(serializers.Serializer):
 
         OrderItem.objects.bulk_create(order_items)
 
-        order.total_amount = total
-        order.save(update_fields=["total_amount"])
+        # =========================
+        # APPLY FEE ENGINE
+        # =========================
+        engine = FeeEngine()
+
+        result = engine.calculate(
+            FeeInput(
+                tenant_id=str(tenant.id),
+                amount=total,
+                partner_id=selected_partner.id,
+            )
+        )
+
+        # 🔥 UPDATE TOTAL (customer bayar)
+        order.subtotal_amount = total
+        order.total_fee_amount = result.total_customer_fee
+        order.total_amount = result.final_customer_pay
+        order.save(update_fields=[
+            "subtotal_amount",
+            "total_fee_amount",
+            "total_amount",
+        ])
+
+        # =========================
+        # SNAPSHOT FEE
+        # =========================
+        for fee in result.customer_fees + result.partner_fees:
+            OrderFee.objects.create(
+                order_id=order.id,
+                fee_name=fee.name,
+                fee_type=fee.fee_type,
+                applies_to=fee.applies_to,
+                value=fee.value,
+                amount=fee.amount,
+            )
 
         return order
