@@ -75,6 +75,7 @@ urlpatterns = [
 
     # --- Core Wallet ---
     path("api/", include("core.wallet.urls")),
+    path("api/", include("core.wallet_withdrawal.api.urls")),
     path("api/", include("core.fees.api.urls")),
 
     # --- Business ---

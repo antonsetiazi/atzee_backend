@@ -42,6 +42,8 @@ class WalletTransactionType(models.TextChoices):
     ESCROW_HOLD = "escrow_hold"
     ESCROW_RELEASE = "escrow_release"
     ADJUSTMENT = "adjustment"
+    WITHDRAW = "withdraw"
+    WITHDRAW_FEE = "withdraw_fee"
 
 
 class WalletTransaction(TenantAwareModel):

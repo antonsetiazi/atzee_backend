@@ -81,6 +81,7 @@ CORE_APPS = [
     "core.schedule.reminders.apps.RemindersConfig",
     "core.schedule.recurrings.apps.RecurringsConfig",
     "core.wallet.apps.WalletConfig",
+    "core.wallet_withdrawal.apps.WalletWithdrawalConfig",
     "core.fees.apps.FeesConfig",
 ]
 
