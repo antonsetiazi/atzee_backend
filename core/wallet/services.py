@@ -1,97 +1,248 @@
 # core/wallet/services.py
 
-# from decimal import Decimal
+from decimal import Decimal
 from django.db import transaction
-from rest_framework.exceptions import ValidationError
+from django.core.exceptions import ValidationError
 
-from core.wallet.models import Wallet, WalletTransaction
-from core.tenants.models import Tenant
-# from core.users.models import User
-
-# Untuk akses booking
-# from business.bookings.models import Booking
+from core.wallet.models import Wallet, WalletTransaction, WalletTransactionType
 
 
-@transaction.atomic
-def credit_wallet(*, tenant: Tenant, wallet: Wallet, amount: float, transaction_type: str,
-                  description: str = "", reference: str = None) -> WalletTransaction:
-    """
-    Tambah saldo wallet user
-    """
-    if amount <= 0:
-        raise ValidationError("Credit amount must be positive.")
+# ==============================
+# INTERNAL HELPER
+# ==============================
 
-    wallet.balance += amount
-    wallet.save(update_fields=["balance", "updated_at"])
+def _get_locked_wallet(wallet_id: int) -> Wallet:
+    return Wallet.objects.select_for_update().get(id=wallet_id)
 
+
+def _check_idempotency(idempotency_key: str) -> bool:
+    return WalletTransaction.objects.filter(idempotency_key=idempotency_key).exists()
+
+
+def _create_transaction(
+    *, tenant, wallet, amount: Decimal,
+    tx_type: str,
+    reference_type: str = None,
+    reference_id: str = None,
+    idempotency_key: str,
+    description: str = "",
+):
     return WalletTransaction.objects.create(
         tenant=tenant,
         wallet=wallet,
         amount=amount,
-        transaction_type=transaction_type,
+        transaction_type=tx_type,
+        reference_type=reference_type,
+        reference_id=reference_id,
+        idempotency_key=idempotency_key,
         description=description,
-        reference=reference
+    )
+
+
+# ==============================
+# BASIC OPERATIONS
+# ==============================
+
+@transaction.atomic
+def topup_wallet(
+    *, tenant, wallet: Wallet, amount: Decimal,
+    idempotency_key: str,
+    description: str = "",
+):
+    """
+    Topup wallet (manual / payment gateway success)
+    """
+    if amount <= 0:
+        raise ValidationError("Amount must be positive.")
+
+    if _check_idempotency(idempotency_key):
+        return
+
+    wallet = _get_locked_wallet(wallet.id)
+
+    wallet.available_balance += amount
+    wallet.save(update_fields=["available_balance", "updated_at"])
+
+    return _create_transaction(
+        tenant=tenant,
+        wallet=wallet,
+        amount=amount,
+        tx_type=WalletTransactionType.TOPUP,
+        idempotency_key=idempotency_key,
+        description=description,
     )
 
 
 @transaction.atomic
-def debit_wallet(*, tenant: Tenant, wallet: Wallet, amount: float, transaction_type: str,
-                 description: str = "", reference: str = None) -> WalletTransaction:
+def debit_wallet(
+    *, tenant, wallet: Wallet, amount: Decimal,
+    idempotency_key: str,
+    description: str = "",
+):
     """
-    Kurangi saldo wallet user
+    Direct debit (non-escrow use only)
     """
     if amount <= 0:
-        raise ValidationError("Debit amount must be positive.")
-    if wallet.balance < amount:
+        raise ValidationError("Amount must be positive.")
+
+    if _check_idempotency(idempotency_key):
+        return
+
+    wallet = _get_locked_wallet(wallet.id)
+
+    if wallet.available_balance < amount:
         raise ValidationError("Insufficient balance.")
 
-    wallet.balance -= amount
-    wallet.save(update_fields=["balance", "updated_at"])
+    wallet.available_balance -= amount
+    wallet.save(update_fields=["available_balance", "updated_at"])
 
-    return WalletTransaction.objects.create(
+    return _create_transaction(
         tenant=tenant,
         wallet=wallet,
         amount=-amount,
-        transaction_type=transaction_type,
+        tx_type=WalletTransactionType.PAYMENT,
+        idempotency_key=idempotency_key,
         description=description,
-        reference=reference
     )
 
 
-# @transaction.atomic
-# def pay_booking_from_wallet(*, tenant: Tenant, user: User, booking_id: int) -> dict:
-#     from business.bookings.services.payment import pay_booking_with_wallet
+# ==============================
+# ESCROW ENGINE
+# ==============================
 
-#     # Ambil wallet & booking
-#     wallet = Wallet.objects.filter(tenant=tenant, user=user, is_deleted=False).first()
+@transaction.atomic
+def escrow_hold(
+    *, tenant, wallet: Wallet, amount: Decimal,
+    reference_type: str,
+    reference_id: str,
+    idempotency_key: str,
+    description: str = "",
+):
+    """
+    Move money from available → held (user pays, money held)
+    """
+    if amount <= 0:
+        raise ValidationError("Amount must be positive.")
 
-#     if not wallet:
-#         raise ValidationError("Wallet not found.")
+    if _check_idempotency(idempotency_key):
+        return
 
-#     booking = Booking.objects.filter(tenant=tenant, id=booking_id, is_deleted=False).first()
+    wallet = _get_locked_wallet(wallet.id)
 
-#     if not booking:
-#         raise ValidationError("Booking not found.")
+    if wallet.available_balance < amount:
+        raise ValidationError("Insufficient balance.")
 
-#     total_amount = Decimal(booking.total_price or 0)
+    wallet.available_balance -= amount
+    wallet.held_balance += amount
+    wallet.save(update_fields=["available_balance", "held_balance", "updated_at"])
 
-#     if wallet.balance < total_amount:
-#         raise ValidationError("Insufficient wallet balance.")
+    return _create_transaction(
+        tenant=tenant,
+        wallet=wallet,
+        amount=-amount,
+        tx_type=WalletTransactionType.ESCROW_HOLD,
+        reference_type=reference_type,
+        reference_id=reference_id,
+        idempotency_key=idempotency_key,
+        description=description,
+    )
 
-#     # Debit wallet
-#     debit_wallet(
-#         tenant=tenant,
-#         wallet=wallet,
-#         amount=float(total_amount),
-#         transaction_type="payment",
-#         reference=f"Booking {booking.booking_number}",
-#         description=f"Payment for booking #{booking.id}"
-#     )
 
-#     # Confirm booking via business service
-#     pay_booking_with_wallet(tenant=tenant, user=user, booking=booking)
+@transaction.atomic
+def escrow_release_to_partner(
+    *, tenant,
+    user_wallet: Wallet,
+    partner_wallet: Wallet,
+    amount: Decimal,
+    reference_type: str,
+    reference_id: str,
+    idempotency_key: str,
+    description: str = "",
+):
+    """
+    Release escrow → move from user held → partner available
+    """
+    if amount <= 0:
+        raise ValidationError("Amount must be positive.")
 
-#     return {
-#         "wallet_balance": wallet.balance,
-#         "booking_status": booking.status
-#     }
+    if _check_idempotency(idempotency_key):
+        return
+
+    # 🔒 Lock BOTH wallets (IMPORTANT)
+    user_wallet = Wallet.objects.select_for_update().get(id=user_wallet.id)
+    partner_wallet = Wallet.objects.select_for_update().get(id=partner_wallet.id)
+
+    if user_wallet.held_balance < amount:
+        raise ValidationError("Invalid held balance.")
+
+    # user: held ↓
+    user_wallet.held_balance -= amount
+    user_wallet.save(update_fields=["held_balance", "updated_at"])
+
+    # partner: available ↑
+    partner_wallet.available_balance += amount
+    partner_wallet.save(update_fields=["available_balance", "updated_at"])
+
+    # ledger: user side (release out)
+    _create_transaction(
+        tenant=tenant,
+        wallet=user_wallet,
+        amount=-amount,
+        tx_type=WalletTransactionType.ESCROW_RELEASE,
+        reference_type=reference_type,
+        reference_id=reference_id,
+        idempotency_key=f"{idempotency_key}-user",
+        description="Escrow released to partner",
+    )
+
+    # ledger: partner side (receive)
+    return _create_transaction(
+        tenant=tenant,
+        wallet=partner_wallet,
+        amount=amount,
+        tx_type=WalletTransactionType.ESCROW_RELEASE,
+        reference_type=reference_type,
+        reference_id=reference_id,
+        idempotency_key=f"{idempotency_key}-partner",
+        description=description or "Receive from escrow",
+    )
+
+
+@transaction.atomic
+def escrow_refund(
+    *, tenant,
+    wallet: Wallet,
+    amount: Decimal,
+    reference_type: str,
+    reference_id: str,
+    idempotency_key: str,
+    description: str = "",
+):
+    """
+    Refund escrow → move from held → available (back to user)
+    """
+    if amount <= 0:
+        raise ValidationError("Amount must be positive.")
+
+    if _check_idempotency(idempotency_key):
+        return
+
+    wallet = _get_locked_wallet(wallet.id)
+
+    if wallet.held_balance < amount:
+        raise ValidationError("Invalid held balance.")
+
+    wallet.held_balance -= amount
+    wallet.available_balance += amount
+    wallet.save(update_fields=["held_balance", "available_balance", "updated_at"])
+
+    return _create_transaction(
+        tenant=tenant,
+        wallet=wallet,
+        amount=amount,
+        tx_type=WalletTransactionType.REFUND,
+        reference_type=reference_type,
+        reference_id=reference_id,
+        idempotency_key=idempotency_key,
+        description=description or "Refund from escrow",
+    )

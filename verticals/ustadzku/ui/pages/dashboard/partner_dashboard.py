@@ -73,6 +73,12 @@ UI_PAGES = [
                         icon="dollar-sign",
                         to="/business/payments/overview",
                     ),
+                    ShortcutItem(
+                        key="wallet",
+                        label="Wallet",
+                        icon="wallet",
+                        to="/wallet",
+                    ),
                 ],
                 scrollable=False,
             ),

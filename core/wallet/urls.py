@@ -1,15 +1,13 @@
 # core/wallet/urls.py
 
-from django.urls import include, path
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+
 from core.wallet.views import WalletViewSet
 
 router = DefaultRouter()
-router.register("wallets", WalletViewSet, basename="wallet")
-
-wallet_payment = WalletViewSet.as_view({"post": "pay_booking"})
+router.register("wallet", WalletViewSet, basename="wallet")
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("wallets/pay-booking/<int:booking_id>/", wallet_payment, name="wallet-pay-booking"),
 ]

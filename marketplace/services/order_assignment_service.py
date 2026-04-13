@@ -3,10 +3,11 @@
 from django.db import transaction
 from django.core.exceptions import ValidationError
 
-from marketplace.models.order import Order
-from marketplace.models.order import OrderStatus, PaymentStatus
 from business.partners.models import Partner
 from business.tracking.services import start_order_tracking
+
+from marketplace.models.order import Order, OrderStatus, PaymentStatus
+from marketplace.services.order_cancellation_service import cancel_order_by_partner
 
 
 @transaction.atomic
@@ -79,21 +80,14 @@ def accept_order(*, tenant, order_id, partner):
 
 
 @transaction.atomic
-def reject_order(*, tenant, order_id, partner):
-    order = Order.objects.filter(
+def reject_order(*, tenant, order_id, partner, reason: str = ""):
+    """
+    Alias: Partner reject = Partner cancel BEFORE accept
+    """
+
+    return cancel_order_by_partner(
         tenant=tenant,
-        id=order_id
-    ).first()
-
-    if not order:
-        raise ValidationError("Order tidak ditemukan")
-
-    if order.selected_partner != partner:
-        raise ValidationError("Tidak berhak reject")
-
-    # 🔥 reset selected partner
-    order.selected_partner = None
-    order.status = OrderStatus.PENDING
-    order.save(update_fields=["selected_partner", "status"])
-
-    return order    
+        order_id=order_id,
+        partner=partner,
+        reason=reason,
+    )

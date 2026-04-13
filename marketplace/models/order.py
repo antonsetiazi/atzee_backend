@@ -99,6 +99,9 @@ class Order(TenantAwareModel):
     paid_at = models.DateTimeField(null=True, blank=True)
     completed_at = models.DateTimeField(null=True, blank=True)
     
+    rejected_reason = models.TextField(null=True, blank=True)
+    rejected_at = models.DateTimeField(null=True, blank=True)
+
     class Meta:
         db_table = "marketplace_orders"
         ordering = ["-created_at"]

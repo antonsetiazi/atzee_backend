@@ -156,12 +156,15 @@ class RejectOrderView(APIView):
         if not hasattr(request.user, "partner_profile"):
             return Response({"detail": "Not a partner"}, status=403)
 
+        reason = request.data.get("reason", "")
+
         partner = request.user.partner_profile
 
         reject_order(
             tenant=tenant,
             order_id=id,
-            partner=partner
+            partner=partner,
+            reason=reason
         )
 
         return Response({"success": True})    

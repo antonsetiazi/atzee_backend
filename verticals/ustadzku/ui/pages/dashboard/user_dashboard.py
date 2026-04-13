@@ -86,7 +86,7 @@ UI_PAGES = [
                         key="wallet",
                         label="Wallet",
                         icon="wallet",
-                        to="/core/wallet",
+                        to="/wallet",
                     ),
                 ],
                 scrollable=False,
