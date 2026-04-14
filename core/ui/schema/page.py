@@ -45,6 +45,7 @@ class Page:
     path: str
     permissions: List[str]
     blocks: List[PageBlock]
+    subtitle: Optional[str] = None
     description: Optional[str] = None
     data_source: str = None
     method: HTTPMethod = "POST"

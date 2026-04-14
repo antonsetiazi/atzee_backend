@@ -36,6 +36,7 @@ class UIPageSerializer(serializers.ModelSerializer):
         fields = [
             "key",
             "title",
+            "subtitle",
             "description",
             "domain",
             "entity",

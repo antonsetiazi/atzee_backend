@@ -11,11 +11,13 @@ from business.enum.permissions import BusinessPermission
 UI_PAGES = build_partner_list_page(
     key="partners.list",
     domain="business",
-    path="/business/partners",
+    title_page="Partners",
+    subtitle_page="Manage and monitor all service partners",
+    path="/admin/partners",
     data_source="/entities/business/partners.list/query/",
     permissions=[BusinessPermission.PARTNERS_VIEW],
-    create_path="/business/partners/create",
-    edit_path="/business/partners/{id}/edit",
+    create_path="/admin/partners/create",
+    edit_path="/admin/partners/{id}/edit",
     delete_endpoint="/business/partners/{id}/",
     search_mode="client"
 )

@@ -48,31 +48,55 @@ UI_PAGES = [
                         key="users",
                         label="User Management",
                         icon="users",
-                        to="/business/users",
+                        to="/admin/users",
                     ),
                     ShortcutItem(
                         key="partners",
                         label="Ustadz Management",
                         icon="shield",
-                        to="/business/partners",
+                        to="/admin/partners",
                     ),
                     ShortcutItem(
                         key="bookings",
                         label="Bookings",
-                        icon="calendar",
-                        to="/business/admin/bookings",
+                        icon="booking",
+                        to="/admin/bookings",
+                    ),
+                    ShortcutItem(
+                        key="orders",
+                        label="Orders",
+                        icon="archive",
+                        to="/admin/orders",
                     ),
                     ShortcutItem(
                         key="payments",
                         label="Payments",
                         icon="credit-card",
-                        to="/admin/payments",
+                        to="/admin/payment-transactions",
                     ),
                     ShortcutItem(
-                        key="reports",
-                        label="Reports",
-                        icon="bar-chart",
-                        to="/admin/reports",
+                        key="wallet",
+                        label="Wallet",
+                        icon="credit-card",
+                        to="/admin/wallet-transactions",
+                    ),
+                    ShortcutItem(
+                        key="withdrawals",
+                        label="Withdrawals",
+                        icon="credit-card",
+                        to="/admin/withdrawals",
+                    ),
+                    ShortcutItem(
+                        key="reviews",
+                        label="Reviews",
+                        icon="notification",
+                        to="/admin/reviews",
+                    ),
+                    ShortcutItem(
+                        key="widgets",
+                        label="Widgets",
+                        icon="tool",
+                        to="/admin/widgets",
                     ),
                 ],
                 scrollable=False,
@@ -190,38 +214,6 @@ UI_PAGES = [
                         value=None,
                     ),
                 ]
-            ),
-
-            # =====================================================
-            # REAL-TIME ORDER STATUS
-            # =====================================================
-            ListViewBlock(
-                title="Real-Time Booking Status",
-                data_key="real_time_bookings",
-                tile=ListTileSchema(
-                    title=ListFieldSchema(key="booking_number"),
-                    subtitle=ListFieldSchema(key="partner_name"),
-                    description=ListFieldSchema(key="current_status"),
-                    status=ListFieldSchema(key="status"),
-                ),
-                layout="standard",
-                permissions=[BusinessPermission.BOOKINGS_VIEW],
-            ),
-
-            # =====================================================
-            # RECENT TRANSACTIONS
-            # =====================================================
-            ListViewBlock(
-                title="Recent Transactions",
-                data_key="recent_transactions",
-                tile=ListTileSchema(
-                    title=ListFieldSchema(key="transaction_number"),
-                    subtitle=ListFieldSchema(key="user_name"),
-                    description=ListFieldSchema(key="amount"),
-                    status=ListFieldSchema(key="status"),
-                ),
-                layout="standard",
-                permissions=["business.payments.view"],
             ),
         ],
     ),

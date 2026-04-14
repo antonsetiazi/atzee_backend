@@ -10,6 +10,8 @@ def build_partner_list_page(
     key: str,
     domain: str,
     path: str,
+    title_page: str,
+    subtitle_page: str,
     data_source: str,
     permissions: list[str],
     create_path: str,
@@ -21,8 +23,28 @@ def build_partner_list_page(
     columns = [
         TableColumn(key="code", label="Code"),
         TableColumn(key="name", label="Name"),
-        TableColumn(key="email", label="Email"),
         TableColumn(key="phone", label="Phone"),
+        TableColumn(key="email", label="Email"),
+
+        # 🔥 Location (pakai property dari model)
+        TableColumn(key="city_name", label="City"),
+        # 🔥 Business metrics
+        TableColumn(
+            key="base_price",
+            label="Base Price",
+            format="currency",
+            align="right",
+        ),
+        TableColumn(
+            key="rating_avg",
+            label="Rating",
+            align="center",
+        ),
+        TableColumn(
+            key="rating_count",
+            label="Reviews",
+            align="center",
+        ),
         TableColumn(key="is_active", label="Active"),
     ]
 
@@ -34,7 +56,8 @@ def build_partner_list_page(
         entity="partners",
         domain=domain,
         path=path,
-        title="Partners",
+        title=title_page,
+        subtitle=subtitle_page,
         permissions=permissions,
         data_source=data_source,
         blocks=[
@@ -68,6 +91,7 @@ def build_partner_list_page(
                     Action(
                         type="navigate",
                         label="Create Partner",
+                        icon="add",
                         to=create_path,
                         permission="business.partners.add"
                     )

@@ -11,22 +11,54 @@ def build_widget_list_page(
     domain: str,
     path: str,
     title_page: str,
+    subtitle_page: str,
     data_source: str,
     permissions: list[str],
-    create_label: str,
     create_path: str,
     edit_path: str,
+    search_mode: str,
     delete_endpoint: str,
-    search_mode: str = "client",
-    default_query: dict | None = None,
 ):
-
     columns = [
+        # 🔗 identity
+        TableColumn(key="id", label="ID"),
+
+        # 🎯 widget info
         TableColumn(key="type", label="Type"),
-        TableColumn(key="position", label="Position"),
         TableColumn(key="title", label="Title"),
-        TableColumn(key="order", label="Order"),
-        TableColumn(key="is_active", label="Active"),
+
+        # 📍 placement
+        TableColumn(key="position", label="Position"),
+
+        # 🎯 targeting
+        TableColumn(key="target_roles", label="Roles"),
+        TableColumn(key="target_apps", label="Apps"),
+
+        # ⏱️ schedule
+        TableColumn(
+            key="starts_at",
+            label="Start",
+            format="datetime",
+        ),
+        TableColumn(
+            key="ends_at",
+            label="End",
+            format="datetime",
+        ),
+
+        # 🔐 status
+        TableColumn(
+            key="is_active",
+            label="Active",
+            align="center",
+        ),
+
+        # 🔢 order
+        TableColumn(
+            key="order",
+            label="Order",
+            align="center",
+        ),
     ]
 
     return Page(
@@ -35,14 +67,16 @@ def build_widget_list_page(
         domain=domain,
         path=path,
         title=title_page,
+        subtitle=subtitle_page,
         permissions=permissions,
+        data_source=data_source,
         blocks=[
             TableBlock(
-                data_source=data_source,
+                title="UI Widgets",
+                data_key="items",
                 search_mode=search_mode,
                 columns=columns,
                 detail_as_state=False,
-                query=default_query or {},
                 actions=[
                     Action(
                         type="navigate",
@@ -67,7 +101,8 @@ def build_widget_list_page(
                 top_actions=[
                     Action(
                         type="navigate",
-                        label=create_label,
+                        label="Create Widget",
+                        icon="add",
                         to=create_path,
                         permission="core.widgets.add",
                     )

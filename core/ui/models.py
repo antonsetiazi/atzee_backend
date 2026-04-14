@@ -43,6 +43,10 @@ class UIPage(models.Model):
 
     key = models.CharField(max_length=150, unique=True)
     title = models.CharField(max_length=150)
+    subtitle = models.TextField(
+        blank=True,
+        null=True
+    )
     description = models.TextField(
         blank=True,
         null=True

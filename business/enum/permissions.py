@@ -24,6 +24,8 @@ class BusinessPermission(str, Enum):
 
     USERS_VIEW = "business.users.view"
 
+    ADMIN_REVIEWS_VIEW = "business.admin.reviews.view"
+    ADMIN_PAYMENT_GATEWAY_VIEW = "business.admin.payment_gateway.view"
 
 
     def __str__(self):

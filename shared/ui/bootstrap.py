@@ -88,11 +88,13 @@ def seed_pages(pages: list[dict], page_model=UIPage):
 
         # permissions optional tapi konsisten
         page_data.setdefault("permissions", [])
-
+        # print("key: ", page_data["key"])
+        # print("permissions: ", page_data["permissions"])
         page_model.objects.update_or_create(
             key=page_data["key"],
             defaults={
                 "title": page_data["title"],
+                "subtitle": page_data["subtitle"],
                 "description": page_data.get('description'),
                 "domain": page_data["domain"],   # 🔥 FIX UTAMA
                 "entity": page_data["entity"],

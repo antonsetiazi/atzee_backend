@@ -2,6 +2,7 @@
 
 from core.enum.permissions import CorePermission
 from business.enum.permissions import BusinessPermission
+from marketplace.enum.permissions import MarketplacePermission
 from verticals.ustadzku.enum.permissions import UstadzkuPermission
 from core.roles.enums import RoleCode
 
@@ -34,12 +35,19 @@ ROLES = [
         "access_level": 80,
         "default_permissions": [
             CorePermission.DASHBOARD_VIEW,
-            # BusinessPermission.ADMIN_BOOKINGS_VIEW,
+            CorePermission.ADMIN_USERS_VIEW,
+            CorePermission.ADMIN_WALLET_TRANSACTIONS_VIEW,
+            CorePermission.ADMIN_WALLET_WITHDRAWAL_VIEW,
+            CorePermission.ADMIN_WIDGETS_VIEW,
+            BusinessPermission.ADMIN_BOOKINGS_VIEW,
+            BusinessPermission.ADMIN_PAYMENT_GATEWAY_VIEW,
             UstadzkuPermission.ADMIN_DASHBOARD_VIEW,
             BusinessPermission.PARTNERS_CREATE,
             BusinessPermission.PARTNERS_UPDATE,
             BusinessPermission.PARTNERS_VIEW,
             BusinessPermission.USERS_VIEW,
+            BusinessPermission.ADMIN_REVIEWS_VIEW,
+            MarketplacePermission.ADMIN_ORDERS_VIEW,
         ],
     },
 

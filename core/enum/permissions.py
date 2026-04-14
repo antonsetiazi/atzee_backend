@@ -29,6 +29,10 @@ class CorePermission(str, Enum):
     TIMEZONES_VIEW = "core.timezones.view"
 
     USER_WALLET_VIEW = "core.user.wallet.view"
+    ADMIN_WALLET_WITHDRAWAL_VIEW = "core.admin.wallet.withdrawal.view"
+    ADMIN_WALLET_TRANSACTIONS_VIEW = "core.admin.wallet.transactions.view"
+    ADMIN_USERS_VIEW = "core.admin.users.view"
+    ADMIN_WIDGETS_VIEW = "core.admin.widgets.view"
 
 
     def __str__(self):

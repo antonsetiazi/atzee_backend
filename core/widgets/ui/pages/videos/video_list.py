@@ -6,19 +6,17 @@ from core.widgets.ui.pages._base_widget_list import (
 )
 
 UI_PAGES = build_widget_list_page(
-    key="widgets.videos.list",
+    key="widgets.list",
     domain="core",
-    path="/widgets/videos",
-    title_page="Videos",
+    title_page="UI Widgets",
+    subtitle_page="Manage dynamic UI widgets and frontend components",
+    path="/admin/widgets",
     data_source="/entities/core/widgets.list/query/",
     permissions=["core.widgets.view"],
-    create_label="Create Video",
-    create_path="/widgets/videos/create",
-    edit_path="/widgets/videos/{id}/edit",
-    delete_endpoint="/widgets/{id}/",
-    default_query={
-        "type": "video"
-    }
+    create_path="/admin/widgets/create",
+    edit_path="/admin/widgets/{id}/edit",
+    delete_endpoint="/core/widgets/{id}/",
+    search_mode="client",
 )
 
 register_ui_module_pages("core", UI_PAGES)

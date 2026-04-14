@@ -8,3 +8,9 @@ class ReviewsConfig(AppConfig):
     name = "business.reviews"
     label = "business_reviews"
 
+    def ready(self):
+        from .ui import bootstrap
+        from core.entities.registry import register_entity
+        from .entities.review_list import ReviewListEntity
+
+        register_entity(ReviewListEntity())
