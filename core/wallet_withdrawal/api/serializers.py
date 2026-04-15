@@ -6,7 +6,7 @@ from core.wallet_withdrawal.models.withdrawal import Withdrawal
 
 class WithdrawalRequestSerializer(serializers.Serializer):
     amount = serializers.DecimalField(max_digits=18, decimal_places=2)
-    destination = serializers.JSONField()
+    destination_bank_id = serializers.UUIDField()
 
 
 class WithdrawalSerializer(serializers.ModelSerializer):

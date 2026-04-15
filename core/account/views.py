@@ -16,6 +16,9 @@ from core.account.serializers import (
     UserAddressDetailSerializer,
     UserAddressCreateSerializer,
     UserAddressUpdateSerializer,
+    UserBankSerializer,
+    UserBankCreateSerializer,
+    UserBankUpdateSerializer
 )
 
 class UpdateProfileView(APIView):
@@ -166,3 +169,73 @@ class UserAddressViewSet(viewsets.ViewSet):
 
         serializer = UserAddressDetailSerializer(address)
         return Response(serializer.data)
+    
+
+class UserBankViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request):
+        tenant = TenantService.get_current_tenant(request)
+
+        banks = selectors.get_user_banks(
+            tenant=tenant,
+            user=request.user
+        )
+
+        serializer = UserBankSerializer(banks, many=True)
+        return Response(serializer.data)
+
+    def create(self, request):
+        tenant = TenantService.get_current_tenant(request)
+
+        serializer = UserBankCreateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        bank = services.create_user_bank(
+            tenant=tenant,
+            user=request.user,
+            **serializer.validated_data
+        )
+
+        return Response(UserBankSerializer(bank).data)
+
+    def partial_update(self, request, pk=None):
+        tenant = TenantService.get_current_tenant(request)
+
+        serializer = UserBankUpdateSerializer(
+            data=request.data,
+            partial=True
+        )
+        serializer.is_valid(raise_exception=True)
+
+        bank = services.update_user_bank(
+            tenant=tenant,
+            user=request.user,
+            bank_id=pk,
+            **serializer.validated_data
+        )
+
+        return Response(UserBankSerializer(bank).data)
+
+    def destroy(self, request, pk=None):
+        tenant = TenantService.get_current_tenant(request)
+
+        services.delete_user_bank(
+            tenant=tenant,
+            user=request.user,
+            bank_id=pk
+        )
+
+        return Response(status=204)
+
+    @action(detail=True, methods=["post"])
+    def set_default(self, request, pk=None):
+        tenant = TenantService.get_current_tenant(request)
+
+        bank = services.set_default_bank(
+            tenant=tenant,
+            user=request.user,
+            bank_id=pk
+        )
+
+        return Response(UserBankSerializer(bank).data)    

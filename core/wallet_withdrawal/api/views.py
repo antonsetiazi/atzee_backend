@@ -29,7 +29,7 @@ class WithdrawalCreateAPIView(APIView):
             tenant=tenant,
             user=request.user,
             amount=serializer.validated_data["amount"],
-            destination=serializer.validated_data["destination"],
+            destination_bank_id=serializer.validated_data["destination_bank_id"],
         )
 
         return Response(WithdrawalSerializer(withdrawal).data)

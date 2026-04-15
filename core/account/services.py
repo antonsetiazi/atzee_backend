@@ -1,5 +1,6 @@
 from django.db import transaction
 from core.account.models import UserAddress
+from core.account.models import UserBankAccount
 
 
 @transaction.atomic
@@ -67,3 +68,70 @@ def set_default_address(*, tenant, user, address_id):
     address.save()
 
     return address
+
+
+@transaction.atomic
+def create_user_bank(*, tenant, user, **data):
+    if data.get("is_default"):
+        UserBankAccount.objects.filter(
+            tenant=tenant,
+            user=user
+        ).update(is_default=False)
+
+    return UserBankAccount.objects.create(
+        tenant=tenant,
+        user=user,
+        **data
+    )
+
+
+@transaction.atomic
+def update_user_bank(*, tenant, user, bank_id, **data):
+    bank = UserBankAccount.objects.get(
+        tenant=tenant,
+        user=user,
+        id=bank_id
+    )
+
+    if data.get("is_default"):
+        UserBankAccount.objects.filter(
+            tenant=tenant,
+            user=user
+        ).update(is_default=False)
+
+    for field, value in data.items():
+        setattr(bank, field, value)
+
+    bank.save()
+    return bank
+
+
+@transaction.atomic
+def delete_user_bank(*, tenant, user, bank_id):
+    bank = UserBankAccount.objects.get(
+        tenant=tenant,
+        user=user,
+        id=bank_id
+    )
+
+    bank.is_active = False
+    bank.save()
+
+
+@transaction.atomic
+def set_default_bank(*, tenant, user, bank_id):
+    UserBankAccount.objects.filter(
+        tenant=tenant,
+        user=user
+    ).update(is_default=False)
+
+    bank = UserBankAccount.objects.get(
+        tenant=tenant,
+        user=user,
+        id=bank_id
+    )
+
+    bank.is_default = True
+    bank.save()
+
+    return bank

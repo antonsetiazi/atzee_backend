@@ -93,3 +93,39 @@ class UserAddress(models.Model):
 
     def __str__(self):
         return f"{self.label} - {self.user.username}"
+    
+
+class UserBankAccount(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="bank_accounts",
+    )
+
+    tenant = models.ForeignKey(
+        "core_tenants.Tenant",
+        on_delete=models.CASCADE,
+        related_name="user_bank_accounts",
+    )
+
+    bank_name = models.CharField(max_length=100)
+    account_number = models.CharField(max_length=50)
+    account_name = models.CharField(max_length=150)
+
+    is_default = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "core_user_bank_accounts"
+        ordering = ["-is_default", "-created_at"]
+        indexes = [
+            models.Index(fields=["user", "tenant"]),
+            models.Index(fields=["user", "is_default"]),
+        ]
+
+    def __str__(self):
+        return f"{self.bank_name} - {self.account_number}"    

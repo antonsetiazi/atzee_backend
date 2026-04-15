@@ -9,6 +9,7 @@ from core.wallet import selectors as wallet_selectors
 from core.wallet import services as wallet_services
 
 from core.wallet_withdrawal.models.withdrawal import Withdrawal, WithdrawalStatus
+from core.account.selectors import get_user_bank_by_id
 
 
 MIN_WITHDRAW_AMOUNT = Decimal("50000")
@@ -20,7 +21,7 @@ def generate_idempotency(prefix: str) -> str:
 
 
 @transaction.atomic
-def request_withdrawal(*, tenant, user, amount: Decimal, destination: dict) -> Withdrawal:
+def request_withdrawal(*, tenant, user, amount: Decimal, destination_bank_id) -> Withdrawal:
     """
     Create withdrawal request (SAFE & CONSISTENT WITH WALLET)
     """
@@ -34,9 +35,23 @@ def request_withdrawal(*, tenant, user, amount: Decimal, destination: dict) -> W
     if amount <= 0:
         raise ValidationError("Invalid amount")
 
-    if not destination:
-        raise ValidationError("Destination is required")
+    # 🔥 GET BANK
+    bank = get_user_bank_by_id(
+        tenant=tenant,
+        user=user,
+        bank_id=destination_bank_id
+    )
+
+    if not bank:
+        raise ValidationError("Bank account not found")
     
+    # 🔥 SNAPSHOT
+    destination = {
+        "bank_name": bank.bank_name,
+        "account_number": bank.account_number,
+        "account_name": bank.account_name,
+    }
+
     # ==============================
     # GET WALLET (FIXED)
     # ==============================
@@ -65,7 +80,7 @@ def request_withdrawal(*, tenant, user, amount: Decimal, destination: dict) -> W
         idempotency_key=idempotency_key,
         description="Withdraw request",
     )
-
+    
     # ==============================
     # CREATE WITHDRAWAL
     # ==============================
