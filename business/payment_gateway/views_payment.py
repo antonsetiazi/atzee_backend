@@ -7,9 +7,10 @@ from rest_framework import status
 
 from django.shortcuts import get_object_or_404
 
+
 from business.payment_gateway.services.gateway_service import create_payment
 from business.payment_gateway.models import PaymentMethod
-from marketplace.models import Order
+from marketplace.models import Order, PaymentStatus
 
 
 @api_view(["POST"])
@@ -20,6 +21,8 @@ def create_payment_view(request):
 
         order_id = request.data.get("order_id")
         method_code = request.data.get("payment_method")
+
+        # print("METHOD CODE:", method_code)
 
         if not order_id:
             return Response(
@@ -33,6 +36,55 @@ def create_payment_view(request):
             id=order_id,
             tenant=tenant
         )
+
+        # =========================
+        # 💰 WALLET FLOW
+        # =========================
+        if method_code == "wallet":
+            from core.wallet import selectors as wallet_selectors
+            from core.wallet import services as wallet_services
+            from decimal import Decimal
+
+            wallet = wallet_selectors.get_wallet_or_create(
+                tenant=tenant,
+                user=request.user
+            )
+
+            # 🔒 prevent double payment
+            if order.payment_status == PaymentStatus.PAID:
+                return Response({
+                    "order_id": str(order.id),
+                    "status": "already_paid",
+                    "payment_type": "wallet"
+                })
+
+            try:
+                wallet_services.escrow_hold(
+                    tenant=tenant,
+                    wallet=wallet,
+                    amount=Decimal(order.total_amount),
+                    reference_type="order",
+                    reference_id=str(order.id),
+                    idempotency_key=f"wallet-pay-{order.id}",
+                    description=f"Payment for order {order.id}",
+                )
+
+                # 🔥 UPDATE ORDER
+                order.payment_status = PaymentStatus.PAID
+                order.save(update_fields=["payment_status"])
+
+                return Response({
+                    "order_id": str(order.id),
+                    "status": "success",
+                    "payment_type": "wallet"
+                })
+
+            except Exception as e:
+                return Response(
+                    {"error": str(e)},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+                
 
         method = None
 

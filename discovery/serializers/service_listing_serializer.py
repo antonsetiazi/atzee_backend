@@ -6,13 +6,14 @@ from core.files import selectors
 
 class ServiceListingSerializer(serializers.Serializer):
     id = serializers.IntegerField(source="partner_id")
-    name = serializers.CharField(source="partner__name")
+    name = serializers.CharField(source="partner__name")  
+    rating = serializers.FloatField(default=0)
+    rating_count = serializers.IntegerField(default=0)
     image = serializers.SerializerMethodField()
     starting_price = serializers.IntegerField()
     service_count = serializers.IntegerField()
     priceLabel = serializers.SerializerMethodField()
     city = serializers.SerializerMethodField()
-    
 
     def get_image(self, obj):
         request = self.context.get("request")

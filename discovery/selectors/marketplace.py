@@ -1,5 +1,8 @@
 # discovery/selectors/marketplace.py
 
+from django.db.models import F, Value, DecimalField, IntegerField
+from django.db.models.functions import Coalesce
+from decimal import Decimal
 from django.db.models import QuerySet, Min, Count
 from django.db.models.expressions import RawSQL
 from core.tenants.models import Tenant
@@ -79,6 +82,17 @@ def get_service_listings(
         .annotate(
             starting_price=Min("price"),
             service_count=Count("id"),
+            rating=Coalesce(
+                F("partner__rating_avg"),
+                Value(Decimal("0.0")),
+                output_field=DecimalField(max_digits=4, decimal_places=2),
+            ),
+
+            rating_count=Coalesce(
+                F("partner__rating_count"),
+                Value(0),
+                output_field=IntegerField(),
+            ),
         )
     )
 

@@ -24,7 +24,8 @@ class Review(TenantAwareModel):
     partner = models.ForeignKey(
         Partner,
         on_delete=models.CASCADE,
-        related_name="reviews"
+        related_name="reviews",
+        db_index=True
     )
 
     user = models.ForeignKey(
@@ -41,6 +42,12 @@ class Review(TenantAwareModel):
     class Meta:
         db_table = "business_reviews"
         ordering = ["-created_at"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["booking", "user"],
+                name="unique_review_per_booking_user"
+            )
+        ]
 
     def __str__(self):
         return f"{self.user} -> {self.partner} ({self.rating})"

@@ -7,6 +7,9 @@ class ServiceDetailSerializer(serializers.Serializer):
     id = serializers.IntegerField(source="partner.id")
     name = serializers.CharField(source="partner.name")
 
+    rating = serializers.SerializerMethodField()
+    rating_count = serializers.SerializerMethodField()
+    
     resource_id = serializers.SerializerMethodField()
 
     avatar_url = serializers.SerializerMethodField()
@@ -73,3 +76,18 @@ class ServiceDetailSerializer(serializers.Serializer):
             "start": 8,
             "end": 18
         }
+    
+    def get_rating(self, obj):
+        partner = obj.get("partner")
+        if not partner:
+            return 0
+
+        return float(partner.rating_avg or 0)
+
+
+    def get_rating_count(self, obj):
+        partner = obj.get("partner")
+        if not partner:
+            return 0
+
+        return partner.rating_count or 0

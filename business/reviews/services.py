@@ -1,5 +1,7 @@
 # business/reviews/services.py
 
+from django.db.models import F
+from decimal import Decimal
 from django.db import transaction
 from django.core.exceptions import ValidationError
 
@@ -62,12 +64,15 @@ def create_review(*, tenant, user, booking_id, rating, comment=""):
 
     # 7. update partner aggregate rating
     partner = order.partner
-    total_score = (
-        partner.rating_avg * partner.rating_count
-    ) + rating
 
-    partner.rating_count += 1
-    partner.rating_avg = total_score / partner.rating_count
+    rating = Decimal(rating)
+
+    partner.rating_avg = (
+        (F("rating_avg") * F("rating_count")) + rating
+    ) / (F("rating_count") + 1)
+    partner.rating_count = F("rating_count") + 1
+
     partner.save(update_fields=["rating_avg", "rating_count"])
+    partner.refresh_from_db()
 
     return review
