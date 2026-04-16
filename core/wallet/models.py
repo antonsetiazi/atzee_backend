@@ -74,6 +74,8 @@ class WalletTransaction(TenantAwareModel):
 
     description = models.TextField(blank=True, default="")
 
+    meta = models.JSONField(blank=True, null=True)
+    
     class Meta:
         db_table = "core_wallet_transactions"
         indexes = [

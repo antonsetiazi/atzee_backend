@@ -243,6 +243,10 @@ def _on_payment_success(payment: PaymentGateway):
                 payment=payment
             )
 
+        elif payment.reference_type == "wallet_topup":
+            from core.wallet.payment_handlers import handle_wallet_topup
+
+            handle_wallet_topup(payment)
         # future:
         # elif payment.reference_type == "invoice":
         # elif payment.reference_type == "subscription":

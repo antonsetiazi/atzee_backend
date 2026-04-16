@@ -26,6 +26,7 @@ def _create_transaction(
     reference_id: str = None,
     idempotency_key: str,
     description: str = "",
+    meta: dict | None = None,
 ):
     return WalletTransaction.objects.create(
         tenant=tenant,
@@ -36,6 +37,7 @@ def _create_transaction(
         reference_id=reference_id,
         idempotency_key=idempotency_key,
         description=description,
+        meta=meta or {},
     )
 
 
@@ -70,6 +72,12 @@ def topup_wallet(
         tx_type=WalletTransactionType.TOPUP,
         idempotency_key=idempotency_key,
         description=description,
+        meta={
+            "flow": "topup",
+            "source": "midtrans",
+            "channel": "unknown",  # nanti bisa diisi dari payment gateway
+            "actor": "system",
+        }
     )
 
 
@@ -145,6 +153,11 @@ def escrow_hold(
         reference_id=reference_id,
         idempotency_key=idempotency_key,
         description=description,
+        meta={
+            "flow": "escrow",
+            "actor": "user",
+            "order_id": reference_id,
+        }
     )
 
 
@@ -193,6 +206,11 @@ def escrow_release_to_partner(
         reference_id=reference_id,
         idempotency_key=f"{idempotency_key}-user",
         description="Escrow released to partner",
+        meta={
+            "flow": "payout",
+            "actor": "system",
+            "order_id": reference_id,
+        }
     )
 
     # ledger: partner side (receive)
@@ -205,6 +223,11 @@ def escrow_release_to_partner(
         reference_id=reference_id,
         idempotency_key=f"{idempotency_key}-partner",
         description=description or "Receive from escrow",
+        meta={
+            "flow": "payout",
+            "actor": "partner",
+            "order_id": reference_id,
+        }
     )
 
 
@@ -245,4 +268,9 @@ def escrow_refund(
         reference_id=reference_id,
         idempotency_key=idempotency_key,
         description=description or "Refund from escrow",
+        meta={
+            "flow": "refund",
+            "actor": "system",
+            "order_id": reference_id,
+        }
     )

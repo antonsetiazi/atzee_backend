@@ -55,3 +55,12 @@ def get_system_wallet(*, tenant):
     )
 
     return wallet
+
+
+def get_wallet_by_user_id(*, tenant, user_id):
+    user = User.objects.get(id=user_id)
+
+    return get_wallet_or_create(
+        tenant=tenant,
+        user=user
+    )

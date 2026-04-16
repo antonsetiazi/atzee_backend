@@ -37,6 +37,7 @@ class WalletTransactionSerializer(serializers.ModelSerializer):
             "reference_type",
             "reference_id",
             "description",
+            "meta",
             "created_at",
         ]
 

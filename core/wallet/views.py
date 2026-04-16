@@ -13,7 +13,9 @@ from core.wallet.serializers import (
     WalletTransactionSerializer,
     WalletTopUpSerializer
 )
-import uuid
+
+from business.payment_gateway.services.gateway_service import create_payment
+from business.payment_gateway.models import PaymentGateway
 
 
 class WalletViewSet(viewsets.ViewSet):
@@ -63,25 +65,30 @@ class WalletViewSet(viewsets.ViewSet):
     def topup(self, request):
         tenant = TenantService.get_current_tenant(request)
 
-        wallet = selectors.get_wallet_or_create(
-            tenant=tenant,
-            user=request.user
-        )
-
         serializer = WalletTopUpSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         amount: Decimal = serializer.validated_data["amount"]
 
-        tx = services.topup_wallet(
+        # =========================================================
+        # 🚀 CREATE PAYMENT (PAKAI SYSTEM YANG SUDAH ADA)
+        # =========================================================
+        payment = create_payment(
             tenant=tenant,
-            wallet=wallet,
+            reference_type="wallet_topup",   # 🔥 PENTING
+            reference_id=str(request.user.id),  # bisa user id
             amount=amount,
-            idempotency_key=f"topup-{uuid.uuid4()}",
-            description=serializer.validated_data.get("description", ""),
+            provider=PaymentGateway.PROVIDER_MIDTRANS,
+            channel=None
         )
 
-        return Response(
-            WalletTransactionSerializer(tx).data,
-            status=status.HTTP_201_CREATED
-        )
+        # =========================================================
+        # 🎯 RETURN FORMAT UNTUK FRONTEND
+        # =========================================================
+        return Response({
+            "type": "popup",
+            "payment_id": str(payment.id),
+            "payload": {
+                "token": payment.payment_token
+            }
+        })

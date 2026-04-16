@@ -111,7 +111,17 @@ def complete_order(order_id: int, user):
         reference_type="order",
         reference_id=str(order.id),
         idempotency_key=f"platform-fee-{order.id}",
-        description="Platform fee from order"
+        description="Platform fee from order",
+        meta={
+            "flow": "system",
+            "actor": "system",
+            "order_id": str(order.id),
+            "breakdown": {
+                "platform_fee": float(platform_earning),
+                "partner_receive": float(partner_receive),
+                "subtotal": float(subtotal),
+            }
+        }
     )
 
 
