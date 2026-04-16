@@ -2,6 +2,8 @@
 
 from decimal import Decimal
 
+from django.core.exceptions import ValidationError
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -17,6 +19,8 @@ from marketplace.services.order_assignment_service import (
     accept_order, 
     reject_order
 )
+from marketplace.services.order_partner_service import mark_order_completed_by_partner
+from marketplace.services.order_start_service import start_order
 from core.tenants.services import TenantService
 
 from core.fees.services.fee_engine import FeeEngine
@@ -224,3 +228,63 @@ class RejectOrderView(APIView):
         )
 
         return Response({"success": True})    
+    
+
+class PartnerCompleteOrderView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, id):
+        tenant = TenantService.get_current_tenant(request)
+
+        if not hasattr(request.user, "partner_profile"):
+            return Response({"detail": "Not a partner"}, status=403)
+
+        partner = request.user.partner_profile
+
+        try:
+            order = mark_order_completed_by_partner(
+                tenant=tenant,
+                order_id=id,
+                partner=partner
+            )
+
+            return Response({
+                "success": True,
+                "status": order.status,
+            })
+
+        except ValidationError as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )    
+        
+
+class StartOrderView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, id):
+        tenant = TenantService.get_current_tenant(request)
+
+        if not hasattr(request.user, "partner_profile"):
+            return Response({"detail": "Not a partner"}, status=403)
+
+        partner = request.user.partner_profile
+
+        try:
+            order = start_order(
+                tenant=tenant,
+                order_id=id,
+                partner=partner
+            )
+
+            return Response({
+                "success": True,
+                "status": order.status,
+            })
+
+        except ValidationError as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )        

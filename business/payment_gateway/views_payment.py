@@ -11,6 +11,7 @@ from django.shortcuts import get_object_or_404
 from business.payment_gateway.services.gateway_service import create_payment
 from business.payment_gateway.models import PaymentMethod
 from marketplace.models import Order, PaymentStatus
+from marketplace.services.payment_service import handle_order_payment_by_id
 
 
 @api_view(["POST"])
@@ -59,6 +60,7 @@ def create_payment_view(request):
                 })
 
             try:
+                # 🔥 STEP 1: HOLD DANA DARI WALLET
                 wallet_services.escrow_hold(
                     tenant=tenant,
                     wallet=wallet,
@@ -69,9 +71,11 @@ def create_payment_view(request):
                     description=f"Payment for order {order.id}",
                 )
 
-                # 🔥 UPDATE ORDER
-                order.payment_status = PaymentStatus.PAID
-                order.save(update_fields=["payment_status"])
+                # 🔥 STEP 2: TRIGGER DOMAIN LOGIC
+                handle_order_payment_by_id(
+                    order_id=str(order.id),
+                    tenant=tenant
+                )
 
                 return Response({
                     "order_id": str(order.id),

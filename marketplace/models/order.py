@@ -26,6 +26,7 @@ class OrderStatus(models.TextChoices):
     PENDING = "pending"
     ACCEPTED = "accepted"
     ON_GOING = "on_going"
+    COMPLETED_BY_PARTNER = "completed_by_partner"
     COMPLETED = "completed"
     CANCELLED = "cancelled"
 

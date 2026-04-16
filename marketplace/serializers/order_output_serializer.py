@@ -3,6 +3,8 @@
 from rest_framework import serializers
 from marketplace.models.order import Order, OrderItem
 from core.fees.models import OrderFee
+from business.booking.models import Booking
+from business.payment_gateway.models import PaymentGateway
 
 class OrderItemSerializer(serializers.ModelSerializer):
     name = serializers.CharField(source="listing.product.name")
@@ -27,11 +29,32 @@ class OrderSerializer(serializers.ModelSerializer):
     customer = serializers.SerializerMethodField()
 
     payment_status = serializers.CharField(read_only=True)
+    payment_method = serializers.SerializerMethodField()
     bookingId = serializers.SerializerMethodField()
     fees = serializers.SerializerMethodField()
 
+    booking = serializers.SerializerMethodField()
+    partner_earning = serializers.SerializerMethodField()
+
     def get_bookingId(self, obj):
         return obj.booking_id
+    
+    def get_booking(self, obj):
+        if not obj.booking_id:
+            return None
+
+        booking = Booking.objects.filter(id=obj.booking_id).first()
+
+        if not booking:
+            return None
+
+        return {
+            "id": booking.id,
+            "start_time": booking.start_time,
+            "end_time": booking.end_time,
+            "duration": booking.total_duration,
+            "status": booking.status,
+        }
     
     def get_customer(self, obj):
         user = obj.user
@@ -80,6 +103,40 @@ class OrderSerializer(serializers.ModelSerializer):
             for f in fees
         ]
     
+    def get_partner_earning(self, obj):
+        fees = OrderFee.objects.filter(order_id=obj.id)
+
+        total = obj.total_amount
+
+        for f in fees:
+            if f.applies_to == "partner":
+                total -= f.amount
+
+        return total
+    
+    def get_payment_method(self, obj):
+        # 🔹 1. cek gateway dulu
+        payment = (
+            PaymentGateway.objects
+            .filter(
+                tenant=obj.tenant,
+                reference_type="order",
+                reference_id=str(obj.id),
+                status=PaymentGateway.STATUS_SUCCESS,
+            )
+            .order_by("-created_at")
+            .first()
+        )
+
+        if payment:
+            return payment.channel or payment.provider
+
+        # 🔹 2. fallback → WALLET
+        if obj.payment_status == "paid":
+            return "wallet"
+
+        return None
+    
     class Meta:
         model = Order
         fields = [
@@ -87,9 +144,11 @@ class OrderSerializer(serializers.ModelSerializer):
             "order_number",
             "status",
             "payment_status",
+            "payment_method",
             "subtotal_amount",
             "total_fee_amount",
             "total_amount",
+            "partner_earning",
             "fulfillment_type",
             "address",
             "customer",
@@ -97,6 +156,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "partner",
             "created_at",
             "bookingId",
+            "booking",
             "items",
             "fees",
         ]

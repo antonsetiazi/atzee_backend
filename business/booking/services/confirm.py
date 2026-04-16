@@ -33,14 +33,10 @@ def confirm_booking(booking: Booking):
         )
         .exclude(id=booking.id)
         .filter(
-            Q(status__in=[
+            status__in=[
                 BookingStatus.CONFIRMED,
                 BookingStatus.ONGOING,
-            ]) |
-            Q(
-                status=BookingStatus.HOLD,
-                expires_at__gt=now
-            )
+            ]
         )
     )
 

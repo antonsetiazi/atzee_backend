@@ -17,15 +17,20 @@ from core.wallet import selectors as wallet_selectors
 
 
 @transaction.atomic
-def handle_order_payment_by_id(order_id: str, payment):
+def handle_order_payment_by_id(order_id: str, payment=None, tenant=None):
     """
     Handle payment success for order domain (ESCROW ENABLED)
     """
+    if payment:
+        tenant = payment.tenant
 
+    if not tenant:
+        raise ValidationError("Tenant required")
+    
     order = (
         Order.objects
         .select_for_update()
-        .filter(id=order_id, tenant=payment.tenant)
+        .filter(id=order_id, tenant=tenant)
         .first()
     )
 
@@ -55,29 +60,30 @@ def handle_order_payment_by_id(order_id: str, payment):
         user=order.user
     )
 
-    # =========================================================
-    # 💰 STEP 1: TOPUP (EXTERNAL → USER)
-    # =========================================================
-    wallet_services.topup_wallet(
-        tenant=order.tenant,
-        wallet=user_wallet,
-        amount=amount,
-        idempotency_key=f"topup-order-{order.id}",
-        description="Payment received from Midtrans"
-    )
+    if payment:
+        # =========================================================
+        # 💰 STEP 1: TOPUP (EXTERNAL → USER)
+        # =========================================================
+        wallet_services.topup_wallet(
+            tenant=order.tenant,
+            wallet=user_wallet,
+            amount=amount,
+            idempotency_key=f"topup-order-{order.id}",
+            description="Payment received from Midtrans"
+        )
 
-    # =========================================================
-    # 💰 STEP 2: ESCROW HOLD (USER AVAILABLE → HELD)
-    # =========================================================
-    wallet_services.escrow_hold(
-        tenant=order.tenant,
-        wallet=user_wallet,
-        amount=amount,
-        reference_type="order",
-        reference_id=str(order.id),
-        idempotency_key=f"escrow-hold-order-{order.id}",
-        description="Escrow hold for order"
-    )
+        # =========================================================
+        # 💰 STEP 2: ESCROW HOLD (USER AVAILABLE → HELD)
+        # =========================================================
+        wallet_services.escrow_hold(
+            tenant=order.tenant,
+            wallet=user_wallet,
+            amount=amount,
+            reference_type="order",
+            reference_id=str(order.id),
+            idempotency_key=f"escrow-hold-order-{order.id}",
+            description="Escrow hold for order"
+        )
 
     # =========================
     # 🔗 BOOKING LOGIC

@@ -34,11 +34,15 @@ def complete_order(order_id: int, user):
         raise ValueError("Order belum dibayar")
     
     # only accepted / on_going can complete
-    if order.status not in [
-        OrderStatus.ACCEPTED,
-        OrderStatus.ON_GOING,
-    ]:
-        raise ValueError("Order belum dapat diselesaikan")
+    # if order.status not in [
+    #     OrderStatus.ACCEPTED,
+    #     OrderStatus.ON_GOING,
+    # ]:
+    #     raise ValueError("Order belum dapat diselesaikan")
+
+    # 🔒 MUST be completed by partner first
+    if order.status != OrderStatus.COMPLETED_BY_PARTNER:
+        raise ValueError("Order belum ditandai selesai oleh partner")
 
     if not order.partner:
         raise ValueError("Partner belum ditentukan")
