@@ -164,64 +164,61 @@ class RequestOTPView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        try:
-            serializer = RequestOTPSerializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
+        serializer = RequestOTPSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-            phone = normalize_phone(serializer.validated_data["phone"])
-            
-            OTPService.send_whatsapp_otp(phone)
+        phone = normalize_phone(serializer.validated_data["phone"])
+        
+        OTPService.send_whatsapp_otp(phone)
 
-            return Response({
+        return Response(
+            {
                 "detail": "OTP sent"
-            }, status=status.HTTP_200_OK)
-        except Exception as e:
-            print(e)
+            }, 
+            status=status.HTTP_200_OK
+        )
     
 
 class VerifyOTPView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
+        serializer = VerifyOTPSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        
+        phone = normalize_phone(serializer.validated_data["phone"])
+        otp = serializer.validated_data["otp"]
+        tenant_code = serializer.validated_data["tenant_code"]
+
         try:
-            serializer = VerifyOTPSerializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            
-            phone = normalize_phone(serializer.validated_data["phone"])
-            otp = serializer.validated_data["otp"]
-            tenant_code = serializer.validated_data["tenant_code"]
 
-            try:
+            user, tenant = AuthService.login_with_otp(
+                phone=phone,
+                otp=otp,
+                tenant_code=tenant_code
+            )
 
-                user, tenant = AuthService.login_with_otp(
-                    phone=phone,
-                    otp=otp,
-                    tenant_code=tenant_code
-                )
+            tokens = issue_jwt_for_user(
+                user=user,
+                active_tenant_id=tenant.id
+            )
 
-                tokens = issue_jwt_for_user(
-                    user=user,
-                    active_tenant_id=tenant.id
-                )
+            return Response({
+                "user": {
+                    "id": str(user.id),
+                    "username": user.email,
+                    "full_name": user.full_name,
+                    "tenant_id": str(tenant.id),
+                },
+                "tokens": tokens,
+            })
 
-                return Response({
-                    "user": {
-                        "id": str(user.id),
-                        "username": user.email,
-                        "full_name": user.full_name,
-                        "tenant_id": str(tenant.id),
-                    },
-                    "tokens": tokens,
-                })
-
-            except Exception as e:
-
-                return Response(
-                    {"detail": str(e)},
-                    status=status.HTTP_400_BAD_REQUEST
-                ) 
         except Exception as e:
-            print(e)
+
+            return Response(
+                {"detail": str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            ) 
 
 
 class RefreshTokenView(APIView):

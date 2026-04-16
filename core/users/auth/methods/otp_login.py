@@ -2,11 +2,11 @@
 
 from core.users.models import User
 from core.tenants.models import Tenant, UserTenant
+from core.roles.models import Role
 from core.roles.models import UserRole
 from core.roles.enums import RoleCode
 from core.otp.services import OTPService
 from shared.utils.phone import normalize_phone
-
 
 def authenticate_otp(phone: str, otp: str, tenant_code: str):
     phone = normalize_phone(phone)
@@ -39,7 +39,7 @@ def authenticate_otp(phone: str, otp: str, tenant_code: str):
         raise ValueError("Invalid tenant")
 
     # 4️⃣ Ensure tenant membership
-    membership, _ = UserTenant.objects.get_or_create(
+    UserTenant.objects.get_or_create(
         user=user,
         tenant=tenant,
         defaults={
@@ -47,17 +47,17 @@ def authenticate_otp(phone: str, otp: str, tenant_code: str):
         }
     )
 
-    
-    # Check membership
-    membership = user.tenant_memberships.filter(
+    role = Role.objects.filter(
+        code=RoleCode.CUSTOMER,
         tenant=tenant
     ).first()
 
-    if not membership:
-        # raise ValueError("User does not belong to this tenant")
-        UserRole.objects.get_or_create(
-            user=user,
-            role=RoleCode.CUSTOMER
-        )
+    if not role:
+        raise ValueError("Default CUSTOMER role not configured for this tenant")
+
+    UserRole.objects.get_or_create(
+        user=user,
+        role=role
+    )
 
     return user, tenant

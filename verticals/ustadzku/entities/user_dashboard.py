@@ -35,7 +35,7 @@ class UserDashboardEntity(BaseEntity):
                 core_user=user,
             )
         except BusinessUser.DoesNotExist:
-            return self._empty()
+            pass
 
         try:
 
@@ -56,7 +56,7 @@ class UserDashboardEntity(BaseEntity):
 
             bookings = Booking.objects.filter(
                 tenant=tenant,
-                # id__in=booking_ids,
+                id__in=booking_ids,
             )
 
             # -----------------------------------------

@@ -22,9 +22,15 @@ UI_PAGES = [
         entity="home",
         domain="ustadzku",
         path="/",
-        title="Welcome",
+        title="Home",
         permissions=[UstadzkuPermission.GUEST_HOME_VIEW],
-        description="Ringkasan aktivitas dan booking Anda",
+        meta={
+            "showBottomNav": True,
+            "showHeader": False,
+            "fullscreen": False,
+            "headerMode": "overlay",            
+        },
+        description="Selamat datang di aplikasi USTADZKU",
         data_source="/entities/ustadzku/guest.home/query/",
         blocks=[
 
@@ -69,45 +75,7 @@ UI_PAGES = [
                     ),
                 ],
                 scrollable=False,
-            ),
-
-            # ===============================
-            # STAT SUMMARY
-            # ===============================
-            ContainerBlock(
-                direction="row",
-                gap=16,
-                blocks=[
-                    StatBlock(
-                        key="upcoming_booking",
-                        title="Booking Mendatang",
-                        data_key="upcoming_booking",
-                        size="sm",
-                        value=None,
-                    ),
-                    StatBlock(
-                        key="active_booking",
-                        title="Booking Aktif",
-                        data_key="active_booking",
-                        size="sm",
-                        value=None,
-                    ),
-                    StatBlock(
-                        key="completed_booking",
-                        title="Selesai",
-                        data_key="completed_booking",
-                        size="sm",
-                        value=None,
-                    ),
-                    StatBlock(
-                        key="total_booking",
-                        title="Total Booking",
-                        data_key="total_booking",
-                        size="sm",
-                        value=None,
-                    ),
-                ]
-            ),
+            ),            
         ],
     ),
 ]

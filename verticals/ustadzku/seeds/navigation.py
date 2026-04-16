@@ -31,9 +31,9 @@ NAVIGATION_SEED = [
         "device": "desktop",
         "app": "ustadzku",
         "items": [
+            {"action_type": "page", "target": "home", "icon": "home", "route": "/dashboard", "label": "Beranda"},
             {"action_type": "page", "target": "profile", "icon": "profile", "route": "/account/profile", "label": "Profil"},
             {"action_type": "page", "target": "partner", "icon": "search", "route": "/services", "label": "Cari Ustadz"},
-            {"action_type": "page", "target": "home", "icon": "home", "route": "/dashboard", "label": "Beranda"},
             {"action_type": "page", "target": "orders", "icon": "order", "route": "/orders", "label": "Order"},
         ],
     },
@@ -67,8 +67,8 @@ NAVIGATION_SEED = [
         "device": "desktop",
         "app": "ustadzku",
         "items": [
-            {"action_type": "page", "target": "profile", "icon": "profile", "route": "/account/profile", "label": "Profil"},
             {"action_type": "page", "target": "home", "icon": "home", "route": "/dashboard", "label": "Beranda"},
+            {"action_type": "page", "target": "profile", "icon": "profile", "route": "/account/profile", "label": "Profil"},
             {"action_type": "page", "target": "orders", "icon": "order", "route": "/partner/orders", "label": "Order"},
         ],
     },
@@ -107,7 +107,9 @@ NAVIGATION_SEED = [
     },
 
     # =========================
-    # Desktop Sidebar - Guest
+    # Guest
+    # =========================
+    # Desktop Sidebar
     # =========================
     {
         "tenant_code": None,
@@ -116,10 +118,25 @@ NAVIGATION_SEED = [
         "device": "desktop",
         "app": "ustadzku",
         "items": [
-            {"action_type": "page", "target": "profile", "icon": "profile", "route": "/account/profile", "label": "Profil"},
-            {"action_type": "page", "target": "partner", "icon": "search", "route": "/services", "label": "Cari Ustadz"},
             {"action_type": "page", "target": "home", "icon": "home", "route": "/dashboard", "label": "Beranda"},
-            {"action_type": "page", "target": "booking", "icon": "booking", "route": "/business/my-bookings", "label": "Booking"},
+            {"action_type": "page", "target": "partner", "icon": "search", "route": "/services", "label": "Cari Ustadz"},
+        ],
+    },
+
+    
+    # =========================
+    # Mobile Bottom
+    # =========================
+    {
+        "tenant_code": None,
+        "role": "guest",
+        "type": "bottom",
+        "device": "mobile",
+        "app": "ustadzku",
+        "items": [
+            {"action_type": "page", "target": "login", "icon": "login", "route": "/login", "label": "Login"},
+            {"action_type": "page", "target": "home", "icon": "home", "route": "/dashboard", "label": "Beranda"},
+            {"action_type": "page", "target": "partner", "icon": "search", "route": "/services", "label": "Cari Ustadz"},            
         ],
     },
 ]
