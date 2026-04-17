@@ -106,6 +106,8 @@ ROLES = [
             CorePermission.DASHBOARD_VIEW,
             CorePermission.NOTIFICATION_VIEW,
             BusinessPermission.PARTNERS_VIEW,
+            BusinessPermission.PARTNERS_PORTAL,
+            BusinessPermission.PARTNERS_PORTAL_UPDATE,
             # BusinessPermission.PARTNER_BOOKINGS_VIEW,
             UstadzkuPermission.PARTNER_DASHBOARD_VIEW,
         ],

@@ -121,7 +121,6 @@ class MeSerializer(serializers.ModelSerializer):
             return None
 
         request = self.context.get("request")
-        print("REQUEST IS:", request)
         url = obj.avatar.get_download_url()
 
         if request:

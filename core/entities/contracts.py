@@ -9,3 +9,4 @@ class BaseEntity(ABC):
     @abstractmethod
     def query(self, *, user, tenant, query: dict) -> dict:
         raise NotImplementedError
+

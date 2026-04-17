@@ -50,6 +50,12 @@ UI_PAGES = [
                 title="Aksi Cepat",
                 items=[
                     ShortcutItem(
+                        key="partner_profile",
+                        label="Profil Partner",
+                        icon="user",
+                        to="/partner/profile",
+                    ),
+                    ShortcutItem(
                         key="incoming_bookings",
                         label="Booking Masuk",
                         icon="inbox",

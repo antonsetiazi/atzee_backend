@@ -129,17 +129,17 @@ def update_partner(
     )
 
     if name is not None:
-        partner.name = name
+        partner.name = name.strip()
     if code is not None:
-        partner.code = code
+        partner.code = code.strip()
     if phone is not None:
-        partner.phone = phone
+        partner.phone = phone.strip()
     if email is not None:
-        partner.email = email
+        partner.email = email.strip()
     if address is not None:
-        partner.address = address
+        partner.address = address.strip()
     if notes is not None:
-        partner.notes = notes
+        partner.notes = notes.strip()
     if extensions is not None:
         partner.extensions = extensions
 

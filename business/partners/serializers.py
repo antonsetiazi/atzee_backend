@@ -21,6 +21,8 @@ class PartnerListSerializer(serializers.ModelSerializer):
 
 
 class PartnerDetailSerializer(serializers.ModelSerializer):
+    location_label = serializers.ReadOnlyField()
+    city_name = serializers.ReadOnlyField()
     class Meta:
         model = Partner
         fields = [
@@ -34,6 +36,8 @@ class PartnerDetailSerializer(serializers.ModelSerializer):
             "extensions",
             "search_latitude",
             "search_longitude",
+            "location_label",
+            "city_name",
             "base_price",
             "rating_avg",
             "rating_count",

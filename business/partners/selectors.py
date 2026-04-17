@@ -63,3 +63,11 @@ def get_marketplace_partner_queryset(*, tenant: Tenant) -> QuerySet[Partner]:
         get_partner_queryset(tenant=tenant)
         .filter(search_latitude__isnull=False)
     )
+
+
+def get_my_partner(*, tenant, user):
+    return Partner.objects.filter(
+        tenant=tenant,
+        core_user=user,
+        is_deleted=False,
+    ).first()
