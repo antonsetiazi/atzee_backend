@@ -47,18 +47,42 @@ class UserAddressUpdateSerializer(serializers.ModelSerializer):
 
 
 class UserBankSerializer(serializers.ModelSerializer):
+    bank_id = serializers.IntegerField(source="bank.id")
+    bank_name = serializers.CharField(source="bank.name")
+
     class Meta:
         model = UserBankAccount
-        fields = "__all__"
+        fields = [
+            "id",
+            "bank_id",
+            "bank_name",
+            "account_number",
+            "account_name",
+            "is_default",
+            "is_verified",
+            "created_at",
+        ]
 
 
 class UserBankCreateSerializer(serializers.ModelSerializer):
+    bank_id = serializers.IntegerField()
     class Meta:
         model = UserBankAccount
-        exclude = ["user", "tenant"]
+        fields = [
+            "bank_id",
+            "account_number",
+            "account_name",
+            "is_default",
+        ]
 
 
 class UserBankUpdateSerializer(serializers.ModelSerializer):
+    bank_id = serializers.IntegerField()
     class Meta:
         model = UserBankAccount
-        exclude = ["user", "tenant"]        
+        fields = [
+            "bank_id",
+            "account_number",
+            "account_name",
+            "is_default",
+        ]   

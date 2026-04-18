@@ -10,6 +10,11 @@ class WithdrawalRequestSerializer(serializers.Serializer):
 
 
 class WithdrawalSerializer(serializers.ModelSerializer):
+    user_bank_id = serializers.SerializerMethodField()
+
+    def get_user_bank_id(self, obj):
+        return obj.destination.get("user_bank_id")
+    
     class Meta:
         model = Withdrawal
         fields = [
@@ -18,6 +23,7 @@ class WithdrawalSerializer(serializers.ModelSerializer):
             "fee",
             "status",
             "destination",
+            "user_bank_id",
             "created_at",
             "processed_at",
         ]

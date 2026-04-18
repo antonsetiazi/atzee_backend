@@ -26,7 +26,7 @@ def get_user_banks(*, tenant, user):
         tenant=tenant,
         user=user,
         is_active=True,
-    ).order_by("-is_default", "-created_at")
+    ).select_related("bank").order_by("-is_default", "-created_at")
 
 
 def get_user_bank_by_id(*, tenant, user, bank_id):

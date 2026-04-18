@@ -108,7 +108,14 @@ class UserBankAccount(models.Model):
         related_name="user_bank_accounts",
     )
 
-    bank_name = models.CharField(max_length=100)
+    bank = models.ForeignKey(
+        "core_master_banks.Bank",
+        on_delete=models.PROTECT,
+        related_name="user_accounts",
+        null=True,
+        blank=True,
+    )
+    
     account_number = models.CharField(max_length=50)
     account_name = models.CharField(max_length=150)
 

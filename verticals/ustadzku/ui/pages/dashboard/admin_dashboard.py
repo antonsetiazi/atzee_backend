@@ -98,6 +98,12 @@ UI_PAGES = [
                         icon="tool",
                         to="/admin/widgets",
                     ),
+                    ShortcutItem(
+                        key="banks",
+                        label="Master Banks",
+                        icon="book",
+                        to="/admin/master/banks",
+                    ),
                 ],
                 scrollable=False,
             ),

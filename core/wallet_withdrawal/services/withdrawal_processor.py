@@ -3,7 +3,7 @@
 from django.db import transaction
 from django.utils import timezone
 
-from wallet_withdrawal.models.withdrawal import Withdrawal, WithdrawalStatus
+from core.wallet_withdrawal.models.withdrawal import Withdrawal, WithdrawalStatus
 
 
 @transaction.atomic

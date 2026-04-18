@@ -30,10 +30,15 @@ class CorePermission(str, Enum):
 
     USER_WALLET_VIEW = "core.user.wallet.view"
     ADMIN_WALLET_WITHDRAWAL_VIEW = "core.admin.wallet.withdrawal.view"
+    ADMIN_WALLET_WITHDRAWAL_APPROVE = "core.admin.wallet.withdrawal.approve"
     ADMIN_WALLET_TRANSACTIONS_VIEW = "core.admin.wallet.transactions.view"
     ADMIN_USERS_VIEW = "core.admin.users.view"
     ADMIN_WIDGETS_VIEW = "core.admin.widgets.view"
     CATEGORIES_VIEW = "core.categories.view"
+    
+    ADMIN_BANK_VIEW = "core.admin.bank.view"
+    ADMIN_BANK_CREATE = "core.admin.bank.create"
+    ADMIN_BANK_EDIT = "core.admin.bank.edit"
 
 
     def __str__(self):

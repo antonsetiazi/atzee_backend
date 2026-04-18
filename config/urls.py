@@ -43,6 +43,7 @@ urlpatterns = [
     path("api/", include("core.files.urls")),
 
     # --- Core Master ---
+    path("api/", include("core.master.banks.urls")),
     path("api/", include("core.master.currencies.urls")),
     path("api/", include("core.master.uom.urls")),
     path("api/", include("core.master.locations.urls")),

@@ -36,20 +36,22 @@ def request_withdrawal(*, tenant, user, amount: Decimal, destination_bank_id) ->
         raise ValidationError("Invalid amount")
 
     # 🔥 GET BANK
-    bank = get_user_bank_by_id(
+    user_bank  = get_user_bank_by_id(
         tenant=tenant,
         user=user,
         bank_id=destination_bank_id
     )
 
-    if not bank:
+    if not user_bank:
         raise ValidationError("Bank account not found")
     
     # 🔥 SNAPSHOT
     destination = {
-        "bank_name": bank.bank_name,
-        "account_number": bank.account_number,
-        "account_name": bank.account_name,
+        "user_bank_id": user_bank.id,
+        "bank_name": user_bank.bank.name,
+        "bank_code": getattr(user_bank.bank, "code", ""),
+        "account_number": user_bank.account_number,
+        "account_name": user_bank.account_name,
     }
 
     # ==============================

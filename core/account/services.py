@@ -1,6 +1,9 @@
+# core/account/services.py
+
 from django.db import transaction
 from core.account.models import UserAddress
 from core.account.models import UserBankAccount
+from core.master.banks.models import Bank
 
 
 @transaction.atomic
@@ -78,10 +81,23 @@ def create_user_bank(*, tenant, user, **data):
             user=user
         ).update(is_default=False)
 
+    bank = Bank.objects.filter(
+        tenant=tenant,
+        id=data["bank_id"],
+        is_active=True,
+        is_deleted=False
+    ).first()
+
+    if not bank:
+        raise Exception("Bank not found")
+    
     return UserBankAccount.objects.create(
         tenant=tenant,
         user=user,
-        **data
+        bank=bank,
+        account_number=data["account_number"],
+        account_name=data["account_name"],
+        is_default=data.get("is_default", False),
     )
 
 
