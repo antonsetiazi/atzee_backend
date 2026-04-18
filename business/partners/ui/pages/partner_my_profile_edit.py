@@ -12,7 +12,7 @@ UI_PAGES = Page(
     key="partners.my_profile.edit",
     entity="partners",
     domain="business",
-    title="Edit My Profile",
+    title="Edit My Partner Profile",
     path="/partner/my-profile/edit",
     permissions=[BusinessPermission.PARTNERS_PORTAL_UPDATE],
     data_source="/entities/business/partners.me/query/",
@@ -28,7 +28,8 @@ UI_PAGES = Page(
                 "page": "/partner/profile"
             },
             refresh_cache=[
-                "partners.me"
+                "partner_portal.my_profile",
+                "partners.my_profile.edit"
             ],
             fields=[
                 Field(
@@ -62,10 +63,16 @@ UI_PAGES = Page(
                     label="Biography",
                     type="textarea",
                 ),
+
                 Field(
-                    key="working_hours_label",
-                    label="Working Hours",
-                    type="text",
+                    key="working_hours.start",
+                    label="Jam Mulai",
+                    type="number",
+                ),
+                Field(
+                    key="working_hours.end",
+                    label="Jam Selesai",
+                    type="number",
                 ),
             ],
             actions=[

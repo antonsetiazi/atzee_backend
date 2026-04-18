@@ -50,6 +50,12 @@ class PartnerMeEntity(BaseEntity):
                 f"{settings.BASE_BACKEND_URL}/api/files/{f.id}/download/"
             )
 
+        
+        # =====================================
+        # WORKING HOURS
+        # =====================================
+        working_hours = self._working_hours_raw(service)
+
         return {
             "id": str(partner.id),
             "name": partner.name,
@@ -74,7 +80,11 @@ class PartnerMeEntity(BaseEntity):
                 else "No biography yet."
             ),
 
-            "working_hours_label": self._working_hours(service),
+            # 🔥 for display page
+            "working_hours_label": self._working_hours_label(working_hours),
+
+            # 🔥 for edit form
+            "working_hours": working_hours,
 
             # temp stat dummy (nanti real query)
             "total_bookings": 0,
@@ -90,16 +100,28 @@ class PartnerMeEntity(BaseEntity):
             "image_urls": image_urls,
         }
 
-    def _working_hours(self, service):
+    # ==========================================
+    # RAW STRUCTURED VALUE
+    # ==========================================
+    def _working_hours_raw(self, service):
         if not service:
-            return "-"
+            return {
+                "start": 8,
+                "end": 17,
+            }
 
         wh = service.working_hours or {}
 
+        return {
+            "start": int(wh.get("start", 8)),
+            "end": int(wh.get("end", 17)),
+        }
+    
+    # ==========================================
+    # LABEL FOR UI DISPLAY
+    # ==========================================
+    def _working_hours_label(self, wh):
         start = wh.get("start")
         end = wh.get("end")
-
-        if start is None or end is None:
-            return "-"
 
         return f"{start}:00 - {end}:00"

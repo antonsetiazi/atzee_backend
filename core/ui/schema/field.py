@@ -30,5 +30,7 @@ class Field:
     value_key: Optional[str] = None
     label_key: Optional[str] = None
 
+    params: Optional[dict[str, Any]] = None
+    
     bind: Optional[str] = None
     readonly_when_bound: bool = False

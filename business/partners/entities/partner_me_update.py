@@ -1,6 +1,7 @@
 # business/partners/entities/partner_me_update.py
 
 from business.partners import selectors
+from business.partners.models.service_profile import PartnerServiceProfile
 from core.entities.contracts import BaseEntity
 from business.enum.permissions import BusinessPermission
 
@@ -23,36 +24,41 @@ class PartnerMeUpdateEntity(BaseEntity):
             raise Exception("Partner profile not found")
 
         # ======================================
-        # BASIC FIELDS
+        # BASIC PARTNER
         # ======================================
         partner.name = data.get("name", partner.name)
         partner.email = data.get("email", partner.email)
         partner.phone = data.get("phone", partner.phone)
         partner.address = data.get("address", partner.address)
 
-        # ======================================
-        # META FIELDS
-        # ======================================
-        meta = partner.meta or {}
-
-        meta["specialization"] = data.get(
-            "specialization",
-            meta.get("specialization"),
-        )
-
-        meta["bio"] = data.get(
-            "bio",
-            meta.get("bio"),
-        )
-
-        meta["working_hours_label"] = data.get(
-            "working_hours_label",
-            meta.get("working_hours_label"),
-        )
-
-        partner.meta = meta
         partner.updated_by = user
         partner.save()
+
+        # ======================================
+        # SERVICE PROFILE
+        # ======================================
+        profile, _ = PartnerServiceProfile.objects.get_or_create(
+            partner=partner
+        )
+
+        profile.specialization = data.get(
+            "specialization",
+            profile.specialization
+        )
+
+        profile.bio = data.get(
+            "bio",
+            profile.bio
+        )
+
+        working_hours = data.get("working_hours") or {}
+
+        profile.working_hours = {
+            "start": int(working_hours.get("start", 8)),
+            "end": int(working_hours.get("end", 17)),
+        }
+
+        profile.save()
 
         return {
             "success": True,

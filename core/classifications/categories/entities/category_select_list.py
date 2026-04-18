@@ -2,7 +2,7 @@
 
 from core.entities.contracts import BaseEntity
 from core.classifications.categories.models import Category
-
+from core.enum.permissions import CorePermission
 
 class CategorySelectListEntity(BaseEntity):
     """
@@ -11,7 +11,7 @@ class CategorySelectListEntity(BaseEntity):
 
     key = "categories.select.list"
     domain = "core"
-    permission = "core.categories.view"
+    permission = CorePermission.CATEGORIES_VIEW
 
     def query(self, *, user, tenant, query: dict) -> dict:
         qs = Category.objects.filter(
@@ -21,6 +21,7 @@ class CategorySelectListEntity(BaseEntity):
         )
 
         scope = query.get("scope")
+
         if scope:
             qs = qs.filter(scope=scope)
 

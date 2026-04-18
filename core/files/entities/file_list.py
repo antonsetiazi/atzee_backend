@@ -4,6 +4,8 @@ from core.entities.contracts import BaseEntity
 from core.files.models import File
 from django.conf import settings
 
+from core.enum.permissions import CorePermission
+
 base_url = settings.BASE_BACKEND_URL
 class FileListEntity(BaseEntity):
     """
@@ -14,7 +16,7 @@ class FileListEntity(BaseEntity):
 
     key = "files.list"
     domain = "core"
-    permission = "core.files.view"
+    permission = CorePermission.FILES_VIEW
 
     def query(self, *, user, tenant, query: dict) -> dict:
         related_entity = query.get("related_entity")

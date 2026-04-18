@@ -33,6 +33,7 @@ class CorePermission(str, Enum):
     ADMIN_WALLET_TRANSACTIONS_VIEW = "core.admin.wallet.transactions.view"
     ADMIN_USERS_VIEW = "core.admin.users.view"
     ADMIN_WIDGETS_VIEW = "core.admin.widgets.view"
+    CATEGORIES_VIEW = "core.categories.view"
 
 
     def __str__(self):

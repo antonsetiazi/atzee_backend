@@ -105,10 +105,18 @@ ROLES = [
             CorePermission.ACCOUNT_PROFILE_UPDATE,
             CorePermission.DASHBOARD_VIEW,
             CorePermission.NOTIFICATION_VIEW,
+            CorePermission.CATEGORIES_VIEW,
+            CorePermission.FILES_VIEW,
+            
             BusinessPermission.PARTNERS_VIEW,
             BusinessPermission.PARTNERS_PORTAL,
             BusinessPermission.PARTNERS_PORTAL_UPDATE,
             # BusinessPermission.PARTNER_BOOKINGS_VIEW,
+
+            MarketplacePermission.PARTNER_PRODUCTS_VIEW,
+            MarketplacePermission.PARTNER_PRODUCTS_EDIT,
+            MarketplacePermission.PARTNER_PRODUCTS_CREATE,
+            
             UstadzkuPermission.PARTNER_DASHBOARD_VIEW,
         ],
     },

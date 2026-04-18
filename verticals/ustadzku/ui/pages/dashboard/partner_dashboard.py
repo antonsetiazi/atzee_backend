@@ -56,6 +56,12 @@ UI_PAGES = [
                         to="/partner/profile",
                     ),
                     ShortcutItem(
+                        key="partner_products",
+                        label="Produk Layanan",
+                        icon="box",
+                        to="/partner/products",
+                    ),
+                    ShortcutItem(
                         key="incoming_bookings",
                         label="Booking Masuk",
                         icon="inbox",
