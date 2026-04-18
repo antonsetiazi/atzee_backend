@@ -1,0 +1,9 @@
+1. Jalankan Django di localhost:8000
+
+2. buka aplikasi ngrok.
+
+3. Jalankan ngrok http 8000 → dapatkan URL publik.
+    ... > ngrok http 8000
+    
+4. Set URL webhook Midtrans ke URL ngrok.
+Lakukan simulasi pembayaran → webhook akan diterima di localhost.

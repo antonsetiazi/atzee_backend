@@ -19,6 +19,18 @@ BOOKING_CANCELLED = "booking.cancelled"
 
 
 # =========================================================
+# Order Events
+# =========================================================
+
+ORDER_CREATED = "order.created"
+ORDER_NEEDS_APPROVAL = "order.needs_approval"
+ORDER_ACCEPTED = "order.accepted"
+ORDER_REJECTED = "order.rejected"
+ORDER_CANCELLED = "order.cancelled"
+ORDER_COMPLETED = "order.completed"
+
+
+# =========================================================
 # Payment Events
 # =========================================================
 
@@ -57,6 +69,14 @@ ALL_NOTIFICATION_EVENTS = [
     BOOKING_REJECTED,
     BOOKING_CANCELLED,
 
+    # Order
+    ORDER_CREATED,
+    ORDER_NEEDS_APPROVAL,
+    ORDER_ACCEPTED,
+    ORDER_REJECTED,
+    ORDER_CANCELLED,
+    ORDER_COMPLETED,
+
     # Payment
     PAYMENT_PENDING,
     PAYMENT_SUCCESS,
@@ -84,6 +104,13 @@ EVENT_META = {
     BOOKING_ACCEPTED: {"level": "info", "category": "booking"},
     BOOKING_REJECTED: {"level": "warning", "category": "booking"},
     BOOKING_CANCELLED: {"level": "warning", "category": "booking"},
+
+    ORDER_CREATED: {"level": "success", "category": "order"},
+    ORDER_NEEDS_APPROVAL: {"level": "info", "category": "order"},
+    ORDER_ACCEPTED: {"level": "success", "category": "order"},
+    ORDER_REJECTED: {"level": "warning", "category": "order"},
+    ORDER_CANCELLED: {"level": "warning", "category": "order"},
+    ORDER_COMPLETED: {"level": "success", "category": "order"},
 
     PAYMENT_PENDING: {"level": "info", "category": "payment"},
     PAYMENT_SUCCESS: {"level": "info", "category": "payment"},

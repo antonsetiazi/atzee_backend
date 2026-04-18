@@ -16,6 +16,9 @@ from core.wallet import selectors as wallet_selectors
 from business.payment_gateway.models import PaymentGateway
 from business.payment_gateway.services.refund_service import refund_midtrans_payment
 
+from core.notifications.services import NotificationService
+from core.notifications.events import ORDER_REJECTED
+
 
 @transaction.atomic
 def cancel_order_by_partner(*, tenant, order_id, partner, reason: str = ""):
@@ -103,5 +106,23 @@ def cancel_order_by_partner(*, tenant, order_id, partner, reason: str = ""):
         "rejected_at",
         "updated_at"
     ])
+
+    # ==================================================
+    # 🔔 NOTIFY CUSTOMER
+    # ==================================================
+    message = "Partner menolak pesanan Anda."
+
+    if reason:
+        message += f" Alasan: {reason}"
+
+    NotificationService.notify(
+        user=order.user,
+        tenant=tenant,
+        event=ORDER_REJECTED,
+        title="Pesanan Ditolak",
+        message=message,
+        entity_type="order",
+        entity_id=str(order.id),
+    )
 
     return order

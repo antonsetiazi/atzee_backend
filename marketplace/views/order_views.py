@@ -23,6 +23,12 @@ from marketplace.services.order_partner_service import mark_order_completed_by_p
 from marketplace.services.order_start_service import start_order
 from core.tenants.services import TenantService
 
+from core.notifications.services import NotificationService
+from core.notifications.events import (
+    ORDER_CREATED,
+    ORDER_NEEDS_APPROVAL,
+)
+
 from core.fees.services.fee_engine import FeeEngine
 from core.fees.types import FeeInput
 
@@ -94,6 +100,36 @@ class CreateOrderView(APIView):
 
         serializer.is_valid(raise_exception=True)
         order = serializer.save()
+
+        # ==================================================
+        # 🔔 CUSTOMER NOTIFICATION
+        # ==================================================
+        NotificationService.notify(
+            user=request.user,
+            tenant=tenant,
+            event=ORDER_CREATED,
+            title="Pesanan berhasil dibuat",
+            message="Pesanan Anda berhasil dibuat dan menunggu persetujuan partner.",
+            entity_type="order",
+            entity_id=str(order.id),
+        )
+
+        # ==================================================
+        # 🔔 PARTNER NOTIFICATION
+        # ==================================================
+        if (
+            order.selected_partner
+            and order.selected_partner.core_user
+        ):
+            NotificationService.notify(
+                user=order.selected_partner.core_user,
+                tenant=tenant,
+                event=ORDER_NEEDS_APPROVAL,
+                title="Order Baru Masuk",
+                message="Ada pesanan baru yang menunggu persetujuan Anda.",
+                entity_type="order",
+                entity_id=str(order.id),
+            )
 
         return Response({
             "id": order.id,

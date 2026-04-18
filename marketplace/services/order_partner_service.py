@@ -6,6 +6,9 @@ from django.core.exceptions import ValidationError
 
 from marketplace.models.order import Order, OrderStatus, PaymentStatus
 
+from core.notifications.services import NotificationService
+from core.notifications.events import SESSION_COMPLETED
+
 
 @transaction.atomic
 def mark_order_completed_by_partner(*, tenant, order_id, partner):
@@ -32,5 +35,18 @@ def mark_order_completed_by_partner(*, tenant, order_id, partner):
     # 🔥 UPDATE STATE (NO MONEY MOVEMENT)
     order.status = OrderStatus.COMPLETED_BY_PARTNER
     order.save(update_fields=["status", "updated_at"])
+
+    # ==================================================
+    # 🔔 NOTIFY CUSTOMER
+    # ==================================================
+    NotificationService.notify(
+        user=order.user,
+        tenant=tenant,
+        event=SESSION_COMPLETED,
+        title="Pesanan Selesai",
+        message="Partner telah menyelesaikan pesanan Anda. Silakan konfirmasi penyelesaian.",
+        entity_type="order",
+        entity_id=str(order.id),
+    )
 
     return order

@@ -13,6 +13,10 @@ from core.wallet.services import _create_transaction
 from core.wallet import selectors as wallet_selectors
 from core.fees.models import OrderFee
 
+from core.notifications.services import NotificationService
+from core.notifications.events import ORDER_COMPLETED
+
+
 @transaction.atomic
 def complete_order(order_id: int, user):
     order = (
@@ -136,4 +140,33 @@ def complete_order(order_id: int, user):
     order.completed_at = timezone.now()
     order.save(update_fields=["status", "completed_at", "updated_at"])
 
+
+    # ==================================================
+    # 🔔 NOTIFY CUSTOMER
+    # ==================================================
+    NotificationService.notify(
+        user=order.user,
+        tenant=order.tenant,
+        event=ORDER_COMPLETED,
+        title="Pesanan Selesai",
+        message="Pesanan berhasil diselesaikan.",
+        entity_type="order",
+        entity_id=str(order.id),
+    )
+
+    # ==================================================
+    # 🔔 NOTIFY PARTNER
+    # ==================================================
+    if order.partner and order.partner.core_user:
+        NotificationService.notify(
+            user=order.partner.core_user,
+            tenant=order.tenant,
+            event=ORDER_COMPLETED,
+            title="Dana Dicairkan",
+            message="Pesanan dikonfirmasi selesai. Dana telah masuk ke saldo Anda.",
+            entity_type="order",
+            entity_id=str(order.id),
+        )
+
+        
     return order

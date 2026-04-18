@@ -15,6 +15,9 @@ from business.booking.services.confirm import confirm_booking
 from core.wallet import services as wallet_services
 from core.wallet import selectors as wallet_selectors
 
+from core.notifications.services import NotificationService
+from core.notifications.events import PAYMENT_SUCCESS
+
 
 @transaction.atomic
 def handle_order_payment_by_id(order_id: str, payment=None, tenant=None):
@@ -106,5 +109,35 @@ def handle_order_payment_by_id(order_id: str, payment=None, tenant=None):
         "paid_at",
         "updated_at"
     ])
+
+    # ==================================================
+    # 🔔 CUSTOMER NOTIFICATION
+    # ==================================================
+    NotificationService.notify(
+        user=order.user,
+        tenant=order.tenant,
+        event=PAYMENT_SUCCESS,
+        title="Pembayaran Berhasil",
+        message="Pembayaran Anda berhasil diterima.",
+        entity_type="order",
+        entity_id=str(order.id),
+    )
+
+    # ==================================================
+    # 🔔 PARTNER NOTIFICATION
+    # ==================================================
+    if (
+        order.selected_partner
+        and order.selected_partner.core_user
+    ):
+        NotificationService.notify(
+            user=order.selected_partner.core_user,
+            tenant=order.tenant,
+            event=PAYMENT_SUCCESS,
+            title="Order Sudah Dibayar",
+            message="Customer telah melakukan pembayaran. Anda dapat memproses order.",
+            entity_type="order",
+            entity_id=str(order.id),
+        )
 
     return order

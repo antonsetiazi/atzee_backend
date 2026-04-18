@@ -7,6 +7,10 @@ from marketplace.models.order import Order, OrderStatus, PaymentStatus
 from business.booking.models import Booking
 from business.booking.services.start import start_booking
 
+from core.notifications.services import NotificationService
+from core.notifications.events import SESSION_STARTED
+
+
 @transaction.atomic
 def start_order(*, tenant, order_id, partner):
     order = (
@@ -32,6 +36,19 @@ def start_order(*, tenant, order_id, partner):
     # 🔥 UPDATE STATUS
     order.status = OrderStatus.ON_GOING
     order.save(update_fields=["status", "updated_at"])
+
+    # ==================================================
+    # 🔔 NOTIFY CUSTOMER
+    # ==================================================
+    NotificationService.notify(
+        user=order.user,
+        tenant=tenant,
+        event=SESSION_STARTED,
+        title="Pesanan Dimulai",
+        message="Partner telah mulai mengerjakan pesanan Anda.",
+        entity_type="order",
+        entity_id=str(order.id),
+    )
 
     # 🔗 START BOOKING (optional, kalau ada)
     if order.booking_id:
