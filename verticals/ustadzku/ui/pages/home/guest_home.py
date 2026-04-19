@@ -10,7 +10,8 @@ from core.ui.schema.block import (
     BannerBlock,
     ListFieldSchema,
     ListViewBlock,
-    ListTileSchema,
+    CategorySliderBlock,
+    ListingSectionBlock
 )
 
 from business.enum.permissions import BusinessPermission
@@ -41,6 +42,11 @@ UI_PAGES = [
                 title="Informasi Penting",
                 data_key="banners",
                 size="lg",
+            ),
+
+            CategorySliderBlock(
+                title="Kategori Layanan",
+                scope="partners.service_category",
             ),
 
             # ===============================
@@ -75,7 +81,43 @@ UI_PAGES = [
                     ),
                 ],
                 scrollable=False,
-            ),            
+            ), 
+
+            ListingSectionBlock(
+                title="Ustadz Terdekat",
+                section_type="nearby_services",
+                limit=4,
+            ),
+
+            ListingSectionBlock(
+                title="Paling Populer",
+                section_type="popular_services",
+                limit=4,
+            ),
+
+            ListingSectionBlock(
+                title="Terbaru",
+                section_type="new_services",
+                limit=4,
+            ),
+
+            ListingSectionBlock(
+                title="Rekomendasi",
+                section_type="recommended_services",
+                limit=4,
+            ),
+
+            ListingSectionBlock(
+                title="Top Rated",
+                section_type="top_rated_services",
+                limit=4,
+            ),
+
+            ListingSectionBlock(
+                title="Paling Terjangkau",
+                section_type="cheap_services",
+                limit=4,
+            ),           
         ],
     ),
 ]

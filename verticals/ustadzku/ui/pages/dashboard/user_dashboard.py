@@ -11,7 +11,8 @@ from core.ui.schema.block import (
     BannerBlock,
     ListFieldSchema,
     ListViewBlock,
-    ListTileSchema,
+    CategorySliderBlock,
+    ListingSectionBlock,
 )
 
 from business.enum.permissions import BusinessPermission
@@ -56,6 +57,11 @@ UI_PAGES = [
                 size="lg",
                 padding="md",
                 margin_bottom="lg",
+            ),
+
+            CategorySliderBlock(
+                title="Kategori Layanan",
+                scope="partners.service_category",
             ),
 
             # ===============================
@@ -120,47 +126,44 @@ UI_PAGES = [
                         size="sm",
                         value=None,
                     ),
-                    # StatBlock(
-                    #     key="total_booking",
-                    #     title="Total Booking",
-                    #     data_key="total_booking",
-                    #     size="sm",
-                    #     value=None,
-                    # ),
                 ]
+            ),         
+
+            ListingSectionBlock(
+                title="Ustadz Terdekat",
+                section_type="nearby_services",
+                limit=4,
             ),
 
-            # ======================================
-            # UPCOMING LIST
-            # ======================================
-            ListViewBlock(
-                title="Booking Mendatang",
-                data_key="upcoming_bookings",
-                tile=ListTileSchema(
-                    title=ListFieldSchema(key="booking_number"),
-                    subtitle=ListFieldSchema(key="partner_name"),
-                    description=ListFieldSchema(key="start_time", format="date"),
-                    status=ListFieldSchema(key="status"),
-                ),
-                layout="standard",
-                permissions=[BusinessPermission.BOOKINGS_VIEW],
+            ListingSectionBlock(
+                title="Paling Populer",
+                section_type="popular_services",
+                limit=4,
             ),
 
-            # ===============================
-            # RIWAYAT TERAKHIR
-            # ===============================
-            ListViewBlock(
-                title="Riwayat Terakhir",
-                data_key="recent_bookings",
-                tile=ListTileSchema(
-                    title=ListFieldSchema(key="booking_number"),
-                    subtitle=ListFieldSchema(key="partner_name"),
-                    description=ListFieldSchema(key="start_time", format="date"),
-                    status=ListFieldSchema(key="status"),
-                ),
-                layout="standard",
-                permissions=[BusinessPermission.BOOKINGS_VIEW],
-            )
+            ListingSectionBlock(
+                title="Terbaru",
+                section_type="new_services",
+                limit=4,
+            ),
+
+            ListingSectionBlock(
+                title="Rekomendasi",
+                section_type="recommended_services",
+                limit=4,
+            ),
+
+            ListingSectionBlock(
+                title="Top Rated",
+                section_type="top_rated_services",
+                limit=4,
+            ),
+
+            ListingSectionBlock(
+                title="Paling Terjangkau",
+                section_type="cheap_services",
+                limit=4,
+            ),
         ],
     ),
 ]

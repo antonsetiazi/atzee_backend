@@ -41,6 +41,7 @@ def get_service_listings(
         lat: float | None = None,
         lng: float | None = None,
         radius_km: int | None = None,
+        sort="latest",
 ):
     """
     Listing service marketplace.
@@ -133,6 +134,42 @@ def get_service_listings(
         # 🔥 RADIUS FILTER
         if radius_km:
             data = [d for d in data if d["distance"] <= radius_km]
+
+
+    # ==================================
+    # UNIVERSAL SORTING
+    # ==================================
+
+    if sort == "rating":
+        data.sort(
+            key=lambda x: (
+                x.get("rating", 0),
+                x.get("rating_count", 0),
+            ),
+            reverse=True,
+        )
+
+    elif sort == "popular":
+        data.sort(
+            key=lambda x: (
+                x.get("rating_count", 0),
+                x.get("rating", 0),
+            ),
+            reverse=True,
+        )
+
+    elif sort == "price_asc":
+        data.sort(key=lambda x: x.get("starting_price", 0))
+
+    elif sort == "price_desc":
+        data.sort(key=lambda x: x.get("starting_price", 0), reverse=True)
+
+    elif sort == "latest":
+        data.sort(key=lambda x: x.get("partner_id", 0), reverse=True)
+
+    elif sort == "distance":
+        # already sorted above if lat/lng exists
+        pass
 
     return data
 

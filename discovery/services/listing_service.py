@@ -15,6 +15,7 @@ def get_service_listings(
     lat=None,
     lng=None,
     radius_km=None,
+    sort="latest",
 ):
     """
     source:
@@ -32,6 +33,7 @@ def get_service_listings(
             lat=lat,
             lng=lng,
             radius_km=radius_km,
+            sort=sort,
         )
 
     return marketplace_selector.get_service_listings(
@@ -42,4 +44,5 @@ def get_service_listings(
         lat=lat,
         lng=lng,
         radius_km=radius_km,
+        sort=sort,
     )

@@ -89,6 +89,7 @@ class ServiceListingView(APIView):
             lng = request.GET.get("lng")
             radius = request.GET.get("radius")
             city = request.GET.get("city")
+            sort = request.GET.get("sort", "latest")
 
             lat = float(lat) if lat else None
             lng = float(lng) if lng else None
@@ -103,6 +104,7 @@ class ServiceListingView(APIView):
                 lat=lat,
                 lng=lng,
                 radius_km=radius,
+                sort=sort,
             )
 
             page = int(request.GET.get("page", 1))

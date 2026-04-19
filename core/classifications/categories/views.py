@@ -1,7 +1,7 @@
 # core/classifications/categories/views.py
 
 from rest_framework import viewsets, status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
 from core.tenants.services import TenantService
@@ -15,7 +15,7 @@ from core.classifications.categories.serializers import (
 
 
 class CategoryViewSet(viewsets.ViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def list(self, request):
         tenant = TenantService.get_current_tenant(request)

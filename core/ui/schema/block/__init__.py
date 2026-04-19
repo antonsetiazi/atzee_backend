@@ -5,6 +5,7 @@ from .availability import AvailabilityBlock
 from .banner import BannerBlock
 from .booking import BookingBlock
 from .card_list import CardListBlock, CardField
+from .category_slider import CategorySliderBlock
 from .chart import ChartBlock
 from .container import ContainerBlock 
 from .file import FileBlock
@@ -14,6 +15,7 @@ from .image_gallery import ImageGalleryBlock
 from .info import InfoBlock
 from .list import ListBlock, ListItemField
 from .list_view import ListViewBlock, ListTileSchema, ListFieldSchema
+from .listing_section import ListingSectionBlock
 from .map import MapBlock
 from .shortcut import ShortcutBlock, ShortcutItem
 from .stat import StatBlock

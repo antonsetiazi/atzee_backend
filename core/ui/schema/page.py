@@ -13,10 +13,12 @@ from .block import (
     StatBlock, 
     ChartBlock, 
     TextBlock,
+    ListingSectionBlock,
     ContainerBlock,
     ShortcutBlock,
     BannerBlock,
     AvailabilityBlock,
+    CategorySliderBlock,
 )
 
 PageBlock = Union[
@@ -28,10 +30,12 @@ PageBlock = Union[
     StatBlock, 
     ChartBlock, 
     TextBlock,
+    ListingSectionBlock,
     ContainerBlock,
     ShortcutBlock,
     BannerBlock,
     AvailabilityBlock,
+    CategorySliderBlock,
 ]
 
 HTTPMethod = Literal["GET", "POST", "PATCH", "DELETE"]
