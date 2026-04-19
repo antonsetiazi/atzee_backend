@@ -40,8 +40,8 @@ UI_PAGES = [
             # 🔥 HEADER DASHBOARD
             # ===============================
             HeaderBlock(
-                title="Dashboard",
-                subtitle="Ringkasan aktivitas Anda",
+                title="HOME",
+                subtitle="Platform Booking Ustadz",
                 variant="dashboard",
                 show_greeting=True,
                 show_avatar=True,

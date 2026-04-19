@@ -4,7 +4,7 @@ from core.ui.registry import register_ui_module_pages
 from core.ui.schema.page import Page
 from core.ui.schema.block import (
     ContainerBlock,
-    StatBlock,
+    HeaderBlock,
     ShortcutBlock,
     ShortcutItem,
     BannerBlock,
@@ -36,6 +36,18 @@ UI_PAGES = [
         blocks=[
 
             # ===============================
+            # 🔥 HEADER DASHBOARD
+            # ===============================
+            HeaderBlock(
+                title="HOME",
+                subtitle="Platform Booking Ustadz",
+                variant="dashboard",
+                show_greeting=False,
+                show_avatar=False,
+                show_search=False,
+            ),
+
+            # ===============================
             # Banner / Notifikasi Penting
             # ===============================
             BannerBlock(
@@ -48,40 +60,6 @@ UI_PAGES = [
                 title="Kategori Layanan",
                 scope="partners.service_category",
             ),
-
-            # ===============================
-            # Shortcut: Cari Ustadz
-            # ===============================
-            ShortcutBlock(
-                title="Aksi Cepat",
-                items=[
-                    ShortcutItem(
-                        key="search_ustadz",
-                        label="Cari Ustadz",
-                        icon="search",
-                        to="/business/partners/search",
-                    ),
-                    ShortcutItem(
-                        key="my_bookings",
-                        label="Riwayat Booking",
-                        icon="calendar",
-                        to="/business/guest/bookings/schedule",
-                    ),
-                    ShortcutItem(
-                        key="transactions",
-                        label="Transaksi",
-                        icon="credit-card",
-                        to="/ustadzku/transactions",
-                    ),
-                    ShortcutItem(
-                        key="wallet",
-                        label="Wallet",
-                        icon="wallet",
-                        to="/core/wallet",
-                    ),
-                ],
-                scrollable=False,
-            ), 
 
             ListingSectionBlock(
                 title="Ustadz Terdekat",
