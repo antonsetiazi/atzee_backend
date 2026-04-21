@@ -23,10 +23,17 @@ class PartnerListSerializer(serializers.ModelSerializer):
 class PartnerDetailSerializer(serializers.ModelSerializer):
     location_label = serializers.ReadOnlyField()
     city_name = serializers.ReadOnlyField()
+
+    core_user_id = serializers.IntegerField(
+        source="core_user.id",
+        read_only=True
+    )
+
     class Meta:
         model = Partner
         fields = [
             "id",
+            "core_user_id",
             "code",
             "name",
             "phone",

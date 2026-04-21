@@ -25,6 +25,7 @@ class PartnerOrderListView(ListAPIView):
             Order.objects
             .filter(
                 tenant=tenant,
+                is_deleted=False,
                 # 🔥 CORE LOGIC
                 selected_partner=partner,  # order masuk ke dia
             )
@@ -50,6 +51,7 @@ class PartnerOrderDetailView(RetrieveAPIView):
             Order.objects
             .filter(
                 tenant=tenant,
+                is_deleted=False,
                 selected_partner=partner,
             )
             .prefetch_related("items__listing__product")

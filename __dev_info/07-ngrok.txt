@@ -7,3 +7,5 @@
     
 4. Set URL webhook Midtrans ke URL ngrok.
 Lakukan simulasi pembayaran → webhook akan diterima di localhost.
+
+https://dashboard.ngrok.com/get-started/setup/windows

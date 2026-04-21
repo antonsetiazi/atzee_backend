@@ -78,6 +78,11 @@ class OrderSerializer(serializers.ModelSerializer):
         return {
             "id": obj.selected_partner.id,
             "name": obj.selected_partner.name,
+            "owner_user_id": (
+                obj.selected_partner.core_user.id
+                if obj.selected_partner.core_user
+                else None
+            ),
         }
 
     def get_partner(self, obj):
@@ -88,6 +93,11 @@ class OrderSerializer(serializers.ModelSerializer):
             "id": obj.partner.id,
             "name": obj.partner.name,
             "phone": obj.partner.phone,
+            "owner_user_id": (
+                obj.partner.core_user.id
+                if obj.partner.core_user
+                else None
+            ),
         }
     
     def get_fees(self, obj):

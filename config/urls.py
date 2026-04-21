@@ -39,6 +39,9 @@ urlpatterns = [
     # --- Core Account ---
     path("api/account/", include("core.account.urls")),
 
+    # --- Core Chat ---
+    path("api/chat/", include("core.chat.urls")),
+
     # --- Core Files ---
     path("api/", include("core.files.urls")),
 

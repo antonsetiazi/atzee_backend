@@ -47,6 +47,7 @@ CORE_APPS = [
     "core.account.apps.AccountConfig",
     "core.apps.CoreConfig",
     "core.audit_logs.apps.AuditLogsConfig",
+    "core.chat.apps.ChatConfig",
     "core.classifications.categories.apps.CategoriesConfig",
     "core.classifications.tags.apps.TagsConfig",
     "core.classifications.labels.apps.LabelsConfig",

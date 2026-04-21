@@ -11,6 +11,7 @@ from core.ui.schema.block import (
     ListFieldSchema,
     ListViewBlock,
     ListTileSchema,
+    HeaderBlock,
 )
 
 from business.enum.permissions import BusinessPermission
@@ -33,6 +34,15 @@ UI_PAGES = [
         description="Ringkasan aktivitas, booking masuk, dan performa Anda sebagai Mitra",
         data_source="/entities/ustadzku/partner.dashboard/query/",
         blocks=[
+
+            HeaderBlock(
+                title="HOME",
+                subtitle="Platform Booking Ustadz",
+                variant="dashboard",
+                show_greeting=True,
+                show_avatar=True,
+                show_search=True,
+            ),
 
             # ===============================
             # Banner / Notifikasi Penting
@@ -73,6 +83,34 @@ UI_PAGES = [
                         icon="calendar",
                         to="/partner/schedule",
                     ),
+                ],
+                scrollable=False,
+            ),
+
+            ContainerBlock(
+                direction="row",
+                gap=16,
+                blocks=[
+                    StatBlock(
+                        key="total_earnings",
+                        title="Total Pendapatan (Bulan Ini)",
+                        data_key="total_earnings",
+                        size="sm",
+                        value=None,
+                    ),
+                    StatBlock(
+                        key="average_rating",
+                        title="Rating Rata-Rata",
+                        data_key="average_rating",
+                        size="sm",
+                        value=None,
+                    ),
+                ]
+            ),
+
+            ShortcutBlock(
+                title="Aksi Cepat",
+                items=[
                     ShortcutItem(
                         key="active_services",
                         label="Layanan Aktif",
@@ -123,70 +161,8 @@ UI_PAGES = [
                         size="sm",
                         value=None,
                     ),
-                    StatBlock(
-                        key="total_earnings",
-                        title="Total Pendapatan (Bulan Ini)",
-                        data_key="total_earnings",
-                        size="sm",
-                        value=None,
-                    ),
-                    StatBlock(
-                        key="average_rating",
-                        title="Rating Rata-Rata",
-                        data_key="average_rating",
-                        size="sm",
-                        value=None,
-                    ),
                 ]
-            ),
-
-            # ======================================
-            # LIST BOOKING MASUK
-            # ======================================
-            ListViewBlock(
-                title="Booking Masuk",
-                data_key="incoming_bookings",
-                tile=ListTileSchema(
-                    title=ListFieldSchema(key="booking_number"),
-                    subtitle=ListFieldSchema(key="user_name"),
-                    description=ListFieldSchema(key="start_time", format="date"),
-                    status=ListFieldSchema(key="status"),
-                ),
-                layout="standard",
-                permissions=[BusinessPermission.BOOKINGS_VIEW],
-            ),
-
-            # ======================================
-            # LIST LAYANAN AKTIF
-            # ======================================
-            ListViewBlock(
-                title="Layanan Aktif",
-                data_key="active_services",
-                tile=ListTileSchema(
-                    title=ListFieldSchema(key="service_name"),
-                    subtitle=ListFieldSchema(key="user_name"),
-                    description=ListFieldSchema(key="current_status"),
-                    status=ListFieldSchema(key="status"),
-                ),
-                layout="standard",
-                permissions=["verticals.ustadzku.tracking.view"],
-            ),
-
-            # ======================================
-            # RIWAYAT TERAKHIR / BOOKING SELESAI
-            # ======================================
-            ListViewBlock(
-                title="Riwayat Layanan",
-                data_key="recent_services",
-                tile=ListTileSchema(
-                    title=ListFieldSchema(key="booking_number"),
-                    subtitle=ListFieldSchema(key="user_name"),
-                    description=ListFieldSchema(key="start_time", format="date"),
-                    status=ListFieldSchema(key="status"),
-                ),
-                layout="standard",
-                permissions=["business.bookings.view"],
-            )
+            ),           
         ],
     ),
 ]

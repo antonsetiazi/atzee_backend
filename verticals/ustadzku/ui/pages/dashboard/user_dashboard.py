@@ -77,10 +77,10 @@ UI_PAGES = [
                         to="/services",
                     ),
                     ShortcutItem(
-                        key="my_bookings",
-                        label="Riwayat Booking",
-                        icon="calendar",
-                        to="/bookings",
+                        key="chat",
+                        label="Chat",
+                        icon="bubbles",
+                        to="/chat",
                     ),
                     ShortcutItem(
                         key="transactions",

@@ -7,6 +7,11 @@ class ServiceDetailSerializer(serializers.Serializer):
     id = serializers.IntegerField(source="partner.id")
     name = serializers.CharField(source="partner.name")
 
+    # Explicit relation ids
+    owner_user_id = serializers.SerializerMethodField()
+    partner_id = serializers.SerializerMethodField()
+    service_profile_id = serializers.SerializerMethodField()
+
     rating = serializers.SerializerMethodField()
     rating_count = serializers.SerializerMethodField()
     
@@ -20,6 +25,24 @@ class ServiceDetailSerializer(serializers.Serializer):
     bio = serializers.SerializerMethodField()
     working_hours = serializers.SerializerMethodField()
     
+    
+    # =====================================
+    # IDS
+    # =====================================
+
+    def get_owner_user_id(self, obj):
+        partner = obj.get("partner")
+        if partner and partner.core_user:
+            return partner.core_user.id
+        return None
+
+    def get_partner_id(self, obj):
+        partner = obj.get("partner")
+        return partner.id if partner else None
+
+    def get_service_profile_id(self, obj):
+        profile = obj.get("service_profile")
+        return profile.id if profile else None
     
     def get_resource_id(self, obj):
         profile = obj.get("service_profile")
