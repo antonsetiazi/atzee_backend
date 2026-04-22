@@ -6,6 +6,11 @@ from django.conf import settings
 from core.tenants.models import Tenant
 from core.users.models import User
 from django.contrib.auth.password_validation import validate_password
+from core.roles.models import Role, UserRole
+from core.roles.enums import RoleCode
+from django.db import transaction
+from business.partners.models import Partner
+from business.partners.models.service_profile import PartnerServiceProfile
 
 
 class LoginSerializer(serializers.Serializer):
@@ -52,10 +57,14 @@ class RegisterSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
     tenant_code = serializers.CharField()
 
+    register_as = serializers.ChoiceField(
+        choices=["user", "partner"],
+        default="user"
+    )
 
     class Meta:
         model = User
-        fields = ["email", "full_name", "password", "tenant_code"]
+        fields = ["email", "full_name", "password", "tenant_code", "register_as"]
 
 
     def validate_email(self, value):
@@ -77,18 +86,62 @@ class RegisterSerializer(serializers.Serializer):
         return tenant
 
 
+    @transaction.atomic
     def create(self, validated_data):
         tenant = validated_data.pop("tenant_code") 
+        register_as = validated_data.pop("register_as")
 
         user = User.objects.create_user(
             username=validated_data["email"],
             email=validated_data["email"],
             full_name=validated_data["full_name"],
             password=validated_data["password"],
+            is_active=True,
         )
 
         # assign user to tenant
-        user.tenant_memberships.create(tenant=tenant, is_active=True)
+        user.tenant_memberships.create(
+            tenant=tenant, 
+            is_active=True
+        )
+
+        # role mapping
+        role_code = (
+            RoleCode.CUSTOMER
+            if register_as == "user"
+            else RoleCode.PARTNER
+        )
+
+        role = Role.objects.filter(
+            tenant=tenant,
+            code=role_code
+        ).first()
+
+        if not role:
+            raise serializers.ValidationError(
+                f"Default role {role_code} not found"
+            )
+        
+        UserRole.objects.get_or_create(
+            user=user,
+            role=role
+        )
+
+        # =====================================
+        # PARTNER PROFILE AUTO CREATE
+        # =====================================
+        if register_as == "partner":
+            partner = Partner.objects.create(
+                tenant=tenant,
+                core_user=user,
+                name=user.full_name,
+                email=user.email,
+                phone=user.phone,
+            )
+
+            PartnerServiceProfile.objects.create(
+                partner=partner
+            )
 
         return user
     

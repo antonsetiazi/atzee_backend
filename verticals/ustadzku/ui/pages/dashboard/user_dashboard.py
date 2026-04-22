@@ -40,8 +40,8 @@ UI_PAGES = [
             # 🔥 HEADER DASHBOARD
             # ===============================
             HeaderBlock(
-                title="HOME",
-                subtitle="Platform Booking Ustadz",
+                title="USTADZKU",
+                subtitle="Cara Cerdas Cari Ustadz",
                 variant="dashboard",
                 show_greeting=True,
                 show_avatar=True,

@@ -9,7 +9,7 @@ from core.ui.schema.block import (
 from core.ui.schema.field import Field
 from core.ui.schema.action import Action
 
-
+ 
 UI_PAGES = Page(
     key="core.account.password",
     entity="account.password",
@@ -29,6 +29,9 @@ UI_PAGES = Page(
                     method="POST",
                     title="Change Password",
                     description="Enter your current password and new password to update.",
+                    redirect_to={
+                        "page": "/"
+                    },
                     fields=[
                         Field(
                             key="current_password",

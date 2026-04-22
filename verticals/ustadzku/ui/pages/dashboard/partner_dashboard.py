@@ -36,8 +36,8 @@ UI_PAGES = [
         blocks=[
 
             HeaderBlock(
-                title="HOME",
-                subtitle="Platform Booking Ustadz",
+                title="PARTNER USTADZKU",
+                subtitle="Dashboard Management Partner",
                 variant="dashboard",
                 show_greeting=True,
                 show_avatar=True,

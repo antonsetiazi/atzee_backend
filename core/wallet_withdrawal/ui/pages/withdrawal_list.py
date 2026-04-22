@@ -32,10 +32,19 @@ UI_PAGES = Page(
             search_mode="server",
 
             columns=[
-                TableColumn(key="id", label="ID"),
 
                 # 👤 USER (penting banget)
                 TableColumn(key="user_name", label="User"),
+
+                # 🔄 status
+                TableColumn(
+                    key="status",
+                    label="Status",
+                    align="center",
+                ),
+
+                TableColumn(key="id", label="ID"),
+                
                 TableColumn(key="user_phone", label="Phone"),
 
                 # 💰 amount
@@ -59,14 +68,7 @@ UI_PAGES = Page(
                 ),
 
                 # 🏦 destination
-                TableColumn(key="destination_label", label="Destination"),
-
-                # 🔄 status
-                TableColumn(
-                    key="status",
-                    label="Status",
-                    align="center",
-                ),
+                TableColumn(key="destination_label", label="Destination"),                
 
                 # ⏱️ processed time
                 TableColumn(

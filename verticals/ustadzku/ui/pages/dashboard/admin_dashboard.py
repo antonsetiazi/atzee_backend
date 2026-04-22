@@ -10,7 +10,7 @@ from core.ui.schema.block import (
     BannerBlock,
     ListFieldSchema,
     ListViewBlock,
-    ListTileSchema,
+    HeaderBlock,
 )
 
 from business.enum.permissions import BusinessPermission
@@ -25,9 +25,27 @@ UI_PAGES = [
         path="/dashboard",
         title="Admin Dashboard",
         permissions=[UstadzkuPermission.ADMIN_DASHBOARD_VIEW], 
+        meta={
+            "showBottomNav": True,
+            "showHeader": False,
+            "fullscreen": False,
+            "headerMode": "overlay",            
+        },
         description="Control Room & Monitoring Global Platform Ustadzku",
         data_source="/entities/ustadzku/admin.dashboard/query/",
         blocks=[
+
+            # ===============================
+            # 🔥 HEADER DASHBOARD
+            # ===============================
+            HeaderBlock(
+                title="ADMIN USTADZKU",
+                subtitle="Monitoring Global Platform",
+                variant="dashboard",
+                show_greeting=True,
+                show_avatar=True,
+                show_search=True,
+            ),
 
             # =====================================================
             # GLOBAL ALERT / ANOMALY SYSTEM
@@ -68,6 +86,51 @@ UI_PAGES = [
                         icon="archive",
                         to="/admin/orders",
                     ),
+                ],
+                scrollable=False,
+            ),
+
+            # =====================================================
+            # KPI ROW 2 (FINANCIAL MONITORING)
+            # =====================================================
+            ContainerBlock(
+                direction="row",
+                gap=16,
+                blocks=[
+                    StatBlock(
+                        key="platform_revenue",
+                        title="Revenue Platform (Bulan Ini)",
+                        data_key="platform_revenue",
+                        size="sm",
+                        value=None,
+                    ),
+                    StatBlock(
+                        key="pending_payment",
+                        title="Pending Payment",
+                        data_key="pending_payment",
+                        size="sm",
+                        value=None,
+                    ),
+                    StatBlock(
+                        key="pending_payout",
+                        title="Pending Payout",
+                        data_key="pending_payout",
+                        size="sm",
+                        value=None,
+                    ),
+                    StatBlock(
+                        key="escrow_balance",
+                        title="Escrow Balance",
+                        data_key="escrow_balance",
+                        size="sm",
+                        value=None,
+                    ),
+                ]
+            ),
+
+            ShortcutBlock(
+                title="Quick Navigation",
+                items=[                    
                     ShortcutItem(
                         key="payments",
                         label="Payments",
@@ -91,18 +154,6 @@ UI_PAGES = [
                         label="Reviews",
                         icon="notification",
                         to="/admin/reviews",
-                    ),
-                    ShortcutItem(
-                        key="widgets",
-                        label="Widgets",
-                        icon="tool",
-                        to="/admin/widgets",
-                    ),
-                    ShortcutItem(
-                        key="banks",
-                        label="Master Banks",
-                        icon="book",
-                        to="/admin/master/banks",
                     ),
                 ],
                 scrollable=False,
@@ -144,45 +195,26 @@ UI_PAGES = [
                         value=None,
                     ),
                 ]
-            ),
+            ), 
 
-            # =====================================================
-            # KPI ROW 2 (FINANCIAL MONITORING)
-            # =====================================================
-            ContainerBlock(
-                direction="row",
-                gap=16,
-                blocks=[
-                    StatBlock(
-                        key="platform_revenue",
-                        title="Revenue Platform (Bulan Ini)",
-                        data_key="platform_revenue",
-                        size="sm",
-                        value=None,
+            ShortcutBlock(
+                title="Quick Navigation",
+                items=[                    
+                    ShortcutItem(
+                        key="widgets",
+                        label="Widgets",
+                        icon="tool",
+                        to="/admin/widgets",
                     ),
-                    StatBlock(
-                        key="pending_payment",
-                        title="Pending Payment",
-                        data_key="pending_payment",
-                        size="sm",
-                        value=None,
+                    ShortcutItem(
+                        key="banks",
+                        label="Master Banks",
+                        icon="book",
+                        to="/admin/master/banks",
                     ),
-                    StatBlock(
-                        key="pending_payout",
-                        title="Pending Payout",
-                        data_key="pending_payout",
-                        size="sm",
-                        value=None,
-                    ),
-                    StatBlock(
-                        key="escrow_balance",
-                        title="Escrow Balance",
-                        data_key="escrow_balance",
-                        size="sm",
-                        value=None,
-                    ),
-                ]
-            ),
+                ],
+                scrollable=False,
+            ),                       
 
             # =====================================================
             # KPI ROW 3 (PARTNER HEALTH)

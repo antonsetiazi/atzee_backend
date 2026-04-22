@@ -101,6 +101,7 @@ class RegisterView(APIView):
                 "email": user.email,
                 "full_name": user.full_name,
                 "tenant_id": str(user.tenant_memberships.first().tenant.id),
+                "message": "Registration success"
             }, status=status.HTTP_201_CREATED)
         else:
             # Kirim error serializer ke frontend agar user tahu masalahnya
