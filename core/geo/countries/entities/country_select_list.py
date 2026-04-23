@@ -3,6 +3,7 @@
 from core.entities.contracts import BaseEntity
 from core.geo.countries.models import Country
 
+from core.enum.permissions import CorePermission
 
 class CountrySelectListEntity(BaseEntity):
     """
@@ -11,11 +12,10 @@ class CountrySelectListEntity(BaseEntity):
 
     key = "countries.select.list"
     domain = "core"
-    permission = "core.countries.view"
+    permission = CorePermission.COUNTRIES_SELECT_VIEW
 
     def query(self, *, user, tenant, query: dict) -> dict:
         qs = Country.objects.filter(
-            tenant=tenant,
             is_deleted=False,
             is_active=True,
         ).order_by("name")

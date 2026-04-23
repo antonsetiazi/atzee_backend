@@ -124,11 +124,18 @@ class Partner(TenantAwareModel, ExtensibleModel):
 
     @property
     def location_label(self):
+        parts = []
+
         if self.city:
-            return self.city.name
+            parts.append(self.city.name)
+
         if self.region:
-            return self.region.name
-        return "Lokasi belum diatur"
+            parts.append(self.region.name)
+
+        if self.country:
+            parts.append(self.country.name)
+
+        return ", ".join(parts) if parts else "Lokasi belum diatur"
     
     @property
     def city_name(self):

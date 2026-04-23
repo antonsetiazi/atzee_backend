@@ -17,9 +17,11 @@ class CityViewSet(viewsets.ViewSet):
 
     def list(self, request):
         country_id = request.query_params.get("country_id")
+        region_id = request.query_params.get("region_id")
 
         qs = selectors.get_cities(
             country_id=country_id,
+            region_id=region_id,
         )
 
         return Response(

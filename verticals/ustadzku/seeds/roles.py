@@ -110,6 +110,9 @@ ROLES = [
             CorePermission.DASHBOARD_VIEW,
             CorePermission.NOTIFICATION_VIEW,
             CorePermission.CATEGORIES_VIEW,
+            CorePermission.COUNTRIES_SELECT_VIEW,
+            CorePermission.REGIONS_SELECT_VIEW,
+            CorePermission.CITIES_SELECT_VIEW,
             CorePermission.FILES_VIEW,
             
             BusinessPermission.PARTNERS_VIEW,

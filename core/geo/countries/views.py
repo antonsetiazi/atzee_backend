@@ -18,8 +18,7 @@ class CountryViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
     def list(self, request):
-        tenant = TenantService.get_current_tenant(request)
-        qs = selectors.get_countries(tenant=tenant)
+        qs = selectors.get_countries()
         return Response(CountryListSerializer(qs, many=True).data)
 
     def retrieve(self, request, pk=None):

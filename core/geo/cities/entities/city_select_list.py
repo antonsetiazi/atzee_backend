@@ -1,30 +1,26 @@
-# core/geo/regions/entities/region_select_list.py
+# core/geo/cities/entities/city_select_list.py
 
 from core.entities.contracts import BaseEntity
-from core.geo.regions.models import Region
+from core.geo.cities.models import City
 
 from core.enum.permissions import CorePermission
 
 
-class RegionSelectListEntity(BaseEntity):
-    """
-    regions.select.list entity
-    """
-
-    key = "regions.select.list"
+class CitySelectListEntity(BaseEntity):
+    key = "cities.select.list"
     domain = "core"
-    permission = CorePermission.REGIONS_SELECT_VIEW
+    permission = CorePermission.CITIES_SELECT_VIEW
 
     def query(self, *, user, tenant, query: dict) -> dict:
-        country_id = query.get("country_id")
+        region_id = query.get("region_id")
 
-        qs = Region.objects.filter(
+        qs = City.objects.filter(
             is_deleted=False,
             is_active=True,
         )
 
-        if country_id:
-            qs = qs.filter(country_id=country_id)
+        if region_id:
+            qs = qs.filter(region_id=region_id)
 
         qs = qs.order_by("name")
 

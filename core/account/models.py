@@ -2,6 +2,9 @@
 
 from django.db import models
 from django.conf import settings
+from core.geo.countries.models import Country
+from core.geo.regions.models import Region
+from core.geo.cities.models import City
 
 
 class UserSettings(models.Model):
@@ -59,6 +62,32 @@ class UserAddress(models.Model):
     phone = models.CharField(max_length=30)
 
     address_line = models.TextField()
+
+    # New Geo Relation
+    country_ref = models.ForeignKey(
+        Country,
+        on_delete=models.PROTECT,
+        related_name="user_addresses",
+        null=True,
+        blank=True,
+    )
+
+    region_ref = models.ForeignKey(
+        Region,
+        on_delete=models.PROTECT,
+        related_name="user_addresses",
+        null=True,
+        blank=True,
+    )
+
+    city_ref = models.ForeignKey(
+        City,
+        on_delete=models.PROTECT,
+        related_name="user_addresses",
+        null=True,
+        blank=True,
+    )
+
     city = models.CharField(max_length=100)
     region = models.CharField(max_length=100, blank=True)
     postal_code = models.CharField(max_length=20, blank=True)

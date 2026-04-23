@@ -65,6 +65,10 @@ class PartnerMeEntity(BaseEntity):
 
             "location_label": partner.location_label,
 
+            "country_id": partner.country_id,
+            "region_id": partner.region_id,
+            "city_id": partner.city_id,
+
             "rating_avg": float(partner.rating_avg or 0),
             "rating_count": int(partner.rating_count or 0),
 

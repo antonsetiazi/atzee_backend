@@ -17,18 +17,56 @@ class UserSettingsSerializer(serializers.ModelSerializer):
 
 
 class UserAddressListSerializer(serializers.ModelSerializer):
+    country_name = serializers.CharField(
+        source="country_ref.name",
+        read_only=True
+    )
+
+    region_name = serializers.CharField(
+        source="region_ref.name",
+        read_only=True
+    )
+
+    city_name = serializers.CharField(
+        source="city_ref.name",
+        read_only=True
+    )
+
     class Meta:
         model = UserAddress
         fields = "__all__"
 
 
 class UserAddressDetailSerializer(serializers.ModelSerializer):
+    country_name = serializers.CharField(
+        source="country_ref.name",
+        read_only=True
+    )
+
+    region_name = serializers.CharField(
+        source="region_ref.name",
+        read_only=True
+    )
+
+    city_name = serializers.CharField(
+        source="city_ref.name",
+        read_only=True
+    )
+
     class Meta:
         model = UserAddress
         fields = "__all__"
 
 
 class UserAddressCreateSerializer(serializers.ModelSerializer):
+    country_ref_id = serializers.IntegerField(required=False)
+    region_ref_id = serializers.IntegerField(required=False)
+    city_ref_id = serializers.IntegerField(required=False)
+
+    city = serializers.CharField(required=False, allow_blank=True)
+    region = serializers.CharField(required=False, allow_blank=True)
+    country = serializers.CharField(required=False, allow_blank=True)
+
     is_default = serializers.BooleanField(
         required=False,
         default=False,
@@ -41,6 +79,14 @@ class UserAddressCreateSerializer(serializers.ModelSerializer):
 
 
 class UserAddressUpdateSerializer(serializers.ModelSerializer):
+    country_ref_id = serializers.IntegerField(required=False)
+    region_ref_id = serializers.IntegerField(required=False)
+    city_ref_id = serializers.IntegerField(required=False)
+
+    city = serializers.CharField(required=False, allow_blank=True)
+    region = serializers.CharField(required=False, allow_blank=True)
+    country = serializers.CharField(required=False, allow_blank=True)
+    
     class Meta:
         model = UserAddress
         exclude = ["user", "tenant"]

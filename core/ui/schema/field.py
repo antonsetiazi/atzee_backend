@@ -29,6 +29,7 @@ class Field:
     data_source: Optional[str] = None
     value_key: Optional[str] = None
     label_key: Optional[str] = None
+    request_method: Optional[str] = "POST"
 
     params: Optional[dict[str, Any]] = None
     

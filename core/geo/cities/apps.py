@@ -8,3 +8,8 @@ class CitiesConfig(AppConfig):
     name = "core.geo.cities"
     label = "core_geo_cities"
 
+    def ready(self):
+        from core.entities.registry import register_entity
+        from .entities.city_select_list import CitySelectListEntity
+
+        register_entity(CitySelectListEntity())

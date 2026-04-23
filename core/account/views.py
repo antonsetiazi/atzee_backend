@@ -83,26 +83,23 @@ class UserAddressViewSet(viewsets.ViewSet):
 
 
     def create(self, request):
-        try:
-            tenant = TenantService.get_current_tenant(request)
+        tenant = TenantService.get_current_tenant(request)
 
-            serializer = UserAddressCreateSerializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
+        serializer = UserAddressCreateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-            address = services.create_user_address(
-                tenant=tenant,
-                user=request.user,
-                **serializer.validated_data
-            )
+        address = services.create_user_address(
+            tenant=tenant,
+            user=request.user,
+            **serializer.validated_data
+        )
 
-            output = UserAddressDetailSerializer(address)
+        output = UserAddressDetailSerializer(address)
 
-            return Response(
-                output.data,
-                status=status.HTTP_201_CREATED
-            )
-        except Exception as e:
-            print(e)
+        return Response(
+            output.data,
+            status=status.HTTP_201_CREATED
+        )
 
 
     def update(self, request, pk=None):

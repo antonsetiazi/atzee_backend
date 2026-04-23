@@ -53,6 +53,34 @@ UI_PAGES = Page(
                     label="Address",
                     type="textarea",
                 ),
+
+                Field(
+                    key="country_id",
+                    label="Country",
+                    type="select",
+                    data_source="/entities/core/countries.select.list/query/",                    
+                ),
+
+                Field(
+                    key="region_id",
+                    label="Province",
+                    type="select",
+                    data_source="/entities/core/regions.select.list/query/",
+                    params={
+                        "country_id": "{{country_id}}"
+                    }
+                ),
+
+                Field(
+                    key="city_id",
+                    label="City",
+                    type="select",
+                    data_source="/entities/core/cities.select.list/query/",
+                    params={
+                        "region_id": "{{region_id}}"
+                    }
+                ),
+
                 Field(
                     key="specialization",
                     label="Specialization",

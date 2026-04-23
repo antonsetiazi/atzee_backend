@@ -40,6 +40,10 @@ class CorePermission(str, Enum):
     ADMIN_BANK_CREATE = "core.admin.bank.create"
     ADMIN_BANK_EDIT = "core.admin.bank.edit"
 
+    COUNTRIES_SELECT_VIEW = "core.countries.select.view"
+    REGIONS_SELECT_VIEW = "core.regions.select.view"
+    CITIES_SELECT_VIEW = "core.cities.select.view"
+
 
     def __str__(self):
         return self.value

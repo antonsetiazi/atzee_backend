@@ -4,6 +4,9 @@ from business.partners import selectors
 from business.partners.models.service_profile import PartnerServiceProfile
 from core.entities.contracts import BaseEntity
 from business.enum.permissions import BusinessPermission
+from core.geo.countries.models import Country
+from core.geo.regions.models import Region
+from core.geo.cities.models import City
 
 
 class PartnerMeUpdateEntity(BaseEntity):
@@ -30,6 +33,14 @@ class PartnerMeUpdateEntity(BaseEntity):
         partner.email = data.get("email", partner.email)
         partner.phone = data.get("phone", partner.phone)
         partner.address = data.get("address", partner.address)
+
+        country_id = data.get("country_id")
+        region_id = data.get("region_id")
+        city_id = data.get("city_id")
+
+        partner.country_id = country_id or None
+        partner.region_id = region_id or None
+        partner.city_id = city_id or None
 
         partner.updated_by = user
         partner.save()
