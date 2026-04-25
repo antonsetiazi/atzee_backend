@@ -12,6 +12,8 @@ from core.chat.models import (
 )
 from core.tenants.services import TenantService
 from core.users.models import User
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 
 
 def generate_room_key(user1, user2, context_type, context_id):
@@ -145,6 +147,8 @@ class ChatService:
 
         room.refresh_from_db()
 
+        cls.broadcast_chat_message(room, msg)
+
         return msg
 
     # ======================================================
@@ -177,4 +181,23 @@ class ChatService:
             ChatMessageRead.objects.get_or_create(
                 message=msg,
                 user=user,
+            )
+
+
+    @staticmethod
+    def broadcast_chat_message(room, message):
+        channel_layer = get_channel_layer()
+
+        for p in room.participants.all():
+            async_to_sync(channel_layer.group_send)(
+                f"user_{p.user_id}",
+                {
+                    "type": "chat.message",
+                    "room_id": str(room.id),
+                    "id": str(message.id),
+                    "sender_id": str(message.sender_id),
+                    "content": message.content,
+                    "created_at": message.created_at.isoformat(),
+                    "status": message.status,
+                },
             )

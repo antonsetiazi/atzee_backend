@@ -13,18 +13,13 @@ UI_PAGES = Page(
     key="partner.products.list",
     entity="products",
     domain="marketplace",
-
     path="/partner/products",
-
     title="Layanan Saya",
     subtitle="Kelola layanan dan produk yang Anda tawarkan",
-
     permissions=[
         MarketplacePermission.PARTNER_PRODUCTS_VIEW
     ],
-
     data_source="/entities/marketplace/partner.products.list/query/",
-
     blocks=[
         TableBlock(
             title="Daftar Layanan",

@@ -7,11 +7,13 @@ from core.notifications.events import (
     EVENT_META,
 )
 from core.notifications.providers.in_app import InAppNotificationProvider
+from core.notifications.providers.realtime import RealtimeNotificationProvider
 
 
 class NotificationService:
     provider_map = {
         "in_app": InAppNotificationProvider(),
+        "realtime": RealtimeNotificationProvider(),
     }
 
     @classmethod
@@ -48,7 +50,7 @@ class NotificationService:
             payload=payload or {},
         )
 
-        for channel in channels or ["in_app"]:
+        for channel in channels or ["in_app", "realtime"]:
             provider = cls.provider_map.get(channel)
             if provider:
                 provider.send(notification)

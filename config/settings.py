@@ -1,3 +1,5 @@
+# settings.py
+
 """
 Django settings for atzee_backend project.
 
@@ -85,6 +87,7 @@ CORE_APPS = [
     "core.wallet.apps.WalletConfig",
     "core.wallet_withdrawal.apps.WalletWithdrawalConfig",
     "core.fees.apps.FeesConfig",
+    "core.realtime.apps.RealtimeConfig",
 ]
 
 BUSINESS_APPS = [
@@ -138,7 +141,7 @@ VERTICAL_APPS = [
 ]
 
 INSTALLED_APPS = (
-    ["corsheaders"] 
+    ["daphne", "corsheaders"]
     +
     DJANGO_APPS 
     + [
@@ -189,6 +192,15 @@ REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "shared.utils.exceptions.core_exception_handler"
 }
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    }
+}
+
 ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
@@ -207,6 +219,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
+ASGI_APPLICATION = "config.asgi.application"
 
 AUTH_USER_MODEL = "core_users.User"
 

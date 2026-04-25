@@ -15,34 +15,27 @@ UI_PAGES = Page(
     key="partner.products.edit",
     entity="products",
     domain="marketplace",
-
     title="Edit Layanan",
     path="/partner/products/{id}",
-
     permissions=[
         MarketplacePermission.PARTNER_PRODUCTS_EDIT
     ],
-
     data_source="/entities/marketplace/partner.products.detail/query/",
     method="POST",
-
     blocks=[
         FormBlock(
             title="Edit Layanan",
             description="Perbarui data layanan atau produk Anda",
             mode="edit",
-
             submit_to="/entities/marketplace/partner.products.update/execute/",
             method="POST",
-
             redirect_to={
                 "page": "/partner/products"
             },
-
             refresh_cache=[
-                "partner.products.list"
+                "partner.products.list",
+                "partner.products.edit"
             ],
-
             fields=[
                 Field(
                     key="id",

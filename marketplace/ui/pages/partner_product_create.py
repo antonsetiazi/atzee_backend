@@ -34,7 +34,8 @@ UI_PAGES = Page(
             },
 
             refresh_cache=[
-                "partner.products.list"
+                "partner.products.list",
+                "partner.products.edit"
             ],
 
             fields=[
