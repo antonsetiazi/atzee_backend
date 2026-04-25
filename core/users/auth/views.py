@@ -22,6 +22,8 @@ from .services import AuthService
 from core.otp.services import OTPService
 from core.otp.utils.hash import verify_otp
 from shared.utils.phone import normalize_phone
+from shared.api.responses import success_response
+from shared.api.responses import error_response
 
 
 class AuthConfigView(APIView):
@@ -46,36 +48,35 @@ class LoginView(APIView):
         password = request.data.get("password")
         tenant_code = request.data.get("tenant_code")
 
-        try:
-            user, tenant = AuthService.login_with_password(
-                email=email,
-                password=password,
-                tenant_code=tenant_code
-            )
+        user, tenant = AuthService.login_with_password(
+            email=email,
+            password=password,
+            tenant_code=tenant_code
+        )
 
-            tokens = issue_jwt_for_user(
-                user=user,
-                active_tenant_id=tenant.id,
-            )
+        tokens = issue_jwt_for_user(
+            user=user,
+            active_tenant_id=tenant.id,
+        )
 
-            return Response({
+        return success_response(
+            data={
                 "user": {
                     "id": str(user.id),
                     "username": user.email,
                     "full_name": user.full_name,
                     "tenant_id": str(tenant.id),
                     "avatar_url": (
-                        request.build_absolute_uri(user.avatar.get_download_url())
+                        request.build_absolute_uri(
+                            user.avatar.get_download_url()
+                        )
                         if user.avatar else None
                     ),
                 },
                 "tokens": tokens,
-            })
-        except Exception as e:
-            return Response(
-                {"detail": str(e)},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            },
+            message="Login success",
+        )
 
 
 class MeView(APIView):
@@ -96,13 +97,18 @@ class RegisterView(APIView):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            return Response({
-                "id": str(user.id),
-                "email": user.email,
-                "full_name": user.full_name,
-                "tenant_id": str(user.tenant_memberships.first().tenant.id),
-                "message": "Registration success"
-            }, status=status.HTTP_201_CREATED)
+            return success_response(
+                data={
+                    "id": str(user.id),
+                    "email": user.email,
+                    "full_name": user.full_name,
+                    "tenant_id": str(
+                        user.tenant_memberships.first().tenant.id
+                    ),
+                },
+                message="Registration success",
+                status_code=201,
+            )
         else:
             # Kirim error serializer ke frontend agar user tahu masalahnya
             return Response({
@@ -172,11 +178,8 @@ class RequestOTPView(APIView):
         
         OTPService.send_whatsapp_otp(phone)
 
-        return Response(
-            {
-                "detail": "OTP sent"
-            }, 
-            status=status.HTTP_200_OK
+        return success_response(
+            message="OTP sent",
         )
     
 
@@ -191,35 +194,26 @@ class VerifyOTPView(APIView):
         otp = serializer.validated_data["otp"]
         tenant_code = serializer.validated_data["tenant_code"]
 
-        try:
+        user, tenant = AuthService.login_with_otp(
+            phone=phone,
+            otp=otp,
+            tenant_code=tenant_code
+        )
 
-            user, tenant = AuthService.login_with_otp(
-                phone=phone,
-                otp=otp,
-                tenant_code=tenant_code
-            )
+        tokens = issue_jwt_for_user(
+            user=user,
+            active_tenant_id=tenant.id
+        )
 
-            tokens = issue_jwt_for_user(
-                user=user,
-                active_tenant_id=tenant.id
-            )
-
-            return Response({
-                "user": {
-                    "id": str(user.id),
-                    "username": user.email,
-                    "full_name": user.full_name,
-                    "tenant_id": str(tenant.id),
-                },
-                "tokens": tokens,
-            })
-
-        except Exception as e:
-
-            return Response(
-                {"detail": str(e)},
-                status=status.HTTP_400_BAD_REQUEST
-            ) 
+        return Response({
+            "user": {
+                "id": str(user.id),
+                "username": user.email,
+                "full_name": user.full_name,
+                "tenant_id": str(tenant.id),
+            },
+            "tokens": tokens,
+        })
 
 
 class RefreshTokenView(APIView):
@@ -252,10 +246,15 @@ class RefreshTokenView(APIView):
                 active_tenant_id=active_tenant
             )
 
-            return Response(tokens)
+            return success_response(
+                data=tokens,
+                message="Token refreshed",
+            )
 
         except (TokenError, InvalidToken, User.DoesNotExist):
-            return Response(
-                {"detail": "Invalid or expired refresh token"},
-                status=status.HTTP_401_UNAUTHORIZED
-            )            
+            return error_response(
+                message="Session expired",
+                code="UNAUTHORIZED",
+                error_type="auth",
+                status_code=401,
+            )         

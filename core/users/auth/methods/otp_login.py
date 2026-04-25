@@ -7,13 +7,18 @@ from core.roles.models import UserRole
 from core.roles.enums import RoleCode
 from core.otp.services import OTPService
 from shared.utils.phone import normalize_phone
+from shared.api.exceptions import BusinessException
+
 
 def authenticate_otp(phone: str, otp: str, tenant_code: str):
     phone = normalize_phone(phone)
 
     # 1️⃣ Verify OTP
     if not OTPService.verify_otp(phone, otp):
-        raise ValueError("Invalid or expired OTP")
+        raise BusinessException(
+            message="OTP tidak valid atau sudah expired",
+            code="INVALID_OTP"
+        )
 
     # 2️⃣ Get or create user (phone-first identity)
     user, created = User.objects.get_or_create(
@@ -36,7 +41,10 @@ def authenticate_otp(phone: str, otp: str, tenant_code: str):
             is_active=True
         )
     except Tenant.DoesNotExist:
-        raise ValueError("Invalid tenant")
+        raise BusinessException(
+            message="Tenant tidak valid",
+            code="INVALID_TENANT"
+        )
 
     # 4️⃣ Ensure tenant membership
     UserTenant.objects.get_or_create(
