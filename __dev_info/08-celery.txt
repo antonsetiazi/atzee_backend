@@ -1,0 +1,12 @@
+Buka 2 terminal baru:
+
+
+[Terminal 1] - Jalankan Celery Worker
+======================================================
+(env) PS D:\PROJECTS\backend\django\atzee_backend>celery -A config worker -l info --pool=solo
+
+
+
+[Terminal 2] - Jalankan Celery Beat
+======================================================
+(env) PS D:\PROJECTS\backend\django\atzee_backend>celery -A config beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler

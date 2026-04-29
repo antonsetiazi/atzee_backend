@@ -20,6 +20,10 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    transport_fee = serializers.SerializerMethodField()
+    distance_km = serializers.SerializerMethodField()
+    platform_fee = serializers.SerializerMethodField()
+
     items = OrderItemSerializer(many=True, read_only=True)
 
     address = serializers.JSONField(source="address_snapshot", read_only=True)
@@ -35,6 +39,28 @@ class OrderSerializer(serializers.ModelSerializer):
 
     booking = serializers.SerializerMethodField()
     partner_earning = serializers.SerializerMethodField()
+
+    def get_transport_fee(self, obj):
+        return int(obj.transport_fee_amount or 0)
+
+    def get_distance_km(self, obj):
+        if not obj.transport_distance_km:
+            return 0
+        return float(obj.transport_distance_km)
+
+    def get_platform_fee(self, obj):
+        """
+        total_fee_amount = platform fee + transport fee
+        Maka platform fee = total_fee - transport
+        """
+        total_fee = obj.total_fee_amount or 0
+        transport = obj.transport_fee_amount or 0
+        result = total_fee - transport
+
+        if result < 0:
+            result = 0
+
+        return int(result)
 
     def get_bookingId(self, obj):
         return obj.booking_id
@@ -116,13 +142,21 @@ class OrderSerializer(serializers.ModelSerializer):
     def get_partner_earning(self, obj):
         fees = OrderFee.objects.filter(order_id=obj.id)
 
-        total = obj.total_amount
+        subtotal = obj.subtotal_amount or 0
+        transport = obj.transport_fee_amount or 0
+
+        partner_fee = 0
 
         for f in fees:
             if f.applies_to == "partner":
-                total -= f.amount
+                partner_fee += f.amount
 
-        return total
+        total = subtotal + transport - partner_fee
+
+        if total < 0:
+            total = 0
+
+        return int(total)
     
     def get_payment_method(self, obj):
         # 🔹 1. cek gateway dulu
@@ -157,6 +191,9 @@ class OrderSerializer(serializers.ModelSerializer):
             "payment_method",
             "subtotal_amount",
             "total_fee_amount",
+            "platform_fee",
+            "transport_fee",
+            "distance_km",
             "total_amount",
             "partner_earning",
             "fulfillment_type",

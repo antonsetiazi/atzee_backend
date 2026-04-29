@@ -22,6 +22,7 @@ class File(TenantAwareModel):
 
     file = models.FileField(
         upload_to="uploads/",
+        max_length=500,
         help_text="Stored file path (handled by storage service)"
     )
 

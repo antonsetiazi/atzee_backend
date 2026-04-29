@@ -127,12 +127,32 @@ def bind_file_to_entity(*, file: File, entity_type: str, entity_id: str, user):
         if str(user.id) != str(entity_id):
             return
 
+        old_avatar = user.avatar
+
         user.avatar = file
         user.save(update_fields=["avatar"])
 
+        # public avatar
         if not file.is_public:
             file.is_public = True
             file.save(update_fields=["is_public"])
+            
+        # cleanup old avatar
+        if old_avatar and old_avatar.id != file.id:
+            try:
+                FileStorageService.delete(
+                    path=old_avatar.file.name
+                )
+            except Exception:
+                pass
+
+            old_avatar.is_deleted = True
+            old_avatar.updated_by = user
+            old_avatar.save(update_fields=[
+                "is_deleted",
+                "updated_by",
+                "updated_at",
+            ])
             
         return
 

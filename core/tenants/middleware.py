@@ -51,6 +51,7 @@ class TenantContextMiddleware:
         return (
             path.startswith("/media/")   # kalau nanti pakai media static
             or path.startswith("/static/")  # static files
+            or path.startswith("/admin")  # admin
             or path.startswith("/api/payments/webhook/")
             or path.endswith("/download/")
         )

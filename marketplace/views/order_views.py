@@ -1,6 +1,9 @@
 # marketplace/views/order_views.py
 
 from decimal import Decimal
+from core.account.selectors import get_user_address_by_id
+from business.partners.selectors import get_partner_by_id
+from math import radians, sin, cos, sqrt, atan2
 
 from django.core.exceptions import ValidationError
 
@@ -41,6 +44,8 @@ class OrderPreviewView(APIView):
 
         items = request.data.get("items", [])
         partner_id = request.data.get("selected_partner_id")
+        address_id = request.data.get("address_id")
+        fulfillment_type = request.data.get("fulfillment_type", "on_site")
 
         if not items:
             return Response({"error": "Items kosong"}, status=400)
@@ -50,6 +55,59 @@ class OrderPreviewView(APIView):
         # =========================
         subtotal = Decimal("0")
 
+        transport_fee = Decimal("0")
+        distance_km = Decimal("0")
+
+        partner = get_partner_by_id(
+            tenant=tenant,
+            partner_id=partner_id
+        )
+
+        address = None
+        if address_id:
+            address = get_user_address_by_id(
+                tenant=tenant,
+                user=request.user,
+                address_id=address_id
+            )
+
+        if (
+            partner
+            and address
+            and fulfillment_type == "on_site"
+            and partner.search_latitude is not None
+            and partner.search_longitude is not None
+            and address.latitude is not None
+            and address.longitude is not None
+        ):
+            def calc(lat1, lon1, lat2, lon2):
+                r = 6371
+                dlat = radians(lat2 - lat1)
+                dlon = radians(lon2 - lon1)
+
+                a = (
+                    sin(dlat / 2) ** 2
+                    + cos(radians(lat1))
+                    * cos(radians(lat2))
+                    * sin(dlon / 2) ** 2
+                )
+
+                c = 2 * atan2(sqrt(a), sqrt(1 - a))
+                return r * c
+
+            km = calc(
+                float(partner.search_latitude),
+                float(partner.search_longitude),
+                float(address.latitude),
+                float(address.longitude),
+            )
+
+            distance_km = Decimal(str(round(km, 2)))
+
+            if km > 3:
+                transport_fee = Decimal(str(km - 3)) * Decimal("2500")
+
+                
         for item in items:
             price = Decimal(str(item.get("price", 0)))
             qty = int(item.get("qty", 1))
@@ -68,19 +126,37 @@ class OrderPreviewView(APIView):
             )
         )
 
+        fees = [
+            {
+                "name": f.name,
+                "amount": int(f.amount),
+            }
+            for f in result.customer_fees
+        ]
+
+        # Tambahkan transport fee ke breakdown
+        if transport_fee > 0:
+            fees.append({
+                "name": f"Biaya Transport ({distance_km} km)",
+                "amount": int(transport_fee),
+            })
+
+
         return Response({
             "subtotal": int(subtotal),
 
-            "fees": [
-                {
-                    "name": f.name,
-                    "amount": int(f.amount),
-                }
-                for f in result.customer_fees
-            ],
+            "platform_fee": int(result.total_customer_fee),
+            "transport_fee": int(transport_fee),
+            "distance_km": float(distance_km),
 
-            "total_fee": int(result.total_customer_fee),
-            "total": int(result.final_customer_pay),
+            "fees": fees,
+
+            "total_fee": int(
+                result.total_customer_fee + transport_fee
+            ),
+            "total": int(
+                result.final_customer_pay + transport_fee
+            ),
         })
     
 

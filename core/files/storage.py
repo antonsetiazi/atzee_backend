@@ -1,6 +1,7 @@
 # core/files/storage.py
 
 import os
+import uuid
 from django.conf import settings
 from django.core.files.storage import default_storage
 from core.tenants.models import Tenant
@@ -18,6 +19,20 @@ class FileStorageService:
     """
 
     @staticmethod
+    def safe_filename(filename: str) -> str:
+        """
+        Convert user filename into short unique safe filename.
+        Example:
+        avatar.jpg -> a81f23d9c2e14f4d9c8f.jpg
+        """
+        ext = os.path.splitext(filename)[1].lower()
+
+        if not ext:
+            ext = ".bin"
+
+        return f"{uuid.uuid4().hex}{ext}"
+
+    @staticmethod
     def build_path(*, tenant: Tenant, filename: str) -> str:
         """
         Build tenant-aware storage path.
@@ -25,10 +40,12 @@ class FileStorageService:
         Example:
         uploads/<tenant_id>/<filename>
         """
+        safe_name = FileStorageService.safe_filename(filename)
+
         return os.path.join(
             "uploads",
             str(tenant.id),
-            filename,
+            safe_name,
         )
 
     @staticmethod
@@ -52,3 +69,4 @@ class FileStorageService:
         Resolve public URL for stored file.
         """
         return default_storage.url(path)
+

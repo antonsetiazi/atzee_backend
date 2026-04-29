@@ -35,6 +35,8 @@ ROLES = [
         "access_level": 80,
         "default_permissions": [
             CorePermission.DASHBOARD_VIEW,
+            CorePermission.ADMIN_TENANT_BRANDING_VIEW,
+            CorePermission.ADMIN_TENANT_BRANDING_UPDATE,
             CorePermission.ADMIN_USERS_VIEW,
             CorePermission.ADMIN_WALLET_TRANSACTIONS_VIEW,
             CorePermission.ADMIN_WALLET_WITHDRAWAL_VIEW,

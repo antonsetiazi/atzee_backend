@@ -28,6 +28,9 @@ class CorePermission(str, Enum):
 
     TIMEZONES_VIEW = "core.timezones.view"
 
+    ADMIN_TENANT_BRANDING_VIEW = "core.admin.tenant.branding.view"
+    ADMIN_TENANT_BRANDING_UPDATE = "core.admin.tenant.branding.update"
+
     USER_WALLET_VIEW = "core.user.wallet.view"
     ADMIN_WALLET_WITHDRAWAL_VIEW = "core.admin.wallet.withdrawal.view"
     ADMIN_WALLET_WITHDRAWAL_APPROVE = "core.admin.wallet.withdrawal.approve"

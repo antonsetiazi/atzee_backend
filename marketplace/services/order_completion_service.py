@@ -80,9 +80,24 @@ def complete_order(order_id: int, user):
             total_partner_fee += f.amount
     
     subtotal = Decimal(order.subtotal_amount)
+    transport_fee = Decimal(order.transport_fee_amount or 0)
 
-    partner_receive = subtotal - total_partner_fee
-    platform_earning = total_customer_fee + total_partner_fee
+    # Partner dapat jasa + transport
+    partner_receive = (
+        subtotal
+        + transport_fee
+        - total_partner_fee
+    )
+
+    # Platform hanya fee non-transport
+    platform_earning = (
+        total_customer_fee
+        + total_partner_fee
+        - transport_fee
+    )
+
+    if platform_earning < 0:
+        platform_earning = Decimal("0")
 
     user_wallet = wallet_selectors.get_wallet_or_create(
         tenant=order.tenant,

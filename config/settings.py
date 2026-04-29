@@ -31,7 +31,8 @@ SECRET_KEY = os.getenv("SECRET_KEY", "dummy-fallback")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
+# ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
+ALLOWED_HOSTS=["localhost","127.0.0.1","neckless-aliya-lathy.ngrok-free.dev","192.168.0.167"]
 
 
 # Application definition
@@ -141,7 +142,7 @@ VERTICAL_APPS = [
 ]
 
 INSTALLED_APPS = (
-    ["daphne", "corsheaders"]
+    ["daphne", "corsheaders", "django_celery_beat"]
     +
     DJANGO_APPS 
     + [
@@ -290,6 +291,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:5173",
+    "http://192.168.0.167:5173",
+    "http://127.0.0.1:5173",
     "http://localhost:5174",
     "https://accounting.atzee.web.id",
     "https://onecore.atzee.web.id",
@@ -309,6 +312,11 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = False  # tetap aman
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
 
 SERVICE_API_KEY = os.getenv("SERVICE_API_KEY")
 
@@ -372,3 +380,9 @@ FONNTE_API_KEY = os.getenv("FONNTE_API_KEY")
 # =========================
 AUTH_METHODS = os.getenv("AUTH_METHODS", "password").split(",")
 AUTH_DEFAULT_METHOD = os.getenv("AUTH_DEFAULT_METHOD", "password")
+
+
+# Celery Configuration
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_TIMEZONE = "Asia/Jakarta"  # Sesuaikan dengan lokasi kamu

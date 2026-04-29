@@ -4,6 +4,7 @@ from decimal import Decimal
 from rest_framework import serializers
 from django.db import transaction
 import uuid
+from math import radians, sin, cos, sqrt, atan2
 
 from core.account.selectors import get_user_address_by_id
 from business.partners.selectors import get_partner_by_id
@@ -15,6 +16,42 @@ from marketplace.models.listing import PartnerListing
 from core.fees.services.fee_engine import FeeEngine
 from core.fees.types import FeeInput
 from core.fees.models import OrderFee
+
+
+def calculate_distance_km(lat1, lon1, lat2, lon2):
+    """
+    Haversine formula
+    """
+    r = 6371
+
+    dlat = radians(lat2 - lat1)
+    dlon = radians(lon2 - lon1)
+
+    a = (
+        sin(dlat / 2) ** 2
+        + cos(radians(lat1))
+        * cos(radians(lat2))
+        * sin(dlon / 2) ** 2
+    )
+
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    return r * c
+
+
+def calculate_transport_fee(distance_km):
+    """
+    Rules:
+    0-3 km gratis
+    selebihnya Rp2.500/km
+    """
+    free_km = 3
+    per_km = Decimal("2500")
+
+    if distance_km <= free_km:
+        return Decimal("0")
+
+    extra = Decimal(str(distance_km - free_km))
+    return extra * per_km
 
 
 class OrderItemInputSerializer(serializers.Serializer):
@@ -88,6 +125,36 @@ class CreateOrderSerializer(serializers.Serializer):
 
         if not selected_partner:
             raise serializers.ValidationError("Partner tidak valid")
+        
+        transport_distance = Decimal("0")
+        transport_fee = Decimal("0")
+
+        partner_lat = getattr(selected_partner, "search_latitude", None)
+        partner_lng = getattr(selected_partner, "search_longitude", None)
+
+        customer_lat = None
+        customer_lng = None
+
+        if address:
+            customer_lat = address.latitude
+            customer_lng = address.longitude
+
+        if (
+            fulfillment_type == "on_site"
+            and partner_lat is not None
+            and partner_lng is not None
+            and customer_lat is not None
+            and customer_lng is not None
+        ):
+            km = calculate_distance_km(
+                float(partner_lat),
+                float(partner_lng),
+                float(customer_lat),
+                float(customer_lng),
+            )
+
+            transport_distance = Decimal(str(round(km, 2)))
+            transport_fee = calculate_transport_fee(km)
 
         listings = PartnerListing.objects.filter(
             id__in=[i["id"] for i in items_data],
@@ -114,6 +181,8 @@ class CreateOrderSerializer(serializers.Serializer):
             selected_partner=selected_partner,
             payment_status=PaymentStatus.UNPAID,  # 🔥 NEW
             status=OrderStatus.PENDING, 
+            transport_distance_km=transport_distance,
+            transport_fee_amount=transport_fee,
         )
 
         order_items = []
@@ -152,8 +221,12 @@ class CreateOrderSerializer(serializers.Serializer):
 
         # 🔥 UPDATE TOTAL (customer bayar)
         order.subtotal_amount = total
-        order.total_fee_amount = result.total_customer_fee
-        order.total_amount = result.final_customer_pay
+        order.total_fee_amount = (
+            result.total_customer_fee + transport_fee
+        )
+        order.total_amount = (
+            result.final_customer_pay + transport_fee
+        )        
         order.save(update_fields=[
             "subtotal_amount",
             "total_fee_amount",

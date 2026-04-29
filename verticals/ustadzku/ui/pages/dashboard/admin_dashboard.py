@@ -212,6 +212,12 @@ UI_PAGES = [
                         icon="book",
                         to="/admin/master/banks",
                     ),
+                    ShortcutItem(
+                        key="branding",
+                        label="Branding",
+                        icon="profile",
+                        to="/admin/settings/branding",
+                    ),
                 ],
                 scrollable=False,
             ),                       

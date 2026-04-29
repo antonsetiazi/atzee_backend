@@ -84,6 +84,18 @@ class Order(TenantAwareModel):
 
     total_amount = models.DecimalField(max_digits=12, decimal_places=2)
 
+    transport_distance_km = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=Decimal("0.00")
+    )
+
+    transport_fee_amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=Decimal("0.00")
+    )
+
     # 🔥 LINK KE BOOKING (SESSION-BASED)
     booking_id = models.IntegerField(null=True, blank=True)
 

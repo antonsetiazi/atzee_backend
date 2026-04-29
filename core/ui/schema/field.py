@@ -10,6 +10,7 @@ FieldType = Literal[
     "hidden", 
     "select", 
     "boolean",
+    "color",
 ]
 
 
