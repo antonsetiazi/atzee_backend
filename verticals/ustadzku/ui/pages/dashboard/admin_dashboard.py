@@ -199,12 +199,12 @@ UI_PAGES = [
 
             ShortcutBlock(
                 title="Quick Navigation",
-                items=[                    
+                items=[         
                     ShortcutItem(
-                        key="widgets",
-                        label="Widgets",
+                        key="banners",
+                        label="Banner",
                         icon="tool",
-                        to="/admin/widgets",
+                        to="/admin/widgets/banners",
                     ),
                     ShortcutItem(
                         key="banks",

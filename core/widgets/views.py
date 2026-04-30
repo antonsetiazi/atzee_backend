@@ -21,13 +21,11 @@ class WidgetViewSet(viewsets.ViewSet):
     def list(self, request):
         tenant = TenantService.get_current_tenant(request)
         position = request.query_params.get("position")
-        current_app = request.query_params.get("app")
 
         widgets = selectors.get_active_widgets_for_user(
             tenant=tenant,
             user=request.user,
             position=position,
-            current_app=current_app
         )
 
         serializer = WidgetListSerializer(widgets, many=True)

@@ -42,17 +42,22 @@ ROLES = [
             CorePermission.ADMIN_WALLET_WITHDRAWAL_VIEW,
             CorePermission.ADMIN_WALLET_WITHDRAWAL_APPROVE,
             CorePermission.ADMIN_WIDGETS_VIEW,
+            CorePermission.ADMIN_WIDGETS_CREATE,
+            CorePermission.ADMIN_WIDGETS_EDIT,
             CorePermission.ADMIN_BANK_VIEW,
             CorePermission.ADMIN_BANK_CREATE,
             CorePermission.ADMIN_BANK_EDIT,
+            
             BusinessPermission.ADMIN_BOOKINGS_VIEW,
             BusinessPermission.ADMIN_PAYMENT_GATEWAY_VIEW,
-            UstadzkuPermission.ADMIN_DASHBOARD_VIEW,
             BusinessPermission.PARTNERS_CREATE,
             BusinessPermission.PARTNERS_UPDATE,
             BusinessPermission.PARTNERS_VIEW,
             BusinessPermission.USERS_VIEW,
             BusinessPermission.ADMIN_REVIEWS_VIEW,
+
+            UstadzkuPermission.ADMIN_DASHBOARD_VIEW,
+            
             MarketplacePermission.ADMIN_ORDERS_VIEW,
         ],
     },

@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.db import models
 
 from core.entities.contracts import BaseEntity
-from core.widgets.models import UIWidget
+from core.widgets import selectors
 from verticals.ustadzku.enum.permissions import UstadzkuPermission
 
 
@@ -25,20 +25,17 @@ class GuestHomeEntity(BaseEntity):
             # -----------------------------------------
             # BANNERS (FROM UIWidget)
             # -----------------------------------------
-            widget_qs = UIWidget.objects.filter(
+            widgets = selectors.get_active_widgets_for_user(
                 tenant=tenant,
-                type="banner",
-                is_deleted=False,
-                is_active=True,
-            ).filter(
-                models.Q(starts_at__isnull=True) | models.Q(starts_at__lte=now)
-            ).filter(
-                models.Q(ends_at__isnull=True) | models.Q(ends_at__gte=now)
-            ).order_by("order")
+                user=user,
+            )
 
             banners = []
 
-            for w in widget_qs:
+            for w in widgets:
+                if w.type != "banner":
+                    continue
+
                 config = w.config or {}
 
                 if isinstance(config, list):

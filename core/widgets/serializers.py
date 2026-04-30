@@ -32,7 +32,6 @@ class WidgetCreateSerializer(serializers.Serializer):
     ends_at = serializers.DateTimeField(required=False)
     target_roles = serializers.JSONField(required=False)
     target_permissions = serializers.JSONField(required=False)
-    target_apps = serializers.JSONField(required=False)
     order = serializers.IntegerField(required=False)
     is_active = serializers.BooleanField(required=False)
 

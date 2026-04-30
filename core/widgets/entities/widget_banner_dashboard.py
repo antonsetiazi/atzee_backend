@@ -1,10 +1,7 @@
 # core/widgets/entities/widget_banner_dashboard.py
 
-from django.utils import timezone
-from django.db import models
 from core.entities.contracts import BaseEntity
-from core.widgets.models import UIWidget
-
+from core.widgets.selectors import get_active_widgets_for_user
 
 class WidgetBannerDashboardEntity(BaseEntity):
     key = "widgets.banner.dashboard"
@@ -12,22 +9,18 @@ class WidgetBannerDashboardEntity(BaseEntity):
     permission = "core.dashboard.view"
 
     def query(self, *, user, tenant, query: dict) -> dict:
-        now = timezone.now()
-
-        qs = UIWidget.objects.filter(
+        widgets = get_active_widgets_for_user(
             tenant=tenant,
-            type="banner",
-            is_deleted=False,
-            is_active=True,
-        ).filter(
-            models.Q(starts_at__isnull=True) | models.Q(starts_at__lte=now)
-        ).filter(
-            models.Q(ends_at__isnull=True) | models.Q(ends_at__gte=now)
-        ).order_by("order")
+            user=user,
+            position="dashboard.main",
+        )
 
         items = []
 
-        for w in qs:
+        for w in widgets:
+            if w.type != "banner":
+                continue
+
             config = w.config or {}
             
             if isinstance(config, list):
@@ -43,5 +36,5 @@ class WidgetBannerDashboardEntity(BaseEntity):
 
         return {
             "items": items,
-            "total": qs.count(),
+            "total": len(items),
         }

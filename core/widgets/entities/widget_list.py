@@ -29,6 +29,10 @@ class WidgetListEntity(BaseEntity):
                 Q(position__icontains=search)
             )
 
+        widget_type = query.get("type")
+        if widget_type:
+            qs = qs.filter(type=widget_type)
+
         # 📄 PAGINATION
         page = int(query.get("page", 1))
         page_size = int(query.get("pageSize", 10))
@@ -53,11 +57,10 @@ class WidgetListEntity(BaseEntity):
 
                 # 🎯 targeting (diringkas biar readable)
                 "target_roles": ", ".join(w.target_roles) if w.target_roles else "-",
-                "target_apps": ", ".join(w.target_apps) if w.target_apps else "-",
 
                 # ⏱️ schedule
-                "starts_at": localtime(w.starts_at) if w.starts_at else None,
-                "ends_at": localtime(w.ends_at) if w.ends_at else None,
+                "starts_at": format_datetime_local(w.starts_at),
+                "ends_at": format_datetime_local(w.ends_at),
 
                 # 🔐 status
                 "is_active": w.is_active,
@@ -70,3 +73,9 @@ class WidgetListEntity(BaseEntity):
             "items": data,
             "total": total,
         }
+    
+
+def format_datetime_local(dt):
+    if not dt:
+        return None
+    return localtime(dt).strftime("%Y-%m-%dT%H:%M")

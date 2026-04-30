@@ -36,13 +36,16 @@ class CorePermission(str, Enum):
     ADMIN_WALLET_WITHDRAWAL_APPROVE = "core.admin.wallet.withdrawal.approve"
     ADMIN_WALLET_TRANSACTIONS_VIEW = "core.admin.wallet.transactions.view"
     ADMIN_USERS_VIEW = "core.admin.users.view"
-    ADMIN_WIDGETS_VIEW = "core.admin.widgets.view"
-    CATEGORIES_VIEW = "core.categories.view"
     
+    ADMIN_WIDGETS_VIEW = "core.admin.widgets.view"
+    ADMIN_WIDGETS_CREATE = "core.admin.widgets.create"
+    ADMIN_WIDGETS_EDIT = "core.admin.widgets.edit"
+
     ADMIN_BANK_VIEW = "core.admin.bank.view"
     ADMIN_BANK_CREATE = "core.admin.bank.create"
     ADMIN_BANK_EDIT = "core.admin.bank.edit"
 
+    CATEGORIES_VIEW = "core.categories.view"
     COUNTRIES_SELECT_VIEW = "core.countries.select.view"
     REGIONS_SELECT_VIEW = "core.regions.select.view"
     CITIES_SELECT_VIEW = "core.cities.select.view"

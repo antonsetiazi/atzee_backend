@@ -50,21 +50,24 @@ def get_active_widgets_for_user(
 
     widgets = []
 
+    user_roles = []
+
+    if hasattr(user, "roles"):
+        user_roles = list(user.roles.values_list("code", flat=True))
+        
+    if not user_roles:
+        user_roles = ["guest"]
+
     for widget in qs:
         # Role filter
         if widget.target_roles:
-            if not user.role or user.role.name not in widget.target_roles:
+            if not any(role in widget.target_roles for role in user_roles):
                 continue
 
         # Permission filter
         if widget.target_permissions:
             user_permissions = user.get_all_permissions()
             if not any(p in user_permissions for p in widget.target_permissions):
-                continue
-
-        # App filter
-        if widget.target_apps and current_app:
-            if current_app not in widget.target_apps:
                 continue
 
         widgets.append(widget)

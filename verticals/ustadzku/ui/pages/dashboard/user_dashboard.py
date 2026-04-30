@@ -9,8 +9,6 @@ from core.ui.schema.block import (
     ShortcutBlock,
     ShortcutItem,
     BannerBlock,
-    ListFieldSchema,
-    ListViewBlock,
     CategorySliderBlock,
     ListingSectionBlock,
 )

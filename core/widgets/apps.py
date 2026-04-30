@@ -12,10 +12,16 @@ class WidgetsConfig(AppConfig):
         from .ui import bootstrap
         from core.entities.registry import register_entity
         from .entities.widget_list import WidgetListEntity
+        from .entities.widget_detail import WidgetDetailEntity
+        from .entities.widget_create import WidgetCreateEntity
+        from .entities.widget_update import WidgetUpdateEntity
         from .entities.widget_select_list import WidgetSelectListEntity
         from .entities.widget_banner_dashboard import WidgetBannerDashboardEntity
 
         register_entity(WidgetListEntity())
+        register_entity(WidgetDetailEntity())
+        register_entity(WidgetCreateEntity())
+        register_entity(WidgetUpdateEntity())
         register_entity(WidgetSelectListEntity())
         register_entity(WidgetBannerDashboardEntity())
 

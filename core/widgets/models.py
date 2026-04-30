@@ -69,11 +69,6 @@ class UIWidget(TenantAwareModel, ExtensibleModel):
         blank=True
     )
 
-    target_apps = models.JSONField(
-        default=list,
-        blank=True
-    )
-
     order = models.IntegerField(default=50)
 
     is_active = models.BooleanField(default=True)

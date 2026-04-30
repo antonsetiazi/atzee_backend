@@ -1,14 +1,12 @@
 # verticals/ustadzku/entities/admin_dashboard.py
 
 from django.utils import timezone
-from django.db import models
-from django.db.models import Sum
 
 from core.entities.contracts import BaseEntity
 # from business.bookings.models import Booking, BookingStatus
 from business.payments.models import Payment
 from business.partners.models import Partner
-from core.widgets.models import UIWidget
+from core.widgets import selectors
 
 from verticals.ustadzku.enum.permissions import UstadzkuPermission
 
@@ -160,20 +158,17 @@ class AdminDashboardEntity(BaseEntity):
             # =====================================================
             # ALERT / BANNER SYSTEM
             # =====================================================
-            widget_qs = UIWidget.objects.filter(
+            widgets = selectors.get_active_widgets_for_user(
                 tenant=tenant,
-                type="banner",
-                is_deleted=False,
-                is_active=True,
-            ).filter(
-                models.Q(starts_at__isnull=True) | models.Q(starts_at__lte=now)
-            ).filter(
-                models.Q(ends_at__isnull=True) | models.Q(ends_at__gte=now)
-            ).order_by("order")
+                user=user,
+            )
 
             alerts = []
 
-            for w in widget_qs:
+            for w in widgets:
+                if w.type != "banner":
+                    continue
+                
                 config = w.config or {}
                 if isinstance(config, list):
                     config = config[0] if config else {}

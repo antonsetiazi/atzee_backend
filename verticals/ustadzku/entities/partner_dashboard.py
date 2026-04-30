@@ -6,7 +6,7 @@ from django.db.models import Sum
 
 from core.entities.contracts import BaseEntity
 from business.partners.models import Partner
-from core.widgets.models import UIWidget
+from core.widgets import selectors
 
 from marketplace.models.order import Order, OrderStatus, PaymentStatus
 from business.booking.models import Booking
@@ -177,19 +177,16 @@ class PartnerDashboardEntity(BaseEntity):
             # -----------------------------------------
             # BANNERS
             # -----------------------------------------
-            widget_qs = UIWidget.objects.filter(
+            widgets = selectors.get_active_widgets_for_user(
                 tenant=tenant,
-                type="banner",
-                is_deleted=False,
-                is_active=True,
-            ).filter(
-                models.Q(starts_at__isnull=True) | models.Q(starts_at__lte=now)
-            ).filter(
-                models.Q(ends_at__isnull=True) | models.Q(ends_at__gte=now)
-            ).order_by("order")
+                user=user,
+            )
 
             banners = []
-            for w in widget_qs:
+            for w in widgets:
+                if w.type != "banner":
+                    continue
+
                 config = w.config or {}
                 if isinstance(config, list):
                     config = config[0] if config else {}
