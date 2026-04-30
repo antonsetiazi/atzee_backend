@@ -27,6 +27,7 @@ UI_PAGES = Page(
             },
             refresh_cache=[
                 "widgets.banners.list",
+                "widgets.banners.edit",
             ],
             fields=[
                 Field(key="id", label="Widget ID", type="hidden"),

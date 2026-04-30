@@ -44,6 +44,7 @@ ROLES = [
             CorePermission.ADMIN_WIDGETS_VIEW,
             CorePermission.ADMIN_WIDGETS_CREATE,
             CorePermission.ADMIN_WIDGETS_EDIT,
+            CorePermission.ADMIN_WIDGETS_DELETE,
             CorePermission.ADMIN_BANK_VIEW,
             CorePermission.ADMIN_BANK_CREATE,
             CorePermission.ADMIN_BANK_EDIT,

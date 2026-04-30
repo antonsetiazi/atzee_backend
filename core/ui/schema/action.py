@@ -1,7 +1,7 @@
 # core/ui/schema/action.py
 
 from dataclasses import dataclass
-from typing import Literal, Optional, TypedDict, Dict, Any
+from typing import List, Literal, Optional, TypedDict, Dict, Any
 
 ActionType = Literal["submit", "redirect", "navigate", "delete"]
 Affects = Literal["session_user", "session_settings", "permissions", "config", "reload"]
@@ -33,3 +33,4 @@ class Action:
 
     success_title: Optional[str] = None
     success_message: Optional[str] = None
+    refresh_cache: Optional[List[str]] = None

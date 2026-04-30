@@ -15,6 +15,7 @@ class WidgetsConfig(AppConfig):
         from .entities.widget_detail import WidgetDetailEntity
         from .entities.widget_create import WidgetCreateEntity
         from .entities.widget_update import WidgetUpdateEntity
+        from .entities.widget_delete import WidgetDeleteEntity
         from .entities.widget_select_list import WidgetSelectListEntity
         from .entities.widget_banner_dashboard import WidgetBannerDashboardEntity
 
@@ -22,6 +23,7 @@ class WidgetsConfig(AppConfig):
         register_entity(WidgetDetailEntity())
         register_entity(WidgetCreateEntity())
         register_entity(WidgetUpdateEntity())
+        register_entity(WidgetDeleteEntity())
         register_entity(WidgetSelectListEntity())
         register_entity(WidgetBannerDashboardEntity())
 

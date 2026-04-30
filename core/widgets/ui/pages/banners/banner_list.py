@@ -50,7 +50,24 @@ UI_PAGES = Page(
                     icon="pencil",
                     to="/admin/widgets/banners/{id}",
                     permission=CorePermission.ADMIN_WIDGETS_EDIT,
-                )
+                ),
+                Action(
+                    type="delete",
+                    label="Delete",
+                    icon="trash",
+                    permission=CorePermission.ADMIN_WIDGETS_DELETE,
+                    endpoint="/entities/core/widgets.delete/execute/",
+                    confirm={
+                        "title": "Hapus Banner",
+                        "message": "Yakin ingin menghapus banner ini?",
+                        "level": "danger",
+                    },
+                    refresh_cache=[
+                        "widgets.banners.list"
+                    ],
+                    success_title="Berhasil",
+                    success_message="Banner berhasil dihapus",
+                ),
             ],
         ),
 

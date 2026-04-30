@@ -40,6 +40,7 @@ class CorePermission(str, Enum):
     ADMIN_WIDGETS_VIEW = "core.admin.widgets.view"
     ADMIN_WIDGETS_CREATE = "core.admin.widgets.create"
     ADMIN_WIDGETS_EDIT = "core.admin.widgets.edit"
+    ADMIN_WIDGETS_DELETE = "core.admin.widgets.delete"
 
     ADMIN_BANK_VIEW = "core.admin.bank.view"
     ADMIN_BANK_CREATE = "core.admin.bank.create"
