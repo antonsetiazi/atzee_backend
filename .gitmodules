@@ -1,0 +1,3 @@
+[submodule "verticals/ustadzku"]
+	path = verticals/ustadzku
+	url = https://github.com/antonsetiazi/ustadzku.git
