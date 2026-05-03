@@ -2,7 +2,7 @@
 
 from django.apps import AppConfig
 
-class HRMSConfig(AppConfig):
+class HrmsConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "verticals.hrms"
     label = "verticals_hrms"

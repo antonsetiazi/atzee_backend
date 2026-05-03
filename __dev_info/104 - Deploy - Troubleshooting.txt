@@ -1,0 +1,9 @@
+1.  [Server]
+    Troubleshooting Cepat
+-----------------------------------------------------------
+    Cek log:
+    >> journalctl -u atzee -f
+
+
+    Cek nginx:
+    >> tail -f /var/log/nginx/error.log

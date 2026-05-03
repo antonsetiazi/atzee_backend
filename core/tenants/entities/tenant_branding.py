@@ -16,6 +16,7 @@ class TenantBrandingEntity(BaseEntity):
 
         return {
             "appName": branding.get("appName", ""),
+            "tagline": branding.get("tagline", ""),
             "logoUrl": branding.get("logoUrl", ""),
             "faviconUrl": branding.get("faviconUrl", ""),
 

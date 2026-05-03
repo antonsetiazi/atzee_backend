@@ -1,0 +1,170 @@
+================================================================
+CARA DEPLOY - Server (Ubuntu 22.04)
+================================================================
+
+
+1.  [Server]
+    Setup Server
+-----------------------------------------------------------
+    Login ke server:
+    >> ssh root@[IP_SERVER]
+
+    Update system:
+    >> apt update && apt upgrade -y
+
+    Install dependency:
+    >> apt install -y python3-pip python3-venv git nginx postgresql postgresql-contrib
+
+
+
+
+2.  [Server]
+    Clone Project (pastikan server punya akses (SSH key))
+-----------------------------------------------------------
+    >> cd /var/www
+    >> git clone --no-recurse-submodules https://github.com/antonsetiazi/atzee_backend.git
+    >> cd atzee_backend
+
+    >> git submodule init verticals/ustadzku
+    >> git submodule update
+
+
+
+
+3.  [Server]
+    Virtual Environment
+-----------------------------------------------------------    
+    >> python3 -m venv venv
+    >> source venv/bin/activate
+
+    Upgrade pip & install:
+    >> pip install --upgrade pip
+    >> pip install -r requirements.txt
+
+
+
+4.  [Server]
+    Setup PostgreSQL
+-----------------------------------------------------------      
+    >> sudo -u postgres psql
+
+    Buat DB:
+    CREATE DATABASE atzee_db;
+    CREATE USER atzee_user WITH PASSWORD 'passwordku_kuat';
+    ALTER ROLE atzee_user SET client_encoding TO 'utf8';
+    ALTER ROLE atzee_user SET default_transaction_isolation TO 'read committed';
+    ALTER ROLE atzee_user SET timezone TO 'UTC';
+    GRANT ALL PRIVILEGES ON DATABASE atzee_db TO atzee_user;
+    \q
+
+
+
+5.  [Server]
+    File Environment (.env)
+-----------------------------------------------------------  
+    >> nano .env    
+
+    Copy paste dengan yang di miliki di local
+
+
+
+6.  [Server]
+    Migrate & Static
+-----------------------------------------------------------      
+    >> source venv/bin/activate
+
+    >> python manage.py migrate
+    >> python manage.py collectstatic --noinput
+
+    Buat admin:
+    >> python manage.py createsuperuser
+
+
+
+7.  [Server]
+    Test Gunicorn (WAJIB)
+-----------------------------------------------------------       
+    >> gunicorn config.wsgi:application --bind 0.0.0.0:8000
+
+    👉 buka di browser:
+    http://IP_SERVER:8000
+
+    Kalau jalan → lanjut
+    Kalau error → STOP & debug dulu
+
+
+
+8.  [Server]
+    Setup Systemd (Auto Run)
+-----------------------------------------------------------  
+    Buat service:
+    >> nano /etc/systemd/system/atzee.service
+
+    Aktifkan:
+    >> systemctl daemon-reexec
+    >> systemctl daemon-reload
+    >> systemctl start atzee
+    >> systemctl enable atzee  
+
+    Cek:
+    >> systemctl status atzee
+
+
+
+9.  [Server]
+    Setup Nginx
+-----------------------------------------------------------
+    >> nano /etc/nginx/sites-available/atzee
+
+    Aktifkan:
+    >> ln -s /etc/nginx/sites-available/atzee /etc/nginx/sites-enabled
+    >> nginx -t
+    >> systemctl restart nginx
+
+
+
+10. [Server]
+    HTTPS (WAJIB DI PRODUCTION)
+-----------------------------------------------------------
+    Install:
+    >> apt install certbot python3-certbot-nginx -y
+
+    Jalankan:
+    >> certbot --nginx -d domainkamu.com
+
+
+
+11. [Server]
+    Install Redis
+-----------------------------------------------------------
+    >> apt install redis-server -y
+
+    Start & enable:
+    >> systemctl start redis
+    >> systemctl enable redis
+
+    Test:
+    >> redis-cli ping
+
+    Harus keluar:
+    PONG
+
+
+
+12. [Server]
+    Install Celery di Project
+-----------------------------------------------------------
+    Masuk ke project:
+    >> cd /var/www/atzee_backend
+    >> source venv/bin/activate
+
+    Install:
+    >> pip install celery redis django-celery-beat
+
+
+
+12. [Server]
+    Setup Celery Config
+-----------------------------------------------------------
+    Buat file:
+    >> nano config/celery.py

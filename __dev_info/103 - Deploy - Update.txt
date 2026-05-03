@@ -1,0 +1,33 @@
+1.  [Server]
+    Update Workflow
+===========================================================
+    >> cd /var/www/atzee_backend
+
+    1. Update code
+    ---------------------------------------------
+    >> git pull
+    >> git submodule update --init verticals/ustadzku
+
+
+    2. Activate env
+    ---------------------------------------------
+    >> source venv/bin/activate
+
+
+    3. Install dependency (kalau ada perubahan)
+    ---------------------------------------------
+    >> pip install -r requirements.txt
+
+
+    4. Django updates
+    ---------------------------------------------
+    >> python manage.py migrate
+    >> python manage.py collectstatic --noinput
+
+
+    5. Restart services
+    ---------------------------------------------
+    >> systemctl restart atzee
+    >> systemctl restart celery-worker
+    >> systemctl restart celery-beat
+    >> systemctl restart nginx

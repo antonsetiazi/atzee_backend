@@ -1,0 +1,44 @@
+AUTO SCRIPT UNTUK DEPLOY:
+============================================================================
+nano /var/www/atzee_backend/scripts/deploy.sh
+----------------------------------------------------------------------------
+#!/bin/bash
+
+cd /var/www/atzee_backend
+
+echo "🔄 Pull latest code..."
+git pull
+
+echo "📦 Update submodule..."
+git submodule update --init verticals/ustadzku
+
+echo "🐍 Activate virtualenv..."
+source venv/bin/activate
+
+echo "📦 Install dependencies..."
+pip install -r requirements.txt
+
+echo "🧬 Migrate database..."
+python manage.py migrate
+
+echo "📁 Collect static..."
+python manage.py collectstatic --noinput
+
+echo "🔍 Check Django..."
+python manage.py check
+
+echo "♻️ Restart services..."
+systemctl restart atzee
+systemctl restart celery-worker
+systemctl restart celery-beat
+systemctl restart nginx
+
+echo "✅ Deploy selesai!"
+============================================================================
+
+
+AKTIFKAN PERMISSON:
+>> chmod +x scripts/deploy.sh
+
+JALANKAN:
+>> ./scripts/deploy.sh

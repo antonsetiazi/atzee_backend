@@ -1,0 +1,121 @@
+============================================================================
+nano /etc/systemd/system/atzee.service
+----------------------------------------------------------------------------
+[Unit]
+Description=Atzee ASGI (Daphne)
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/var/www/atzee_backend
+Environment="PATH=/var/www/atzee_backend/venv/bin"
+
+ExecStart=/var/www/atzee_backend/venv/bin/daphne \
+    -u /var/www/atzee_backend/atzee.sock \
+    config.asgi:application
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+============================================================================
+
+
+============================================================================
+nano /etc/nginx/sites-available/atzee
+----------------------------------------------------------------------------
+server {
+    listen 80;
+    server_name domainkamu.com;
+
+    client_max_body_size 50M;
+
+    # =========================
+    # STATIC & MEDIA
+    # =========================
+    location /static/ {
+        alias /var/www/atzee_backend/static/;
+    }
+
+    location /media/ {
+        alias /var/www/atzee_backend/media/;
+    }
+
+    # =========================
+    # WEBSOCKET
+    # =========================
+    location /ws/ {
+        proxy_pass http://unix:/var/www/atzee_backend/atzee.sock;
+
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+        proxy_read_timeout 86400;
+    }
+
+    # =========================
+    # HTTP (DJANGO)
+    # =========================
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/var/www/atzee_backend/atzee.sock;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+============================================================================
+
+
+============================================================================
+nano /etc/systemd/system/celery-worker.service
+----------------------------------------------------------------------------
+[Unit]
+Description=Celery Worker
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/var/www/atzee_backend
+Environment="PATH=/var/www/atzee_backend/venv/bin"
+ExecStart=/var/www/atzee_backend/venv/bin/celery -A config worker \
+    --loglevel=info \
+    --concurrency=4 \
+    --max-tasks-per-child=1000
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+============================================================================
+
+
+============================================================================
+nano /etc/systemd/system/celery-beat.service
+----------------------------------------------------------------------------
+[Unit]
+Description=Celery Beat
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/var/www/atzee_backend
+Environment="PATH=/var/www/atzee_backend/venv/bin"
+ExecStart=/var/www/atzee_backend/venv/bin/celery -A config beat \
+    --loglevel=info \
+    --scheduler django_celery_beat.schedulers:DatabaseScheduler
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+============================================================================

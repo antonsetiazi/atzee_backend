@@ -12,7 +12,7 @@ UI_PAGES = Page(
     key="tenants.branding.edit",
     entity="tenants",
     domain="core",
-    title="Edit Tenant Branding",
+    title="Edit Branding",
     path="/admin/settings/branding",
     permissions=[CorePermission.ADMIN_TENANT_BRANDING_VIEW],
     data_source="/entities/core/tenant.branding/query/",
@@ -42,6 +42,12 @@ UI_PAGES = Page(
                     label="Application Name",
                     type="text",
                     required=True,
+                ),
+                
+                Field(
+                    key="tagline",
+                    label="Tagline",
+                    type="text",
                 ),
 
                 Field(

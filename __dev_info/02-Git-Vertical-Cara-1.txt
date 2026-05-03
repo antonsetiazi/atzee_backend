@@ -1,0 +1,41 @@
+================================================================
+CARA MENAMBAH VERTICALS BARU
+================================================================
+
+1. [GitHub.com] - Buat Repository Baru
+-----------------------------------------------------------
+    + Masuk ke https://github.com/new
+    + Isi Repository Name: vertical_x
+    + Click "Create Repository"
+
+
+2. [Local] - buat folder baru di verticals
+-----------------------------------------------------------
+    >> cd D:\PROJECTS\backend\django\atzee_backend\verticals>
+    >> mkdir vertical_x
+    >> cd vertical_x
+    >> git init
+    >> git add .
+    >> git commit -m "init vertical_x"
+    >> git remote add origin https://github.com/antonsetiazi/vertical_x.git
+    >> git branch -M main
+    >> git push -u origin main
+
+
+3. [Local] - kembali ke repo utama, hapus folder sebelumnya.
+-----------------------------------------------------------
+    >> cd ../
+    >> rm -rf vertical_x
+
+
+4. [Local] - Tambahkan sebagai Submodule
+-----------------------------------------------------------
+    >> git submodule add https://github.com/antonsetiazi/vertical_x.git vertical_x
+    >> git add .
+    >> git commit -m "add vertical_x as submodule"
+    >> git push
+
+    HASIL:
+    atzee_backend/
+    ├── verticals/vertical_x          ← submodule
+    ├── .gitmodules

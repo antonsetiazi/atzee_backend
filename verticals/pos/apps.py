@@ -2,7 +2,7 @@
 
 from django.apps import AppConfig
 
-class POSConfig(AppConfig):
+class PosConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "verticals.pos"
     label = "verticals_pos"

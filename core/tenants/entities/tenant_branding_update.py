@@ -18,20 +18,10 @@ class TenantBrandingUpdateEntity(BaseEntity):
         # ===============================
         # ROOT LEVEL
         # ===============================
-        branding["appName"] = data.get(
-            "appName",
-            branding.get("appName")
-        )
-
-        branding["logoUrl"] = data.get(
-            "logoUrl",
-            branding.get("logoUrl")
-        )
-
-        branding["faviconUrl"] = data.get(
-            "faviconUrl",
-            branding.get("faviconUrl")
-        )
+        branding["appName"] = data.get("appName", branding.get("appName"))
+        branding["tagline"] = data.get("tagline", branding.get("tagline"))
+        branding["logoUrl"] = data.get("logoUrl", branding.get("logoUrl"))
+        branding["faviconUrl"] = data.get("faviconUrl", branding.get("faviconUrl"))
 
         # ===============================
         # THEME

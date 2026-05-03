@@ -1,0 +1,76 @@
+================================================================
+CARA MENAMBAH VERTICALS BARU (Contoh "ustadzku")
+================================================================
+
+1.  [GitHub.com]
+    Buat Repository Baru
+-----------------------------------------------------------
+    + Masuk ke https://github.com/new
+    + Isi Repository Name: ustadzku
+    + Click "Create Repository"
+
+
+2.  [Local]
+    Masuk ke folder verticals/ustadzku & Push ke repo baru
+-----------------------------------------------------------
+    >> cd D:\PROJECTS\backend\django\atzee_backend\verticals\ustadzku>
+    >> git init
+    >> git add .
+    >> git commit -m "init ustadzku as separate repo"
+    
+    >> git remote add origin https://github.com/antonsetiazi/ustadzku.git
+    >> git branch -M main
+    >> git push -u origin main
+
+    🔍 POSISI:
+    D:\PROJECTS\backend\django\atzee_backend\verticals\ustadzku>
+
+
+
+3.  [Local]
+    Hapus ustadzku dari repo utama 
+    (TAPI JANGAN HAPUS FILE FISIK)
+-----------------------------------------------------------
+    >> cd ..
+    >> git rm -r --cached ustadzku
+    >> git commit -m "remove ustadzku from main repo"
+
+    ** Catatan:
+    👉 --cached = hanya hapus dari git tracking
+    👉 file di disk tetap ada
+    
+    🔍 POSISI:
+    D:\PROJECTS\backend\django\atzee_backend\verticals>
+
+
+
+4.  [Local]
+    Hapus folder lama (biar bersih)
+-----------------------------------------------------------
+    >> rm ustadzku -Recurse -Force (Versi PowerShell)
+    >> rm -rf ustadzku (Versi Linux)
+
+    ** Catatan:
+    👉 Ini aman karena, sudah ada di ustadzku
+    👉 Ini aman karena, kita akan clone ulang sebagai submodule
+
+    🔍 POSISI:
+    D:\PROJECTS\backend\django\atzee_backend\verticals>
+
+
+
+5. [Local] - Tambahkan sebagai Submodule
+-----------------------------------------------------------
+    >> git submodule add https://github.com/antonsetiazi/ustadzku.git ustadzku
+
+    >> git add .
+    >> git commit -m "add ustadzku as submodule"
+    >> git push
+
+    🔍 POSISI:
+    D:\PROJECTS\backend\django\atzee_backend\verticals>
+
+    HASIL:
+    atzee_backend/
+    ├── verticals/ustadzku          ← submodule
+    ├── .gitmodules
