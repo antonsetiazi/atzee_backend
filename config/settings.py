@@ -74,6 +74,7 @@ CORE_APPS = [
     "core.geo.villages.apps.VillagesConfig",
     "core.geo.spatial.apps.SpatialConfig",
     "core.geo.timezones.apps.TimezonesConfig",
+    "core.legal.apps.LegalConfig",
     "core.master.banks.apps.BanksConfig",
     "core.master.uom.apps.UOMConfig",
     "core.master.locations.apps.LocationsConfig",

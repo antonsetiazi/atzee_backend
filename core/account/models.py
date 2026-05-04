@@ -164,4 +164,4 @@ class UserBankAccount(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.bank_name} - {self.account_number}"    
+        return f"{self.bank.name if self.bank else '-'} - {self.account_number}"

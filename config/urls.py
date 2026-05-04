@@ -34,6 +34,7 @@ urlpatterns = [
     path("api/dashboard/", include("core.dashboard.urls")),
     path("api/settings/", include("core.settings.urls")),
     path("api/notifications/", include("core.notifications.urls")),
+    path("api/", include("core.legal.urls")),
     path("lookups/", include("core.lookups.urls")),
 
     # --- Core Account ---

@@ -56,6 +56,9 @@ class Command(BaseCommand):
             self.stdout.write("→ Seeding Fees...")
             call_command("seed_fees")
 
+            self.stdout.write("→ Seeding Policies...")
+            call_command("seed_policies")
+
             # 4️⃣ Ensure superadmin
             self.ensure_superadmin()
             

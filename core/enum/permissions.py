@@ -51,6 +51,11 @@ class CorePermission(str, Enum):
     REGIONS_SELECT_VIEW = "core.regions.select.view"
     CITIES_SELECT_VIEW = "core.cities.select.view"
 
+    ADMIN_POLICY_VIEW = "core.admin.policy.view"
+    ADMIN_POLICY_CREATE = "core.admin.policy.create"
+    ADMIN_POLICY_EDIT = "core.admin.policy.edit"
+    ADMIN_POLICY_DELETE = "core.admin.policy.delete"
+
 
     def __str__(self):
         return self.value
