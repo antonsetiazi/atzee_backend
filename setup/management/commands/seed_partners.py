@@ -57,14 +57,16 @@ class Command(BaseCommand):
             # ─────────────────────────────────────────────
             # LOAD PARTNER CONFIG
             # ─────────────────────────────────────────────
+            partner_module_path = f"verticals.{vertical}.seeds.partners"
+
             try:
-                partner_module_path = f"verticals.{vertical}.seeds.partners"
                 partner_module = importlib.import_module(partner_module_path)
                 partners_config = getattr(partner_module, "PARTNERS", [])
             except ModuleNotFoundError:
+                partners_config = []
                 self.stdout.write(
                     self.style.WARNING(
-                        f"No partners module found for vertical '{vertical}'"
+                        f"[{vertical}] No partners seed found, skipping..."
                     )
                 )
                 continue
@@ -155,7 +157,16 @@ class Command(BaseCommand):
         """
         Attach dummy image to partner via File model.
         """
+        exists = File.objects.filter(
+            tenant=tenant,
+            related_entity="partner_image",
+            related_id=str(partner.id),
+            original_name=image_filename,
+        ).exists()
 
+        if exists:
+            return  # ⬅️ idempotent guard (SAFE RE-RUN)
+        
         assets_dir = os.path.join(
             settings.BASE_DIR,
             "verticals",

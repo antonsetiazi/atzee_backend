@@ -1,0 +1,124 @@
+🧱 1. Master Data (Fondasi)
+=====================================================
+    Modul ini jadi referensi semua transaksi.
+
+    + Chart of Accounts (COA)
+    + Customer
+    + Vendor / Supplier
+    + Bank & Cash Accounts
+    + Tax / Pajak
+    + Currency (multi-currency)
+    + Cost Center / Department
+
+
+💰 2. General Ledger (Inti Accounting Engine)
+=====================================================
+    Jantung sistem.
+
+    + Journal Entry (Manual)
+    + Auto Journal Engine (dari modul lain)
+    + Ledger (Buku Besar)
+    + Trial Balance
+    + Period Closing
+
+
+🧾 3. Accounts Receivable (Piutang)
+=====================================================
+    Mengelola uang masuk dari customer.
+
+    + Sales Invoice
+    + Customer Payment
+    + Aging Receivable
+    + Credit Limit Management
+
+
+🧾 4. Accounts Payable (Hutang)
+=====================================================
+    Mengelola kewajiban ke vendor.
+
+    + Purchase Invoice
+    + Vendor Payment
+    + Aging Payable
+    + Bill Tracking
+
+
+🏦 5. Cash & Bank Management
+=====================================================
+    Semua pergerakan uang real.
+
+    + Cash In / Cash Out
+    + Bank Transfer
+    + Bank Reconciliation
+    + Multi-account tracking
+
+
+📊 6. Financial Reports
+=====================================================
+    Output utama sistem.
+
+    + Balance Sheet
+    + Profit & Loss
+    + Cash Flow
+    + General Ledger Report
+    + Custom Report Builder (optional tapi penting)
+
+
+🧮 7. Tax Management
+=====================================================
+    Kalau target Indonesia → ini krusial.
+
+    + PPN (VAT)
+    + PPh
+    + Tax mapping ke transaksi
+    + Tax report
+
+
+🔄 8. Budgeting & Control
+=====================================================
+    Untuk kontrol bisnis (enterprise feel).
+
+    + Budget Planning
+    + Budget vs Actual
+    + Alerts / Over budget control
+
+
+🔗 9. Integration Layer (Bridge ke modul lain)
+=====================================================
+    Karena Atzee = multi-app ERP.
+
+    + Integrasi ke Sales
+    + Integrasi ke Purchase
+    + Integrasi ke Inventory
+    + Integrasi ke Payroll
+
+    (Ini bukan UI-heavy, tapi penting di architecture)
+
+
+⚙️ 10. Accounting Settings & Configuration
+=====================================================
+    Agar fleksibel (white-label ready).
+
+    + Fiscal Year
+    + Accounting Method (Cash / Accrual)
+    + Auto numbering
+    + Default accounts mapping
+    + Multi-company config
+
+
+🧠 11. Audit & Compliance
+=====================================================
+    Untuk enterprise credibility.
+
+    + Audit Trail (siapa ubah apa)
+    + Journal lock
+    + Approval system (opsional tapi powerful)
+
+
+🔐 12. Role-based Finance Access
+=====================================================
+    Karena kamu sudah punya sistem role global.
+
+    + Finance Viewer
+    + Accountant
+    + Finance Manager
+    + Auditor

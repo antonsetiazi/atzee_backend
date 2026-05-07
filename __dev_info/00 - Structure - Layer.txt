@@ -1,0 +1,5 @@
+core/          → platform foundation
+business/      → universal business logic
+accounting/    → financial engine
+-----------------------------------
+verticals/     → identity + bootstrap (UI + seed)

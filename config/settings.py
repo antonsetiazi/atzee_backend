@@ -127,12 +127,7 @@ BUSINESS_APPS = [
 # 🧾 ACCOUNTING LAYER
 # ================================================================
 ACCOUNTING_APPS = [
-    "accounting.chart_of_accounts.apps.ChartOfAccountsConfig",
-    "accounting.journals.apps.JournalsConfig",
-    "accounting.ledger.apps.LedgerConfig",
-    "accounting.financial_reports.apps.FinancialReportsConfig",
-    "accounting.fiscal_period.apps.FiscalPeriodConfig",
-    "accounting.taxes.apps.TaxesConfig",
+    "accounting.apps.AccountingConfig",
 ]
 
 

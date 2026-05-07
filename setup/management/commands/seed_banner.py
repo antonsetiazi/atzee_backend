@@ -59,7 +59,6 @@ class Command(BaseCommand):
                         "ends_at": banner.get("ends_at"),
                         "target_roles": banner.get("target_roles", []),
                         "target_permissions": banner.get("target_permissions", []),
-                        "target_apps": banner.get("target_apps", []),
                         "order": banner.get("order", 50),
                         "is_active": banner.get("is_active", True),
                     }

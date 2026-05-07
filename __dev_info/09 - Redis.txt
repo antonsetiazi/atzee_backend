@@ -1,0 +1,15 @@
+Cara menghidupkan redis:
+Win + R → services.msc
+
+Cari:
+Memurai
+Memurai Redis
+Redis (Memurai)
+
+Kalau ada:
+
+👉 klik Start
+
+Test:
+redis-cli ping
+PONG

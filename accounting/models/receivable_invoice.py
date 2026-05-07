@@ -1,0 +1,105 @@
+# accounting/models/receivable_invoice.py
+
+from django.db import models
+import uuid
+from decimal import Decimal
+from core.models.base import TenantAwareModel
+from business.customers.models import Customer
+
+
+class ReceivableInvoice(TenantAwareModel):
+
+    STATUS_CHOICES = [
+        ("draft", "Draft"),
+        ("posted", "Posted"),
+        ("partial", "Partial Paid"),
+        ("paid", "Paid"),
+        ("cancelled", "Cancelled"),
+    ]
+
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
+
+    customer = models.ForeignKey(
+        Customer,
+        on_delete=models.PROTECT,
+        related_name="receivable_invoices"
+    )
+
+    invoice_number = models.CharField(max_length=100)
+
+    invoice_date = models.DateField()
+
+    due_date = models.DateField()
+
+    notes = models.TextField(blank=True)
+
+    subtotal = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        default=0
+    )
+
+    tax_amount = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        default=0
+    )
+
+    total_amount = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        default=0
+    )
+
+    paid_amount = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        default=0
+    )
+
+    balance_due = models.DecimalField(
+        max_digits=18,
+        decimal_places=2,
+        default=0
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default="draft"
+    )
+
+    class Meta:
+        db_table = "accounting_receivable_invoices"
+        ordering = ["-invoice_date"]
+
+    def __str__(self):
+        return self.invoice_number
+
+    def refresh_payment_status(self):
+
+        self.balance_due = (
+            Decimal(self.total_amount) -
+            Decimal(self.paid_amount)
+        )
+
+        if self.paid_amount <= 0:
+            self.status = "posted"
+
+        elif self.balance_due > 0:
+            self.status = "partial"
+
+        else:
+            self.status = "paid"
+
+        self.save(
+            update_fields=[
+                "paid_amount",
+                "balance_due",
+                "status"
+            ]
+        )

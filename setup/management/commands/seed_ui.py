@@ -75,7 +75,7 @@ def sync_permissions_to_db():
             perm_module = perm.get("module")
             
             # 🔥 FILTER DOMAIN
-            if perm_module not in ["core", "business", "marketplace", tenant_vertical]:
+            if perm_module not in ["core", "business", "marketplace", "accounting", tenant_vertical]:
                 continue
 
             obj, created = Permission.objects.get_or_create(

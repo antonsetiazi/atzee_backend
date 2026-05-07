@@ -98,11 +98,7 @@ urlpatterns = [
     path("api/tracking/", include("business.tracking.urls")),
 
     # --- Accounting ---
-    path("api/accounting/", include("accounting.chart_of_accounts.urls")),
-    path("api/accounting/", include("accounting.journals.urls")),
-    path("api/accounting/", include("accounting.financial_reports.urls")),
-    path("api/accounting/", include("accounting.fiscal_period.urls")),
-    path("api/accounting/", include("accounting.ledger.urls")),
+    path("api/accounting/", include("accounting.api.urls")),
 
     # --- HR ---
     path("api/hr/", include("hr.employees.urls")),
@@ -112,7 +108,7 @@ urlpatterns = [
     path("api/marketplace/", include("marketplace.urls")),
 
     # --- Verticals ---
-    path("api/verticals/apotek/", include("verticals.apotek.api.urls")),
+    # path("api/verticals/apotek/", include("verticals.apotek.api.urls")),
     
     path("api/discovery/", include("discovery.urls")),
 ]

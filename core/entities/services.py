@@ -35,7 +35,11 @@ class EntityExecuteService:
 
     @staticmethod
     def execute(*, user, tenant, domain: str, entity_key: str, data: dict):
+        # print("EntityQueryService | execute")
+        # print("domain: ", domain)
+        # print("entity_key: ", entity_key)
         entity = get_entity(domain, entity_key)
+        # print("EntityQueryService | entity: ", entity)
 
         if not entity:
             raise ValueError("Entity not registered")

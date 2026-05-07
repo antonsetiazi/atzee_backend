@@ -8,7 +8,8 @@ from core.ui.extensions.registry import UIExtensionRegistry
 
 
 def load_ui_extensions():
-    import verticals.apotek.extensions.customer
+    # import verticals.apotek.extensions.customer
+    pass
 
 
 def seed_menus(menus: list, menu_model=UIMenu):
