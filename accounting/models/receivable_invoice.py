@@ -1,10 +1,12 @@
 # accounting/models/receivable_invoice.py
 
-from django.db import models
 import uuid
 from decimal import Decimal
-from core.models.base import TenantAwareModel
+
+from django.db import models
+
 from business.customers.models import Customer
+from core.models.base import TenantAwareModel
 
 
 class ReceivableInvoice(TenantAwareModel):
@@ -15,62 +17,39 @@ class ReceivableInvoice(TenantAwareModel):
         ("partial", "Partial Paid"),
         ("paid", "Paid"),
         ("cancelled", "Cancelled"),
+        ("void", "Void"),
     ]
 
-    id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False
-    )
-
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     customer = models.ForeignKey(
-        Customer,
-        on_delete=models.PROTECT,
-        related_name="receivable_invoices"
+        Customer, on_delete=models.PROTECT, related_name="receivable_invoices"
     )
-
     invoice_number = models.CharField(max_length=100)
-
     invoice_date = models.DateField()
-
     due_date = models.DateField()
-
     notes = models.TextField(blank=True)
-
-    subtotal = models.DecimalField(
-        max_digits=18,
-        decimal_places=2,
-        default=0
+    tax = models.ForeignKey(
+        "accounting.Tax",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="receivable_invoices",
     )
-
+    subtotal = models.DecimalField(max_digits=18, decimal_places=2, default=0)
     tax_amount = models.DecimalField(
-        max_digits=18,
-        decimal_places=2,
-        default=0
+        max_digits=18, decimal_places=2, default=0
     )
-
     total_amount = models.DecimalField(
-        max_digits=18,
-        decimal_places=2,
-        default=0
+        max_digits=18, decimal_places=2, default=0
     )
-
     paid_amount = models.DecimalField(
-        max_digits=18,
-        decimal_places=2,
-        default=0
+        max_digits=18, decimal_places=2, default=0
     )
-
     balance_due = models.DecimalField(
-        max_digits=18,
-        decimal_places=2,
-        default=0
+        max_digits=18, decimal_places=2, default=0
     )
-
     status = models.CharField(
-        max_length=20,
-        choices=STATUS_CHOICES,
-        default="draft"
+        max_length=20, choices=STATUS_CHOICES, default="draft"
     )
 
     class Meta:
@@ -82,13 +61,13 @@ class ReceivableInvoice(TenantAwareModel):
 
     def refresh_payment_status(self):
 
-        self.balance_due = (
-            Decimal(self.total_amount) -
-            Decimal(self.paid_amount)
+        self.balance_due = Decimal(self.total_amount) - Decimal(
+            self.paid_amount
         )
 
         if self.paid_amount <= 0:
-            self.status = "posted"
+            if self.status != "draft":
+                self.status = "posted"
 
         elif self.balance_due > 0:
             self.status = "partial"
@@ -96,10 +75,4 @@ class ReceivableInvoice(TenantAwareModel):
         else:
             self.status = "paid"
 
-        self.save(
-            update_fields=[
-                "paid_amount",
-                "balance_due",
-                "status"
-            ]
-        )
+        self.save(update_fields=["paid_amount", "balance_due", "status"])

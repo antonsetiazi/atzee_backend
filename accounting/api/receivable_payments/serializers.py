@@ -3,18 +3,14 @@
 from rest_framework import serializers
 
 from accounting.models import (
-    ReceivablePayment,
     ReceivableAllocation,
+    ReceivablePayment,
 )
 
 
-class ReceivableAllocationSerializer(
-    serializers.ModelSerializer
-):
-
+class ReceivableAllocationSerializer(serializers.ModelSerializer):
     invoice_number = serializers.CharField(
-        source="invoice.invoice_number",
-        read_only=True
+        source="invoice.invoice_number", read_only=True
     )
 
     class Meta:
@@ -33,17 +29,17 @@ class ReceivableAllocationSerializer(
         ]
 
 
-class ReceivablePaymentSerializer(
-    serializers.ModelSerializer
-):
-
-    allocations = ReceivableAllocationSerializer(
-        many=True
+class ReceivableAllocationCreateSerializer(serializers.Serializer):
+    invoice_id = serializers.UUIDField()
+    allocated_amount = serializers.DecimalField(
+        max_digits=18, decimal_places=2
     )
 
+
+class ReceivablePaymentSerializer(serializers.ModelSerializer):
+    allocations = ReceivableAllocationSerializer(many=True)
     customer_name = serializers.CharField(
-        source="customer.name",
-        read_only=True
+        source="customer.name", read_only=True
     )
 
     class Meta:
@@ -51,19 +47,23 @@ class ReceivablePaymentSerializer(
 
         fields = [
             "id",
-
             "customer",
             "customer_name",
-
             "payment_number",
             "payment_date",
-
             "amount",
-
             "payment_method",
-
             "reference",
             "notes",
-
             "allocations",
         ]
+
+
+class ReceivablePaymentCreateSerializer(serializers.Serializer):
+    customer_id = serializers.IntegerField()
+    payment_number = serializers.CharField()
+    payment_date = serializers.DateField()
+    payment_method = serializers.CharField()
+    amount = serializers.DecimalField(max_digits=18, decimal_places=2)
+    allocations = ReceivableAllocationCreateSerializer(many=True)
+    notes = serializers.CharField(required=False, allow_blank=True)

@@ -1,19 +1,22 @@
-# accounting/services/receivable_payment_service.py
+# accounting/services/payable_payment_service.py
 
 from decimal import Decimal
-
 from django.db import transaction
 
+from business.partners.models import Partner
+
 from accounting.models import (
-    ReceivableAllocation,
-    ReceivableInvoice,
-    ReceivablePayment,
+    PayablePayment,
+    PayableAllocation,
+    PayableInvoice,
 )
-from accounting.services.auto_journal_service import AutoJournalService
-from business.customers.models import Customer
+
+from accounting.services.auto_journal_service import (
+    AutoJournalService
+)
 
 
-class ReceivablePaymentService:
+class PayablePaymentService:
 
     @staticmethod
     @transaction.atomic
@@ -21,21 +24,24 @@ class ReceivablePaymentService:
         *,
         tenant,
         user,
-        customer_id,
+        partner_id,
         payment_number,
         payment_date,
         amount,
         payment_method,
         allocations=[],
         reference="",
-        notes="",
+        notes=""
     ):
 
-        customer = Customer.objects.get(id=customer_id, tenant=tenant)
+        partner = Partner.objects.get(
+            id=partner_id,
+            tenant=tenant
+        )
 
-        payment = ReceivablePayment.objects.create(
+        payment = PayablePayment.objects.create(
             tenant=tenant,
-            customer=customer,
+            partner=partner,
             payment_number=payment_number,
             payment_date=payment_date,
             amount=amount,
@@ -49,14 +55,19 @@ class ReceivablePaymentService:
 
         for item in allocations:
 
-            invoice = ReceivableInvoice.objects.get(
-                id=item["invoice_id"], tenant=tenant
+            invoice = PayableInvoice.objects.get(
+                id=item["invoice_id"],
+                tenant=tenant
             )
 
-            allocated_amount = Decimal(item["allocated_amount"])
+            allocated_amount = Decimal(
+                item["allocated_amount"]
+            )
 
             if allocated_amount <= 0:
-                raise ValueError("Allocated amount must be > 0")
+                raise ValueError(
+                    "Allocated amount must be > 0"
+                )
 
             if allocated_amount > invoice.balance_due:
                 raise ValueError(
@@ -64,7 +75,7 @@ class ReceivablePaymentService:
                     f"{invoice.invoice_number}"
                 )
 
-            ReceivableAllocation.objects.create(
+            PayableAllocation.objects.create(
                 tenant=tenant,
                 payment=payment,
                 invoice=invoice,
@@ -79,16 +90,20 @@ class ReceivablePaymentService:
             total_allocated += allocated_amount
 
         if total_allocated != Decimal(amount):
-            raise ValueError("Allocated amount must equal payment amount")
+            raise ValueError(
+                "Allocated amount must equal payment amount"
+            )
 
         # AUTO JOURNAL
         AutoJournalService.create_from_transaction(
             tenant=tenant,
             user=user,
-            transaction_type="payment_in",
+            transaction_type="payment_out",
             reference=payment.payment_number,
             date=payment.payment_date,
-            payload={"total_amount": payment.amount},
+            payload={
+                "total_amount": payment.amount
+            }
         )
 
         return payment

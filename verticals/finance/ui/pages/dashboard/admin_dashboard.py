@@ -1,18 +1,16 @@
 # verticals/finance/ui/pages/dahsboard/admin_dashboard.py
 
 from core.ui.registry import register_ui_module_pages
-from core.ui.schema.page import Page
 from core.ui.schema.block import (
+    BannerBlock,
     ContainerBlock,
-    StatBlock,
+    HeaderBlock,
     ShortcutBlock,
     ShortcutItem,
-    BannerBlock,
-    HeaderBlock,
+    StatBlock,
 )
-
+from core.ui.schema.page import Page
 from verticals.finance.enum.permissions import FinancePermission
-
 
 UI_PAGES = [
     Page(
@@ -21,17 +19,16 @@ UI_PAGES = [
         domain="finance",
         path="/dashboard",
         title="Admin Dashboard",
-        permissions=[FinancePermission.ADMIN_DASHBOARD_VIEW], 
+        permissions=[FinancePermission.ADMIN_DASHBOARD_VIEW],
         meta={
             "showBottomNav": True,
             "showHeader": False,
             "fullscreen": False,
-            "headerMode": "overlay",            
+            "headerMode": "overlay",
         },
         description="Finance Control Room & Accounting Overview Platform Atzee Finance",
         data_source="/entities/finance/admin.dashboard/query/",
         blocks=[
-
             # ===============================
             # 🔥 HEADER DASHBOARD
             # ===============================
@@ -43,7 +40,6 @@ UI_PAGES = [
                 show_avatar=True,
                 show_search=True,
             ),
-
             # =====================================================
             # GLOBAL ALERT / ANOMALY SYSTEM
             # =====================================================
@@ -52,7 +48,6 @@ UI_PAGES = [
                 data_key="alerts",
                 size="lg",
             ),
-
             ShortcutBlock(
                 title="Quick Navigation",
                 items=[
@@ -83,7 +78,6 @@ UI_PAGES = [
                 ],
                 scrollable=False,
             ),
-
             ShortcutBlock(
                 title="Quick Navigation",
                 items=[
@@ -114,8 +108,30 @@ UI_PAGES = [
                 ],
                 scrollable=False,
             ),
-
-
+            ShortcutBlock(
+                title="Receivable",
+                items=[
+                    ShortcutItem(
+                        key="ar-dashboard",
+                        label="AR Dashboard",
+                        icon="dashboard",
+                        to="/finance/receivables/dashboard",
+                    ),
+                    ShortcutItem(
+                        key="ar-invoice",
+                        label="AR Invoice",
+                        icon="invoice",
+                        to="/finance/receivables/invoices",
+                    ),
+                    ShortcutItem(
+                        key="ar-payment",
+                        label="AR Payment",
+                        icon="payment",
+                        to="/finance/receivables/payments",
+                    ),
+                ],
+                scrollable=False,
+            ),
             # =====================================================
             # KPI ROW 2 (FINANCIAL MONITORING)
             # =====================================================
@@ -151,12 +167,11 @@ UI_PAGES = [
                         size="sm",
                         value=None,
                     ),
-                ]
+                ],
             ),
-
             ShortcutBlock(
                 title="Quick Navigation",
-                items=[                    
+                items=[
                     ShortcutItem(
                         key="payments",
                         label="Payments",
@@ -184,7 +199,6 @@ UI_PAGES = [
                 ],
                 scrollable=False,
             ),
-
             # =====================================================
             # KPI ROW 1 (REAL-TIME CORE HEALTH)
             # =====================================================
@@ -220,12 +234,11 @@ UI_PAGES = [
                         size="sm",
                         value=None,
                     ),
-                ]
-            ), 
-
+                ],
+            ),
             ShortcutBlock(
                 title="Quick Navigation",
-                items=[         
+                items=[
                     ShortcutItem(
                         key="banners",
                         label="Banner",
@@ -252,8 +265,7 @@ UI_PAGES = [
                     ),
                 ],
                 scrollable=False,
-            ),                       
-
+            ),
             # =====================================================
             # KPI ROW 3 (PARTNER HEALTH)
             # =====================================================
@@ -289,7 +301,7 @@ UI_PAGES = [
                         size="sm",
                         value=None,
                     ),
-                ]
+                ],
             ),
         ],
     ),

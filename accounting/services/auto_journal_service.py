@@ -35,18 +35,22 @@ class AutoJournalService:
         entries_data = []
 
         for m in mappings:
-            amount = payload.get(m.amount_source)
+            amount = payload.get(
+                m.amount_source,
+                0
+            )
 
             if amount is None:
-                raise ValueError(
-                    f"Missing field '{m.amount_source}' in payload"
-                )
+                amount = 0
 
             entry = {
                 "account_id": m.account.id,
                 "debit": amount if m.entry_type == "debit" else 0,
                 "credit": amount if m.entry_type == "credit" else 0,
-                "description": transaction_type
+                "description": (
+                    f"{transaction_type} "
+                    f"({m.amount_source})"
+                )
             }
 
             entries_data.append(entry)

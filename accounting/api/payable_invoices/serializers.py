@@ -1,19 +1,19 @@
-# accounting/api/receivable_invoices/serializers.py
+# accounting/api/payable_invoices/serializers.py
 
 from rest_framework import serializers
 
 from accounting.models import (
-    ReceivableInvoice,
-    ReceivableInvoiceItem,
+    PayableInvoice,
+    PayableInvoiceItem,
 )
 
 
-class ReceivableInvoiceItemSerializer(
+class PayableInvoiceItemSerializer(
     serializers.ModelSerializer
 ):
 
     class Meta:
-        model = ReceivableInvoiceItem
+        model = PayableInvoiceItem
 
         fields = [
             "id",
@@ -29,30 +29,29 @@ class ReceivableInvoiceItemSerializer(
         ]
 
 
-class ReceivableInvoiceSerializer(
+class PayableInvoiceSerializer(
     serializers.ModelSerializer
 ):
 
-    items = ReceivableInvoiceItemSerializer(
+    items = PayableInvoiceItemSerializer(
         many=True
     )
 
-    customer_name = serializers.CharField(
-        source="customer.name",
+    partner_name = serializers.CharField(
+        source="partner.name",
         read_only=True
     )
 
     class Meta:
-        model = ReceivableInvoice
+        model = PayableInvoice
 
         fields = [
             "id",
 
-            "customer",
-            "customer_name",
+            "partner",
+            "partner_name",
 
             "invoice_number",
-
             "invoice_date",
             "due_date",
 
@@ -68,28 +67,14 @@ class ReceivableInvoiceSerializer(
             "status",
 
             "items",
-            "tax",
-            "tax_amount",
-
         ]
 
         read_only_fields = [
+            "id",
             "subtotal",
             "tax_amount",
             "total_amount",
-
             "paid_amount",
             "balance_due",
-
             "status",
         ]
-
-
-class ReceivableInvoiceCreateSerializer(serializers.Serializer):
-    customer_id = serializers.IntegerField()
-    invoice_number = serializers.CharField()
-    invoice_date = serializers.DateField()
-    due_date = serializers.DateField()
-    tax_id = serializers.UUIDField(required=False, allow_null=True)
-    notes = serializers.CharField(required=False, allow_blank=True)
-    items = ReceivableInvoiceItemSerializer(many=True)        

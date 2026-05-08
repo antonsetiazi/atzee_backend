@@ -16,6 +16,27 @@ ACCOUNTS = [
                 "is_group": False,
             },
             {
+                "code": "1110",
+                "name": "Bank BCA",
+                "account_type": "asset",
+                "normal_balance": "debit",
+                "is_group": False,
+            },
+            {
+                "code": "1120",
+                "name": "Bank Mandiri",
+                "account_type": "asset",
+                "normal_balance": "debit",
+                "is_group": False,
+            },
+            {
+                "code": "1130",
+                "name": "Bank BNI",
+                "account_type": "asset",
+                "normal_balance": "debit",
+                "is_group": False,
+            },
+            {
                 "code": "1200",
                 "name": "Accounts Receivable",
                 "account_type": "asset",
@@ -30,6 +51,22 @@ ACCOUNTS = [
         "account_type": "liability",
         "normal_balance": "credit",
         "is_group": True,
+        "children": [
+            {
+                "code": "2100",
+                "name": "Tax Payable",
+                "account_type": "liability",
+                "normal_balance": "credit",
+                "is_group": False,
+            },
+            {
+                "code": "2200",
+                "name": "Accounts Payable",
+                "account_type": "liability",
+                "normal_balance": "credit",
+                "is_group": False,
+            },
+        ],
     },
     {
         "code": "3000",
@@ -44,6 +81,15 @@ ACCOUNTS = [
         "account_type": "revenue",
         "normal_balance": "credit",
         "is_group": True,
+        "children": [
+            {
+                "code": "4100",
+                "name": "Sales Revenue",
+                "account_type": "revenue",
+                "normal_balance": "credit",
+                "is_group": False,
+            }
+        ],
     },
     {
         "code": "5000",
@@ -65,7 +111,7 @@ ACCOUNTS = [
                 "account_type": "expense",
                 "normal_balance": "debit",
                 "is_group": False,
-            }
-        ]
+            },
+        ],
     },
 ]

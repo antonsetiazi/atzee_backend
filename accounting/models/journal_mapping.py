@@ -12,6 +12,7 @@ class JournalMapping(TenantAwareModel):
 
     TRANSACTION_TYPE_CHOICES = [
         ("sales_invoice", "Sales Invoice"),
+        ("purchase_invoice", "Purchase Invoice"),
         ("payment_in", "Payment In"),
         ("payment_out", "Payment Out"),
         ("expense", "Expense"),
@@ -41,7 +42,10 @@ class JournalMapping(TenantAwareModel):
 
     amount_source = models.CharField(
         max_length=50,
-        help_text="Field dari payload, contoh: total_amount"
+        help_text=(
+            "Field dari payload. "
+            "Contoh: subtotal, tax_amount, total_amount"
+        )
     )
 
     order = models.IntegerField(default=0)

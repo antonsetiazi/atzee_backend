@@ -1,11 +1,12 @@
 # setup/management/commands/bootstrap.py
 
 
-from django.core.management.base import BaseCommand
-from django.core.management import call_command
 from django.contrib.auth import get_user_model
+from django.core.management import call_command
+from django.core.management.base import BaseCommand
 
 User = get_user_model()
+
 
 class Command(BaseCommand):
     help = "Run full bootstrap (tenants, users, ui)"
@@ -62,12 +63,24 @@ class Command(BaseCommand):
             self.stdout.write("→ Seeding C.O.A...")
             call_command("seed_accounts")
 
+            self.stdout.write("→ Seeding Cash & Bank Account...")
+            call_command("seed_cash_bank_accounts")
+
+            self.stdout.write("→ Seeding Journal Mappings...")
+            call_command("seed_journal_mappings")
+
             self.stdout.write("→ Seeding Periods...")
             call_command("seed_periods")
 
+            self.stdout.write("→ Seeding Customers...")
+            call_command("seed_customers")
+
+            self.stdout.write("→ Seeding Taxes...")
+            call_command("seed_taxes")
+
             # 4️⃣ Ensure superadmin
             self.ensure_superadmin()
-            
+
             self.stdout.write(
                 self.style.SUCCESS("✅ Bootstrap completed successfully.")
             )
@@ -76,7 +89,6 @@ class Command(BaseCommand):
             self.stdout.write(
                 self.style.ERROR(f"❌ Bootstrap failed: {str(e)}")
             )
-
 
     def ensure_superadmin(self):
         """
@@ -93,18 +105,14 @@ class Command(BaseCommand):
                 "is_staff": True,
                 "is_superuser": True,
                 "is_active": True,
-            }
+            },
         )
 
         if created:
             user.set_password(password)
             user.save()
             self.stdout.write(
-                self.style.SUCCESS(
-                    f"👑 Superadmin created: {email}"
-                )
+                self.style.SUCCESS(f"👑 Superadmin created: {email}")
             )
         else:
-            self.stdout.write(
-                f"👑 Superadmin already exists: {email}"
-            )
+            self.stdout.write(f"👑 Superadmin already exists: {email}")
