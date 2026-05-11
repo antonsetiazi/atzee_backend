@@ -78,6 +78,18 @@ class Command(BaseCommand):
             self.stdout.write("→ Seeding Taxes...")
             call_command("seed_taxes")
 
+            self.stdout.write("→ Seeding Asset Categories...")
+            call_command("seed_asset_categories")
+
+            self.stdout.write("→ Seeding Fixed Assets...")
+            call_command("seed_fixed_assets")
+
+            self.stdout.write("→ Seeding Depreciation Entries...")
+            call_command("seed_depreciation_entries")
+
+            self.stdout.write("→ Seeding Asset Disposal...")
+            call_command("seed_asset_disposals")
+
             # 4️⃣ Ensure superadmin
             self.ensure_superadmin()
 

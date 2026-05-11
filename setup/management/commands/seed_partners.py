@@ -1,32 +1,26 @@
 # setup/management/commands/seed_partners.py
 
 import importlib
-
-from django.core.management.base import BaseCommand
-from django.conf import settings
-from django.db import transaction
-from django.contrib.auth import get_user_model
-
-from core.tenants.models import Tenant
-from business.partners.models import Partner
-from business.partners.models import PartnerServiceProfile
-
 import os
+
+from django.conf import settings
 from django.core.files.base import ContentFile
+from django.core.management.base import BaseCommand
+from django.db import transaction
+
+from business.partners.models import Partner, PartnerServiceProfile
 from core.files.models import File
 from core.files.storage import FileStorageService
-from core.users.models import User
-from core.roles.models import Role, UserRole
-from core.tenants.models import UserTenant
+from core.geo.cities.models import City
 from core.geo.countries.models import Country
 from core.geo.regions.models import Region
-from core.geo.cities.models import City
+from core.roles.models import Role, UserRole
+from core.tenants.models import Tenant, UserTenant
+from core.users.models import User
 
-User = get_user_model()
 
 class Command(BaseCommand):
     help = "Seed partners + products per tenant based on vertical"
-
 
     @transaction.atomic
     def handle(self, *args, **options):
@@ -42,8 +36,6 @@ class Command(BaseCommand):
 
         total_partner_created = 0
         total_partner_updated = 0
-        total_product_created = 0
-        total_partner_product_created = 0
 
         for tenant in tenants:
             vertical = tenant.vertical
@@ -71,7 +63,6 @@ class Command(BaseCommand):
                 )
                 continue
 
-
             # ─────────────────────────────────────────────
             # SEED PARTNERS
             # ─────────────────────────────────────────────
@@ -80,7 +71,7 @@ class Command(BaseCommand):
                 core_user = self._get_or_create_partner_user(tenant, data)
 
                 country, region, city = self._resolve_geo(data)
-                
+
                 partner, created = Partner.objects.update_or_create(
                     tenant=tenant,
                     code=data.get("code"),
@@ -107,14 +98,17 @@ class Command(BaseCommand):
                     PartnerServiceProfile.objects.update_or_create(
                         partner=partner,
                         defaults={
-                            "specialization": service_profile_data.get("specialization"),
-                            "experience_years": service_profile_data.get("experience_years", 0),
+                            "specialization": service_profile_data.get(
+                                "specialization"
+                            ),
+                            "experience_years": service_profile_data.get(
+                                "experience_years", 0
+                            ),
                             "bio": service_profile_data.get("bio"),
-                            "working_hours": service_profile_data.get("working_hours", {
-                                "start": 8,
-                                "end": 18
-                            }),
-                        }
+                            "working_hours": service_profile_data.get(
+                                "working_hours", {"start": 8, "end": 18}
+                            ),
+                        },
                     )
 
                 image_filename = data.get("image")
@@ -131,7 +125,6 @@ class Command(BaseCommand):
                 else:
                     total_partner_updated += 1
 
-
         # ─────────────────────────────────────────────
         # SUMMARY
         # ─────────────────────────────────────────────
@@ -143,16 +136,11 @@ class Command(BaseCommand):
             )
         )
 
-
     def _get_tenant_admin(self, tenant):
-        return (
-            User.objects.filter(
-                is_superuser=True,
-                tenant_memberships__tenant=tenant
-            ).first()
-        )
-    
-    
+        return User.objects.filter(
+            is_superuser=True, tenant_memberships__tenant=tenant
+        ).first()
+
     def _attach_partner_image(self, tenant, partner, image_filename):
         """
         Attach dummy image to partner via File model.
@@ -166,7 +154,7 @@ class Command(BaseCommand):
 
         if exists:
             return  # ⬅️ idempotent guard (SAFE RE-RUN)
-        
+
         assets_dir = os.path.join(
             settings.BASE_DIR,
             "verticals",
@@ -177,7 +165,7 @@ class Command(BaseCommand):
         )
 
         file_path = os.path.join(assets_dir, image_filename)
-            
+
         if not os.path.exists(file_path):
             return
 
@@ -237,7 +225,7 @@ class Command(BaseCommand):
                 "is_active": True,
                 "is_staff": False,
                 "is_superuser": False,
-            }
+            },
         )
 
         if created:
@@ -246,26 +234,17 @@ class Command(BaseCommand):
 
         # Tenant membership
         UserTenant.objects.update_or_create(
-            user=user,
-            tenant=tenant,
-            defaults={"is_active": True}
+            user=user, tenant=tenant, defaults={"is_active": True}
         )
 
         # Assign Partner role
         try:
-            role = Role.objects.get(
-                tenant=tenant,
-                name="Partner"
-            )
-            UserRole.objects.update_or_create(
-                user=user,
-                role=role
-            )
+            role = Role.objects.get(tenant=tenant, name="Partner")
+            UserRole.objects.update_or_create(user=user, role=role)
         except Role.DoesNotExist:
             pass
 
         return user
-    
 
     def _resolve_geo(self, data):
         country = None
@@ -273,18 +252,12 @@ class Command(BaseCommand):
         city = None
 
         if data.get("country_code"):
-            country = Country.objects.filter(
-                code=data["country_code"]
-            ).first()
+            country = Country.objects.filter(code=data["country_code"]).first()
 
         if data.get("region_code"):
-            region = Region.objects.filter(
-                code=data["region_code"]
-            ).first()
+            region = Region.objects.filter(code=data["region_code"]).first()
 
         if data.get("city_code"):
-            city = City.objects.filter(
-                code=data["city_code"]
-            ).first()
+            city = City.objects.filter(code=data["city_code"]).first()
 
         return country, region, city

@@ -1,7 +1,8 @@
 # accounting/services/journal_service.py
 
 from django.db import transaction
-from accounting.models import Journal, JournalEntry, Account
+
+from accounting.models import Account, Journal, JournalEntry
 from accounting.services.posting_service import PostingService
 
 
@@ -38,16 +39,13 @@ class JournalService:
             date=date,
             description=description,
             reference=reference,
-            created_by=user
+            created_by=user,
         )
 
         entries = []
 
         for item in entries_data:
-            account = Account.objects.get(
-                id=item["account_id"],
-                tenant=tenant
-            )
+            account = Account.objects.get(id=item["account_id"], tenant=tenant)
 
             entry = JournalEntry.objects.create(
                 tenant=tenant,
@@ -55,7 +53,7 @@ class JournalService:
                 account=account,
                 debit=item.get("debit", 0),
                 credit=item.get("credit", 0),
-                description=item.get("description", "")
+                description=item.get("description", ""),
             )
 
             entries.append(entry)

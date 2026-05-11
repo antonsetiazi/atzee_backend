@@ -1,0 +1,48 @@
+# verticals/finance/seeds/asset_categories.py
+
+ASSET_CATEGORIES = [
+    {
+        "code": "IT-EQP",
+        "name": "IT Equipment",
+        "description": "Computer, laptop, server, network devices",
+        "depreciation_method": "straight_line",
+        "useful_life_months": 36,
+        "salvage_value_percent": 10,
+        "asset_account_code": "1100",
+        "accumulated_account_code": "1200",
+        "expense_account_code": "5100",
+    },
+    {
+        "code": "VEH",
+        "name": "Vehicles",
+        "description": "Operational vehicles and transportation assets",
+        "depreciation_method": "straight_line",
+        "useful_life_months": 60,
+        "salvage_value_percent": 20,
+        "asset_account_code": "1100",
+        "accumulated_account_code": "1200",
+        "expense_account_code": "5100",
+    },
+    {
+        "code": "OFFICE",
+        "name": "Office Equipment",
+        "description": "Furniture, desks, office tools",
+        "depreciation_method": "straight_line",
+        "useful_life_months": 48,
+        "salvage_value_percent": 10,
+        "asset_account_code": "1100",
+        "accumulated_account_code": "1200",
+        "expense_account_code": "5100",
+    },
+    {
+        "code": "BUILD",
+        "name": "Buildings",
+        "description": "Office buildings and facilities",
+        "depreciation_method": "straight_line",
+        "useful_life_months": 240,
+        "salvage_value_percent": 30,
+        "asset_account_code": "1100",
+        "accumulated_account_code": "1200",
+        "expense_account_code": "5100",
+    },
+]

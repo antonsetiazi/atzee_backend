@@ -1,15 +1,15 @@
 # core/ui/schema/block/shortcut.py
 
 from dataclasses import dataclass, field
-from typing import List, Literal, Dict, Optional, Any
+from typing import Any, Dict, List, Literal, Optional
 
 
 @dataclass(frozen=True)
 class ShortcutItem:
-    key: str                   # unique key
-    label: str                  # nama menu
+    key: str  # unique key
+    label: str  # nama menu
     icon: Optional[str] = None  # optional icon
-    to: Optional[str] = None    # route / link
+    to: Optional[str] = None  # route / link
     permission: Optional[str] = None
     meta: Optional[Dict[str, Any]] = None  # bisa simpan info tambahan
 
@@ -21,5 +21,18 @@ class ShortcutBlock:
     description: Optional[str] = None
     items: List[ShortcutItem] = field(default_factory=list)
     scrollable: bool = True  # kalau panjang bisa scroll horizontal
-    center: bool = True      # rata tengah
+    center: bool = True  # rata tengah
 
+    # =========================================
+    # UI CONFIG
+    # =========================================
+
+    bordered: bool = True
+
+    padding_y_mobile: str = "py-4"
+    padding_y_desktop: str = "py-0"
+
+    margin_y_mobile: str = "my-0"
+    margin_y_desktop: str = "my-0"
+
+    rounded: Optional[str] = None

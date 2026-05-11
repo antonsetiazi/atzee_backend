@@ -3,6 +3,7 @@
 from django.urls import include, path
 
 urlpatterns = [
+    path("accounts/", include("accounting.api.accounts.urls")),
     path("journals/", include("accounting.api.journals.urls")),
     path("reports/", include("accounting.api.reports.urls")),
     path(
@@ -17,6 +18,10 @@ urlpatterns = [
     path("payable-invoices/", include("accounting.api.payable_invoices.urls")),
     path("payable-payments/", include("accounting.api.payable_payments.urls")),
     path(
+        "payables/dashboard/",
+        include("accounting.api.payables_dashboard.urls"),
+    ),
+    path(
         "cash-bank-accounts/",
         include("accounting.api.cash_bank_accounts.urls"),
     ),
@@ -27,5 +32,25 @@ urlpatterns = [
     path(
         "receivables/dashboard/",
         include("accounting.api.receivables_dashboard.urls"),
+    ),
+    path(
+        "asset-categories/",
+        include("accounting.api.asset_categories.urls"),
+    ),
+    path(
+        "fixed-assets/",
+        include("accounting.api.fixed_assets.urls"),
+    ),
+    path(
+        "fixed-asset-depreciation/",
+        include("accounting.api.fixed_asset_depreciation.urls"),
+    ),
+    path(
+        "asset-disposals/",
+        include("accounting.api.asset_disposals.urls"),
+    ),
+    path(
+        "fixed-assets-dashboard/",
+        include("accounting.api.fixed_assets_dashboard.urls"),
     ),
 ]
