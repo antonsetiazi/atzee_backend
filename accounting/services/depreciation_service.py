@@ -8,6 +8,9 @@ from accounting.models import DepreciationEntry
 from accounting.services.journal_service import (
     JournalService,
 )
+from core.activity.constants.activity_types import FIXED_ASSET
+from core.activity.events.finance_events import FinanceEvents
+from core.activity.services.activity_service import ActivityService
 
 
 class DepreciationService:
@@ -135,5 +138,28 @@ class DepreciationService:
 
         asset.updated_by = user
         asset.save()
+
+        # =====================================================
+        # RECORD ACTIVITY
+        # =====================================================
+        ActivityService.record(
+            tenant=asset.tenant,
+            target_type=FIXED_ASSET,
+            target_id=asset.id,
+            event=(FinanceEvents.FIXED_ASSET_DEPRECIATION_RUN),
+            title="Depreciation posted",
+            description=(
+                f"Monthly depreciation posted " f"for asset '{asset.name}'"
+            ),
+            created_by=user,
+            metadata={
+                "period_date": str(period_date),
+                "depreciation_amount": str(depreciation_amount),
+                "accumulated_depreciation": str(accumulated),
+                "book_value_after": str(remaining_book_value),
+                "journal_id": str(journal.id),
+                "journal_reference": (journal.reference),
+            },
+        )
 
         return entry

@@ -1,25 +1,21 @@
 # core/notifications/views.py
 
-from django.db.models import Count
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from core.notifications.models import Notification
 from core.notifications.serializers import NotificationSerializer
-
 from core.tenants.services import TenantService
+
 
 class NotificationListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         tenant = TenantService.get_current_tenant(request)
-        qs = Notification.objects.filter(
-            user=request.user,
-            tenant=tenant
-        )
+        qs = Notification.objects.filter(user=request.user, tenant=tenant)
 
         # Optional filters
         is_read = request.query_params.get("is_read")
@@ -42,25 +38,21 @@ class NotificationUnreadCountView(APIView):
         count = Notification.objects.filter(
             user=request.user,
             tenant=getattr(request, "tenant", None),
-            is_read=False
+            is_read=False,
         ).count()
 
         return Response({"unread_count": count})
-    
+
 
 class NotificationMarkReadView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
         try:
-            notif = Notification.objects.get(
-                pk=pk,
-                user=request.user
-            )
+            notif = Notification.objects.get(pk=pk, user=request.user)
         except Notification.DoesNotExist:
             return Response(
-                {"detail": "Not found"},
-                status=status.HTTP_404_NOT_FOUND
+                {"detail": "Not found"}, status=status.HTTP_404_NOT_FOUND
             )
 
         notif.is_read = True
@@ -76,7 +68,7 @@ class NotificationMarkAllReadView(APIView):
         Notification.objects.filter(
             user=request.user,
             tenant=getattr(request, "tenant", None),
-            is_read=False
+            is_read=False,
         ).update(is_read=True)
 
         return Response({"status": "ok"})
@@ -87,12 +79,11 @@ class NotificationClearAllView(APIView):
 
     def delete(self, request):
         Notification.objects.filter(
-            user=request.user,
-            tenant=getattr(request, "tenant", None)
+            user=request.user, tenant=getattr(request, "tenant", None)
         ).delete()
 
         return Response({"status": "ok"})
-    
+
 
 class NotificationCreateView(APIView):
     permission_classes = [IsAuthenticated]
@@ -113,4 +104,4 @@ class NotificationCreateView(APIView):
         )
 
         serializer = NotificationSerializer(notification)
-        return Response(serializer.data, status=201)    
+        return Response(serializer.data, status=201)

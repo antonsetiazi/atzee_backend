@@ -9,9 +9,10 @@ from accounting.models import (
     AssetDisposal,
     FixedAsset,
 )
-from accounting.services.journal_service import (
-    JournalService,
-)
+from accounting.services.journal_service import JournalService
+from core.activity.constants.activity_types import FIXED_ASSET
+from core.activity.events.finance_events import FinanceEvents
+from core.activity.services.activity_service import ActivityService
 
 
 class AssetDisposalService:
@@ -35,29 +36,22 @@ class AssetDisposalService:
         )
 
         if asset.status != "active":
-
             raise ValueError("Only active assets can be disposed")
 
         disposal_value = Decimal(str(disposal_value))
-
         category = asset.category
 
         # =====================================================
         # CALCULATE
         # =====================================================
-
         book_value = asset.book_value
-
-        gain_loss = disposal_value - book_value
+        gain_loss = Decimal(str(disposal_value)) - Decimal(str(book_value))
 
         # =====================================================
         # GET ACCOUNTS
         # =====================================================
-
         asset_account = category.asset_account
-
         accumulated_account = category.accumulated_depreciation_account
-
         cash_account = Account.objects.get(
             tenant=tenant,
             code="1110",  # temporary
@@ -73,10 +67,13 @@ class AssetDisposalService:
             code="5400",
         )
 
+        real_accumulated = Decimal(str(asset.purchase_cost)) - Decimal(
+            str(asset.book_value)
+        )
+
         # =====================================================
         # BUILD JOURNAL
         # =====================================================
-
         entries_data = [
             {
                 "account_id": cash_account.id,
@@ -86,7 +83,7 @@ class AssetDisposalService:
             },
             {
                 "account_id": (accumulated_account.id),
-                "debit": (asset.accumulated_depreciation),
+                "debit": real_accumulated,
                 "credit": 0,
                 "description": ("Reverse accumulated depreciation"),
             },
@@ -101,9 +98,7 @@ class AssetDisposalService:
         # =====================================================
         # GAIN / LOSS
         # =====================================================
-
-        if gain_loss > 0:
-
+        if gain_loss > Decimal("0"):
             entries_data.append(
                 {
                     "account_id": gain_account.id,
@@ -113,8 +108,7 @@ class AssetDisposalService:
                 }
             )
 
-        elif gain_loss < 0:
-
+        elif gain_loss < Decimal("0"):
             entries_data.append(
                 {
                     "account_id": loss_account.id,
@@ -124,10 +118,19 @@ class AssetDisposalService:
                 }
             )
 
+        total_debit = sum(Decimal(str(x["debit"])) for x in entries_data)
+        total_credit = sum(Decimal(str(x["credit"])) for x in entries_data)
+
+        if total_debit != total_credit:
+            raise ValueError(
+                f"Disposal journal not balanced. "
+                f"Debit={total_debit} "
+                f"Credit={total_credit}"
+            )
+
         # =====================================================
         # CREATE JOURNAL
         # =====================================================
-
         journal = JournalService.create_journal(
             tenant=tenant,
             user=user,
@@ -141,7 +144,6 @@ class AssetDisposalService:
         # =====================================================
         # CREATE DISPOSAL RECORD
         # =====================================================
-
         disposal = AssetDisposal.objects.create(
             tenant=tenant,
             asset=asset,
@@ -157,11 +159,28 @@ class AssetDisposalService:
         # =====================================================
         # UPDATE ASSET
         # =====================================================
-
         asset.status = "disposed"
-
         asset.updated_by = user
-
         asset.save()
+
+        # =====================================================
+        # RECORD ACTIVITY
+        # =====================================================
+        ActivityService.record(
+            tenant=tenant,
+            target_type=FIXED_ASSET,
+            target_id=asset.id,
+            event=FinanceEvents.FIXED_ASSET_DISPOSED,
+            title="Fixed asset disposed",
+            description=(f"Asset '{asset.name}' has been disposed"),
+            severity="warning",
+            created_by=user,
+            metadata={
+                "asset_number": asset.asset_number,
+                "disposal_value": str(disposal_value),
+                "gain_loss_amount": str(gain_loss),
+                "disposal_date": str(disposal_date),
+            },
+        )
 
         return disposal

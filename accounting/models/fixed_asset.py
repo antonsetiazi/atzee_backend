@@ -43,6 +43,16 @@ class FixedAsset(TenantAwareModel):
         related_name="assets",
     )
 
+    serial_number = models.CharField(
+        max_length=255,
+        blank=True,
+    )
+
+    location = models.CharField(
+        max_length=255,
+        blank=True,
+    )
+
     # =========================================================
     # ACQUISITION
     # =========================================================

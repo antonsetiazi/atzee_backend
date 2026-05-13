@@ -23,9 +23,7 @@ from .serializers import (
 class FixedAssetListAPIView(APIView):
 
     def get(self, request):
-
         tenant = TenantService.get_current_tenant(request)
-
         qs = FixedAsset.objects.filter(
             tenant=tenant,
             is_deleted=False,
@@ -59,11 +57,8 @@ class FixedAssetCreateAPIView(APIView):
     def post(self, request):
 
         try:
-
             tenant = TenantService.get_current_tenant(request)
-
             serializer = FixedAssetCreateSerializer(data=request.data)
-
             serializer.is_valid(raise_exception=True)
 
             asset = FixedAssetService.create_asset(
@@ -77,6 +72,10 @@ class FixedAssetCreateAPIView(APIView):
                         "",
                     )
                 ),
+                serial_number=serializer.validated_data.get(
+                    "serial_number", ""
+                ),
+                location=serializer.validated_data.get("location", ""),
                 category_id=(serializer.validated_data["category_id"]),
                 purchase_date=(serializer.validated_data["purchase_date"]),
                 capitalization_date=(
@@ -97,7 +96,6 @@ class FixedAssetCreateAPIView(APIView):
             )
 
         except Exception as e:
-
             return Response(
                 {"error": str(e)},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -123,7 +121,6 @@ class FixedAssetDetailAPIView(APIView):
             return Response(data)
 
         except FixedAsset.DoesNotExist:
-
             return Response(
                 {"error": "Asset not found"},
                 status=status.HTTP_404_NOT_FOUND,
@@ -165,9 +162,7 @@ class FixedAssetActivateAPIView(APIView):
 class FixedAssetDepreciateAPIView(APIView):
 
     def post(self, request, asset_id):
-
         tenant = TenantService.get_current_tenant(request)
-
         asset = get_object_or_404(
             FixedAsset,
             id=asset_id,
@@ -176,9 +171,7 @@ class FixedAssetDepreciateAPIView(APIView):
         )
 
         try:
-
             period_date = request.data.get("period_date")
-
             entry = DepreciationService.run_asset_depreciation(
                 asset=asset,
                 period_date=period_date,
@@ -193,8 +186,30 @@ class FixedAssetDepreciateAPIView(APIView):
             )
 
         except Exception as e:
-
             return Response(
                 {"error": str(e)},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+
+class FixedAssetUpdateAPIView(APIView):
+
+    def put(self, request, asset_id):
+        tenant = TenantService.get_current_tenant(request)
+        asset = get_object_or_404(
+            FixedAsset,
+            id=asset_id,
+            tenant=tenant,
+            is_deleted=False,
+        )
+
+        serializer = FixedAssetCreateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        asset = FixedAssetService.update_asset(
+            asset=asset,
+            user=request.user,
+            data=serializer.validated_data,
+        )
+
+        return Response(FixedAssetReadSerializer(asset).data)

@@ -4,15 +4,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from accounting.models import (
-    AssetDisposal,
-)
-from accounting.services.asset_disposal_service import (
-    AssetDisposalService,
-)
-from core.tenants.services import (
-    TenantService,
-)
+from accounting.models import AssetDisposal
+from accounting.services.asset_disposal_service import AssetDisposalService
+from core.tenants.services import TenantService
 
 from .serializers import (
     AssetDisposalCreateSerializer,
@@ -23,7 +17,6 @@ from .serializers import (
 class AssetDisposalListAPIView(APIView):
 
     def get(self, request):
-
         tenant = TenantService.get_current_tenant(request)
 
         qs = AssetDisposal.objects.filter(
@@ -47,13 +40,9 @@ class AssetDisposalListAPIView(APIView):
 class AssetDisposalCreateAPIView(APIView):
 
     def post(self, request):
-
         try:
-
             tenant = TenantService.get_current_tenant(request)
-
             serializer = AssetDisposalCreateSerializer(data=request.data)
-
             serializer.is_valid(raise_exception=True)
 
             disposal = AssetDisposalService.dispose_asset(
@@ -78,7 +67,6 @@ class AssetDisposalCreateAPIView(APIView):
             )
 
         except Exception as e:
-
             return Response(
                 {"error": str(e)},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -88,11 +76,8 @@ class AssetDisposalCreateAPIView(APIView):
 class AssetDisposalDetailAPIView(APIView):
 
     def get(self, request, disposal_id):
-
         try:
-
             tenant = TenantService.get_current_tenant(request)
-
             disposal = AssetDisposal.objects.select_related("asset").get(
                 id=disposal_id,
                 tenant=tenant,
@@ -104,7 +89,6 @@ class AssetDisposalDetailAPIView(APIView):
             return Response(data)
 
         except AssetDisposal.DoesNotExist:
-
             return Response(
                 {"error": "Disposal not found"},
                 status=status.HTTP_404_NOT_FOUND,

@@ -59,13 +59,18 @@ class FixedAssetDepreciationListAPIView(APIView):
             [
                 {
                     "id": str(x.id),
+                    "asset_id": str(x.asset.id),
                     "asset_name": x.asset.name,
-                    "asset_number": x.asset.asset_number,
-                    "period_date": x.period_date,
-                    "depreciation_amount": x.depreciation_amount,
-                    "accumulated_depreciation": x.accumulated_depreciation,
-                    "book_value_after": x.book_value_after,
-                    "status": x.status,
+                    "asset_number": (x.asset.asset_number),
+                    # UI CONTRACT
+                    "period": x.period_date,
+                    "depreciation_date": (x.created_at),
+                    "depreciation_amount": (x.depreciation_amount),
+                    "accumulated_depreciation": (x.accumulated_depreciation),
+                    "book_value": (x.book_value_after),
+                    "journal_id": (str(x.journal.id) if x.journal else None),
+                    "posted_at": (x.updated_at),
+                    "created_at": (x.created_at),
                 }
                 for x in qs
             ]

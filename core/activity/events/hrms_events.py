@@ -1,0 +1,23 @@
+# core/activity/events/hrms_events.py
+
+"""
+HRMS activity event definitions.
+"""
+
+from core.activity.constants.events import (
+    HRMS_EMPLOYEE_CREATED,
+    HRMS_EMPLOYEE_PROMOTED,
+    HRMS_EMPLOYEE_UPDATED,
+    HRMS_PAYROLL_GENERATED,
+)
+
+
+class HRMSEvents:
+
+    EMPLOYEE_CREATED = HRMS_EMPLOYEE_CREATED
+
+    EMPLOYEE_UPDATED = HRMS_EMPLOYEE_UPDATED
+
+    EMPLOYEE_PROMOTED = HRMS_EMPLOYEE_PROMOTED
+
+    PAYROLL_GENERATED = HRMS_PAYROLL_GENERATED

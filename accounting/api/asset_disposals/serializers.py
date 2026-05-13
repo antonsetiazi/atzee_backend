@@ -2,13 +2,10 @@
 
 from rest_framework import serializers
 
-from accounting.models import (
-    AssetDisposal,
-)
+from accounting.models import AssetDisposal
 
 
 class AssetDisposalReadSerializer(serializers.ModelSerializer):
-
     asset_number = serializers.CharField(
         source="asset.asset_number",
         read_only=True,
@@ -36,17 +33,7 @@ class AssetDisposalReadSerializer(serializers.ModelSerializer):
 
 
 class AssetDisposalCreateSerializer(serializers.Serializer):
-
     asset_id = serializers.UUIDField()
-
     disposal_date = serializers.DateField()
-
-    disposal_value = serializers.DecimalField(
-        max_digits=18,
-        decimal_places=2,
-    )
-
-    notes = serializers.CharField(
-        required=False,
-        allow_blank=True,
-    )
+    disposal_value = serializers.DecimalField(max_digits=18, decimal_places=2)
+    notes = serializers.CharField(required=False, allow_blank=True)

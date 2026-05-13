@@ -14,17 +14,15 @@ All environment-specific values MUST be defined in `.env`.
 Author: Atzee Platform
 """
 
-
 # ================================================================
 # 🔹 CORE IMPORTS
 # ================================================================
-from pathlib import Path
-from datetime import timedelta
 import os
+from datetime import timedelta
+from pathlib import Path
 
-from dotenv import load_dotenv
 from corsheaders.defaults import default_headers
-
+from dotenv import load_dotenv
 
 # ================================================================
 # 🔹 BASE CONFIGURATION
@@ -61,6 +59,7 @@ CORE_APPS = [
     "core.account.apps.AccountConfig",
     "core.apps.CoreConfig",
     "core.audit_logs.apps.AuditLogsConfig",
+    "core.activity.apps.ActivityConfig",
     "core.chat.apps.ChatConfig",
     "core.classifications.categories.apps.CategoriesConfig",
     "core.classifications.tags.apps.TagsConfig",
@@ -153,14 +152,11 @@ MARKETPLACE_APPS = [
 # 🧩 VERTICAL LOADER (ENV-DRIVEN)
 # ================================================================
 VERTICALS = [
-    v.strip()
-    for v in os.getenv("VERTICAL", "").split(",")
-    if v.strip()
+    v.strip() for v in os.getenv("VERTICAL", "").split(",") if v.strip()
 ]
 
 VERTICAL_APPS = [
-    f"verticals.{v}.apps.{v.capitalize()}Config"
-    for v in VERTICALS
+    f"verticals.{v}.apps.{v.capitalize()}Config" for v in VERTICALS
 ]
 
 
@@ -169,16 +165,15 @@ VERTICAL_APPS = [
 # ================================================================
 INSTALLED_APPS = (
     ["daphne", "corsheaders", "django_celery_beat"]
-    +
-    DJANGO_APPS 
+    + DJANGO_APPS
     + [
         "rest_framework",
         "rest_framework.authtoken",
         "rest_framework_simplejwt.token_blacklist",
     ]
-    + CORE_APPS 
-    + BUSINESS_APPS 
-    + ACCOUNTING_APPS 
+    + CORE_APPS
+    + BUSINESS_APPS
+    + ACCOUNTING_APPS
     + HR_APPS
     + MARKETPLACE_APPS
     + VERTICAL_APPS
@@ -193,24 +188,20 @@ MIDDLEWARE = [
     # CORS & SECURITY
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
-
     # SESSION & REQUEST
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
-
     # AUTH DJANGO (WAJIB sebelum custom middleware)
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-
     # CORE CONTEXT (SETELAH USER TER-RESOLVE)
     "core.tenants.middleware.TenantContextMiddleware",
     "core.roles.middleware.RoleContextMiddleware",
     "core.permissions.middleware.PermissionGuardMiddleware",
-
     # AUDIT PALING AKHIR
-    "core.audit_logs.middleware.AuditMiddleware"
+    "core.audit_logs.middleware.AuditMiddleware",
 ]
 
 
@@ -245,13 +236,13 @@ CHANNEL_LAYERS = {
 # 🗄 DATABASE
 # ================================================================
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv("DB_NAME"),
-        'USER': os.getenv("DB_USER"),
-        'PASSWORD': os.getenv("DB_PASSWORD"),
-        'HOST': os.getenv("DB_HOST", "localhost"),
-        'PORT': os.getenv("DB_PORT", "5432"),
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("DB_NAME"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_PASSWORD"),
+        "HOST": os.getenv("DB_HOST", "localhost"),
+        "PORT": os.getenv("DB_PORT", "5432"),
     }
 }
 
@@ -285,7 +276,6 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(
         days=int(os.getenv("REFRESH_TOKEN_LIFETIME", 30))
     ),
-
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
 }
@@ -319,7 +309,7 @@ if CACHE_BACKEND == "redis":
             "LOCATION": os.getenv("REDIS_URL", "redis://127.0.0.1:6379/1"),
             "OPTIONS": {
                 "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            }
+            },
         }
     }
 else:
@@ -352,8 +342,8 @@ AUTH_DEFAULT_METHOD = os.getenv("AUTH_DEFAULT_METHOD", "password")
 # ================================================================
 # 🧵 CELERY
 # ================================================================
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
 CELERY_TIMEZONE = TIME_ZONE
 
 
@@ -395,13 +385,13 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
         "OPTIONS": {
             "max_similarity": 0.9,  # default 0.7 (lebih ketat)
-        }
+        },
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
         "OPTIONS": {
             "min_length": 6,
-        }
+        },
     },
     {
         "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
@@ -410,18 +400,3 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
