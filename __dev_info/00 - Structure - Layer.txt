@@ -3,3 +3,24 @@ business/      → universal business logic
 accounting/    → financial engine
 -----------------------------------
 verticals/     → identity + bootstrap (UI + seed)
+
+
+ATZEE_BACKEND/
+│
+├── core/          # technical system
+│
+├── business/      # universal business entities
+│
+├── accounting/    # financial operating system
+│
+├── hrms/          # workforce operating system
+│
+├── crm/           # customer operating system
+│
+├── inventory/     # stock operating system
+│
+├── manufacturing/ # production operating system
+│
+├── verticals/     # identity + white-label
+│
+└── shared/
