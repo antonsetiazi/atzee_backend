@@ -1,12 +1,15 @@
 # core/ui/models.py
 
 from django.db import models
+
 from core.tenants.models import Tenant
+
 
 class UIMenu(models.Model):
     """
     Menu node definition (agnostic to frontend framework)
     """
+
     key = models.CharField(max_length=100, unique=True)
     label = models.CharField(max_length=100)
     icon = models.CharField(max_length=50, blank=True, null=True)
@@ -43,17 +46,11 @@ class UIPage(models.Model):
 
     key = models.CharField(max_length=150, unique=True)
     title = models.CharField(max_length=150)
-    subtitle = models.TextField(
-        blank=True,
-        null=True
-    )
-    description = models.TextField(
-        blank=True,
-        null=True
-    )
-    
+    subtitle = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+
     domain = models.CharField(max_length=100)
-    
+
     # frontend + api agree on this
     entity = models.CharField(max_length=100)
 
@@ -64,19 +61,23 @@ class UIPage(models.Model):
 
     # ordered UI blocks (table, form, workflow, chart, etc)
     blocks = models.JSONField(default=list)
-    
+
     data_source = models.CharField(max_length=200, blank=True, null=True)
 
     method = models.CharField(max_length=20, blank=True, null=True)
-    
+
     accept_context = models.BooleanField(default=True)
 
-    payload_from_context = models.JSONField(default=list, blank=True, null=True)
+    payload_from_context = models.JSONField(
+        default=list, blank=True, null=True
+    )
 
     is_active = models.BooleanField(default=True)
 
     meta = models.JSONField(default=dict, blank=True)
-    
+
+    actions = models.JSONField(default=dict, blank=True)
+
     class Meta:
         ordering = ["key"]
 
@@ -89,6 +90,7 @@ class TenantNavigationConfig(models.Model):
     Tenant-specific navigation layout.
     type: sidebar, bottom, drawer
     """
+
     NAV_TYPE_CHOICES = [
         ("sidebar", "Sidebar"),
         ("bottom", "Bottom Navigation"),
@@ -199,7 +201,7 @@ class TenantNavigationItem(models.Model):
     )
 
     order = models.PositiveIntegerField(default=0)
-    
+
     is_active = models.BooleanField(default=True)
 
     class Meta:

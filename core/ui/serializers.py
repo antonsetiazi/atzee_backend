@@ -1,7 +1,13 @@
 # core/ui/serializers.py
 
 from rest_framework import serializers
-from .models import UIMenu, UIPage, TenantNavigationConfig, TenantNavigationItem
+
+from .models import (
+    TenantNavigationConfig,
+    TenantNavigationItem,
+    UIMenu,
+    UIPage,
+)
 
 
 class UIMenuSerializer(serializers.ModelSerializer):
@@ -10,14 +16,7 @@ class UIMenuSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UIMenu
-        fields = [
-            "key",
-            "label",
-            "icon",
-            "route",
-            "children",
-            "permission"
-        ]
+        fields = ["key", "label", "icon", "route", "children", "permission"]
 
     def get_children(self, obj):
         children = obj.children.filter(is_active=True)
@@ -28,7 +27,7 @@ class UIMenuSerializer(serializers.ModelSerializer):
         Build standard permission code: app.resource.action
         """
         return f"{obj.app}.{obj.resource}.{obj.action}"
-    
+
 
 class UIPageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -48,6 +47,5 @@ class UIPageSerializer(serializers.ModelSerializer):
             "accept_context",
             "payload_from_context",
             "meta",
+            "actions",
         ]
-
-

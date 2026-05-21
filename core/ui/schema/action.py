@@ -1,10 +1,13 @@
 # core/ui/schema/action.py
 
 from dataclasses import dataclass
-from typing import List, Literal, Optional, TypedDict, Dict, Any
+from typing import Any, Dict, List, Literal, Optional, TypedDict
 
 ActionType = Literal["submit", "redirect", "navigate", "delete"]
-Affects = Literal["session_user", "session_settings", "permissions", "config", "reload"]
+Affects = Literal[
+    "session_user", "session_settings", "permissions", "config", "reload"
+]
+
 
 class ConfirmConfig(TypedDict, total=False):
     title: str
@@ -21,12 +24,14 @@ class Action:
     permission: Optional[str] = None
     icon: Optional[str] = None
 
+    variant: Optional[Literal["primary", "secondary", "ghost"]] = None
+
     # NEW: condition to show/enable action
     when: Optional[Dict[str, Any]] = None
 
     # delete / destructive confirmation
     confirm: Optional[ConfirmConfig] = None
-    
+
     # delete endpoint
     endpoint: Optional[str] = None
     affects: Optional[Affects] = None

@@ -1,8 +1,8 @@
 # core/users/ui/pages/_base_user_list.py
 
-from core.ui.schema.page import Page
-from core.ui.schema.block import TableBlock, TableColumn
 from core.ui.schema.action import Action
+from core.ui.schema.block import TableBlock, TableColumn
+from core.ui.schema.page import Page
 
 
 def build_user_list_page(
@@ -20,39 +20,45 @@ def build_user_list_page(
     columns = [
         # 🔗 identity
         TableColumn(key="id", label="ID"),
-
         # 👤 basic info
         TableColumn(key="full_name", label="Full Name"),
         TableColumn(key="username", label="Username"),
-
         # 📞 contact
         TableColumn(key="phone", label="Phone"),
         TableColumn(key="email", label="Email"),
-
         # ✅ verification
         TableColumn(
             key="is_verified",
             label="Verified",
             align="center",
+            boolean_style="check",
+            size="xs",
+            weight="semibold",
         ),
         TableColumn(
             key="is_phone_verified",
             label="Phone Verified",
             align="center",
+            boolean_style="check",
+            size="xs",
+            weight="semibold",
         ),
-
         # 🔐 status
         TableColumn(
             key="is_active",
             label="Active",
             align="center",
+            boolean_style="check",
+            size="xs",
+            weight="semibold",
         ),
-
         # ⏱️ join date
         TableColumn(
             key="date_joined",
             label="Joined",
             format="datetime",
+            size="xs",
+            text_style="muted",
         ),
     ]
 

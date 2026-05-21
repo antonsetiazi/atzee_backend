@@ -1,34 +1,34 @@
 # core/ui/schema/page.py
 
 from dataclasses import dataclass
-from typing import Literal, List, Optional, Union, Dict, Any
+from typing import Any, Dict, List, Literal, Optional, Union
 
-
+from .action import Action
 from .block import (
-    FormBlock, 
-    TableBlock, 
-    WorkflowBlock, 
-    FileBlock, 
-    TagBlock, 
-    StatBlock, 
-    ChartBlock, 
-    TextBlock,
-    ListingSectionBlock,
-    ContainerBlock,
-    ShortcutBlock,
-    BannerBlock,
     AvailabilityBlock,
+    BannerBlock,
     CategorySliderBlock,
+    ChartBlock,
+    ContainerBlock,
+    FileBlock,
+    FormBlock,
+    ListingSectionBlock,
+    ShortcutBlock,
+    StatBlock,
+    TableBlock,
+    TagBlock,
+    TextBlock,
+    WorkflowBlock,
 )
 
 PageBlock = Union[
-    FormBlock, 
-    TableBlock, 
-    WorkflowBlock, 
-    FileBlock, 
-    TagBlock, 
-    StatBlock, 
-    ChartBlock, 
+    FormBlock,
+    TableBlock,
+    WorkflowBlock,
+    FileBlock,
+    TagBlock,
+    StatBlock,
+    ChartBlock,
     TextBlock,
     ListingSectionBlock,
     ContainerBlock,
@@ -39,6 +39,7 @@ PageBlock = Union[
 ]
 
 HTTPMethod = Literal["GET", "POST", "PATCH", "DELETE"]
+
 
 @dataclass(frozen=True)
 class Page:
@@ -56,3 +57,4 @@ class Page:
     accept_context: bool = True
     payload_from_context: Optional[dict] = None
     meta: Optional[Dict[str, Any]] = None
+    actions: Optional[List[Action]] = None

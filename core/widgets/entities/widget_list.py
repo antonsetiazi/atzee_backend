@@ -1,12 +1,12 @@
 # core/widgets/entities/widget_list.py
 
+from django.db.models import Q
+from django.utils.timezone import localtime
+
 from core.entities.contracts import BaseEntity
+from core.enum.permissions import CorePermission
 from core.widgets.models import UIWidget
 
-from django.utils.timezone import localtime
-from django.db.models import Q
-
-from core.enum.permissions import CorePermission
 
 class WidgetListEntity(BaseEntity):
     key = "widgets.list"
@@ -24,9 +24,9 @@ class WidgetListEntity(BaseEntity):
         search = query.get("search")
         if search:
             qs = qs.filter(
-                Q(type__icontains=search) |
-                Q(title__icontains=search) |
-                Q(position__icontains=search)
+                Q(type__icontains=search)
+                | Q(title__icontains=search)
+                | Q(position__icontains=search)
             )
 
         widget_type = query.get("type")
@@ -35,7 +35,7 @@ class WidgetListEntity(BaseEntity):
 
         # 📄 PAGINATION
         page = int(query.get("page", 1))
-        page_size = int(query.get("pageSize", 10))
+        page_size = int(query.get("pageSize", 100))
 
         offset = (page - 1) * page_size
         limit = offset + page_size
@@ -45,35 +45,34 @@ class WidgetListEntity(BaseEntity):
 
         data = []
         for w in items:
-            data.append({
-                "id": str(w.id),
-
-                # 🎯 widget info
-                "type": w.type,
-                "title": w.title or "-",
-
-                # 📍 placement
-                "position": w.position,
-
-                # 🎯 targeting (diringkas biar readable)
-                "target_roles": ", ".join(w.target_roles) if w.target_roles else "-",
-
-                # ⏱️ schedule
-                "starts_at": format_datetime_local(w.starts_at),
-                "ends_at": format_datetime_local(w.ends_at),
-
-                # 🔐 status
-                "is_active": w.is_active,
-
-                # 🔢 order
-                "order": w.order,
-            })
+            data.append(
+                {
+                    "id": str(w.id),
+                    # 🎯 widget info
+                    "type": w.type,
+                    "title": w.title or "-",
+                    # 📍 placement
+                    "position": w.position,
+                    # 🎯 targeting (diringkas biar readable)
+                    "target_roles": (
+                        ", ".join(w.target_roles) if w.target_roles else "-"
+                    ),
+                    # ⏱️ schedule
+                    "starts_at": format_datetime_local(w.starts_at),
+                    "ends_at": format_datetime_local(w.ends_at),
+                    # 🔐 status
+                    "is_active": w.is_active,
+                    # 🔢 order
+                    "order": w.order,
+                    "created_at": localtime(w.created_at),
+                }
+            )
 
         return {
             "items": data,
             "total": total,
         }
-    
+
 
 def format_datetime_local(dt):
     if not dt:

@@ -1,10 +1,10 @@
 # shared/ui/bootstrap.py
 
-from core.ui.models import UIMenu, UIPage
-from core.ui.schema.page import Page
-from core.ui.schema.menu import Menu 
-from core.ui.schema.serialize import page_to_dict
 from core.ui.extensions.registry import UIExtensionRegistry
+from core.ui.models import UIMenu, UIPage
+from core.ui.schema.menu import Menu
+from core.ui.schema.page import Page
+from core.ui.schema.serialize import page_to_dict
 
 
 def load_ui_extensions():
@@ -43,7 +43,7 @@ def seed_menus(menus: list, menu_model=UIMenu):
                 "route": data["route"],
                 "order": data.get("order", 0),
                 "is_active": data.get("is_active", True),
-            }
+            },
         )
         menu_map[menu.key] = menu
 
@@ -62,7 +62,7 @@ def seed_pages(pages: list[dict], page_model=UIPage):
         # print(page_data.get('key'))
         # print(page_data)
         # print(page_data.get('description'))
-        
+
         if not isinstance(page_data, dict):
             raise ValueError(f"Invalid page schema: {page_data}")
 
@@ -96,8 +96,8 @@ def seed_pages(pages: list[dict], page_model=UIPage):
             defaults={
                 "title": page_data["title"],
                 "subtitle": page_data["subtitle"],
-                "description": page_data.get('description'),
-                "domain": page_data["domain"],   # 🔥 FIX UTAMA
+                "description": page_data.get("description"),
+                "domain": page_data["domain"],  # 🔥 FIX UTAMA
                 "entity": page_data["entity"],
                 "path": page_data.get("path"),
                 "permissions": page_data["permissions"],
@@ -105,15 +105,23 @@ def seed_pages(pages: list[dict], page_model=UIPage):
                 "data_source": page_data["data_source"],
                 "method": page_data["method"],
                 "accept_context": page_data.get("accept_context", True),
-                "payload_from_context": page_data.get("payload_from_context", True),
+                "payload_from_context": page_data.get(
+                    "payload_from_context", True
+                ),
                 "is_active": page_data.get("is_active", True),
                 "meta": page_data.get("meta") or {},
+                "actions": page_data.get("actions") or {},
             },
         )
 
 
-def seed_ui(*, menus: list[dict] = None, pages: list[dict] = None,
-            menu_model=UIMenu, page_model=UIPage):
+def seed_ui(
+    *,
+    menus: list[dict] = None,
+    pages: list[dict] = None,
+    menu_model=UIMenu,
+    page_model=UIPage,
+):
     """
     Seeder all-in-one: menus + pages
     """
@@ -146,5 +154,3 @@ def apply_ui_extensions(page_data: dict):
             for field in ext.get("fields", []):
                 if field["key"] not in existing_keys:
                     fields.append(field)
-
-

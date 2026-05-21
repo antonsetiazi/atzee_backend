@@ -1,10 +1,10 @@
 # business/booking/entities/booking_list.py
 
-from core.entities.contracts import BaseEntity
-from business.booking.models import Booking
-
 from django.utils.timezone import localtime
+
+from business.booking.models import Booking
 from business.enum.permissions import BusinessPermission
+from core.entities.contracts import BaseEntity
 
 
 class BookingListEntity(BaseEntity):
@@ -25,7 +25,7 @@ class BookingListEntity(BaseEntity):
 
         # 📄 PAGINATION
         page = int(query.get("page", 1))
-        page_size = int(query.get("pageSize", 10))
+        page_size = int(query.get("pageSize", 1000))
 
         offset = (page - 1) * page_size
         limit = offset + page_size
@@ -35,23 +35,21 @@ class BookingListEntity(BaseEntity):
 
         data = []
         for b in items:
-            data.append({
-                "id": str(b.id),
-
-                # 🔥 resource
-                "resource_type": b.resource_type,
-                "resource_id": b.resource_id,
-
-                # ⏱️ time (localized biar enak di UI)
-                "start_time": localtime(b.start_time),
-                "end_time": localtime(b.end_time),
-
-                # ⏳ duration
-                "total_duration": b.total_duration or 0,
-
-                # 🔄 status
-                "status": b.status,
-            })
+            data.append(
+                {
+                    "id": str(b.id),
+                    # 🔥 resource
+                    "resource_type": b.resource_type,
+                    "resource_id": b.resource_id,
+                    # ⏱️ time (localized biar enak di UI)
+                    "start_time": localtime(b.start_time),
+                    "end_time": localtime(b.end_time),
+                    # ⏳ duration
+                    "total_duration": b.total_duration or 0,
+                    # 🔄 status
+                    "status": b.status,
+                }
+            )
 
         return {
             "items": data,

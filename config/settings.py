@@ -121,32 +121,14 @@ BUSINESS_APPS = [
     "business.reviews.apps.ReviewsConfig",
 ]
 
-
 # ================================================================
-# 🧾 ACCOUNTING LAYER
+# DOMAIN LAYER
 # ================================================================
-ACCOUNTING_APPS = [
+DOMAIN_APPS = [
     "accounting.apps.AccountingConfig",
-]
-
-
-# ================================================================
-# 👥 HR LAYER
-# ================================================================
-HR_APPS = [
-    "hr.employees.apps.EmployeesConfig",
-    "hr.attendance.apps.AttendanceConfig",
-    "hr.payroll.apps.PayrollConfig",
-]
-
-
-# ================================================================
-# 🏪 MARKETPLACE
-# ================================================================
-MARKETPLACE_APPS = [
+    "hrms.apps.HrmsConfig",
     "marketplace.apps.MarketplaceConfig",
 ]
-
 
 # ================================================================
 # 🧩 VERTICAL LOADER (ENV-DRIVEN)
@@ -173,9 +155,7 @@ INSTALLED_APPS = (
     ]
     + CORE_APPS
     + BUSINESS_APPS
-    + ACCOUNTING_APPS
-    + HR_APPS
-    + MARKETPLACE_APPS
+    + DOMAIN_APPS
     + VERTICAL_APPS
     + ["setup"]
 )

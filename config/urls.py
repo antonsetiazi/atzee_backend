@@ -87,14 +87,10 @@ urlpatterns = [
     path("api/business/", include("business.reviews.urls")),
     path("api/payments/", include("business.payment_gateway.urls")),
     path("api/tracking/", include("business.tracking.urls")),
-    # --- Accounting ---
+    # --- DOMAIN APPS ---
     path("api/accounting/", include("accounting.api.urls")),
-    # --- HR ---
-    path("api/hr/", include("hr.employees.urls")),
-    path("api/hr/", include("hr.attendance.urls")),
-    # --- MARKETPLACE ---
+    path("api/hrms/", include("hrms.api.urls")),
     path("api/marketplace/", include("marketplace.urls")),
-    # --- Verticals ---
-    # path("api/verticals/apotek/", include("verticals.apotek.api.urls")),
+    # --- OTHERS ---
     path("api/discovery/", include("discovery.urls")),
 ]

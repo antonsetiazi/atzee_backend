@@ -1,12 +1,11 @@
 # core/users/ui/pages/user_list.py
 
+from core.enum.permissions import CorePermission
 from core.ui.registry import register_ui_module_pages
 from core.users.ui.pages._base_user_list import build_user_list_page
 
-from core.enum.permissions import CorePermission
-
 UI_PAGES = build_user_list_page(
-    key="users.list",
+    key="core.users.list",
     domain="core",
     title_page="Users",
     subtitle_page="Manage and monitor all platform users",

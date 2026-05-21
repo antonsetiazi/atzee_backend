@@ -1,16 +1,16 @@
 # setup/management/commands/seed_ui.py
 
 from django.core.management.base import BaseCommand
-from shared.ui.bootstrap import seed_ui
+
+from core.permissions.models import Permission
 
 # Permission
 from core.permissions.registry import PermissionRegistry
-from core.permissions.models import Permission
 from core.tenants.models import Tenant
+from core.ui.registry import UI_MODULE_MENUS, UI_MODULE_PAGES
 from core.ui.schema.page import Page
 from core.ui.schema.serialize import page_to_dict
-
-from core.ui.registry import UI_MODULE_MENUS, UI_MODULE_PAGES
+from shared.ui.bootstrap import seed_ui
 
 
 def register_permissions_from_pages(pages: list[dict]):
@@ -29,38 +29,54 @@ def register_permissions_from_pages(pages: list[dict]):
 
         # page-level permissions
         for code in page.get("permissions", []):
-            PermissionRegistry.register([{
-                "module": module,
-                "code": code,
-                "description": f"Permission for entity '{page['key']}'"
-            }])
+            PermissionRegistry.register(
+                [
+                    {
+                        "module": module,
+                        "code": code,
+                        "description": f"Permission for entity '{page['key']}'",
+                    }
+                ]
+            )
 
         # loop semua blocks
         for block in page.get("blocks", []):
             # 🔥 block-level permissions
             for code in block.get("permissions", []):
-                PermissionRegistry.register([{
-                    "module": module,
-                    "code": code,
-                    "description": f"Block permission in '{page['key']}'"
-                }])
+                PermissionRegistry.register(
+                    [
+                        {
+                            "module": module,
+                            "code": code,
+                            "description": f"Block permission in '{page['key']}'",
+                        }
+                    ]
+                )
 
             # actions di block
             for action in block.get("actions", []):
                 if action.get("permission"):
-                    PermissionRegistry.register([{
-                        "module": module,
-                        "code": action["permission"],
-                        "description": f"Action '{action['label']}' in '{page['key']}'"
-                    }])
+                    PermissionRegistry.register(
+                        [
+                            {
+                                "module": module,
+                                "code": action["permission"],
+                                "description": f"Action '{action['label']}' in '{page['key']}'",
+                            }
+                        ]
+                    )
             # top_actions
             for action in block.get("top_actions", []):
                 if action.get("permission"):
-                    PermissionRegistry.register([{
-                        "module": module,
-                        "code": action["permission"],
-                        "description": f"Top action '{action['label']}' in '{page['key']}'"
-                    }])
+                    PermissionRegistry.register(
+                        [
+                            {
+                                "module": module,
+                                "code": action["permission"],
+                                "description": f"Top action '{action['label']}' in '{page['key']}'",
+                            }
+                        ]
+                    )
 
 
 def sync_permissions_to_db():
@@ -73,9 +89,16 @@ def sync_permissions_to_db():
 
         for perm in PermissionRegistry.all():
             perm_module = perm.get("module")
-            
+
             # 🔥 FILTER DOMAIN
-            if perm_module not in ["core", "business", "marketplace", "accounting", tenant_vertical]:
+            if perm_module not in [
+                "core",
+                "business",
+                "marketplace",
+                "accounting",
+                "hrms",
+                tenant_vertical,
+            ]:
                 continue
 
             obj, created = Permission.objects.get_or_create(
@@ -84,7 +107,7 @@ def sync_permissions_to_db():
                 defaults={
                     "description": perm.get("description", ""),
                     "module": perm.get("module"),
-                }
+                },
             )
             if created:
                 print(f"[{tenant}] Created permission: {perm['code']}")
@@ -93,7 +116,9 @@ def sync_permissions_to_db():
 
 
 class Command(BaseCommand):
-    help = "Seed UI schema (menus & pages) + sync all permissions automatically"
+    help = (
+        "Seed UI schema (menus & pages) + sync all permissions automatically"
+    )
 
     def handle(self, *args, **options):
         modules = set(UI_MODULE_MENUS.keys()) | set(UI_MODULE_PAGES.keys())
@@ -113,4 +138,8 @@ class Command(BaseCommand):
         # 3️⃣ Sync permissions ke database
         sync_permissions_to_db()
 
-        self.stdout.write(self.style.SUCCESS("All UI schema seeded and permissions synced successfully"))
+        self.stdout.write(
+            self.style.SUCCESS(
+                "All UI schema seeded and permissions synced successfully"
+            )
+        )

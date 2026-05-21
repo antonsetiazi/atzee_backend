@@ -7,9 +7,9 @@ BANNERS = [
         "config": {
             "link_url": "https://www.bhhsflpcommercial.com/wp-content/uploads/2024/11/pexels-pixabay-269077.jpg",
             "image_url": "https://www.bhhsflpcommercial.com/wp-content/uploads/2024/11/pexels-pixabay-269077.jpg",
-            "open_in_new_tab": True
+            "open_in_new_tab": True,
         },
-        "target_roles": ["admin"],
+        "target_roles": ["admin", "guest"],
         "starts_at": "2026-01-01 13:13:00+07",
         "ends_at": "2026-12-31 13:13:00+07",
         "order": 10,

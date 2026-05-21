@@ -1,9 +1,10 @@
 # business/booking/ui/pages/_base_booking_list.py
 
-from core.ui.schema.page import Page
-from core.ui.schema.block import TableBlock, TableColumn
-from core.ui.schema.action import Action
 from business.enum.permissions import BusinessPermission
+from core.ui.schema.action import Action
+from core.ui.schema.block import TableBlock, TableColumn
+from core.ui.schema.page import Page
+
 
 def build_booking_list_page(
     *,
@@ -20,11 +21,9 @@ def build_booking_list_page(
     columns = [
         # 🔗 identity
         TableColumn(key="id", label="Booking ID"),
-
         # 🔥 resource
         TableColumn(key="resource_type", label="Type"),
         TableColumn(key="resource_id", label="Resource"),
-
         # ⏱️ time
         TableColumn(
             key="start_time",
@@ -36,19 +35,20 @@ def build_booking_list_page(
             label="End",
             format="datetime",
         ),
-
         # ⏳ duration
         TableColumn(
             key="total_duration",
             label="Duration (min)",
             align="right",
+            weight="semibold",
         ),
-
         # 🔄 status
         TableColumn(
             key="status",
             label="Status",
             align="center",
+            size="xs",
+            weight="semibold",
         ),
     ]
 

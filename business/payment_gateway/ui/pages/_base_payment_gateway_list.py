@@ -1,8 +1,8 @@
 # business/payment_gateway/ui/pages/_base_payment_gateway_list.py
 
-from core.ui.schema.page import Page
-from core.ui.schema.block import TableBlock, TableColumn
 from core.ui.schema.action import Action
+from core.ui.schema.block import TableBlock, TableColumn
+from core.ui.schema.page import Page
 
 
 def build_payment_gateway_list_page(
@@ -20,48 +20,49 @@ def build_payment_gateway_list_page(
     columns = [
         # 🔗 identity
         TableColumn(key="id", label="ID"),
-
         # 🔗 reference (order, invoice, dll)
         TableColumn(key="reference_type", label="Ref Type"),
         TableColumn(key="reference_id", label="Reference"),
-
         # 💰 amount
         TableColumn(
             key="amount",
             label="Amount",
             format="currency",
             align="right",
+            weight="semibold",
         ),
-        TableColumn(
-            key="currency",
-            label="Curr",
-            align="center",
-        ),
-
         # 🌐 gateway
         TableColumn(key="provider", label="Provider"),
         TableColumn(key="channel", label="Channel"),
-
         # 🔑 external
-        TableColumn(key="external_id", label="Gateway ID"),
-
+        TableColumn(
+            key="external_id",
+            label="Gateway ID",
+            size="xs",
+            text_style="muted",
+        ),
         # 🔄 status
         TableColumn(
             key="status",
             label="Status",
             align="center",
+            weight="semibold",
+            size="xs",
         ),
-
         # ⏱️ timestamps
         TableColumn(
             key="created_at",
             label="Created",
             format="datetime",
+            size="xs",
+            text_style="muted",
         ),
         TableColumn(
             key="paid_at",
             label="Paid",
             format="datetime",
+            size="xs",
+            text_style="success",
         ),
     ]
 

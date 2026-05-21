@@ -1,8 +1,8 @@
 # business/reviews/ui/pages/_base_review_list.py
 
-from core.ui.schema.page import Page
-from core.ui.schema.block import TableBlock, TableColumn
 from core.ui.schema.action import Action
+from core.ui.schema.block import TableBlock, TableColumn
+from core.ui.schema.page import Page
 
 
 def build_review_list_page(
@@ -20,32 +20,26 @@ def build_review_list_page(
     columns = [
         # 🔗 identity
         TableColumn(key="id", label="ID"),
-
         # 👤 USER
         TableColumn(key="user_name", label="User"),
         TableColumn(key="user_phone", label="Phone"),
-
         # 🤝 PARTNER
         TableColumn(key="partner_name", label="Partner"),
-
         # ⭐ rating
         TableColumn(
             key="rating",
             label="Rating",
             align="center",
         ),
-
         # 💬 comment
-        TableColumn(
-            key="comment",
-            label="Comment",
-        ),
-
+        TableColumn(key="comment", label="Comment", size="xs"),
         # ⏱️ created
         TableColumn(
             key="created_at",
             label="Created At",
             format="datetime",
+            size="xs",
+            text_style="muted",
         ),
     ]
 

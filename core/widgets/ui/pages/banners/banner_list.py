@@ -1,12 +1,10 @@
 # core/widgets/ui/pages/banners/banner_list.py
 
-from core.ui.registry import register_ui_module_pages
-
-from core.ui.schema.page import Page
-from core.ui.schema.block import TableBlock, TableColumn, ActionBlock
-from core.ui.schema.action import Action
-
 from core.enum.permissions import CorePermission
+from core.ui.registry import register_ui_module_pages
+from core.ui.schema.action import Action
+from core.ui.schema.block import TableBlock, TableColumn
+from core.ui.schema.page import Page
 
 UI_PAGES = Page(
     key="widgets.banners.list",
@@ -17,10 +15,20 @@ UI_PAGES = Page(
     subtitle="Manage dashboard banners",
     permissions=[CorePermission.ADMIN_WIDGETS_VIEW],
     data_source="/entities/core/widgets.list/query/?type=banner",
+    actions=[
+        Action(
+            type="navigate",
+            label="New Banner",
+            icon="plus",
+            to="/admin/widgets/banners/create",
+            permission=CorePermission.ADMIN_WIDGETS_CREATE,
+        )
+    ],
     blocks=[
         TableBlock(
             title="Daftar Banner",
             data_key="items",
+            on_row_click="/admin/widgets/banners/{id}",
             search_mode="client",
             columns=[
                 TableColumn(key="title", label="Title"),
@@ -35,14 +43,18 @@ UI_PAGES = Page(
                     key="is_active",
                     label="Status",
                     align="center",
+                    boolean_style="active_inactive",
+                    size="xs",
+                    weight="semibold",
                 ),
                 TableColumn(
                     key="created_at",
-                    label="Dibuat",
+                    label="Created At",
                     format="datetime",
+                    size="xs",
+                    text_style="muted",
                 ),
             ],
-
             actions=[
                 Action(
                     type="navigate",
@@ -62,28 +74,10 @@ UI_PAGES = Page(
                         "message": "Yakin ingin menghapus banner ini?",
                         "level": "danger",
                     },
-                    refresh_cache=[
-                        "widgets.banners.list"
-                    ],
+                    refresh_cache=["widgets.banners.list"],
                     success_title="Berhasil",
                     success_message="Banner berhasil dihapus",
                 ),
-            ],
-        ),
-
-        ActionBlock(
-            title="",
-            justify="center",
-            align="center",
-
-            actions=[
-                Action(
-                    type="navigate",
-                    label="New Banner",
-                    icon="plus",
-                    to="/admin/widgets/banners/create",
-                    permission=CorePermission.ADMIN_WIDGETS_CREATE,
-                )
             ],
         ),
     ],

@@ -1,0 +1,57 @@
+hrms/api/
+├── employee/
+├── attendance/
+├── payroll/
+├── leave/
+└── organization/
+
+
+hrms/entities/
+├── employee.py
+├── attendance.py
+├── payroll.py
+├── leave_request.py
+├── shift.py
+└── organization.py
+
+
+hrms/ui/
+├── dashboard/
+├── pages/
+├── widgets/
+└── navigation/
+
+
+
+hrms/workflows/
+├── employee_lifecycle.py
+├── leave_approval.py
+├── payroll_approval.py
+└── recruitment_pipeline.py
+
+
+hrms/policies/
+├── employee_policy.py
+├── payroll_policy.py
+└── leave_policy.py
+
+
+hrms/signals/
+├── employee_signals.py
+├── payroll_signals.py
+└── attendance_signals.py
+
+
+hrms/tasks/
+├── payroll_tasks.py
+├── attendance_tasks.py
+└── notification_tasks.py
+
+
+1. models ✅
+2. enums/ ✅
+3. selectors/ ✅
+4. services/ ✅
+5. api/
+6. ui/
+

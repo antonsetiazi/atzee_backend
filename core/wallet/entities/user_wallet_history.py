@@ -3,7 +3,6 @@
 from core.entities.contracts import BaseEntity
 from core.wallet.models import WalletTransaction
 from core.wallet.selectors import get_wallet
-from django.db.models import Sum
 
 
 class UserWalletHistoryEntity(BaseEntity):
@@ -49,7 +48,7 @@ class UserWalletHistoryEntity(BaseEntity):
         # PAGINATION
         # -----------------------------
         page = int(query.get("page", 1))
-        page_size = int(query.get("pageSize", 10))
+        page_size = int(query.get("pageSize", 1000))
 
         offset = (page - 1) * page_size
         limit = offset + page_size
