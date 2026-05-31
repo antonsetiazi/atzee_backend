@@ -1,11 +1,13 @@
 # core/classifications/categories/services.py
 
+import re
 from typing import Optional
+
 from django.db import transaction
 from rest_framework.exceptions import ValidationError
 
-from core.classifications.categories.models import Category
 from core.classifications.categories import selectors
+from core.classifications.categories.models import Category
 from core.tenants.models import Tenant
 from core.users.models import User
 
@@ -31,7 +33,9 @@ def _validate_uniqueness(
         raise ValidationError("Category with this code already exists.")
 
     if scope and name and qs.filter(scope=scope, name=name).exists():
-        raise ValidationError("Category with this name already exists in this scope.")
+        raise ValidationError(
+            "Category with this name already exists in this scope."
+        )
 
 
 @transaction.atomic
@@ -42,6 +46,8 @@ def create_category(
     code: str,
     name: str,
     scope: str,
+    icon_url: Optional[str] = None,
+    color: Optional[str] = None,
     parent_id: Optional[int] = None,
 ) -> Category:
 
@@ -65,11 +71,19 @@ def create_category(
         if not parent:
             raise ValidationError("Parent category not found.")
 
+    HEX_COLOR_PATTERN = r"^#(?:[0-9a-fA-F]{3}){1,2}$"
+    if color and not re.match(HEX_COLOR_PATTERN, color):
+        raise ValidationError(
+            "Invalid color format. Use hex color like #10B981"
+        )
+
     return Category.objects.create(
         tenant=tenant,
         code=code,
         name=name,
         scope=scope,
+        icon_url=icon_url,
+        color=color,
         parent=parent,
         created_by=created_by,
     )
@@ -84,6 +98,8 @@ def update_category(
     code: Optional[str] = None,
     name: Optional[str] = None,
     scope: Optional[str] = None,
+    icon_url: Optional[str] = None,
+    color: Optional[str] = None,
     parent_id: Optional[int] = None,
     is_active: Optional[bool] = None,
 ) -> Category:
@@ -104,12 +120,22 @@ def update_category(
         exclude_id=category.id,
     )
 
+    HEX_COLOR_PATTERN = r"^#(?:[0-9a-fA-F]{3}){1,2}$"
+    if color and not re.match(HEX_COLOR_PATTERN, color):
+        raise ValidationError(
+            "Invalid color format. Use hex color like #10B981"
+        )
+
     if code is not None:
         category.code = _normalize(code)
     if name is not None:
         category.name = _normalize(name)
     if scope is not None:
         category.scope = _normalize(scope)
+    if icon_url is not None:
+        category.icon_url = icon_url
+    if color is not None:
+        category.color = color
     if parent_id is not None:
         if parent_id == category.id:
             raise ValidationError("Category cannot be its own parent.")

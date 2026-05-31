@@ -1,6 +1,7 @@
 # core/classifications/categories/models.py
 
 from django.db import models
+
 from core.models.base import TenantAwareModel
 
 
@@ -12,6 +13,18 @@ class Category(TenantAwareModel):
 
     code = models.CharField(max_length=50)
     name = models.CharField(max_length=100)
+
+    icon_url = models.URLField(
+        blank=True,
+        null=True,
+    )
+
+    color = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True,
+        help_text="Hex color, e.g. #10B981",
+    )
 
     parent = models.ForeignKey(
         "self",

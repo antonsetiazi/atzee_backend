@@ -1,12 +1,13 @@
 # setup/management/commands/seed_categories.py
 
 import importlib
-from django.core.management.base import BaseCommand
+
 from django.conf import settings
+from django.core.management.base import BaseCommand
 from django.db import transaction
 
+from core.classifications.categories import selectors, services
 from core.tenants.models import Tenant
-from core.classifications.categories import services, selectors
 
 
 class Command(BaseCommand):
@@ -31,24 +32,32 @@ class Command(BaseCommand):
             try:
                 module_path = f"verticals.{vertical}.seeds.categories"
                 category_module = importlib.import_module(module_path)
-                categories_config = getattr(category_module, "CATEGORIES", None)
+                categories_config = getattr(
+                    category_module, "CATEGORIES", None
+                )
 
                 if categories_config is None:
                     raise AttributeError("CATEGORIES not found")
 
             except ModuleNotFoundError:
                 self.stdout.write(
-                    self.style.WARNING(f"No category seed found for vertical '{vertical}'")
+                    self.style.WARNING(
+                        f"No category seed found for vertical '{vertical}'"
+                    )
                 )
                 continue
 
             except AttributeError:
                 self.stdout.write(
-                    self.style.WARNING(f"CATEGORIES config not found in '{module_path}'")
+                    self.style.WARNING(
+                        f"CATEGORIES config not found in '{module_path}'"
+                    )
                 )
                 continue
 
-            self.stdout.write(f"Seeding categories for {tenant.name} ({vertical})")
+            self.stdout.write(
+                f"Seeding categories for {tenant.name} ({vertical})"
+            )
 
             for item in categories_config:
                 created, updated = self._process_recursive(
@@ -69,11 +78,15 @@ class Command(BaseCommand):
         code = item["code"]
         name = item["name"]
         scope = item["scope"]
+        icon_url = item.get("icon_url")
+        color = item.get("color")
         children = item.get("children", [])
 
-        obj = selectors.get_category_queryset(tenant=tenant).filter(
-            code=code
-        ).first()
+        obj = (
+            selectors.get_category_queryset(tenant=tenant)
+            .filter(scope=scope, code=code)
+            .first()
+        )
 
         created = 0
         updated = 0
@@ -87,6 +100,14 @@ class Command(BaseCommand):
 
             if obj.scope != scope:
                 obj.scope = scope
+                is_changed = True
+
+            if obj.icon_url != icon_url:
+                obj.icon_url = icon_url
+                is_changed = True
+
+            if obj.color != color:
+                obj.color = color
                 is_changed = True
 
             if obj.parent_id != (parent.id if parent else None):
@@ -104,6 +125,8 @@ class Command(BaseCommand):
                 code=code,
                 name=name,
                 scope=scope,
+                icon_url=icon_url,
+                color=color,
                 parent_id=parent.id if parent else None,
             )
             created = 1
